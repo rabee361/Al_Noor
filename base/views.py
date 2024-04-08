@@ -1,21 +1,73 @@
-from django.shortcuts import render , HttpResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 from .serializers import *
 from .models import *
 from .filters import *
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.generics import RetrieveUpdateDestroyAPIView , ListAPIView , ListCreateAPIView
+from rest_framework.generics import RetrieveUpdateDestroyAPIView , ListAPIView , ListCreateAPIView , GenericAPIView
 from .utils import get_response
+from rest_framework import status
 from datetime import datetime
+from fcm_django.models import FCMDevice
 
 
 
 
+class LoginUserApiView(GenericAPIView):
+
+    def post(self, request):
+        serializer = LoginSerializer(data = request.data)
+        serializer.is_valid(raise_exception=True)
+        user = CustomUser.objects.get(phonenumber = request.data['username'])
+        token = RefreshToken.for_user(user)
+
+        chat = Chat.objects.filter(user=user).first()
+        data = serializer.data
+        if chat:
+            data['chat_id'] = chat.id
+
+        data['image'] = request.build_absolute_uri(user.image.url)
+        data['id'] = user.id
+        data['tokens'] = {'refresh':str(token), 'access':str(token.access_token)}
+
+        return Response(data, status=status.HTTP_200_OK)
+    
 
 
 
+class LogoutUserAPIView(GenericAPIView):
+    serializer_class = LogoutUserSerializer
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(status=status.HTTP_200_SUCESS)
+
+
+
+
+class RefreshFirebaseToken(GenericAPIView):
+    # permission_classes = [IsAuthenticated]
+    def post(self,request):
+        token = request.data['firebase-token']
+        user_id = request.data['user_id']
+        try:
+            user = CustomUser.objects.get(id=user_id)
+            device = FCMDevice.objects.get(user=user)
+            device.registration_id = token
+            device.save()
+        except:
+            raise CustomUser.DoesNotExist
+
+        return Response({
+            "msg" : "firebase token changed successfully"
+        })
 
 
 

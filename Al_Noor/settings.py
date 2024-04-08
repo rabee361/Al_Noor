@@ -39,6 +39,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -49,7 +50,8 @@ INSTALLED_APPS = [
     'fcm_django',
     'import_export',
     'phonenumber_field',
-    'rest_framework',   
+    'rest_framework',
+    'rest_framework_simplejwt.token_blacklist',
     'django_filters',
     'channels',
 
@@ -85,6 +87,7 @@ TEMPLATES = [
 AUTH_USER_MODEL = 'base.CustomUser'
 
 WSGI_APPLICATION = 'Al_Noor.wsgi.application'
+ASGI_APPLICATION = 'Al_Noor.asgi.application'
 
 
 # Database
@@ -100,6 +103,15 @@ DATABASES = {
             'PORT': '5432',
         }
     }
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
 
 
 
@@ -211,8 +223,8 @@ class CustomFirebaseCredentials(credentials.ApplicationDefault):
                                                                               scopes=credentials._scopes)
 
 
-custom_credentials = CustomFirebaseCredentials('C:/Users/eng.Rabee/systempro/storeapp-8cc25-firebase-adminsdk-63jeh-3a5b5e4884.json')
-FIREBASE_MESSAGING_APP = initialize_app(custom_credentials, options={'projectId': 'storeapp-8cc25'}, name='messaging')
+custom_credentials = CustomFirebaseCredentials('C:/Users/eng.Rabee/Al_Noor/')
+FIREBASE_MESSAGING_APP = initialize_app(custom_credentials, options={'projectId': ''}, name='messaging')
 
 
 
