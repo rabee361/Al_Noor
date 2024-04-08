@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'base',
     'fcm_django',
+    'import_export',
     'phonenumber_field',
     'rest_framework',   
     'django_filters',
@@ -81,6 +82,7 @@ TEMPLATES = [
         },
     },
 ]
+AUTH_USER_MODEL = 'base.CustomUser'
 
 WSGI_APPLICATION = 'Al_Noor.wsgi.application'
 

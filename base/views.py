@@ -2,14 +2,37 @@ from django.shortcuts import render , HttpResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import *
+from .models import *
+from .filters import *
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import *
-from rest_framework.generics import RetrieveAPIView , ListAPIView
+from rest_framework.generics import RetrieveUpdateDestroyAPIView , ListAPIView , ListCreateAPIView
 from .utils import get_response
 from datetime import datetime
 
 
+
+
+
+
+
+
+
+
+class ListCreateNote(ListCreateAPIView):
+    queryset =  Note.objects.all()
+    serializer_class = NoteSerializer
+
+
+class RetUpdDesNote(RetrieveUpdateDestroyAPIView):
+    queryset =  Note.objects.all()
+    serializer_class = NoteSerializer
+
+
+class ListNotifications(ListAPIView):
+    queryset =  Notification.objects.all()
+    serializer_class = NotificationSerializer
+    
 
 
 
