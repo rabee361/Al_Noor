@@ -8,7 +8,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.generics import RetrieveUpdateDestroyAPIView , ListAPIView , ListCreateAPIView , GenericAPIView
+from rest_framework.generics import RetrieveUpdateDestroyAPIView , ListAPIView , RetrieveAPIView , ListCreateAPIView , GenericAPIView
 from .utils import get_response
 from rest_framework import status
 from datetime import datetime
@@ -47,7 +47,7 @@ class LogoutUserAPIView(GenericAPIView):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(status=status.HTTP_200_SUCESS)
+        return Response(status=status.HTTP_200_OK)
 
 
 
@@ -67,7 +67,7 @@ class RefreshFirebaseToken(GenericAPIView):
 
         return Response({
             "msg" : "firebase token changed successfully"
-        })
+        },status=status.HTTP_200_OK)
 
 
 
@@ -122,4 +122,18 @@ class CalenderView(APIView):
             'gregorian': arabic_gregorian_date,
             'city': response['data']['meta']['timezone']
         })
+
+
+
+class Chats(APIView):
+    def get(self,request):
+        chats = Chat.objects.all()
+        print(request.encoding)
+        serializer = ChatSerializer(chats,many=True, context={'request': request})
+        return Response(serializer.data , status=status.HTTP_200_OK)
     
+
+
+class GetChat(RetrieveAPIView):
+    queryset = Chat.objects.all()
+    serializer_class = ChatSerializer

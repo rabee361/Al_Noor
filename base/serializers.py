@@ -39,7 +39,7 @@ class LoginSerializer(serializers.Serializer):
 
 class LogoutUserSerializer(serializers.Serializer):
     refresh = serializers.CharField()
-    
+
     def validate(self, attrs):
         self.token = attrs['refresh']
         return attrs
@@ -96,3 +96,25 @@ class GregorianSerializer(serializers.Serializer):
     day = serializers.CharField()
     month = serializers.CharField()
     year = serializers.CharField()
+
+
+
+class ChatSerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
+    username = serializers.CharField(source='user.username',read_only=True)
+
+    class Meta:
+        model = Chat
+        fields = '__all__'
+
+    def get_image(self, obj):
+        request = self.context.get('request')
+        if obj.user.image:
+            return request.build_absolute_uri(obj.user.image.url)
+        return None
+
+
+class MessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ChatMessage
+        fields = '__all__'
