@@ -22,3 +22,10 @@ class EmployeeFilter(django_filters.FilterSet):
         fields = ['name','phonenumber']
 
 
+
+class TaskFilter(django_filters.FilterSet):
+    completed = django_filters.BooleanFilter()
+
+    class Meta:
+        model = Task
+        fields = ['completed']

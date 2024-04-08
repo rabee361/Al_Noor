@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import * 
-from .utils import weekday_mapping
+from .utils import *
 from datetime import datetime
 from django.contrib.auth import  authenticate
 from django.contrib.auth.password_validation import validate_password
@@ -52,6 +52,22 @@ class LogoutUserSerializer(serializers.Serializer):
 
 
 
+class ResetPasswordSerializer(serializers.Serializer):
+    newpassword = serializers.CharField(write_only=True)
+    password = serializers.CharField(write_only=True)
+
+    def validate(self, attrs):
+        password = attrs.get('password', '')
+        newpassword = attrs.get('newpassword', '')
+        validate_password(password)
+        validate_password(newpassword)
+        if password != newpassword:
+            raise serializers.ValidationError({'message_error':'كلمات المرور لم تتطابق'})
+        
+        return attrs
+
+
+
 
 class NoteSerializer(serializers.ModelSerializer):
     class Meta:
@@ -81,6 +97,13 @@ class PilgrimSerializer(serializers.ModelSerializer):
 class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification
+        fields = '__all__'
+
+
+
+class TaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
         fields = '__all__'
 
 

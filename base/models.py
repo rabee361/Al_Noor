@@ -1,11 +1,14 @@
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import MinValueValidator, MaxValueValidator
+from .utils import *
 
 
 class CustomUser(AbstractUser):
     image = models.ImageField(upload_to='images/users',default='images/account.jpg')
     phonenumber = PhoneNumberField(region='SA',unique=True)
+    is_verified = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'phonenumber'
     REQUIRED_FIELDS = ('username',)
@@ -13,10 +16,21 @@ class CustomUser(AbstractUser):
     def __str__(self) -> str:
         return self.username
 
+    class Meta:
+        ordering = ['-id']
 
 
 
 
+class VerificationCode(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    is_verified = models.BooleanField(default=False)
+    code = models.IntegerField(validators=[MinValueValidator(1000), MaxValueValidator(9999)])
+    created_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField(default=get_expiration_time)
+
+    def __str__(self):
+        return f'{self.user.username} code:{self.code}'
 
 
 # # in case we needed to store the hotel info in a seperate model
@@ -30,6 +44,9 @@ class Management(models.Model):
 
     def __str__(self) -> str:
         return self.user.username
+    
+    class Meta:
+        ordering = ['-id']
 
 
 
@@ -50,18 +67,26 @@ class Pilgrim(models.Model):
 
 
 
+class Guide(models.Model):
+    pass
+    
+
+
 class Employee(models.Model):
     user = models.OneToOneField(CustomUser,on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return self.user.username
+    
+    class Meta:
+        ordering = ['-id']
 
 
 
 
 class Task(models.Model):
     employee = models.ForeignKey(Employee,on_delete=models.CASCADE)
-    title = models.CharField(max_length=500)
+    title = models.CharField(max_length=500,unique=True)
     content = models.CharField(max_length=100)
     created = models.DateTimeField(auto_now_add=True)
     completed = models.BooleanField(default=False)
@@ -69,11 +94,6 @@ class Task(models.Model):
     def __str__(self) -> str:
         return f'{self.employee.user.username} : {self.title}'
 
-
-
-class Guide(models.Model):
-    pass
-    
 
 
 

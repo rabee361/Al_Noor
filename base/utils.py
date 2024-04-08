@@ -1,7 +1,8 @@
 from datetime import datetime
 import requests
 from rest_framework.response import Response
-
+from datetime import datetime , timedelta , timezone
+import random
 
 weekday_mapping = {
     'Monday': 'الاثنين',
@@ -32,3 +33,15 @@ def get_response(longitude,latitude,day,month,year):
     }
     response = requests.get(Url+formatted_date,params=p)
     return response.json()
+
+
+
+
+def get_expiration_time():
+    return timezone.now() + timedelta(minutes=10)
+
+
+
+def generate_code():
+    code_verivecation = random.randint(1000,9999)
+    return code_verivecation
