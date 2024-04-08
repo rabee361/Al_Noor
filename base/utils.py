@@ -1,0 +1,34 @@
+from datetime import datetime
+import requests
+from rest_framework.response import Response
+
+
+weekday_mapping = {
+    'Monday': 'الاثنين',
+    'Tuesday': 'الثلاثاء',
+    'Wednesday': 'الأربعاء',
+    'Thursday': 'الخميس',
+    'Friday': 'الجمعة',
+    'Saturday': 'السبت',
+    'Sunday': 'الأحد'
+}
+
+
+
+
+def get_response(longitude,latitude,day,month,year):
+    Url = 'http://api.aladhan.com/v1/timings/'
+    formatted_date = ''
+    if day and month and year:
+        date = datetime(int(year), int(month), int(day))
+        formatted_date = date.strftime("%d-%m-%Y")
+        print(Url+formatted_date)
+    else:
+        return Response({"error":"wrong data"})
+    
+    p = {
+        'longitude' : longitude,
+        'latitude' : latitude
+    }
+    response = requests.get(Url+formatted_date,params=p)
+    return response.json()

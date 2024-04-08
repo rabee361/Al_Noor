@@ -1,18 +1,29 @@
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
+from django.contrib.auth.models import AbstractUser
 
 
-class CustomUser():
-    image = models.ImageField(upload_to='/accounts',default='')
+class CustomUser(AbstractUser):
+    image = models.ImageField(upload_to='accounts',default='')
     phonenumber = PhoneNumberField(region='SA',unique=True)
 
 
+    def __str__(self) -> str:
+        return self.username
 
-class Management(models.Model):
-    pass
+
+# in case we needed to store the hotel info in a seperate model
+# class Hotel():
+#     pass
 
 
-class Pilgrim():
+
+# class Management(models.Model):
+#     pass
+
+
+
+class Pilgrim(models.Model):
     flight_num = models.IntegerField()
     flight_date = models.DateField()
     arrive = models.TimeField()
@@ -29,33 +40,58 @@ class Pilgrim():
 
 
 
-class Employee():
-    pass
+class Employee(models.Model):
+    user = models.OneToOneField(CustomUser,on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return self.user.username
+
 
 
 
 class Task(models.Model):
-    body = models.CharField(max_length=500)
+    title = models.CharField(max_length=500)
     content = models.CharField(max_length=100)
     employee = models.ForeignKey(Employee,on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     completed = models.BooleanField(default=False)
 
+    def __str__(self) -> str:
+        return f'{self.employee.user.username} : {self.title}'
 
 
-class Guide():
+
+class Guide(models.Model):
     pass
+    
 
-class Notification():
+
+
+class Notification(models.Model):
+    user = models.OneToOneField(CustomUser,on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
     content = models.CharField(max_length=200)
     created = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self) -> str:
+        return f'{self.user.username} : {self.content}'
 
-class Chat():
-    pass
 
-class ChatMessage():
-    pass
+class Note(models.Model):
+    pilgrim = models.ForeignKey(Pilgrim,on_delete=models.CASCADE)
+    guide = models.ForeignKey(Guide,on_delete=models.CASCADE)
+    content = models.CharField(max_length=500)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return f'{self.pilgrim.user.username} : {self.content}'
+
+
+
+# class Chat():
+#     pass
+
+# class ChatMessage():
+#     pass
 
 
