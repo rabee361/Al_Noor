@@ -180,9 +180,9 @@ class GuidanceCategory(models.Model):
 class GuidancePost(models.Model):
     category = models.ForeignKey(GuidanceCategory, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
-    cover = models.ImageField(upload_to='cover')
     content = models.TextField()
-    created = models.DateField(auto_now_add=True)
+    cover = models.ImageField(upload_to='cover')
+    created = models.DateField(auto_now_add=True) ##datetime ??
 
     def __str__(self) -> str:
         return self.name
@@ -204,9 +204,9 @@ class ReligiousCategory(models.Model):
 class ReligiousPost(models.Model):
     category = models.ForeignKey(ReligiousCategory, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
-    cover = models.ImageField(upload_to='cover')
     content = models.TextField()
-    created = models.DateField(auto_now_add=True)
+    cover = models.ImageField(upload_to='cover')
+    created = models.DateField(auto_now_add=True)## datetime ?
 
     def __str__(self) -> str:
         return self.name
