@@ -3,7 +3,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator, MaxValueValidator
 from .utils import *
-
+from .options import *
 
 class CustomUser(AbstractUser):
     image = models.ImageField(upload_to='images/users',default='images/account.jpg')
@@ -60,36 +60,36 @@ class Pilgrim(models.Model):
     # departure = models.TimeField()
     # duration = models.DurationField()
     gate_num = models.IntegerField(null=True, blank=True)
-    # borading_time = models.TimeField()
+    borading_time = models.TimeField()
     # flight_company = models.CharField(max_length=50) ### can be a choice list
     # company_logo = models.ImageField() in case of a company needed a logo
     status = models.BooleanField(null=True, blank=True)
     hotel = models.CharField(max_length=100, null=True, blank=True)
     # hotel_address = models.CharField(max_length=100) #### link to google maps can be long and lat
     room_num = models.IntegerField(null=True, blank=True)
-    # first_name = models.CharField(max_length=50)
-    # father_name = models.CharField(max_length=50)
-    # grand_father = models.CharField(max_length=50)
-    # last_name = models.CharField(max_length=50)
-    # id_number = models.IntegerField()
-    # birthday = models.DateField()
-    # job_position = models.CharField(choices=Job_position, max_length=50, null=True, blank=True)
-    # gender = models.CharField(choices=Gender, max_length=10)
-    # options_trip = models.CharField(choices=Options_trip, max_length=20)
-    # marital_status = models.CharField(choices=Marital_status, max_length=10)
-    # address = models.CharField(choices=Address, max_length=15)
-    # type_alhajj = models.CharField(choices=Type_alhajj, max_length=50, null=True, blank=True)
-    # tradition_reference = models.CharField(choices=Tradition_reference)
-    # count_hajjas = models.BigIntegerField(null=True, blank=True)
-    # last_year = models.CharField(null=True, blank=True)
-    # means_journey = models.CharField(choices=Means_journey, max_length=50)
-    # blood_type = models.CharField(choices=Blood_type, null=True, blank=True)
-    # illness = models.BooleanField(null=True, blank=True)
-    # chronic_diseases = models.CharField(null=True, blank=True, max_length=200)
-    # tawaf = models.BooleanField(null=True, blank=True)
-    # sai = models.BooleanField(null=True, blank=True)
-    # wheelchair = models.BooleanField(null=True, blank=True)
-    # type_help = models.TextField(null=True, blank=True)
+    first_name = models.CharField(max_length=50)
+    father_name = models.CharField(max_length=50)
+    grand_father = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    id_number = models.IntegerField()
+    birthday = models.DateField()
+    job_position = models.CharField(choices=Job_position, max_length=50, null=True, blank=True)
+    gender = models.CharField(choices=Gender, max_length=10)
+    options_trip = models.CharField(choices=Options_trip, max_length=20)
+    marital_status = models.CharField(choices=Marital_status, max_length=10)
+    address = models.CharField(choices=Address, max_length=15)
+    alhajj = models.CharField(choices=Type_alhajj, max_length=50, null=True, blank=True)
+    tradition_reference = models.CharField(choices=Tradition_reference)
+    count_hajjas = models.BigIntegerField(null=True, blank=True)
+    last_year = models.CharField(null=True, blank=True)
+    means_journey = models.CharField(choices=Means_journey, max_length=50)
+    blood_type = models.CharField(choices=Blood_type, null=True, blank=True)
+    illness = models.BooleanField(null=True, blank=True)
+    chronic_diseases = models.CharField(null=True, blank=True, max_length=200)
+    tawaf = models.BooleanField(null=True, blank=True)
+    sai = models.BooleanField(null=True, blank=True)
+    wheelchair = models.BooleanField(null=True, blank=True)
+    type_help = models.TextField(null=True, blank=True)
 
     def __str__(self) -> str:
         return f'{self.id} - {self.id}'
