@@ -192,14 +192,17 @@ class SendTask(GenericAPIView):
 
 
 class SendNotification(GenericAPIView):
-    def post(self,request,pk):
+    def post(self,request):
         users = CustomUser.objects.filter()
-        title = request.data.get('title',None)
-        content = request.data.get('content',None)
-        send_event_notification(title=title,content=content)
-        return Response({
-            "message":"تم ارسال الاشعار"
-        })
+        if title is None or content is None:
+            title = request.data.get('title',None)
+            content = request.data.get('content',None)
+            send_event_notification(title=title,content=content)
+            return Response({
+                "message":"تم ارسال الاشعار"
+            })
+        else:
+            return Response({"error":"العنوان أو المحتوى فارغ"})
 
 
 class Calender(GenericAPIView):
