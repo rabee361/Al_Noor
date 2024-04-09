@@ -149,3 +149,27 @@ class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChatMessage
         fields = '__all__'
+
+
+class GuidancePostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GuidancePost
+        fields = '__all__'
+
+
+class ReligiousPostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReligiousPost
+        fields = '__all__'
+
+
+class GuidanceCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GuidanceCategory
+        fields = '__all__'
+        
+
+class ReligiousCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReligiousCategory
+        fields = '__all__'

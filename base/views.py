@@ -194,7 +194,7 @@ class SendTask(GenericAPIView):
         title = request.data.get('title',None)
         content = request.data.get('content',None)
         if title is None or content is None:
-            return Response({"error" : "العنوان أو المحتوى فارغ"},status=status.HTTP_400_ERROR)
+            return Response({"error" : "العنوان أو المحتوى فارغ"},status=status.HTTP_400_BAD_REQUEST)
         
         else:
             task = Task.objects.create(
@@ -203,9 +203,9 @@ class SendTask(GenericAPIView):
                 content  = content,
             )
             send_task_notification(employee=employee,title=title,content=content)
+            serializer = TaskSerializer(task , many=False)
+            return Response(serializer.data , status=status.HTTP_200_OK)
 
-        serializer = TaskSerializer(task , many=False)
-        return Response(serializer.data , status=status.HTTP_200_OK)
 
 
 
@@ -270,3 +270,45 @@ class Chats(GenericAPIView):
 class GetChat(RetrieveAPIView):
     queryset = Chat.objects.all()
     serializer_class = ChatSerializer
+
+
+
+class ListCreateGuidancePost(ListCreateAPIView):
+    queryset = GuidancePost.objects.all()
+    serializer_class = GuidancePostSerializer
+
+
+class RetUpdDesGuidancePost(ListCreateAPIView):
+    queryset = GuidancePost.objects.all()
+    serializer_class = GuidancePostSerializer
+
+
+class ListCreateReligiousPost(ListCreateAPIView):
+    queryset = ReligiousPost.objects.all()
+    serializer_class = ReligiousPostSerializer
+
+
+class RetUpdDesReligiousPost(ListCreateAPIView):
+    queryset = ReligiousPost.objects.all()
+    serializer_class = ReligiousPostSerializer
+
+
+
+class ListCreateGuidanceCategory(ListCreateAPIView):
+    queryset = GuidanceCategory.objects.all()
+    serializer_class = GuidanceCategorySerializer
+
+
+class RetUpdDesGuidanceCategory(ListCreateAPIView):
+    queryset = GuidanceCategory.objects.all()
+    serializer_class = GuidanceCategorySerializer
+
+
+class ListCreateReligiousCategory(ListCreateAPIView):
+    queryset = ReligiousCategory.objects.all()
+    serializer_class = ReligiousCategorySerializer
+
+
+class RetUpdDesReligiousCategory(ListCreateAPIView):
+    queryset = ReligiousCategory.objects.all()
+    serializer_class = ReligiousCategorySerializer

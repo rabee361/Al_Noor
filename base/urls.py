@@ -18,7 +18,14 @@ urlpatterns = [
     path('list-chats/' , ListChats.as_view() , name="list-chats"),
     path('send-task/<str:pk>/' , SendTask.as_view() , name="send-task"),
     path('send-notification/' , SendNotification.as_view() , name="send-notification"),
-    path('list-notifications/' , ListNotifications.as_view() , name="list-notifications")
-
+    path('list-notifications/' , ListNotifications.as_view() , name="list-notifications"),
+    path('religious-categories/' , ListCreateReligiousCategory.as_view() , name="list-religious-categories"),
+    path('religious-category/<str:pk>/' , RetUpdDesReligiousCategory.as_view() , name="get-religious-category"),
+    path('guidance-categories/' , ListCreateGuidanceCategory.as_view() , name="list-guidance-categories"),
+    path('guide-category/<str:pk>/' , RetUpdDesGuidanceCategory.as_view() , name="get-guidance-category"),
+    path('religious-posts/' , ListCreateReligiousPost.as_view() , name="list-religious-posts"),
+    path('religious-post/<str:pk>/' , RetUpdDesReligiousPost.as_view() , name="get-religious-post"),
+    path('guidance-posts/' , ListCreateGuidancePost.as_view() , name="list-guidance-posts"),
+    path('guidance-post/<str:pk>/' , RetUpdDesGuidancePost.as_view() , name="get-guidance-post")
     
 ]

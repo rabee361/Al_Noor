@@ -127,7 +127,7 @@ class Task(models.Model):
 
 
 class UserNotification(models.Model):
-    user = models.OneToOneField(CustomUser,on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
     content = models.CharField(max_length=200)
     created = models.DateTimeField(auto_now_add=True)
@@ -169,3 +169,47 @@ class ChatMessage(models.Model):
 
 
 
+class GuidanceCategory(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self) -> str:
+        return self.name
+
+
+
+class GuidancePost(models.Model):
+    category = models.ForeignKey(GuidanceCategory, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    cover = models.ImageField(upload_to='cover')
+    content = models.TextField()
+    created = models.DateField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return self.name
+    
+    class Meta:
+        ordering = ['-created']
+
+
+
+
+class ReligiousCategory(models.Model):
+    name = models.CharField(max_length=50)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return self.name
+    
+
+class ReligiousPost(models.Model):
+    category = models.ForeignKey(ReligiousCategory, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    cover = models.ImageField(upload_to='cover')
+    content = models.TextField()
+    created = models.DateField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return self.name
+
+    class Meta:
+        ordering = ['-created']
