@@ -1,6 +1,6 @@
 from django.urls import path
-from . import views
+from .views import *
 
 urlpatterns = [
-    path('test/' , views.test )
+    path('create-pilgrim/' , CreatePilgrim.as_view()),
 ]
