@@ -1,7 +1,8 @@
 from datetime import datetime
 import requests
 from rest_framework.response import Response
-from datetime import datetime , timedelta , timezone
+from datetime import datetime , timedelta 
+from django.utils import timezone
 import random
 
 weekday_mapping = {

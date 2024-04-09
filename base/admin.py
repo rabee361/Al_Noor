@@ -11,7 +11,7 @@ class PilgrimAdmin(ImportExportModelAdmin):
 
 
 admin.site.register(Note)
-admin.site.register(Notification)
+admin.site.register(UserNotification)
 admin.site.register(CustomUser)
 admin.site.register(Pilgrim,PilgrimAdmin)
 admin.site.register(Employee)
@@ -19,3 +19,4 @@ admin.site.register(Task)
 admin.site.register(Guide)
 admin.site.register(Chat)
 admin.site.register(ChatMessage)
+admin.site.register(VerificationCode)

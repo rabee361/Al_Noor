@@ -66,6 +66,14 @@ class ResetPasswordSerializer(serializers.Serializer):
         
         return attrs
 
+    def save(self, **kwargs):
+        user_id = self.context.get('user_id')
+        user = CustomUser.objects.get(id=user_id)
+        password = self.validated_data['newpassword']
+        user.set_password(password)
+        user.is_verified=False
+        user.save()
+        return user
 
 
 
@@ -96,7 +104,7 @@ class PilgrimSerializer(serializers.ModelSerializer):
 
 class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Notification
+        model = UserNotification
         fields = '__all__'
 
 

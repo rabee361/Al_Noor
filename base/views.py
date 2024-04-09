@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import *
 from .models import *
 from .filters import *
+from .notifications import *
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
@@ -13,6 +14,7 @@ from .utils import get_response
 from rest_framework import status
 from datetime import datetime
 from fcm_django.models import FCMDevice
+from django.shortcuts import get_object_or_404
 
 
 
@@ -51,33 +53,29 @@ class LogoutUser(GenericAPIView):
 
 
 
-
-class SendCodePassword(APIView):
+######### needs modification to adapt to sms
+class SendCodePassword(GenericAPIView):
     def post(self, request):
-        phonenumber = request.data['phonenumber']
         try: 
+            phonenumber = request.data['phonenumber']
             user = get_object_or_404(CustomUser, phonenumber=phonenumber)
             existing_code = VerificationCode.objects.filter(user=user).first()
             if existing_code:
                 existing_code.delete()
             code_verivecation = generate_code()
-            data= {'to_email':user.email, 'email_subject':'Verify your email','username':user.username, 'code': str(code_verivecation)}
             code = VerificationCode.objects.create(user=user, code=code_verivecation)
             return Response({'message':'تم ارسال رمز التحقق',
                              'user_id' : user.id})
         except:
-            raise serializers.ValidationError({'error':'pleace enter valid email'})
+            raise serializers.ValidationError({'error':'pleace enter valid phonenumber'})
     
 
 
 
 
+######### needs modification to adapt to sms
+class VerifyCode(GenericAPIView):
 
-class VerifyCode(APIView):
-    def get_permissions(self):
-        self.request.pk = self.kwargs.get('pk')
-        return super().get_permissions()
-    
     def post(self, request, pk):
         code = request.data['code']
         user = CustomUser.objects.get(id=pk)
@@ -136,6 +134,14 @@ class RefreshFirebaseToken(GenericAPIView):
 
 
 
+
+class ListChats(ListAPIView):
+    queryset = Chat.objects.all()
+    serializer_class = ChatSerializer
+
+
+
+
 class ListCreateNote(ListCreateAPIView):
     queryset =  Note.objects.all()
     serializer_class = NoteSerializer
@@ -147,7 +153,7 @@ class RetUpdDesNote(RetrieveUpdateDestroyAPIView):
 
 
 class ListNotifications(ListAPIView):
-    queryset =  Notification.objects.all()
+    queryset =  UserNotification.objects.all()
     serializer_class = NotificationSerializer
     
 
@@ -158,6 +164,42 @@ class ListCreateTask(ListCreateAPIView):
     filterset_class = TaskFilter
 
 
+class RetUpdDesTask(ListCreateAPIView):
+    queryset =  Task.objects.all()
+    serializer_class = TaskSerializer
+
+
+
+class SendTask(GenericAPIView):
+    def post(self,request,pk):
+        employee = Employee.objects.get(id=pk)
+        title = request.data.get('title',None)
+        content = request.data.get('content',None)
+        if title is None or content is None:
+            return Response({"error" : "العنوان أو المحتوى فارغ"},status=status.HTTP_400_ERROR)
+        
+        else:
+            task = Task.objects.create(
+                employee = employee,
+                title = title,
+                content  = content,
+            )
+            send_task_notification(employee=employee,title=title,content=content)
+
+        serializer = TaskSerializer(task , many=False)
+        return Response(serializer.data , status=status.HTTP_200_OK)
+
+
+
+class SendNotification(GenericAPIView):
+    def post(self,request,pk):
+        users = CustomUser.objects.filter()
+        title = request.data.get('title',None)
+        content = request.data.get('content',None)
+        send_event_notification(title=title,content=content)
+        return Response({
+            "message":"تم ارسال الاشعار"
+        })
 
 
 class Calender(GenericAPIView):
