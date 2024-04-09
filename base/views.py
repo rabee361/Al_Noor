@@ -278,7 +278,7 @@ class ListCreateGuidancePost(ListCreateAPIView):
     serializer_class = GuidancePostSerializer
 
 
-class RetUpdDesGuidancePost(ListCreateAPIView):
+class RetUpdDesGuidancePost(RetrieveUpdateDestroyAPIView):
     queryset = GuidancePost.objects.all()
     serializer_class = GuidancePostSerializer
 
@@ -288,10 +288,9 @@ class ListCreateReligiousPost(ListCreateAPIView):
     serializer_class = ReligiousPostSerializer
 
 
-class RetUpdDesReligiousPost(ListCreateAPIView):
+class RetUpdDesReligiousPost(RetrieveUpdateDestroyAPIView):
     queryset = ReligiousPost.objects.all()
     serializer_class = ReligiousPostSerializer
-
 
 
 class ListCreateGuidanceCategory(ListCreateAPIView):
@@ -299,7 +298,7 @@ class ListCreateGuidanceCategory(ListCreateAPIView):
     serializer_class = GuidanceCategorySerializer
 
 
-class RetUpdDesGuidanceCategory(ListCreateAPIView):
+class RetUpdDesGuidanceCategory(RetrieveUpdateDestroyAPIView):
     queryset = GuidanceCategory.objects.all()
     serializer_class = GuidanceCategorySerializer
 
@@ -309,6 +308,6 @@ class ListCreateReligiousCategory(ListCreateAPIView):
     serializer_class = ReligiousCategorySerializer
 
 
-class RetUpdDesReligiousCategory(ListCreateAPIView):
+class RetUpdDesReligiousCategory(RetrieveUpdateDestroyAPIView):
     queryset = ReligiousCategory.objects.all()
     serializer_class = ReligiousCategorySerializer
