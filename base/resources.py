@@ -17,12 +17,33 @@ class PilgrimResource(resources.ModelResource):
         #         'options_trip','marital_status','address','type_alhajj','tradition_reference','count_hajjas','last_year',
         #         'means_journey','blood_type','are_sick','chronic_diseases','tawaf','sai','wheelchair','type_help'
         #         ]
+    def before_save_instance(self, instance, using_transactions, dry_run):
+        pass
+
+
     def after_save_instance(self, instance, using_transactions, dry_run):
-        user_id = instance.user
-        user = CustomUser.objects.get(id =user_id.id)
-        user.set_password('oneoneone')
-        user.save()
-        for i in range(2):
-            chat_one = Chat.objects.get_or_create(user=user_id, type_chat='مرشد')
-            chat_two = Chat.objects.get_or_create(user=user_id, type_chat='إدارة')
-        return True
+        if not dry_run:
+            user_id = instance.user
+            user = CustomUser.objects.get(id =user_id.id)
+            user.set_password('oneoneone')
+            print(user)
+            user.save()
+            for i in range(2):
+                chat_one = Chat.objects.get_or_create(user=user_id, type_chat='مرشد')
+                chat_two = Chat.objects.get_or_create(user=user_id, type_chat='إدارة')
+        return instance
+
+    
+    # def after_import(self, dataset, result, using_transactions, dry_run, **kwargs):
+    #     for user in CustomUser.objects.all():
+    #         # user_id = instance.user
+    #         # user = CustomUser.objects.get(id =user_id.id)
+    #         user.set_password('oneoneone')
+    #         print(user)
+    #         user.save()
+    #         for i in range(2):
+    #             chat_one = Chat.objects.get_or_create(user=user, type_chat='مرشد')
+    #             chat_two = Chat.objects.get_or_create(user=user, type_chat='إدارة')
+    #     return result
+
+    

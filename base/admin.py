@@ -10,3 +10,9 @@ admin.site.register(Pilgrim, PilgirmAdmin)
 admin.site.register(CustomUser)
 
 admin.site.register(Chat)
+
+admin.site.register(TypeGuidance)
+admin.site.register(ReligiousGuide)
+
+admin.site.register(TypeReligious)
+admin.site.register(ReligiousWorks)

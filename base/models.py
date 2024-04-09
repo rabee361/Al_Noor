@@ -1,3 +1,4 @@
+from typing import Iterable
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from .options import *
@@ -60,6 +61,7 @@ class Pilgrim(models.Model):
     sai = models.BooleanField(null=True, blank=True)
     wheelchair = models.BooleanField(null=True, blank=True)
     type_help = models.TextField(null=True, blank=True)
+    imported = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return f'{self.first_name} - {self.family_name}'
@@ -108,3 +110,52 @@ class ChatMessage(models.Model):
 
     class Meta:
         ordering=['-timestamp']
+
+##########################################################
+class TypeGuidance(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self) -> str:
+        return self.name
+
+class ReligiousGuide(models.Model):
+    type_guidance = models.ForeignKey(TypeGuidance, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='guidance')
+    content = models.TextField()
+    created_at = models.DateField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return self.name
+    
+    def save(self, *args, **kwargs) -> None:
+        super().save(*args, **kwargs)
+        print('my name is jacoub')
+    
+    class Meta:
+        ordering = ['created_at']
+
+class TypeReligious(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self) -> str:
+        return self.name
+    
+class ReligiousWorks(models.Model):
+    type_religious = models.ForeignKey(TypeReligious, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='religious')
+    content = models.TextField()
+    created_at = models.DateField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return self.name
+        
+    # for senf notivecation for user
+    def save(self, *args, **kwargs) -> None:
+        super().save(*args, **kwargs)
+        print('my name is jacoub')
+
+    
+    class Meta:
+        ordering = ['created_at']
