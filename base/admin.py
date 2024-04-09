@@ -4,8 +4,8 @@ from .resources import *
 from import_export.admin import ImportExportModelAdmin
 
 
-
-class PilgrimAdmin(ImportExportModelAdmin): 
+### needs modification
+class PilgrimAdmin(ImportExportModelAdmin):
     resource_class = PilgrimResource
     list_display = ['id', 'flight_num']
 

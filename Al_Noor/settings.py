@@ -95,12 +95,12 @@ ASGI_APPLICATION = 'Al_Noor.asgi.application'
 
 DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'al_noor',
-            'USER': 'postgres',
-            'PASSWORD': 'rabee123',
-            'HOST': 'localhost',
-            'PORT': '5432',
+            'ENGINE': env('ENGINE_DB'),
+            'NAME': env('NAME_DB'),
+            'USER': env('USER_DB'),
+            'PASSWORD': env('PASSWORD_DB'),
+            'HOST': env('HOST_DB'),
+            'PORT': env('PORT_DB'),
         }
     }
 
@@ -223,8 +223,8 @@ class CustomFirebaseCredentials(credentials.ApplicationDefault):
                                                                               scopes=credentials._scopes)
 
 
-custom_credentials = CustomFirebaseCredentials('C:/Users/eng.Rabee/Al_Noor/')
-FIREBASE_MESSAGING_APP = initialize_app(custom_credentials, options={'projectId': ''}, name='messaging')
+custom_credentials = CustomFirebaseCredentials('C:/Users/eng.Rabee/Al_Noor/al-noor-6d972-firebase-adminsdk-lax5i-a484f77017.json')
+FIREBASE_MESSAGING_APP = initialize_app(custom_credentials, options={'projectId': 'al-noor-6d972'}, name='messaging')
 
 
 

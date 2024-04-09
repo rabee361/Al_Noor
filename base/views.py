@@ -152,16 +152,33 @@ class RetUpdDesNote(RetrieveUpdateDestroyAPIView):
     serializer_class = NoteSerializer
 
 
-class ListNotifications(ListAPIView):
-    queryset =  UserNotification.objects.all()
-    serializer_class = NotificationSerializer
-    
+
+class ListNotifications(GenericAPIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        notification = UserNotification.objects.filter(user__id=user.id)
+        serializer = NotificationSerializer(notification, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+        
+
 
 class ListCreateTask(ListCreateAPIView):
+    permission_classes = [IsAuthenticated]
     queryset =  Task.objects.all()
     serializer_class = TaskSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = TaskFilter
+
+    def get_queryset(self):
+        user = self.request.user
+        if not user:
+            return Task.objects.none()
+        else:
+            employee = Employee.objects.get(user=user)
+            return Task.objects.filter(employee=employee)
+
 
 
 class RetUpdDesTask(ListCreateAPIView):

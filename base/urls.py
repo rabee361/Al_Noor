@@ -18,10 +18,7 @@ urlpatterns = [
     path('list-chats/' , ListChats.as_view() , name="list-chats"),
     path('send-task/<str:pk>/' , SendTask.as_view() , name="send-task"),
     path('send-notification/' , SendNotification.as_view() , name="send-notification"),
-
-
-
+    path('list-notifications/' , ListNotifications.as_view() , name="list-notifications")
 
     
-    # path('list-notifications/' , )
 ]
