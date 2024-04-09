@@ -15,6 +15,7 @@ from rest_framework import status
 from datetime import datetime
 from fcm_django.models import FCMDevice
 from django.shortcuts import get_object_or_404
+from django.db.models import Max
 
 
 
@@ -134,14 +135,7 @@ class RefreshFirebaseToken(GenericAPIView):
 
 
 
-
-class ListChats(ListAPIView):
-    queryset = Chat.objects.all()
-    serializer_class = ChatSerializer
-
-
-
-
+###### might meed modification to send the pilgrim id in the header
 class ListCreateNote(ListCreateAPIView):
     queryset =  Note.objects.all()
     serializer_class = NoteSerializer
@@ -152,7 +146,7 @@ class RetUpdDesNote(RetrieveUpdateDestroyAPIView):
     serializer_class = NoteSerializer
 
 
-
+##### needs modification to send more info in the notification body
 class ListNotifications(GenericAPIView):
     permission_classes = [IsAuthenticated]
 
@@ -259,11 +253,14 @@ class Calender(GenericAPIView):
 
 
 
-class Chats(GenericAPIView):
-    def get(self,request):
-        chats = Chat.objects.all()
-        serializer = ChatSerializer(chats,many=True, context={'request': request})
-        return Response(serializer.data , status=status.HTTP_200_OK)
+class ListChats(ListCreateAPIView):
+    querset = Chat.objects.all()
+    serializer_class = ChatSerializer
+
+    def get_queryset(self):
+        chats = Chat.objects.annotate(latest_message_timestamp=Max('chatmessage__timestamp'))
+        chats = chats.order_by('-latest_message_timestamp')
+        return chats
     
 
 
