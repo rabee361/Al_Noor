@@ -87,10 +87,24 @@ class Employee():
 #     created = models.DateTimeField(auto_now_add=True)
 
 
-# class Chat():
-#     pass
 
-# class ChatMessage():
-#     pass
+class Chat(models.Model):
+    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+    type_chat = models.CharField(choices=Type_user)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return f'{self.user.username}-type-chat {self.type_chat}'
 
 
+class ChatMessage(models.Model):
+    sender = models.ForeignKey(CustomUser , on_delete=models.CASCADE)
+    chat = models.ForeignKey(Chat , on_delete=models.CASCADE)
+    content = models.CharField(max_length=500)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.sender} : "{self.content[0:20]}..."'
+
+    class Meta:
+        ordering=['-timestamp']

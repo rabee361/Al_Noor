@@ -8,3 +8,5 @@ class PilgirmAdmin(ImportExportMixin, admin.ModelAdmin):
 admin.site.register(Pilgrim, PilgirmAdmin)
 
 admin.site.register(CustomUser)
+
+admin.site.register(Chat)
