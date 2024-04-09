@@ -1,6 +1,6 @@
 from django.shortcuts import render , HttpResponse
-from .serializers import *
-from .models import *
+from base.api.serializers import *
+from base.models import *
 from rest_framework.generics import CreateAPIView
 
 class CreatePilgrim(CreateAPIView):

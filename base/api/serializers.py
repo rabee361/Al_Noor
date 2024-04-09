@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import *
+from base.models import *
 class PilgrimSeriailzer(serializers.ModelSerializer):
 
     class Meta:
@@ -15,7 +15,8 @@ class PilgrimSeriailzer(serializers.ModelSerializer):
         user = CustomUser.objects.create(
             username = f'{first_name} {family_name}',
             phonenumber = phonenumber,
-            password = 'sdjflasjdlfja'
         )
-        pilgrim = Pilgrim.objects.create(first_name=first_name, family_name=family_name, user=user, **validated_data)
+        user.set_password('lkdsjlkfdjsl')
+        user.save()
+        pilgrim = Pilgrim.objects.create(first_name=first_name, family_name=family_name, user=user, phonenumber=phonenumber, **validated_data)
         return pilgrim
