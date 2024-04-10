@@ -54,7 +54,7 @@ class Management(models.Model):
 class Pilgrim(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     # phonenumber = PhoneNumberField(region='SA',unique=True)
-    flight_num = models.IntegerField(null=True, blank=True)
+    flight_num = models.IntegerField(null=True, blank=True,verbose_name="رقم الرحلة")
     flight_date = models.DateField(null=True, blank=True)
     # arrival = models.TimeField()
     # departure = models.TimeField()

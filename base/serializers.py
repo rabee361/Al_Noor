@@ -43,6 +43,7 @@ class LogoutUserSerializer(serializers.Serializer):
     def validate(self, attrs):
         self.token = attrs['refresh']
         return attrs
+    
     def save(self, **kwargs):
         try:
             RefreshToken(self.token).blacklist()
@@ -88,6 +89,8 @@ class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
         fields = '__all__'
+        
+
 
 
 class ManagementSerializer(serializers.ModelSerializer):

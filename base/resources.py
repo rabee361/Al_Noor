@@ -7,15 +7,16 @@ from import_export.widgets import ForeignKeyWidget
 # class PilgrimResource(resources.ModelResource):
 #     class Meta:
 #         model = Pilgrim
-        # exclude = ('id',)
-        
+#         exclude = ('id',)
+#         fields = '__all__'
+
     # def get_import_id_fields(self):
     #     return ['name']
 
 
 class PilgrimResource(resources.ModelResource):
     user = Field(
-        column_name='user',
+        column_name='مستخدم',
         attribute='user',
         widget=ForeignKeyWidget(model=CustomUser, field='id')
     )

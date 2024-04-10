@@ -1,10 +1,12 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
+from django.http import HttpResponse
 from .serializers import *
 from .models import *
 from .filters import *
 from .notifications import *
+from .resources import *
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
@@ -270,6 +272,12 @@ class GetChat(RetrieveAPIView):
 
 
 
+class ListCreateEmployee(ListCreateAPIView):
+    queryset = Employee.objects.all()
+    serializer_class = EmployeeSerializer
+
+
+
 class ListCreateGuidancePost(ListCreateAPIView):
     queryset = GuidancePost.objects.all()
     serializer_class = GuidancePostSerializer
@@ -308,3 +316,12 @@ class ListCreateReligiousCategory(ListCreateAPIView):
 class RetUpdDesReligiousCategory(RetrieveUpdateDestroyAPIView):
     queryset = ReligiousCategory.objects.all()
     serializer_class = ReligiousCategorySerializer
+
+
+
+def export_pilgram(request):
+    pilgrim_resource = PilgrimResource()
+    dataset = pilgrim_resource.export()
+    response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="pilgrims.xlsx"'
+    return response
