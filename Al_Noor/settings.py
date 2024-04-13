@@ -40,6 +40,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'daphne',
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -57,6 +58,15 @@ INSTALLED_APPS = [
     'channels',
 
 ]
+
+JAZZMIN_SETTINGS = {
+    # "language_chooser": True
+}
+JAZZMIN_UI_TWEAKS = {
+    "theme": "simplex",
+    "dark_mode_theme": "darkly",
+}
+JAZZMIN_SETTINGS["show_ui_builder"] = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
