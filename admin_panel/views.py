@@ -33,7 +33,7 @@ class AddAdminView(TemplateView):
 class UpdateAdminView(TemplateView):
     template_name = 'users/admin/update_admin.html'
 
-class PilgrinListView(TemplateView):
+class PilgrimListView(TemplateView):
     template_name = 'users/customer/customer_list.html'
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
