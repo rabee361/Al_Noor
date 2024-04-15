@@ -1,4 +1,3 @@
-from __future__ import absolute_import, unicode_literals
 from firebase_admin import initialize_app, credentials
 from google.auth import load_credentials_from_file
 import os
@@ -6,39 +5,22 @@ from datetime import timedelta
 from pathlib import Path
 from dotenv import load_dotenv
 import environ
-from celery import Celery
 
 env = environ.Env()
 load_dotenv()
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+SECRET_KEY = env('SECRET_KEY')
 
-
-# config Celery
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Al_Noor.settings')
-app = Celery('Al_Noor')
-app.config_from_object('django.conf:settings', namespace='CELERY')
-app.autodiscover_tasks()
-CELERY_BROKER_URL = 'redis://localhost:6379'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'df1bcfc1bac5595f6fe3db5caf198322ea174656e1257125219df161f4a452db'
-
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
 
-# Application definition
-
 INSTALLED_APPS = [
+    'daphne',
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -46,33 +28,65 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'base',
+    'admin_panel',
     'fcm_django',
-    'rest_framework',   
+    'import_export',
     'phonenumber_field',
+    'rest_framework',
+    'rest_framework_simplejwt.token_blacklist',
     'django_filters',
     'channels',
-    'import_export',
 
 ]
+
+JAZZMIN_SETTINGS = {
+    "show_ui_builder":True,
+    "language_chooser": True,
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": False,
+    "brand_small_text": False,
+    "brand_colour": "navbar-warning",
+    "accent": "accent-teal",
+    "navbar": "navbar-white navbar-light",
+    "no_navbar_border": False,
+    "navbar_fixed": True,
+    "layout_boxed": False,
+    "footer_fixed": False,
+    "sidebar_fixed": True,
+    "sidebar": "sidebar-light-warning",
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": False,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": True,
+    "sidebar_nav_flat_style": False,
+    "theme": "pulse",
+    "dark_mode_theme": "darkly",
+    "button_classes": {
+        "primary": "btn-outline-primary",
+        "secondary": "btn-outline-secondary",
+        "info": "btn-info",
+        "warning": "btn-warning",
+        "danger": "btn-danger",
+        "success": "btn-success"
+    },
+    "actions_sticky_top": False
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-AUTH_USER_MODEL = 'base.CustomUser'
-
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-       'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ],
-
-}
 
 ROOT_URLCONF = 'Al_Noor.urls'
 
@@ -91,25 +105,42 @@ TEMPLATES = [
         },
     },
 ]
+AUTH_USER_MODEL = 'base.CustomUser'
 
 WSGI_APPLICATION = 'Al_Noor.wsgi.application'
+ASGI_APPLICATION = "Al_Noor.asgi.application"
 
 
-# Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
+
+# DATABASES = {
+#         'default': {
+#             'ENGINE': env('ENGINE_DB'),
+#             'NAME': env('NAME_DB'),
+#             'USER': env('USER_DB'),
+#             'PASSWORD': env('PASSWORD_DB'),
+#             'HOST': env('HOST_DB'),
+#             'PORT': env('PORT_DB'),
+#         }
+#     }
 
 DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'al_noor',
+            'NAME': 'al_noor_new',
             'USER': 'postgres',
             'PASSWORD': 'po23ST@gre432',
             'HOST': 'localhost',
             'PORT': '5432',
         }
     }
-
-
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -160,10 +191,6 @@ SIMPLE_JWT = {
 }
 
 
-
-# Password validation
-# https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -180,10 +207,23 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/5.0/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
+
+LANGUAGES = [
+    # ('ar', 'Arabic'),
+    ('en', 'English'),
+]
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
+
+# MAKEMESSAGES_IGNORE_PATTERNS = [
+#     r'^requirepiments\.txt$',
+#     r'^env/Lib/site-packages/xlwt/.*\.py$',
+#     # Add any other patterns you want to exclude here
+# ]
+
 
 TIME_ZONE = 'UTC'
 
@@ -191,17 +231,15 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0/howto/static-files/
-
 STATIC_ROOT = os.path.join(BASE_DIR , 'staticfiles')
 STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR , 'media')
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'admin_panel/static'),
+]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -218,8 +256,8 @@ class CustomFirebaseCredentials(credentials.ApplicationDefault):
                                                                               scopes=credentials._scopes)
 
 
-custom_credentials = CustomFirebaseCredentials('C:/Users/eng.Rabee/systempro/storeapp-8cc25-firebase-adminsdk-63jeh-3a5b5e4884.json')
-FIREBASE_MESSAGING_APP = initialize_app(custom_credentials, options={'projectId': 'storeapp-8cc25'}, name='messaging')
+custom_credentials = CustomFirebaseCredentials('C:/Users/eng.Rabee/Al_Noor/al-noor-6d972-firebase-adminsdk-lax5i-a484f77017.json')
+FIREBASE_MESSAGING_APP = initialize_app(custom_credentials, options={'projectId': 'al-noor-6d972'}, name='messaging')
 
 
 
