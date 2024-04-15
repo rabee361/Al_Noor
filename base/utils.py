@@ -4,6 +4,9 @@ from rest_framework.response import Response
 from datetime import datetime , timedelta 
 from django.utils import timezone
 import random
+import secrets
+import string
+
 
 weekday_mapping = {
     'Monday': 'الاثنين',
@@ -46,3 +49,11 @@ def get_expiration_time():
 def generate_code():
     code_verivecation = random.randint(1000,9999)
     return code_verivecation
+
+
+
+def generate_password(length=10) -> str:
+    characters = string.ascii_letters + string.digits
+    password = ''.join(secrets.choice(characters) for _ in range(length))
+    
+    return password
