@@ -87,7 +87,7 @@ class GuidanceCategoryAdmin(admin.ModelAdmin):
     list_display = ['id','name']
 
 
-class GuidancePost(admin.ModelAdmin):
+class GuidancePostAdmin(admin.ModelAdmin):
     list_display = ['id','category','title','content','created']
 
 
@@ -112,4 +112,8 @@ admin.site.register(Task,TaskAdmin)
 admin.site.register(Guide,GuideAdmin)
 admin.site.register(Chat,ChatAdmin)
 admin.site.register(ChatMessage,ChatMessageAdmin)
+admin.site.register(GuidancePost,GuidancePostAdmin)
+admin.site.register(ReligiousPost,ReligiousPostAdmin)
+admin.site.register(ReligiousCategory,ReligiousCategoryAdmin)
+admin.site.register(GuidanceCategory,GuidanceCategoryAdmin)
 admin.site.register(VerificationCode)

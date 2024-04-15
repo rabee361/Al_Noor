@@ -56,54 +56,54 @@ class Management(models.Model):
 
 
 class Registration(models.Model):
-    phonenumber = PhoneNumberField(region='SA',unique=True)
-    first_name = models.CharField(max_length=50)
-    father_name = models.CharField(max_length=50)
-    grand_father = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    id_number = models.IntegerField()
-    birthday = models.DateField()
-    job_position = models.CharField(choices=Job_position, max_length=50, null=True, blank=True)
-    gender = models.CharField(choices=Gender, max_length=10)
-    options_trip = models.CharField(choices=Options_trip, max_length=20)
-    marital_status = models.CharField(choices=Marital_status, max_length=10)
-    address = models.CharField(choices=Address, max_length=15)
-    alhajj = models.CharField(choices=Type_alhajj, max_length=50, null=True, blank=True)
-    tradition_reference = models.CharField(choices=Tradition_reference)
-    count_hajjas = models.BigIntegerField(null=True, blank=True)
-    last_year = models.CharField(null=True, blank=True)
-    means_journey = models.CharField(choices=Means_journey, max_length=50)
-    blood_type = models.CharField(choices=Blood_type, null=True, blank=True)
-    illness = models.BooleanField(null=True, blank=True)
-    chronic_diseases = models.CharField(null=True, blank=True, max_length=200)
-    tawaf = models.BooleanField(null=True, blank=True)
-    sai = models.BooleanField(null=True, blank=True)
-    wheelchair = models.BooleanField(null=True, blank=True)
-    type_help = models.TextField(null=True, blank=True)
+    phonenumber = PhoneNumberField(region='SA',unique=True , verbose_name="رقم الهاتف")
+    first_name = models.CharField(max_length=50 , verbose_name="الاسم الأول")
+    father_name = models.CharField(max_length=50 , verbose_name="اسم الأب")
+    grand_father = models.CharField(max_length=50 , verbose_name="اسم الجد")
+    last_name = models.CharField(max_length=50 , verbose_name="العائلة")
+    id_number = models.IntegerField(verbose_name="رقم الهوية")
+    birthday = models.DateField(verbose_name="الميلاد")
+    job_position = models.CharField(choices=Job_position, max_length=50, null=True, blank=True, verbose_name="الوظيفة")
+    gender = models.CharField(choices=Gender, max_length=10, verbose_name="الجنس")
+    options_trip = models.CharField(choices=Options_trip, max_length=20, verbose_name="خيارات الرحلة")
+    marital_status = models.CharField(choices=Marital_status, max_length=10, verbose_name="الحالة الاجتماعية")
+    address = models.CharField(choices=Address, max_length=15, verbose_name="مكان السكن")
+    alhajj = models.CharField(choices=Type_alhajj, max_length=50, null=True, blank=True, verbose_name="نوع الحجة")
+    tradition_reference = models.CharField(choices=Tradition_reference, verbose_name="مرجع التقليد")
+    count_hajjas = models.BigIntegerField(null=True, blank=True, verbose_name="عدد الحجات")
+    last_year = models.CharField(null=True, blank=True, verbose_name="اخر سنة حج")
+    means_journey = models.CharField(choices=Means_journey, max_length=50, verbose_name="وسيلة الرحلة")
+    blood_type = models.CharField(choices=Blood_type, null=True, blank=True, verbose_name="فصيلة الدم")
+    illness = models.BooleanField(null=True, blank=True, verbose_name="أمراض")
+    chronic_diseases = models.CharField(null=True, blank=True, max_length=200, verbose_name="أمراض مزمنة")
+    tawaf = models.BooleanField(null=True, blank=True, verbose_name="مساعدة في الطواف")
+    sai = models.BooleanField(null=True, blank=True, verbose_name="مساعدة في السعي")
+    wheelchair = models.BooleanField(null=True, blank=True, verbose_name="كرسي متحرك")
+    type_help = models.TextField(null=True, blank=True, verbose_name="نوع المساعدة")
 
 
 
 class Pilgrim(models.Model):
-    user = models.ForeignKey(CustomUser , on_delete=models.CASCADE , default=1)
-    registeration_id = models.CharField(max_length=50)
-    first_name = models.CharField(max_length=50)
-    father_name = models.CharField(max_length=50)
-    grand_father = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    birthday = models.DateField()
-    phonenumber = PhoneNumberField(region='SA',unique=True)
+    user = models.ForeignKey(CustomUser , on_delete=models.CASCADE , verbose_name="المستخدم")
+    registeration_id = models.CharField(max_length=50 , verbose_name="رقم الهوية")
+    first_name = models.CharField(max_length=50 , verbose_name="الاسم الأول")
+    father_name = models.CharField(max_length=50 , verbose_name="اسم الأب")
+    grand_father = models.CharField(max_length=50 , verbose_name="اسم الجد")
+    last_name = models.CharField(max_length=50 , verbose_name="العائلة")
+    birthday = models.DateField(verbose_name="الميلاد")
+    phonenumber = PhoneNumberField(region='SA',unique=True , verbose_name="رقم الهاتف")
     flight_num = models.IntegerField(null=True, blank=True,verbose_name="رقم الرحلة")
-    arrival = models.DateTimeField()
-    departure = models.DateTimeField()
-    duration = models.DurationField()
-    borading_time = models.TimeField()####
-    gate_num = models.IntegerField(null=True, blank=True)####
-    flight_company = models.CharField(max_length=50) ### can be a choice list
-    company_logo = models.ImageField() ###
-    status = models.BooleanField(null=True, blank=True)
-    hotel = models.CharField(max_length=100, null=True, blank=True)
-    hotel_address = models.CharField(max_length=100) #### link to google maps can be long and lat
-    room_num = models.IntegerField(null=True, blank=True)
+    arrival = models.DateTimeField(verbose_name="موعد الوصول")
+    departure = models.DateTimeField(verbose_name="موعد الاقلاع")
+    duration = models.DurationField(verbose_name="مدة الرحلة")
+    borading_time = models.TimeField(verbose_name="وقت الصعود")####
+    gate_num = models.IntegerField(null=True, blank=True , verbose_name="رقم البوابة")####
+    flight_company = models.CharField(max_length=50 , verbose_name="رقم الرحلة") ### can be a choice list
+    company_logo = models.ImageField(verbose_name="شعار الشركة") ###
+    status = models.BooleanField(null=True, blank=True , verbose_name="الحالة")
+    hotel = models.CharField(max_length=100, null=True, blank=True , verbose_name="الفندق")
+    hotel_address = models.CharField(max_length=100 , verbose_name="عنوان الفندق") #### link to google maps can be long and lat
+    room_num = models.IntegerField(null=True, blank=True , verbose_name="رقم الغرفة")
 
     def __str__(self) -> str:
         return f'{self.id} - {self.id}'
