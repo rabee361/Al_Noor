@@ -40,8 +40,8 @@ class CreateMessage(AsyncWebsocketConsumer):
 		chat = await self.get_chat(self.chat_id)
 
 		try:
-			await self.get_guide(user)
-			await self.get_manager(user)
+			await self.get_guide(user.id)
+			await self.get_manager(user.id)
 			msg = ChatMessage(sender=user,content=message, chat=chat, employee=True)
 		except Guide.DoesNotExist or Management.DoesNotExist:
 			msg = ChatMessage(sender=user,content=message, chat=chat, employee=False)
@@ -154,12 +154,12 @@ class CreateMessage(AsyncWebsocketConsumer):
 
 	@database_sync_to_async
 	def get_guide(self,user):
-		return Guide.objects.get(user=user) or None
+		return Guide.objects.get(id=user) or None
 
 
 	@database_sync_to_async
 	def get_manager(self,user):
-		return Management.objects.get(user=user) or None
+		return Management.objects.get(id=user) or None
 
 
 	@database_sync_to_async
