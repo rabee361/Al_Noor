@@ -111,8 +111,11 @@ class Pilgrim(models.Model):
 
 
 class Guide(models.Model):
-    pass
+    user = models.ForeignKey(CustomUser , on_delete=models.CASCADE ,default=1)
     
+    def __str__(self) -> str:
+        return self.user.username
+
 
 
 class Employee(models.Model):
@@ -186,6 +189,8 @@ class ChatMessage(models.Model):
 
 class GuidanceCategory(models.Model):
     name = models.CharField(max_length=50)
+    created = models.DateTimeField(auto_now_add=True,null=True)
+
 
     def __str__(self) -> str:
         return self.name
