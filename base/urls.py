@@ -5,6 +5,7 @@ from rest_framework_simplejwt import views as jwt_views
 urlpatterns = [
     path('auth/login/' , LoginUser.as_view() , name="login"),
     path('auth/logout/', LogoutUser.as_view(), name='logout'),
+    path('register/' , RegisterPilgrim.as_view() , name="register-pilgrim"),
     path('send-code/' , SendCodePassword.as_view() , name="send-code"),
     path('verify-code/<str:pk>/' , VerifyCode.as_view() , name="verify-code"),
     path('auth/reset-password/<str:user_id>/' , ResetPassword.as_view(), name='reset-password'),

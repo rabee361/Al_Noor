@@ -34,7 +34,7 @@ class UpdateAdminView(TemplateView):
     template_name = 'users/admin/update_admin.html'
 
 class PilgrimListView(TemplateView):
-    template_name = 'users/customer/customer_list.html'
+    template_name = 'users/customer/pilgrims_list.html'
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         pilgrims = Pilgrim.objects.all()
@@ -43,21 +43,21 @@ class PilgrimListView(TemplateView):
 
 
 class AddPilgrimView(TemplateView):
-    template_name = 'users/customer/add_customer.html'
+    template_name = 'users/customer/add_pilgrim.html'
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         return context
 
 
 class UpdatePilgrimView(TemplateView):
-    template_name = 'users/customer/update_customer.html'
+    template_name = 'users/customer/update_pilgrim.html'
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         return context
 
 
 class GuideListView(TemplateView):
-    template_name = 'users/provider/provider_list.html'
+    template_name = 'users/provider/guides_list.html'
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         guides = Guide.objects.all()
@@ -66,14 +66,14 @@ class GuideListView(TemplateView):
 
 
 class AddGuideView(TemplateView):
-    template_name = 'users/provider/add_provider.html'
+    template_name = 'users/provider/add_guide.html'
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         return context
     
 
 class UpdateGuideView(TemplateView):
-    template_name = 'users/provider/update_provider.html'
+    template_name = 'users/provider/update_guide.html'
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         return context

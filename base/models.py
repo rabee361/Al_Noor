@@ -4,6 +4,8 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator, MaxValueValidator
 from .utils import *
 from .options import *
+from django.utils.translation import gettext_lazy as _
+
 
 class CustomUser(AbstractUser):
     image = models.ImageField(upload_to='images/users',default='images/account.jpg')
@@ -19,7 +21,9 @@ class CustomUser(AbstractUser):
 
     class Meta:
         ordering = ['-id']
-
+        verbose_name = _("User")
+        verbose_name_plural = _("Users")
+   
 
 
 
@@ -51,22 +55,8 @@ class Management(models.Model):
 
 
 
-class Pilgrim(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    # phonenumber = PhoneNumberField(region='SA',unique=True)
-    flight_num = models.IntegerField(null=True, blank=True,verbose_name="رقم الرحلة")
-    flight_date = models.DateField(null=True, blank=True)
-    # arrival = models.TimeField()
-    # departure = models.TimeField()
-    # duration = models.DurationField()
-    gate_num = models.IntegerField(null=True, blank=True)
-    borading_time = models.TimeField()
-    # flight_company = models.CharField(max_length=50) ### can be a choice list
-    # company_logo = models.ImageField() in case of a company needed a logo
-    status = models.BooleanField(null=True, blank=True)
-    hotel = models.CharField(max_length=100, null=True, blank=True)
-    # hotel_address = models.CharField(max_length=100) #### link to google maps can be long and lat
-    room_num = models.IntegerField(null=True, blank=True)
+class Registration(models.Model):
+    phonenumber = PhoneNumberField(region='SA',unique=True)
     first_name = models.CharField(max_length=50)
     father_name = models.CharField(max_length=50)
     grand_father = models.CharField(max_length=50)
@@ -90,6 +80,29 @@ class Pilgrim(models.Model):
     sai = models.BooleanField(null=True, blank=True)
     wheelchair = models.BooleanField(null=True, blank=True)
     type_help = models.TextField(null=True, blank=True)
+
+
+
+class Pilgrim(models.Model):
+    registeration_id = models.CharField(max_length=50)
+    first_name = models.CharField(max_length=50)
+    father_name = models.CharField(max_length=50)
+    grand_father = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    birthday = models.DateField()
+    phonenumber = PhoneNumberField(region='SA',unique=True)
+    flight_num = models.IntegerField(null=True, blank=True,verbose_name="رقم الرحلة")
+    arrival = models.DateTimeField()
+    departure = models.DateTimeField()
+    duration = models.DurationField()
+    borading_time = models.TimeField()####
+    gate_num = models.IntegerField(null=True, blank=True)####
+    flight_company = models.CharField(max_length=50) ### can be a choice list
+    company_logo = models.ImageField() ###
+    status = models.BooleanField(null=True, blank=True)
+    hotel = models.CharField(max_length=100, null=True, blank=True)
+    hotel_address = models.CharField(max_length=100) #### link to google maps can be long and lat
+    room_num = models.IntegerField(null=True, blank=True)
 
     def __str__(self) -> str:
         return f'{self.id} - {self.id}'

@@ -52,7 +52,6 @@ class LogoutUserSerializer(serializers.Serializer):
 
 
 
-
 class ResetPasswordSerializer(serializers.Serializer):
     newpassword = serializers.CharField(write_only=True)
     password = serializers.CharField(write_only=True)
@@ -75,6 +74,14 @@ class ResetPasswordSerializer(serializers.Serializer):
         user.is_verified=False
         user.save()
         return user
+
+
+
+
+class RegistrationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Registration
+        fields = '__all__'
 
 
 

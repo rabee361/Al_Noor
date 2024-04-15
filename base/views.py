@@ -118,6 +118,13 @@ class ResetPassword(UpdateAPIView):
 
 
 
+class RegisterPilgrim(ListCreateAPIView):
+    queryset =  Registration.objects.all()
+    serializer_class = RegistrationSerializer
+
+
+
+
 class RefreshFirebaseToken(GenericAPIView):
     # permission_classes = [IsAuthenticated]
     def post(self,request):

@@ -60,17 +60,51 @@ INSTALLED_APPS = [
 ]
 
 JAZZMIN_SETTINGS = {
-    # "language_chooser": True
+    "site_logo": "path/to/your/logo.png",
+    "site_icon": "path/to/your/favicon.ico",
+    "show_ui_builder":True,
+    "site_title" : "Hi",
+    "language_chooser": True,
 }
+
+
 JAZZMIN_UI_TWEAKS = {
-    "theme": "simplex",
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": False,
+    "brand_small_text": False,
+    "brand_colour": False,
+    "accent": "accent-primary",
+    "navbar": "navbar-dark",
+    "no_navbar_border": False,
+    "navbar_fixed": False,
+    "layout_boxed": False,
+    "footer_fixed": False,
+    "sidebar_fixed": False,
+    "sidebar": "sidebar-dark-primary",
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": False,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_flat_style": False,
+    "theme": "default",
     "dark_mode_theme": "darkly",
+    "button_classes": {
+        "primary": "btn-primary",
+        "secondary": "btn-secondary",
+        "info": "btn-info",
+        "warning": "btn-warning",
+        "danger": "btn-danger",
+        "success": "btn-success"
+    }
 }
-JAZZMIN_SETTINGS["show_ui_builder"] = True
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -199,6 +233,22 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
+
+LANGUAGES = [
+    # ('ar', 'Arabic'),
+    ('en', 'English'),
+]
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
+
+MAKEMESSAGES_IGNORE_PATTERNS = [
+    r'^requirements\.txt$',
+    r'^env/Lib/site-packages/xlwt/.*\.py$',
+    # Add any other patterns you want to exclude here
+]
+
 
 TIME_ZONE = 'UTC'
 
