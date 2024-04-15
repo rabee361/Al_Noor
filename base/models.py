@@ -84,6 +84,7 @@ class Registration(models.Model):
 
 
 class Pilgrim(models.Model):
+    user = models.ForeignKey(CustomUser , on_delete=models.CASCADE , default=1)
     registeration_id = models.CharField(max_length=50)
     first_name = models.CharField(max_length=50)
     father_name = models.CharField(max_length=50)

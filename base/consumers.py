@@ -40,24 +40,25 @@ class CreateMessage(AsyncWebsocketConsumer):
 		chat = await self.get_chat(self.chat_id)
 
 		try:
-			await self.get_employee(user.phonenumber)
+			await self.get_guide(user)
+			await self.get_manager(user)
 			msg = ChatMessage(sender=user,content=message, chat=chat, employee=True)
-		except Employee.DoesNotExist:
+		except Guide.DoesNotExist or Management.DoesNotExist:
 			msg = ChatMessage(sender=user,content=message, chat=chat, employee=False)
 
 		serializer = MessageSerializer(msg,many=False)
 		await self.save_message(msg)
 
-		try:
-			employee = await self.get_employee(user.phonenumber)
-			title = f'{user}'
-			body = f'{message}'
-			await self.send_to_client(chat,title,body)
+		# try:
+		# 	employee = await self.get_employee(user.phonenumber)
+		# 	title = f'{user}'
+		# 	body = f'{message}'
+		# 	await self.send_to_client(chat,title,body)
 
-		except:
-			title = 'test'
-			body = 'test'
-			await self.send_to_all(title,body)
+		# except:
+		# 	title = 'test'
+		# 	body = 'test'
+		# 	await self.send_to_all(title,body)
 
 
 		# await self.send(text_data=json.dumps({
@@ -152,8 +153,14 @@ class CreateMessage(AsyncWebsocketConsumer):
 
 
 	@database_sync_to_async
-	def get_employee(self,phonenumber):
-		return Employee.objects.get(phonenumber=phonenumber) or None
+	def get_guide(self,user):
+		return Guide.objects.get(user=user) or None
+
+
+	@database_sync_to_async
+	def get_manager(self,user):
+		return Management.objects.get(user=user) or None
+
 
 	@database_sync_to_async
 	def get_user(self, user_id):

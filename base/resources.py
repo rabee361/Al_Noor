@@ -109,6 +109,11 @@ class PilgrimResource(resources.ModelResource):
         user.set_password(generate_password())
         user.save()
 
+    def after_save_instance(self, instance, using_transactions, dry_run):
+        if not dry_run:
+            instance.user = CustomUser.objects.get(phonenumber=instance.phonenumber)
+            instance.save()
+        return True
 
 class RegistrationResource(resources.ModelResource):
     phonenumber = Field(
