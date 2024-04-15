@@ -2,6 +2,38 @@ from django.contrib import admin
 from .models import *
 from .resources import *
 from import_export.admin import ImportExportModelAdmin
+from fcm_django.models import FCMDevice
+from fcm_django.admin import DeviceAdmin as DefaultDeviceAdmin
+from rest_framework_simplejwt.token_blacklist.models import OutstandingToken, BlacklistedToken
+from rest_framework_simplejwt.token_blacklist.admin import OutstandingTokenAdmin as DefaultOutstandingTokenAdmin
+from django.contrib.auth.models import Group
+
+
+admin.site.site_header = "Al Noor"
+admin.site.index_title = "Al Noor Admin Panel" 
+
+
+admin.site.unregister(FCMDevice)
+admin.site.unregister(BlacklistedToken)
+admin.site.unregister(OutstandingToken)
+admin.site.unregister(Group)
+
+class HiddenModelAdmin(admin.ModelAdmin):
+    def get_model_perms(self, request):
+        return {}
+    
+@admin.register(FCMDevice)
+class FCMDeviceAdmin(HiddenModelAdmin):
+    pass
+
+@admin.register(OutstandingToken)
+class OutstandingTokenAdmin(HiddenModelAdmin):
+    pass
+
+@admin.register(BlacklistedToken)
+class BlacklistedTokenAdmin(HiddenModelAdmin):
+    pass
+
 
 
 

@@ -21,8 +21,8 @@ class CustomUser(AbstractUser):
 
     class Meta:
         ordering = ['-id']
-        verbose_name = _("User")
-        verbose_name_plural = _("Users")
+        verbose_name = _("مستخدم")
+        verbose_name_plural = _("مستخدمين")
    
 
 
@@ -36,6 +36,10 @@ class VerificationCode(models.Model):
 
     def __str__(self):
         return f'{self.user.username} code:{self.code}'
+
+    class Meta:
+        verbose_name = ("رمز التأكيد")
+        verbose_name_plural = ("رموز التأكيد")
 
 
 # # in case we needed to store the hotel info in a seperate model
@@ -52,7 +56,8 @@ class Management(models.Model):
     
     class Meta:
         ordering = ['-id']
-
+        verbose_name = ("مدير")
+        verbose_name_plural = ("الادارة")
 
 
 class Registration(models.Model):
@@ -81,6 +86,10 @@ class Registration(models.Model):
     wheelchair = models.BooleanField(null=True, blank=True, verbose_name="كرسي متحرك")
     type_help = models.TextField(null=True, blank=True, verbose_name="نوع المساعدة")
 
+    class Meta:
+        verbose_name = ("الحاج")
+        verbose_name_plural = ("الحجاج")
+
 
 
 class Pilgrim(models.Model):
@@ -108,6 +117,9 @@ class Pilgrim(models.Model):
     def __str__(self) -> str:
         return f'{self.id} - {self.id}'
 
+    class Meta:
+        verbose_name = ("حاج")
+        verbose_name_plural = ("الحجاج")
 
 
 class Guide(models.Model):
@@ -116,6 +128,9 @@ class Guide(models.Model):
     def __str__(self) -> str:
         return self.user.username
 
+    class Meta:
+        verbose_name = ("المرشد")
+        verbose_name_plural = ("المرشدين")
 
 
 class Employee(models.Model):
@@ -126,7 +141,8 @@ class Employee(models.Model):
     
     class Meta:
         ordering = ['-id']
-
+        verbose_name = ("موظف")
+        verbose_name_plural = ("موظفين")
 
 
 
@@ -140,6 +156,9 @@ class Task(models.Model):
     def __str__(self) -> str:
         return f'{self.employee.user.username} : {self.title}'
 
+    class Meta:
+        verbose_name = ("مهمة")
+        verbose_name_plural = ("مهام")
 
 
 
@@ -151,6 +170,11 @@ class UserNotification(models.Model):
 
     def __str__(self) -> str:
         return f'{self.user.username} : {self.content}'
+    
+    class Meta:
+        verbose_name = ("اشعار")
+        verbose_name_plural = ("اشعارات")
+
 
 
 class Note(models.Model):
@@ -162,6 +186,10 @@ class Note(models.Model):
     def __str__(self) -> str:
         return f'{self.pilgrim.user.username} : {self.content}'
 
+    class Meta:
+        verbose_name = ("ملاحظة")
+        verbose_name_plural = ("ملاحظات")
+
 
 
 class Chat(models.Model):
@@ -170,6 +198,11 @@ class Chat(models.Model):
 
     def __str__(self) -> str:
         return f'{self.user.username} chat'
+
+    class Meta:
+        verbose_name = ("محادثة")
+        verbose_name_plural = ("محادثات")
+
 
 
 class ChatMessage(models.Model):
@@ -184,6 +217,8 @@ class ChatMessage(models.Model):
 
     class Meta:
         ordering=['-timestamp']
+        verbose_name = ("رسالة")
+        verbose_name_plural = ("رسائل")
 
 
 
@@ -194,6 +229,11 @@ class GuidanceCategory(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+    class Meta:
+        verbose_name = ("نوع الارشاد")
+        verbose_name_plural = ("أنواع الارشاد الديني")
+
 
 
 
@@ -209,7 +249,8 @@ class GuidancePost(models.Model):
     
     class Meta:
         ordering = ['-created']
-
+        verbose_name = ("إرشاد ديني")
+        verbose_name_plural = ("إرشادات دينية")
 
 
 
@@ -220,6 +261,11 @@ class ReligiousCategory(models.Model):
     def __str__(self) -> str:
         return self.name
     
+    class Meta:
+        verbose_name = ("نوع عمل ديني")
+        verbose_name_plural = ("أنواع العمل الديني")
+
+
 
 class ReligiousPost(models.Model):
     category = models.ForeignKey(ReligiousCategory, on_delete=models.CASCADE)
@@ -233,3 +279,5 @@ class ReligiousPost(models.Model):
 
     class Meta:
         ordering = ['-created']
+        verbose_name = ("عمل ديني")
+        verbose_name_plural = ("أعمال دينية")

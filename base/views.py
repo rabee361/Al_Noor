@@ -95,6 +95,21 @@ class VerifyCode(GenericAPIView):
         
 
 
+class UpdateImage(GenericAPIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self,request):
+        new_image = request.data['image'] or None
+        if new_image is not None:
+            user = request.user
+            user.image = new_image
+            user.save()
+            serializer = CustomUserSerializer(user,many=False)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response({"error":"please select an image"} , status=status.HTTP_400_BAD_REQUEST)
+
+
 
 
 ######### needs modification to adapt to sms
@@ -121,6 +136,20 @@ class ResetPassword(UpdateAPIView):
 class RegisterPilgrim(ListCreateAPIView):
     queryset =  Registration.objects.all()
     serializer_class = RegistrationSerializer
+
+
+
+class ListPilgrims(ListAPIView):
+    queryset = Pilgrim.objects.all()
+    serializer_class = PilgrimSerializer
+
+
+
+class GetPilgrim(ListAPIView):
+    queryset = Pilgrim.objects.all()
+    serializer_class = PilgrimSerializer
+
+
 
 
 
@@ -282,6 +311,7 @@ class GetChat(RetrieveAPIView):
 class ListCreateEmployee(ListCreateAPIView):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
+
 
 
 

@@ -60,7 +60,7 @@ INSTALLED_APPS = [
 ]
 
 JAZZMIN_SETTINGS = {
-    # "site_logo": "path/to/your/logo.png",
+    # "site_logo": "images/logo.png",
     # "site_icon": "path/to/your/favicon.ico",
     "show_ui_builder":True,
     "language_chooser": True,
