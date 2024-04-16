@@ -31,5 +31,8 @@ urlpatterns = [
     path('guidance-post/<str:pk>/' , RetUpdDesGuidancePost.as_view() , name="get-guidance-post"),
     path('employee/' , ListCreateEmployee.as_view() , name="create"),
     path('export/pilgrim/', export_pilgram, name='export_pilgrim'),
-    
+
+    ################################3
+    path('list-create-pilgrim/', ListCreatePilgrimView.as_view(), name='list-create-pilgrim'),
+    path('get-info-flow/', GetUpdateInfoFlowView.as_view(), name='get-info-flow'),
 ]

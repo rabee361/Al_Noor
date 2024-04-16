@@ -335,3 +335,22 @@ def export_pilgram(request):
     response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
     response['Content-Disposition'] = 'attachment; filename="pilgrims.xlsx"'
     return response
+
+#########################################################################################################################
+class ListCreatePilgrimView(ListCreateAPIView):
+    queryset = Pilgrim.objects.all()
+    serializer_class = PilgrimSerializer
+    # permission_classes = [IsAuthenticated,]
+
+class GetUpdateInfoFlowView(GenericAPIView):
+    permission_classes = [IsAuthenticated, ]
+    serializer_class = InfoFlowSerializer
+    
+    def get(self, request):
+        user = CustomUser.objects.get(id=request.user.id)
+        pilgrim = user.pilgrim_set.all()
+        serializer = self.get_serializer(pilgrim, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def put(self, request):
+        pass

@@ -2,11 +2,13 @@ from django.contrib import admin
 from .models import *
 from .resources import *
 from import_export.admin import ImportExportModelAdmin
-
+from .forms import *
 
 
 
 class CustomUserAdmin(admin.ModelAdmin):
+    add_form = CustomUserCreationForm
+    # form = CustomUserChangeForm
     list_display = ['id','first_name','last_name','phonenumber','is_verified','get_notifications']
 
 

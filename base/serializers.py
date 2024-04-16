@@ -110,11 +110,34 @@ class ManagementSerializer(serializers.ModelSerializer):
 
 
 class PilgrimSerializer(serializers.ModelSerializer):
+    user = serializers.CharField(source='user.username', read_only=True)
     class Meta:
         model = Pilgrim
         fields = '__all__'
 
+    def create(self, validated_data):
+        first_name = validated_data.pop('first_name')
+        last_name = validated_data.pop('last_name')
+        phonenumber = validated_data.pop('phonenumber')
+        password = generate_password()
+        user = CustomUser.objects.create(phonenumber=phonenumber, username=f'{first_name} {last_name}')
+        user.set_password(password)
+        user.save()
+        instance = Pilgrim.objects.create(user=user, first_name=first_name, last_name=last_name,phonenumber=phonenumber, **validated_data)
+        return instance
 
+
+class InfoFlowSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Pilgrim
+        fields = ['flight_num', 'arrival', 'departure', 'duration', 'borading_time', 'gate_num', 'flight_company', 'company_logo', 'status']
+
+
+class InfoHotelSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ['hotel', 'hotel_address', 'room_num']
+
+        
 class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserNotification
