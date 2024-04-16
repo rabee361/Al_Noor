@@ -137,9 +137,11 @@ class TypeAhkamAlmrahSerializer(serializers.ModelSerializer):
 
 class PilgrimSerializer(serializers.ModelSerializer):
     user = serializers.CharField(source='user.username', read_only=True)
+    # ahkamalmrah = AhkamAlmrahSerialzier(read_only=True)
     class Meta:
         model = Pilgrim
-        fields = '__all__'
+        # fields = '__all__'
+        exclude = ['ahkamalmrah',]
 
     def create(self, validated_data):
         first_name = validated_data.pop('first_name')
