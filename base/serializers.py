@@ -96,10 +96,26 @@ class NoteSerializer(serializers.ModelSerializer):
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(write_only=True)
+    phonenumber = serializers.CharField(write_only=True)
+    email = serializers.EmailField(write_only=True)
+    password = serializers.CharField(write_only=True)
+    user = serializers.CharField(source='user.username', read_only=True)
+
     class Meta:
         model = Employee
         fields = '__all__'
-        
+    
+    def create(self, validated_data):
+        username = validated_data.pop('username')
+        phonenumber = validated_data.pop('phonenumber')
+        email = validated_data.pop('email')
+        password = validated_data.pop('password')
+        user = CustomUser.objects.create(phonenumber=phonenumber, username=username, email=email)
+        user.set_password(password)
+        user.save()
+        instance = Employee.objects.create(user=user)
+        return instance
 
 
 
