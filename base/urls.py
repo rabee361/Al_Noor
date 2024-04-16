@@ -36,5 +36,6 @@ urlpatterns = [
     path('list-create-pilgrim/', ListCreatePilgrimView.as_view(), name='list-create-pilgrim'),
     path('get-info-flow/', GetUpdateInfoFlowView.as_view(), name='get-info-flow'),
     path('list-ahkam-almrah/', ListAhkamAlmrahVeiw.as_view(), name='list-ahkam-almrah'),
-    path('list-type-ahkam-almrah/<str:pk>/', TypeAhkamAlmrahListView.as_view(), name='list-type-ahkam-almrah')
+    path('list-type-ahkam-almrah/<str:pk>/', TypeAhkamAlmrahListView.as_view(), name='list-type-ahkam-almrah'),
+    path('complete-ahkam-almrah/', CompleatedAhkamAlmrah.as_view(), name='complete-ahkam-almrah')
 ]

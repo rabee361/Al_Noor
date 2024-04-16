@@ -355,6 +355,15 @@ class TypeAhkamAlmrahListView(GenericAPIView):
         serializer = self.get_serializer(type_ahkam, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+class CompleatedAhkamAlmrah(GenericAPIView):
+    permission_classes = [IsAuthenticated,]
+
+    def put(self, request):
+        ahkam_al = request.data['ahkam_almrah']
+        ahkam_almrah = AhkamAlmrah.objects.get(id=int(ahkam_al))
+        pilgrim = Pilgrim.objects.get(user=request.user).ahkamalmrah.add(ahkam_almrah)
+        return Response({"success":"Tre"},status=status.HTTP_200_OK)
+
 class GetUpdateInfoFlowView(GenericAPIView):
     permission_classes = [IsAuthenticated, ]
     serializer_class = PilgrimSerializer
