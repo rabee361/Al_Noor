@@ -147,10 +147,23 @@ class ListCreatePilgrim(ListCreateAPIView):
 
 
 
-class GetPilgrim(ListAPIView):
+class GetPilgrim(GenericAPIView):
+    # permission_classes = [IsAuthenticated]
     queryset = Pilgrim.objects.all()
     serializer_class = PilgrimSerializer
 
+
+class PilgrimInfo(GenericAPIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self,request):
+        user = request.user
+        try:
+            pilgrim = Pilgrim.objects.get(user=user)
+            serializer = PilgrimSerializer(pilgrim , many=False)
+            return Response(serializer.data , status=status.HTTP_200_OK)
+        except Pilgrim.DoesNotExist:
+            return Response({"error":"pilgrim does not exist"},status=status.HTTP_500_BAD_REQUEST)
 
 
 

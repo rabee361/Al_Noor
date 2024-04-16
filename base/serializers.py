@@ -97,7 +97,16 @@ class EmployeeSerializer(serializers.ModelSerializer):
         model = Employee
         fields = '__all__'
         
-
+    def create(self, validated_data):
+        password = validated_data.pop('password')
+        phonenumber = validated_data.pop('phonenumber')
+        first_name = validated_data.get('password')
+        last_name = validated_data.get('last_name')
+        user = CustomUser.objects.create(username=first_name,first_name=first_name,last_name=last_name,phonenumber=phonenumber)
+        user.set_password(password)
+        user.save()
+        employee = Employee.objects.create(user)
+        return employee
 
 
 class ManagementSerializer(serializers.ModelSerializer):
@@ -106,10 +115,26 @@ class ManagementSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+
+
 class PilgrimSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pilgrim
         fields = '__all__'
+    
+    def create(self, validated_data):
+        password = validated_data.pop('password')
+        phonenumber = validated_data.pop('phonenumber')
+        first_name = validated_data.get('password')
+        last_name = validated_data.get('last_name')
+        user = CustomUser.objects.create(username=first_name,first_name=first_name,last_name=last_name,phonenumber=phonenumber)
+        user.set_password(password)
+        user.save()
+        validated_data['user'] = user
+        pilgrim = Pilgrim.objects.create(**validated_data)
+        return pilgrim
+    
+
 
 
 class NotificationSerializer(serializers.ModelSerializer):
