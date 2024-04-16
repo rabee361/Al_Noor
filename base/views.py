@@ -213,7 +213,7 @@ class ListNotifications(GenericAPIView):
 
 
 
-class ListCreateTask(ListCreateAPIView):
+class ListTask(ListAPIView):
     permission_classes = [IsAuthenticated]
     queryset =  Task.objects.all()
     serializer_class = TaskSerializer
@@ -268,6 +268,35 @@ class SendTask(GenericAPIView):
             send_task_notification(employee=employee,title=title,content=content)
             serializer = TaskSerializer(task , many=False)
             return Response(serializer.data , status=status.HTTP_200_OK)
+
+
+
+
+
+
+
+class CompleteStep(GenericAPIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self,request,step_id):
+        try:
+            step = HajSteps.objects.get(id=step_id)
+            pilgrim = Pilgrim.objects.get(user=request.user)
+            if not pilgrim.haj_steps.filter(id=step.id).exists():
+                pilgrim.haj_steps.add(step)
+            else:
+                pilgrim.haj_steps.remove(step)
+
+            serializer = HajStepSerializer(step , many=False)
+            return Response(serializer.data)
+        except:
+            return Response({"error":"لا يوجد عمل بهذا الاسم"})
+            
+
+
+
+
+
 
 
 

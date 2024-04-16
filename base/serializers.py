@@ -211,3 +211,9 @@ class ReligiousCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = ReligiousCategory
         fields = '__all__'
+
+
+class HajStepSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HajSteps
+        fields = '__all__'

@@ -113,6 +113,8 @@ class Pilgrim(models.Model):
     hotel = models.CharField(max_length=100, null=True, blank=True , verbose_name="الفندق")
     hotel_address = models.CharField(max_length=100 , verbose_name="عنوان الفندق") #### link to google maps can be long and lat
     room_num = models.IntegerField(null=True, blank=True , verbose_name="رقم الغرفة")
+    haj_steps = models.ManyToManyField('HajSteps' , blank=True)
+
 
     def __str__(self) -> str:
         return f'{self.id} - {self.id}'
@@ -281,3 +283,19 @@ class ReligiousPost(models.Model):
         ordering = ['-created']
         verbose_name = ("عمل ديني")
         verbose_name_plural = ("أعمال دينية")
+
+
+
+
+class HajSteps(models.Model):
+    name = models.CharField(max_length=50)
+    description = models.TextField()
+    additional_info = models.CharField(max_length=300)
+    
+
+    def __str__(self) -> str:
+        return self.name
+
+    class Meta:
+        verbose_name = ("خطوة")
+        verbose_name_plural = ("خطوات الأعمال الديني")
