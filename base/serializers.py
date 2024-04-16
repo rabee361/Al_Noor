@@ -100,9 +100,9 @@ class EmployeeSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         password = validated_data.pop('password')
         phonenumber = validated_data.pop('phonenumber')
-        first_name = validated_data.get('password')
-        last_name = validated_data.get('last_name')
-        user = CustomUser.objects.create(username=first_name,first_name=first_name,last_name=last_name,phonenumber=phonenumber)
+        username = validated_data.get('username')
+        email = validated_data.get('email')
+        user = CustomUser.objects.create(username=username,email=email,phonenumber=phonenumber)
         user.set_password(password)
         user.save()
         employee = Employee.objects.create(user)
@@ -122,10 +122,10 @@ class PilgrimSerializer(serializers.ModelSerializer):
         model = Pilgrim
         fields = '__all__'
     
-    def create(self, validated_data):
+    def create(self, validated_data):#### needs modification
         password = validated_data.pop('password')
         phonenumber = validated_data.pop('phonenumber')
-        first_name = validated_data.get('password')
+        first_name = validated_data.get('first_name')
         last_name = validated_data.get('last_name')
         user = CustomUser.objects.create(username=first_name,first_name=first_name,last_name=last_name,phonenumber=phonenumber)
         user.set_password(password)
