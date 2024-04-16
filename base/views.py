@@ -139,16 +139,17 @@ class RegisterPilgrim(ListCreateAPIView):
 
 
 
-class ListPilgrims(ListAPIView):
+class ListCreatePilgrim(ListCreateAPIView):
     queryset = Pilgrim.objects.all()
     serializer_class = PilgrimSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = PilgrimFilter
 
 
 
 class GetPilgrim(ListAPIView):
     queryset = Pilgrim.objects.all()
     serializer_class = PilgrimSerializer
-
 
 
 
@@ -177,6 +178,8 @@ class RefreshFirebaseToken(GenericAPIView):
 class ListCreateNote(ListCreateAPIView):
     queryset =  Note.objects.all()
     serializer_class = NoteSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = NoteFilter
 
 
 class RetUpdDesNote(RetrieveUpdateDestroyAPIView):
@@ -311,6 +314,8 @@ class GetChat(RetrieveAPIView):
 class ListCreateEmployee(ListCreateAPIView):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = EmployeeFilter
 
 
 
