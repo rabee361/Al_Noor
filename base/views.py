@@ -236,6 +236,21 @@ class RetUpdDesTask(ListCreateAPIView):
 
 
 
+class CompleteTask(GenericAPIView):
+    queryset =  Task.objects.all()
+    serializer_class = TaskSerializer
+    def post(self,request,task_id):
+        try:
+            task = Task.objects.get(id=task_id)
+            task.completed = True
+            task.save()
+            serializer = TaskSerializer(task , many=True)
+            return Response(serializer.data,status,status.HTTP_200_OK)
+        except Task.DoesNotExist:
+            return Response({"error":"task does not exist"},status=status.HTTP_400_BAD_REQUEST)
+
+
+
 class SendTask(GenericAPIView):
     def post(self,request,pk):
         employee = Employee.objects.get(id=pk)

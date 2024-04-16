@@ -127,7 +127,10 @@ class PilgrimSerializer(serializers.ModelSerializer):
         phonenumber = validated_data.pop('phonenumber')
         first_name = validated_data.get('first_name')
         last_name = validated_data.get('last_name')
-        user = CustomUser.objects.create(username=first_name,first_name=first_name,last_name=last_name,phonenumber=phonenumber)
+        father_name = validated_data.get('father_name')
+        grand_father = validated_data.get('grand_father')
+        full_name = first_name+father_name+grand_father+last_name
+        user = CustomUser.objects.create(username=full_name,first_name=first_name,last_name=last_name,phonenumber=phonenumber)
         user.set_password(password)
         user.save()
         validated_data['user'] = user

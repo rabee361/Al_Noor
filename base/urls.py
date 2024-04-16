@@ -18,6 +18,7 @@ urlpatterns = [
     path('get-note/' , RetUpdDesNote.as_view() , name="get-note"),
     path('list-tasks/' , ListCreateTask.as_view() , name="list-tasks"),
     path('get-task/' , RetUpdDesTask.as_view() , name="get-task"),
+    path('complete-task/' , CompleteTask.as_view() , name="complete-task"),
     path('send-task/<str:pk>/' , SendTask.as_view() , name="send-task"),
     path('list-notifications/' , ListNotifications.as_view() , name="list-notifications"),
     path('send-notification/' , SendNotification.as_view() , name="send-notification"),
