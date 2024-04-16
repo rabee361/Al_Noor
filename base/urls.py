@@ -26,6 +26,7 @@ urlpatterns = [
     path('create-pilgrim/' , ListCreatePilgrim.as_view() , name="create-pilgrim"),
     path('get-pilgrim/' , GetPilgrim.as_view() , name="get-pilgrim"),
     path('complete-step/<str:step_id>/' , CompleteStep.as_view() , name="complete-step"),
+    path('list-steps' , ListHajSteps.as_view() , name="haj-steps"),
     path('religious-categories/' , ListCreateReligiousCategory.as_view() , name="list-religious-categories"),
     path('religious-category/<str:pk>/' , RetUpdDesReligiousCategory.as_view() , name="get-religious-category"),
     path('guidance-categories/' , ListCreateGuidanceCategory.as_view() , name="list-guidance-categories"),

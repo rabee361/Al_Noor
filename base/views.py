@@ -296,6 +296,9 @@ class CompleteStep(GenericAPIView):
 
 
 
+class ListHajSteps(ListAPIView):
+    queryset = HajSteps.objects.all()
+    serializers = HajStepSerializer
 
 
 
