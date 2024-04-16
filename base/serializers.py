@@ -127,15 +127,15 @@ class PilgrimSerializer(serializers.ModelSerializer):
         return instance
 
 
-class InfoFlowSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Pilgrim
-        fields = ['flight_num', 'arrival', 'departure', 'duration', 'borading_time', 'gate_num', 'flight_company', 'company_logo', 'status']
+# class InfoFlowSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Pilgrim
+#         fields = ['flight_num', 'arrival', 'departure', 'duration', 'borading_time', 'gate_num', 'flight_company', 'company_logo', 'status']
 
 
-class InfoHotelSerializer(serializers.ModelSerializer):
-    class Meta:
-        fields = ['hotel', 'hotel_address', 'room_num']
+# class InfoHotelSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         fields = ['hotel', 'hotel_address', 'room_num']
 
         
 class NotificationSerializer(serializers.ModelSerializer):

@@ -344,13 +344,10 @@ class ListCreatePilgrimView(ListCreateAPIView):
 
 class GetUpdateInfoFlowView(GenericAPIView):
     permission_classes = [IsAuthenticated, ]
-    serializer_class = InfoFlowSerializer
+    serializer_class = PilgrimSerializer
     
     def get(self, request):
         user = CustomUser.objects.get(id=request.user.id)
         pilgrim = user.pilgrim_set.all()
         serializer = self.get_serializer(pilgrim, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def put(self, request):
-        pass
