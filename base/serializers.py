@@ -125,6 +125,16 @@ class ManagementSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class AhkamAlmrahSerialzier(serializers.ModelSerializer):
+    class Meta:
+        model = AhkamAlmrah
+        fields = '__all__'
+
+class TypeAhkamAlmrahSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TypeAhkamAlmrah
+        fields = '__all__'
+
 class PilgrimSerializer(serializers.ModelSerializer):
     user = serializers.CharField(source='user.username', read_only=True)
     class Meta:

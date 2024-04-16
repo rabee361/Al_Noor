@@ -82,9 +82,27 @@ class Registration(models.Model):
     type_help = models.TextField(null=True, blank=True, verbose_name="نوع المساعدة")
 
 
+class AhkamAlmrah(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self) -> str:
+        return self.name
+    
+    class Meta:
+        verbose_name = ("أحكام عمرة")
+        verbose_name_plural = ("أحكام العمرة")
+
+class TypeAhkamAlmrah(models.Model):
+    ahkamalmrah = models.ForeignKey(AhkamAlmrah, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50, verbose_name=('اسم'))
+    description = models.TextField(verbose_name='وصف')
+
+    def __str__(self) -> str:
+        return f'{self.ahkamalmrah.name}-{self.name}'
 
 class Pilgrim(models.Model):
     user = models.ForeignKey(CustomUser , on_delete=models.CASCADE , verbose_name="المستخدم")
+    ahkamalmrah = models.ManyToManyField(AhkamAlmrah)
     registeration_id = models.CharField(max_length=50 , verbose_name="رقم الهوية")
     first_name = models.CharField(max_length=50 , verbose_name="الاسم الأول")
     father_name = models.CharField(max_length=50 , verbose_name="اسم الأب")

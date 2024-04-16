@@ -342,6 +342,19 @@ class ListCreatePilgrimView(ListCreateAPIView):
     serializer_class = PilgrimSerializer
     # permission_classes = [IsAuthenticated,]
 
+class ListAhkamAlmrahVeiw(ListAPIView):
+    queryset = AhkamAlmrah.objects.all()
+    serializer_class = AhkamAlmrahSerialzier
+
+class TypeAhkamAlmrahListView(GenericAPIView):
+    serializer_class = TypeAhkamAlmrahSerializer
+
+    def get(self, request, pk):
+        ahkamalmrah = AhkamAlmrah.objects.get(id=pk)
+        type_ahkam = ahkamalmrah.typeahkamalmrah_set.all()
+        serializer = self.get_serializer(type_ahkam, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 class GetUpdateInfoFlowView(GenericAPIView):
     permission_classes = [IsAuthenticated, ]
     serializer_class = PilgrimSerializer

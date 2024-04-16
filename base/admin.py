@@ -119,3 +119,6 @@ admin.site.register(ReligiousPost,ReligiousPostAdmin)
 admin.site.register(ReligiousCategory,ReligiousCategoryAdmin)
 admin.site.register(GuidanceCategory,GuidanceCategoryAdmin)
 admin.site.register(VerificationCode)
+
+admin.site.register(TypeAhkamAlmrah)
+admin.site.register(AhkamAlmrah)
