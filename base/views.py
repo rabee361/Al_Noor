@@ -378,8 +378,6 @@ class ListCreateEmployee(ListCreateAPIView):
     filterset_class = EmployeeFilter
 
 
-
-
 class ListCreateGuidancePost(ListCreateAPIView):
     queryset = GuidancePost.objects.all()
     serializer_class = GuidancePostSerializer

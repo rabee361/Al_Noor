@@ -55,7 +55,7 @@ class PilgrimAdmin(ImportExportModelAdmin):
 
 
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ['id','first_name','last_name']
+    list_display = ['id','username','first_name','last_name']
 
     def first_name(self, obj):
         return obj.user.first_name
@@ -65,6 +65,9 @@ class EmployeeAdmin(admin.ModelAdmin):
 
     def phonenumber(self, obj):
         return obj.user.phonenumber
+
+    def username(self, obj):
+        return obj.user.username
 
 
 

@@ -93,19 +93,25 @@ class NoteSerializer(serializers.ModelSerializer):
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(write_only=True)
+    phonenumber = serializers.CharField(write_only=True)
+    email = serializers.EmailField(write_only=True)
+    password = serializers.CharField(write_only=True)
+    user = serializers.CharField(source='user.username', read_only=True)
     class Meta:
         model = Employee
         fields = '__all__'
         
-    def create(self, validated_data):
-        password = validated_data.pop('password')
-        phonenumber = validated_data.pop('phonenumber')
-        username = validated_data.get('username')
+    def create(self, validated_data):#### needs modification
+        password = validated_data.get('password')
+        phonenumber = validated_data.get('phonenumber')
         email = validated_data.get('email')
+        username = validated_data.get('username')
         user = CustomUser.objects.create(username=username,email=email,phonenumber=phonenumber)
         user.set_password(password)
         user.save()
-        employee = Employee.objects.create(user)
+        validated_data['user'] = user
+        employee = Employee.objects.create(user=user)
         return employee
 
 
@@ -118,11 +124,12 @@ class ManagementSerializer(serializers.ModelSerializer):
 
 
 class PilgrimSerializer(serializers.ModelSerializer):
+    user = serializers.CharField(source='user.username', read_only=True)
     class Meta:
         model = Pilgrim
         fields = '__all__'
-    
-    def create(self, validated_data):#### needs modification
+
+    def create(self, validated_data):
         password = validated_data.pop('password')
         phonenumber = validated_data.pop('phonenumber')
         first_name = validated_data.get('first_name')
