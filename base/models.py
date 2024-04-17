@@ -102,7 +102,7 @@ class TypeAhkamAlmrah(models.Model):
 
 class Pilgrim(models.Model):
     user = models.ForeignKey(CustomUser , on_delete=models.CASCADE , verbose_name="المستخدم")
-    ahkamalmrah = models.ManyToManyField(AhkamAlmrah)
+    ahkamalmrah = models.ManyToManyField(AhkamAlmrah, blank=True)
     registeration_id = models.CharField(max_length=50 , verbose_name="رقم الهوية")
     first_name = models.CharField(max_length=50 , verbose_name="الاسم الأول")
     father_name = models.CharField(max_length=50 , verbose_name="اسم الأب")

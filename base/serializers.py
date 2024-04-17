@@ -137,22 +137,37 @@ class TypeAhkamAlmrahSerializer(serializers.ModelSerializer):
 
 class PilgrimSerializer(serializers.ModelSerializer):
     user = serializers.CharField(source='user.username', read_only=True)
-    # ahkamalmrah = AhkamAlmrahSerialzier(read_only=True)
     class Meta:
         model = Pilgrim
         # fields = '__all__'
         exclude = ['ahkamalmrah',]
 
-    def create(self, validated_data):
-        first_name = validated_data.pop('first_name')
-        last_name = validated_data.pop('last_name')
+    # def create(self, validated_data):
+    #     first_name = validated_data.pop('first_name')
+    #     last_name = validated_data.pop('last_name')
+    #     phonenumber = validated_data.pop('phonenumber')
+    #     password = generate_password()
+    #     user = CustomUser.objects.create(phonenumber=phonenumber, username=f'{first_name} {last_name}')
+    #     user.set_password(password)
+    #     user.save()
+    #     instance = Pilgrim.objects.create(user=user, first_name=first_name, last_name=last_name,phonenumber=phonenumber, **validated_data)
+    #     return instance
+
+    def create(self, validated_data):#### needs modification 
         phonenumber = validated_data.pop('phonenumber')
+        first_name = validated_data.get('first_name')
+        last_name = validated_data.get('last_name')
+        father_name = validated_data.get('father_name')
+        grand_father = validated_data.get('grand_father')
+        full_name = first_name+' '+father_name+' '+grand_father+' '+last_name
+        user = CustomUser.objects.create(username=full_name,first_name=first_name,last_name=last_name,phonenumber=phonenumber)
         password = generate_password()
-        user = CustomUser.objects.create(phonenumber=phonenumber, username=f'{first_name} {last_name}')
         user.set_password(password)
         user.save()
-        instance = Pilgrim.objects.create(user=user, first_name=first_name, last_name=last_name,phonenumber=phonenumber, **validated_data)
-        return instance
+        validated_data['user'] = user
+        pilgrim = Pilgrim.objects.create(phonenumber=phonenumber, **validated_data)
+        return pilgrim
+
 
 
 # class InfoFlowSerializer(serializers.ModelSerializer):
