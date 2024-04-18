@@ -169,6 +169,7 @@ class UserNotification(models.Model):
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE , verbose_name="المستخدم")
     title = models.CharField(max_length=50 , verbose_name="العنوان")
     content = models.CharField(max_length=200 , verbose_name="المحتوى")
+    info = models.CharField(max_length=200 , null=True , blank=True , verbose_name="معلومات اضافية")
     created = models.DateTimeField(auto_now_add=True , verbose_name="التاريخ")
 
     def __str__(self) -> str:

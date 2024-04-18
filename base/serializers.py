@@ -93,15 +93,23 @@ class NoteSerializer(serializers.ModelSerializer):
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
+    phonenumber = serializers.SerializerMethodField(read_only=True)
+    class Meta:
+        model = Employee
+        fields = '__all__'
+
+    def get_phonenumber(self,obj):
+        return obj.user.phonenumber.as_international
+        
+
+
+
+class CreateEmployeeSerializer(serializers.Serializer):
     username = serializers.CharField(write_only=True)
     phonenumber = serializers.CharField(write_only=True)
     email = serializers.EmailField(write_only=True)
     password = serializers.CharField(write_only=True)
-    user = serializers.CharField(source='user.username', read_only=True)
-    class Meta:
-        model = Employee
-        fields = '__all__'
-        
+
     def create(self, validated_data):#### needs modification
         password = validated_data.get('password')
         phonenumber = validated_data.get('phonenumber')
@@ -113,6 +121,9 @@ class EmployeeSerializer(serializers.ModelSerializer):
         validated_data['user'] = user
         employee = Employee.objects.create(user=user)
         return employee
+
+
+
 
 
 class ManagementSerializer(serializers.ModelSerializer):

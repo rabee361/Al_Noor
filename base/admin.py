@@ -55,13 +55,10 @@ class PilgrimAdmin(ImportExportModelAdmin):
 
 
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ['id','username','first_name','last_name']
+    list_display = ['id','username','phonenumber' , 'email']
 
-    def first_name(self, obj):
-        return obj.user.first_name
-
-    def last_name(self, obj):
-        return obj.user.last_name
+    def email(self, obj):
+        return obj.user.email
 
     def phonenumber(self, obj):
         return obj.user.phonenumber
@@ -69,33 +66,34 @@ class EmployeeAdmin(admin.ModelAdmin):
     def username(self, obj):
         return obj.user.username
 
-
+    def email(self, obj):
+        return obj.user.email
+    
 
 class GuideAdmin(admin.ModelAdmin):
-    list_display = ['id','first_name','last_name']
-
-    def first_name(self, obj):
-        return obj.user.first_name
-
-    def last_name(self, obj):
-        return obj.user.last_name
+    list_display = ['id','username','phonenumber', 'email']
 
     def phonenumber(self, obj):
         return obj.user.phonenumber
 
+    def email(self, obj):
+        return obj.user.email
+
+    def username(self, obj):
+        return obj.user.username
 
 
 class ManagementAdmin(admin.ModelAdmin):
-    list_display = ['id','first_name','last_name']
-
-    def first_name(self, obj):
-        return obj.user.first_name
-
-    def last_name(self, obj):
-        return obj.user.last_name
+    list_display = ['id','username','phonenumber' , 'email']
 
     def phonenumber(self, obj):
         return obj.user.phonenumber
+
+    def email(self, obj):
+        return obj.user.email
+
+    def username(self, obj):
+        return obj.user.username
 
 
 class UserNotificationAdmin(admin.ModelAdmin):
@@ -111,7 +109,7 @@ class TaskAdmin(admin.ModelAdmin):
 
 
 class ChatAdmin(admin.ModelAdmin):
-    list_display = ['id','user','created']
+    list_display = ['id','user','created','created']
 
 
 class ChatMessageAdmin(admin.ModelAdmin):

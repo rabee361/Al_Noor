@@ -7,11 +7,12 @@ from .models import *
 from .filters import *
 from .notifications import *
 from .resources import *
+from .permissions import *
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.generics import RetrieveUpdateDestroyAPIView , ListAPIView , UpdateAPIView, RetrieveAPIView , ListCreateAPIView , GenericAPIView
+from rest_framework.generics import RetrieveUpdateDestroyAPIView , ListAPIView  , CreateAPIView, UpdateAPIView, RetrieveAPIView , ListCreateAPIView , GenericAPIView
 from .utils import get_response
 from rest_framework import status
 from datetime import datetime
@@ -357,6 +358,7 @@ class Calender(GenericAPIView):
 class ListChats(ListCreateAPIView):
     querset = Chat.objects.all()
     serializer_class = ChatSerializer
+    permission_clasess = [IsGuide , IsAuthenticated]
 
     def get_queryset(self):
         chats = Chat.objects.annotate(latest_message_timestamp=Max('chatmessage__timestamp'))
@@ -376,6 +378,12 @@ class ListCreateEmployee(ListCreateAPIView):
     serializer_class = EmployeeSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = EmployeeFilter
+
+
+class CreateEmployee(CreateAPIView):
+    queryset = Employee.objects.all()
+    serializer_class = CreateEmployeeSerializer 
+   
 
 
 class ListCreateGuidancePost(ListCreateAPIView):
