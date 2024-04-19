@@ -14,24 +14,24 @@
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title text-center">Total Customers</h5>
-                        <p class="card-text text-center">{{ total_customers }}</p> 
+                        <h5 class="card-title text-center">Total Pilgrims</h5>
+                        <p class="card-text text-center">{{ total_pilgrims }}</p> 
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title text-center">Total Providers</h5>
-                        <p class="card-text text-center">{{ total_providers }}</p>                   
+                        <h5 class="card-title text-center">Total Employees</h5>
+                        <p class="card-text text-center">{{ total_employees }}</p>                   
                      </div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title text-center">Subscribed Providers</h5>
-                        <p class="card-text text-center">{{ total_subscribed_providers }}</p>
+                        <h5 class="card-title text-center">Total Guides</h5>
+                        <p class="card-text text-center">{{ total_guides }}</p>
                     </div>
                 </div>
             </div>
@@ -46,14 +46,14 @@
 
                 <thead class="">
                     <tr>
-                        <th>Customer Name</th>
+                        <th>Pilgrim Name</th>
                         <th>Ordered Services</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for customer in most_user_ordered_services %}
                     <tr>
-                        <td>{{ customer.name }}</td>
+                        <td>{{ pilgrim.name }}</td>
                         <td>{{ customer.order_count }}</td>
                     </tr>
                     {% endfor %}

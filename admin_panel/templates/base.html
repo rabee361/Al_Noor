@@ -48,53 +48,59 @@
         <li class="{% block main_dashboard %}{% endblock %}">
             <a href="{% url "main_dashboard" %}">
                   <i class="now-ui-icons design_app"></i>
-                <p class="">Dashboard</p>
+                <p class="h4">اللوحة الرئيسية</p>
             </a>
            <li class="text-center mr-2 mt-2 mb-2 ml-2"> 
             <div class="border rounded  bg-primary text-white h6 text-center w-100">
               Users
             </div>
           </li>
-        <li class="{% block admins %}{% endblock %}">
-            <a class="" href="{% url "admin_list" %}">
-              <i class="now-ui-icons users_circle-08"></i> 
-                <p class="">Admins</p>
-            </a>
-          </li>
-        </li>
-        <li class="{% block customers %}{% endblock %}">
-          <a class="" href="{% url "customer_list" %}">
 
-                <i class="now-ui-icons users_single-02"></i>
-              <p class="">Customers</p>
-          </a>
         </li>
-
-        <li class="{% block providers %}{% endblock %}">
-          <a class="" href="{% url "provider_list" %}">
-
-                <i class="now-ui-icons business_bank"></i>
-              <p class="">Providers</p>
-          </a>
-        </li>
-        <li class="{% block provider_details  %}{% endblock %}">
-          <a class="" href="{% url "store_list" %}">
+        
+        <li class="{% block managers  %}{% endblock %}">
+          <a class="" href="{% url "managers_list" %}">
             
                 <i class="now-ui-icons shopping_shop"></i>
-              <p class="">Providers Details</p>
+              <p class="h4">الإدارة</p>
           </a>
         </li>
+
+        <li class="{% block employees %}{% endblock %}">
+          <a class="" href="{% url "employees_list" %}">
+            <i class="now-ui-icons users_circle-08"></i> 
+              <p class="h4">الموظفين</p>
+          </a>
+        </li>
+
+        <li class="{% block pilgrims %}{% endblock %}">
+          <a class="" href="{% url "pilgrims_list" %}">
+
+                <i class="now-ui-icons users_single-02"></i>
+              <p class="h4">الحجاج</p>
+          </a>
+        </li>
+
+        <li class="{% block guides %}{% endblock %}">
+          <a class="" href="{% url "guides_list" %}">
+
+                <i class="now-ui-icons business_bank"></i>
+              <p class="h4">المرشدين</p>
+          </a>
+        </li>
+
         <li class="text-center mt-2 mb-2 mr-2 ml-2"> 
           <div class="border rounded  bg-primary text-white h6 text-center w-100">
             Category
           </div>
         </li>
+
         <li class="{% block categories %}{% endblock %}">
           <a href="{% url "category_list" %}">
 
                   <i class="now-ui-icons design_bullet-list-67 "></i>
 
-                <p class="">Categories</p>
+                <p class="h4">Categories</p>
             </a>
         </li>
         <li class="{% block main_service %}{% endblock %}">
@@ -102,7 +108,7 @@
 
                   <i class="now-ui-icons design_vector"></i>
 
-                <p class="">Main-Services</p>
+                <p class="h4">Main-Services</p>
             </a>
         </li>
         <li class="text-center mt-2 mb-2 mr-2 ml-2"> 
@@ -115,7 +121,7 @@
 
                   <i class="now-ui-icons objects_key-25"></i>
 
-                <p class="">Provider Subscriptions</p>
+                <p class="h4">Provider Subscriptions</p>
             </a>
         </li>
 
@@ -124,7 +130,7 @@
 
                 <i class="now-ui-icons education_paper"></i>
 
-              <p class="">Promotion Subscriptions</p>
+              <p class="h4">Promotion Subscriptions</p>
           </a>
       </li>
       </ul>

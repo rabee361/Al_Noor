@@ -72,23 +72,23 @@ JAZZMIN_UI_TWEAKS = {
     "footer_small_text": False,
     "body_small_text": False,
     "brand_small_text": False,
-    "brand_colour": "navbar-warning",
+    "brand_colour": False,
     "accent": "accent-warning",
     "navbar": "navbar-dark",
     "no_navbar_border": False,
-    "navbar_fixed": True,
+    "navbar_fixed": False,
     "layout_boxed": False,
     "footer_fixed": False,
-    "sidebar_fixed": True,
-    "sidebar": "sidebar-dark-lime",
+    "sidebar_fixed": False,
+    "sidebar": "sidebar-dark-primary",
     "sidebar_nav_small_text": False,
     "sidebar_disable_expand": False,
     "sidebar_nav_child_indent": False,
     "sidebar_nav_compact_style": False,
-    "sidebar_nav_legacy_style": True,
+    "sidebar_nav_legacy_style": False,
     "sidebar_nav_flat_style": False,
-    "theme": "solar",
-    "dark_mode_theme": "cyborg",
+    "theme": "darkly",
+    "dark_mode_theme": "darkly",
     "button_classes": {
         "primary": "btn-primary",
         "secondary": "btn-secondary",
@@ -96,8 +96,7 @@ JAZZMIN_UI_TWEAKS = {
         "warning": "btn-warning",
         "danger": "btn-danger",
         "success": "btn-success"
-    },
-    "actions_sticky_top": False
+    }
 }
 
 MIDDLEWARE = [
