@@ -1,6 +1,6 @@
 from fcm_django.models import FCMDevice
 from firebase_admin.messaging import Message, Notification
-from .models import UserNotification , CustomUser
+from .models import UserNotification , CustomUser , Pilgrim
 
 
 def send_task_notification(employee,title,content):
@@ -20,4 +20,6 @@ def send_task_notification(employee,title,content):
 
 
 def send_event_notification(users,title,content):
-    pass
+    pilgrims = Pilgrim.objects.values_list('user')
+    users = CustomUser.objects.filter(id__in = pilgrims)
+
