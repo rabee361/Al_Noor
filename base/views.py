@@ -323,17 +323,20 @@ class ListHajSteps(ListAPIView):
 
 class SendNotification(GenericAPIView):
     def post(self,request):
-        users = CustomUser.objects.filter()
-        if title is None or content is None:
-            title = request.data.get('title',None)
-            content = request.data.get('content',None)
-            send_event_notification(title=title,content=content)
-            return Response({
-                "message":"تم ارسال الاشعار"
-            })
+        pilgrims = Pilgrim.objects.values_list('user',flat=True)
+        users = CustomUser.objects.filter(id__in = pilgrims)
+        title = request.data.get('title',None)
+        content = request.data.get('content',None)
+        if pilgrims is not None:
+            if title is None or content is None:
+                # send_event_notification(users=users,title=title,content=content)
+                return Response({
+                    "message":"تم ارسال الاشعار"
+                })
+            else:
+                return Response({"error":"العنوان أو المحتوى فارغ"})
         else:
-            return Response({"error":"العنوان أو المحتوى فارغ"})
-
+            return Response({"error":"لا يوجد حجاج"})
 
 class Calender(GenericAPIView):
     def post(self,request):
