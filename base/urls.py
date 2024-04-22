@@ -38,6 +38,5 @@ urlpatterns = [
     path('guidance-posts/' , ListCreateGuidancePost.as_view() , name="list-guidance-posts"),
     path('guidance-post/<str:pk>/' , RetUpdDesGuidancePost.as_view() , name="get-guidance-post"),
     path('employee/' , ListCreateEmployee.as_view() , name="create"),
-    path('export/pilgrim/', export_pilgram, name='export_pilgrim'),
     
 ]

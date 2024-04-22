@@ -45,7 +45,7 @@ class CustomUserAdmin(admin.ModelAdmin):
 
 class RegistrationAdmin(ImportExportModelAdmin):
     resource_class = RegistrationResource
-    list_display = ['id']
+    list_display = ['id','first_name','last_name','phonenumber']
 
 
 ### needs modification

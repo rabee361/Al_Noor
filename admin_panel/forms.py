@@ -16,3 +16,13 @@ class NewUser(UserCreationForm):
         model = CustomUser
         fields = ("username","phonenumber","email","password1","password2")
         
+    def clean(self):
+        cleaned_data = super().clean()
+        phonenumber = cleaned_data.get('phonenumber')
+        if phonenumber and not phonenumber.isdigit():
+            self.add_error('phonenumber', 'رقم الهاتف يجب أن يكون أرقام فقط.')
+
+        password1 = cleaned_data.get('password1')
+        password2 = cleaned_data.get('password2')
+        if password1 and password2 and password1 != password2:
+            self.add_error('password2', 'كلمات المرور المرور غير متطابقة.')

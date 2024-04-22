@@ -36,5 +36,6 @@ urlpatterns = [
     path('promotion-subscription-list/' ,  PromotionSubscriptionListView.as_view(), name="promotion-subscription-list"),
     path('login/' , LoginView.as_view() , name="login"),
     path('hi/' , HiView.as_view() , name="hi"),
-    
+    path('pilgrim/export', export_pilgram, name='export_pilgrim'),
+    path('pilgrim/import', import_pilgrim, name='import_pilgrim'),
 ]

@@ -2,6 +2,7 @@ from typing import Any
 from django.shortcuts import render , HttpResponse , redirect
 from django.views.generic import TemplateView
 from base.models import *
+from base.resources import PilgrimResource
 from .forms import NewUser
 
 
@@ -217,3 +218,15 @@ class SubscriptionListView(TemplateView):
 
 class PromotionSubscriptionListView(TemplateView):
     template_name = 'promotion-subscription-list.html'
+
+
+def export_pilgram(request):
+    pilgrim_resource = PilgrimResource()
+    dataset = pilgrim_resource.export()
+    response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="pilgrims.xlsx"'
+    return response
+
+
+def import_pilgrim(request):
+    pass

@@ -440,9 +440,3 @@ class RetUpdDesReligiousCategory(RetrieveUpdateDestroyAPIView):
 
 
 
-def export_pilgram(request):
-    pilgrim_resource = PilgrimResource()
-    dataset = pilgrim_resource.export()
-    response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = 'attachment; filename="pilgrims.xlsx"'
-    return response
