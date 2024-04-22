@@ -57,5 +57,5 @@ class NoteFilter(django_filters.FilterSet):
     guide_name = django_filters.CharFilter(field_name='guide__user__username', lookup_expr='startswith')
 
     class Meta:
-        model = Pilgrim
+        model = Note
         fields = ['pilgrim_name','guide_name']

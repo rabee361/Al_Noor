@@ -135,10 +135,22 @@ class ManagementSerializer(serializers.ModelSerializer):
 
 
 class PilgrimSerializer(serializers.ModelSerializer):
-    user = serializers.CharField(source='user.username', read_only=True)
+    phonenumber = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Pilgrim
         fields = '__all__'
+
+    def get_phonenumber(self,obj):
+        return obj.phonenumber.as_international
+        
+
+
+
+class CreatePilgrimSerializer(serializers.Serializer):
+    username = serializers.CharField(write_only=True)
+    phonenumber = serializers.CharField(write_only=True)
+    email = serializers.EmailField(write_only=True)
+    password = serializers.CharField(write_only=True)
 
     def create(self, validated_data):
         password = validated_data.pop('password')

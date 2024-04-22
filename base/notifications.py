@@ -21,5 +21,6 @@ def send_task_notification(employee,title,content):
 
 def send_event_notification(users,title,content):
     pilgrims = Pilgrim.objects.values_list('user')
-    users = CustomUser.objects.filter(id__in = pilgrims)
+    users = CustomUser.objects.filter(user__in=pilgrims)
+    
 

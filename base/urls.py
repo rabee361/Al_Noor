@@ -18,7 +18,7 @@ urlpatterns = [
     path('get-note/' , RetUpdDesNote.as_view() , name="get-note"),
     path('list-tasks/' , ListTask.as_view() , name="list-tasks"),
     path('get-task/' , RetUpdDesTask.as_view() , name="get-task"),
-    path('complete-task/' , CompleteTask.as_view() , name="complete-task"),
+    path('complete-task/<str:task_id>' , CompleteTask.as_view() , name="complete-task"),
     path('send-task/<str:pk>/' , SendTask.as_view() , name="send-task"),
     path('list-notifications/' , ListNotifications.as_view() , name="list-notifications"),
     path('send-notification/' , SendNotification.as_view() , name="send-notification"),
@@ -28,7 +28,7 @@ urlpatterns = [
     path('create-employee/' , CreateEmployee.as_view() , name="create-employee"),
     path('list-employees/' , ListCreateEmployee.as_view() , name="list-employees"),
     path('complete-step/<str:step_id>/' , CompleteStep.as_view() , name="complete-step"),
-    path('list-steps' , ListHajSteps.as_view() , name="haj-steps"),
+    path('list-steps/' , ListHajSteps.as_view() , name="haj-steps"),
     path('religious-categories/' , ListCreateReligiousCategory.as_view() , name="list-religious-categories"),
     path('religious-category/<str:pk>/' , RetUpdDesReligiousCategory.as_view() , name="get-religious-category"),
     path('guidance-categories/' , ListCreateGuidanceCategory.as_view() , name="list-guidance-categories"),
@@ -37,6 +37,5 @@ urlpatterns = [
     path('religious-post/<str:pk>/' , RetUpdDesReligiousPost.as_view() , name="get-religious-post"),
     path('guidance-posts/' , ListCreateGuidancePost.as_view() , name="list-guidance-posts"),
     path('guidance-post/<str:pk>/' , RetUpdDesGuidancePost.as_view() , name="get-guidance-post"),
-    path('employee/' , ListCreateEmployee.as_view() , name="create"),
     
 ]

@@ -5,9 +5,9 @@ from django.http import HttpResponse
 from .serializers import *
 from .models import *
 from .filters import *
-from .notifications import *
 from .resources import *
 from .permissions import *
+from .notifications import *
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
@@ -159,7 +159,7 @@ class GetPilgrim(GenericAPIView):
 
 
 class PilgrimInfo(GenericAPIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def get(self,request):
         user = request.user
@@ -195,7 +195,7 @@ class RefreshFirebaseToken(GenericAPIView):
 
 ###### might meed modification to send the pilgrim id in the header
 class ListCreateNote(ListCreateAPIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     queryset =  Note.objects.all()
     serializer_class = NoteSerializer
     filter_backends = [DjangoFilterBackend]
@@ -203,26 +203,27 @@ class ListCreateNote(ListCreateAPIView):
 
 
 class RetUpdDesNote(RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     queryset =  Note.objects.all()
     serializer_class = NoteSerializer
 
 
 ##### needs modification to send more info in the notification body
-class ListNotifications(GenericAPIView):
+class ListNotifications(ListAPIView):
     # permission_classes = [IsAuthenticated]
+    queryset =  UserNotification.objects.all()
+    serializer_class = NotificationSerializer
 
-    def get(self, request):
-        user = request.user
-        notification = UserNotification.objects.filter(user__id=user.id)
-        serializer = NotificationSerializer(notification, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    def get_queryset(self):
+        user = self.request.user
+        notifications = UserNotification.objects.filter(user__id=user.id)
+        return notifications
         
 
 
 
 class ListTask(ListAPIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     queryset =  Task.objects.all()
     serializer_class = TaskSerializer
     filter_backends = [DjangoFilterBackend]
@@ -255,15 +256,17 @@ class CompleteTask(GenericAPIView):
             task = Task.objects.get(id=task_id)
             task.completed = True
             task.save()
-            serializer = TaskSerializer(task , many=True)
-            return Response(serializer.data,status,status.HTTP_200_OK)
+            serializer = TaskSerializer(task , many=False)
+            return Response(serializer.data,status=status.HTTP_200_OK)
         except Task.DoesNotExist:
             return Response({"error":"لا يوجد مهمة بهذا الرقم"},status=status.HTTP_400_BAD_REQUEST)
 
 
 
 class SendTask(GenericAPIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
+    queryset =  Task.objects.all()
+    serializer_class = TaskSerializer
 
     def post(self,request,pk):
         employee = Employee.objects.get(id=pk)
@@ -371,22 +374,24 @@ class Calender(GenericAPIView):
 class ListChats(ListCreateAPIView):
     querset = Chat.objects.all()
     serializer_class = ChatSerializer
-    permission_clasess = [IsGuide , IsAuthenticated]
+    # permission_clasess = [IsGuide , IsAuthenticated]
 
     def get_queryset(self):
         chats = Chat.objects.annotate(latest_message_timestamp=Max('chatmessage__timestamp'))
         chats = chats.order_by('-latest_message_timestamp')
         return chats
-    
+
 
 
 class GetChat(RetrieveAPIView):
+    # permission_clasess = [IsAuthenticated]
     queryset = Chat.objects.all()
     serializer_class = ChatSerializer
 
 
 
 class ListCreateEmployee(ListCreateAPIView):
+    # permission_clasess = [IsAuthenticated]
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
     filter_backends = [DjangoFilterBackend]
@@ -394,47 +399,56 @@ class ListCreateEmployee(ListCreateAPIView):
 
 
 class CreateEmployee(CreateAPIView):
+    # permission_clasess = [IsAuthenticated]
     queryset = Employee.objects.all()
     serializer_class = CreateEmployeeSerializer 
    
 
 
 class ListCreateGuidancePost(ListCreateAPIView):
+    # permission_clasess = [IsAuthenticated]
     queryset = GuidancePost.objects.all()
     serializer_class = GuidancePostSerializer
 
 
 class RetUpdDesGuidancePost(RetrieveUpdateDestroyAPIView):
+    # permission_clasess = [IsAuthenticated]
     queryset = GuidancePost.objects.all()
     serializer_class = GuidancePostSerializer
 
 
 class ListCreateReligiousPost(ListCreateAPIView):
+    # permission_clasess = [IsAuthenticated]
     queryset = ReligiousPost.objects.all()
     serializer_class = ReligiousPostSerializer
 
 
 class RetUpdDesReligiousPost(RetrieveUpdateDestroyAPIView):
+    # permission_clasess = [IsAuthenticated]
     queryset = ReligiousPost.objects.all()
     serializer_class = ReligiousPostSerializer
 
 
 class ListCreateGuidanceCategory(ListCreateAPIView):
+    # permission_clasess = [IsAuthenticated]
     queryset = GuidanceCategory.objects.all()
     serializer_class = GuidanceCategorySerializer
 
 
 class RetUpdDesGuidanceCategory(RetrieveUpdateDestroyAPIView):
+    # permission_clasess = [IsAuthenticated]
     queryset = GuidanceCategory.objects.all()
     serializer_class = GuidanceCategorySerializer
 
 
 class ListCreateReligiousCategory(ListCreateAPIView):
+    # permission_clasess = [IsAuthenticated]
     queryset = ReligiousCategory.objects.all()
     serializer_class = ReligiousCategorySerializer
 
 
 class RetUpdDesReligiousCategory(RetrieveUpdateDestroyAPIView):
+    # permission_clasess = [IsAuthenticated]
     queryset = ReligiousCategory.objects.all()
     serializer_class = ReligiousCategorySerializer
 
