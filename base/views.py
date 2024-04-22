@@ -152,7 +152,7 @@ class ListCreatePilgrim(ListAPIView):
 
 
 
-class GetPilgrim(GenericAPIView):
+class GetPilgrim(RetrieveUpdateDestroyAPIView):
     # permission_classes = [IsAuthenticated]
     queryset = Pilgrim.objects.all()
     serializer_class = PilgrimSerializer
@@ -239,7 +239,7 @@ class ListTask(ListAPIView):
 
 
 
-class RetUpdDesTask(ListCreateAPIView):
+class RetUpdDesTask(RetrieveUpdateDestroyAPIView):
     # permission_classes = [IsAuthenticated]
     queryset =  Task.objects.all()
     serializer_class = TaskSerializer
