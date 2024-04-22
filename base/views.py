@@ -143,7 +143,7 @@ class RegisterPilgrim(ListCreateAPIView):
 
 
 
-class ListCreatePilgrim(ListCreateAPIView):
+class ListCreatePilgrim(ListAPIView):
     # permission_classes = [IsAuthenticated]
     queryset = Pilgrim.objects.all()
     serializer_class = PilgrimSerializer
@@ -221,7 +221,7 @@ class ListNotifications(ListAPIView):
         
 
 
-
+######## show all tasks or employee's tasks ????? asap
 class ListTask(ListAPIView):
     permission_classes = [IsAuthenticated]
     queryset =  Task.objects.all()
