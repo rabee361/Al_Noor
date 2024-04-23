@@ -1,7 +1,7 @@
 from import_export import resources
 from .models import *
 from import_export.fields import Field 
-from import_export.widgets import ForeignKeyWidget 
+from import_export.widgets import ForeignKeyWidget  , BooleanWidget
 from .utils import generate_password
 
 # class PilgrimResource(resources.ModelResource):
@@ -12,6 +12,13 @@ from .utils import generate_password
 
     # def get_import_id_fields(self):
     #     return ['name']
+
+
+class YesNoBooleanWidget(BooleanWidget):
+    def render(self, value, obj=None):
+        if value:
+            return 'نعم'
+        return 'لا'
 
 
 class PilgrimResource(resources.ModelResource):
@@ -115,6 +122,10 @@ class PilgrimResource(resources.ModelResource):
             instance.save()
         return True
 
+
+
+
+
 class RegistrationResource(resources.ModelResource):
     phonenumber = Field(
         column_name='رقم الجوال',
@@ -191,6 +202,7 @@ class RegistrationResource(resources.ModelResource):
     illness = Field(
         column_name='هل لديك أمراض مزمنة',
         attribute='illness',
+        widget=YesNoBooleanWidget(),
     )
     chronic_diseases = Field(
         column_name='هل لديك أمراض مزمنة',
@@ -199,14 +211,17 @@ class RegistrationResource(resources.ModelResource):
     tawaf = Field(
         column_name='هل تحتاج لمن يساعدك خلال الطواف',
         attribute='tawaf',
+        widget=YesNoBooleanWidget(),
     )
     sai = Field(
         column_name='هل تحتاج لمن يساعدك خلال السعي',
         attribute='sai',
+        widget=YesNoBooleanWidget(),
     )
     wheelchair = Field(
         column_name='هل تحتاج إلى كرسي متحرك',
         attribute='wheelchair',
+        widget=YesNoBooleanWidget(),
     )
     type_help = Field(
         column_name='يمكنك كتابة المساعدة المطلوبة',
