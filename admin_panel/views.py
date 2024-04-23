@@ -219,6 +219,15 @@ class SubscriptionListView(TemplateView):
 class PromotionSubscriptionListView(TemplateView):
     template_name = 'promotion-subscription-list.html'
 
+class DashboardView(TemplateView):
+    template_name = 'base.html'
+
+class PromotionSubscriptionListView(TemplateView):
+    template_name = 'promotion-subscription-list.html'
+
+class PromotionSubscriptionListView(TemplateView):
+    template_name = 'promotion-subscription-list.html'
+
 
 def export_pilgram(request):
     pilgrim_resource = PilgrimResource()
