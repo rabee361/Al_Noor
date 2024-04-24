@@ -137,7 +137,7 @@ class SecondaryStepsAdmin(admin.ModelAdmin):
 
 
 class HajStepsAdmin(admin.ModelAdmin):
-    list_display = ['name','description','additional_info','display_secondary_steps']
+    list_display = ['name','display_secondary_steps']
 
     def display_secondary_steps(self, obj):
         return ', '.join([step.name for step in obj.secondary_steps.all()])

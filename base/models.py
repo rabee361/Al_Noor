@@ -155,6 +155,7 @@ class Task(models.Model):
     content = models.CharField(max_length=100, verbose_name="المحتوى")
     created = models.DateTimeField(auto_now_add=True, verbose_name="التاريخ")
     completed = models.BooleanField(default=False, verbose_name="اكتملت")
+    accepted = models.BooleanField(default=False, verbose_name="تم قبولها")
 
     def __str__(self) -> str:
         return f'{self.employee.user.username} : {self.title}'
@@ -306,8 +307,6 @@ class SecondarySteps(models.Model):
 
 class HajSteps(models.Model):
     name = models.CharField(max_length=50 , verbose_name="الخطوة")
-    description = models.TextField(verbose_name="الوصف")
-    additional_info = models.CharField(max_length=300 , verbose_name="رابط معلومات")
     secondary_steps = models.ManyToManyField(SecondarySteps , verbose_name="خطوات فرعية")
     
 

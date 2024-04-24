@@ -260,6 +260,25 @@ class CompleteTask(GenericAPIView):
             return Response(serializer.data,status=status.HTTP_200_OK)
         except Task.DoesNotExist:
             return Response({"error":"لا يوجد مهمة بهذا الرقم"},status=status.HTTP_400_BAD_REQUEST)
+        
+
+
+
+class AcceptTask(GenericAPIView):
+    # permission_classes = [IsAuthenticated]
+    queryset =  Task.objects.all()
+    serializer_class = TaskSerializer
+
+    def post(self,request,task_id):
+        try:
+            task = Task.objects.get(id=task_id)
+            task.accepted = True
+            task.save()
+            serializer = TaskSerializer(task , many=False)
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        except Task.DoesNotExist:
+            return Response({"error":"لا يوجد مهمة بهذا الرقم"},status=status.HTTP_400_BAD_REQUEST)
+
 
 
 
@@ -307,7 +326,7 @@ class CompleteStep(GenericAPIView):
             return Response(serializer.data)
         except:
             return Response({"error":"لا يوجد خطوة بهذا الاسم"})
-            
+
 
 
 
