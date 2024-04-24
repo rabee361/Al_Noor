@@ -304,8 +304,6 @@ class SecondarySteps(models.Model):
 
 
 
-
-
 class HajSteps(models.Model):
     name = models.CharField(max_length=50 , verbose_name="الخطوة")
     description = models.TextField(verbose_name="الوصف")
