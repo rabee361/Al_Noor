@@ -132,6 +132,17 @@ class ReligiousPostAdmin(admin.ModelAdmin):
     list_display = ['id','category','title','content','created']
 
 
+class SecondaryStepsAdmin(admin.ModelAdmin):
+    list_display = ['name','note']
+
+
+class HajStepsAdmin(admin.ModelAdmin):
+    list_display = ['name','description','additional_info','secondary_steps']
+
+    def secondary_steps(self, obj):
+        return ', '.join([step.name for step in obj.secondary_steps.all()])
+    secondary_steps.short_description = 'secondary_steps'
+
 
 
 admin.site.register(Note,NoteAdmin)
@@ -149,5 +160,6 @@ admin.site.register(GuidancePost,GuidancePostAdmin)
 admin.site.register(ReligiousPost,ReligiousPostAdmin)
 admin.site.register(ReligiousCategory,ReligiousCategoryAdmin)
 admin.site.register(GuidanceCategory,GuidanceCategoryAdmin)
-admin.site.register(HajSteps)
+admin.site.register(HajSteps,HajStepsAdmin)
+admin.site.register(SecondarySteps,SecondaryStepsAdmin)
 admin.site.register(VerificationCode)

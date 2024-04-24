@@ -306,7 +306,7 @@ class CompleteStep(GenericAPIView):
             serializer = HajStepSerializer(step , many=False)
             return Response(serializer.data)
         except:
-            return Response({"error":"لا يوجد عمل بهذا الاسم"})
+            return Response({"error":"لا يوجد خطوة بهذا الاسم"})
             
 
 

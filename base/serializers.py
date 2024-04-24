@@ -247,13 +247,13 @@ class ReligiousCategorySerializer(serializers.ModelSerializer):
 class SecondaryStepsSerializer(serializers.ModelSerializer):
     class Meta:
         model = SecondarySteps
-        fields = ['name']
+        fields = ['name','note']
 
 
 
 
 class HajStepSerializer(serializers.ModelSerializer):
-    secondary_steps = SecondarySteps(many=True)
+    secondary_steps = SecondaryStepsSerializer(many=True)
 
     class Meta:
         model = HajSteps
