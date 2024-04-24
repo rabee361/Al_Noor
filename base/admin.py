@@ -9,8 +9,8 @@ from rest_framework_simplejwt.token_blacklist.admin import OutstandingTokenAdmin
 from django.contrib.auth.models import Group
 
 
-admin.site.site_header = "Al Noor"
-admin.site.index_title = "Al Noor Admin Panel" 
+admin.site.site_header = "Dashboard"
+admin.site.index_title = "Admin Panel" 
 
 
 admin.site.unregister(FCMDevice)
