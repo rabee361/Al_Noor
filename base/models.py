@@ -289,10 +289,22 @@ class ReligiousPost(models.Model):
 
 
 
+class SecondarySteps(models.Model):
+    name = models.CharField(max_length=50)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return self.name
+
+
+
+
+
 class HajSteps(models.Model):
     name = models.CharField(max_length=50 , verbose_name="الخطوة")
     description = models.TextField(verbose_name="الوصف")
     additional_info = models.CharField(max_length=300 , verbose_name="رابط معلومات")
+    secondary_steps = models.ManyToManyField(SecondarySteps)
     
 
     def __str__(self) -> str:

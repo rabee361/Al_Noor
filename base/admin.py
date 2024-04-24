@@ -10,7 +10,7 @@ from django.contrib.auth.models import Group
 
 
 admin.site.site_header = "Dashboard"
-admin.site.index_title = "Admin Panel" 
+admin.site.index_title = "Admin Panel"
 
 
 admin.site.unregister(FCMDevice)
