@@ -243,7 +243,18 @@ class ReligiousCategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+
+class SecondaryStepsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SecondarySteps
+        fields = ['name']
+
+
+
+
 class HajStepSerializer(serializers.ModelSerializer):
+    secondary_steps = SecondarySteps(many=True)
+
     class Meta:
         model = HajSteps
         fields = '__all__'
