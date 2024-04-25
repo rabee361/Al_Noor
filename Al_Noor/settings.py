@@ -63,7 +63,27 @@ JAZZMIN_SETTINGS = {
     # "site_logo": "images/logo.png",
     # "site_icon": "path/to/your/favicon.ico",
     "show_ui_builder":True,
+    "color_scheme": "darkly", # Choose from 'lightly', 'darkly', 'slate', 'cyan', 'dark', 'light'
     # "language_chooser": True,
+    "dashboard_modules": [
+        {
+            "title": "My Module",
+            "icon": "fa fa-cogs",
+            "cards": [
+                {
+                    "model": "auth.User",
+                    "name": "User Count",
+                    "description": "Total number of users",
+                    "query": "SELECT COUNT(*) FROM auth_user",
+                    "aggregate": "count",
+                    "color": "primary",
+                },
+                # Add more cards to the module here
+            ],
+        },
+        # Add more modules here
+    ],
+    
 }
 
 
