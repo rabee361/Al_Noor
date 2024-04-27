@@ -26,28 +26,86 @@ class HiView(TemplateView):
 class LoginView(TemplateView):
     template_name = 'login.html'
 
-class MainDashboardView(TemplateView):
-    template_name = 'main_dashboard.html'
+def mani_dashboard(request):
+    total_pilgrims = Pilgrim.objects.count()
+    total_employees = Employee.objects.count()
+    total_managers = Management.objects.count()
+    total_guides = Guide.objects.count()
+    total_forms = Registration.objects.count()
+    user_image = request.user.image.url
+    username = request.user.username
+    context = {
+    'total_pilgrims' : total_pilgrims,
+    'total_employees' : total_employees,
+    'total_managers' : total_managers,
+    'total_guides' : total_guides,
+    'total_forms' : total_forms,
+    'user_image' : user_image,
+    'username' : username
+    }
+    return render(request , 'dashboard.html' , context)
+
+
+
+def notifications(request):
+    context ={
+        
+    }
+    return render(request , 'notifications.html' , context=context)
+
+
+
+def registration_forms(request):
+    context = {
+
+    }
+    return render(request , 'registration_forms.html' , context=context)
+
+
+
+
+def steps(request):
+    context = {
+
+    }
+    return render(request , 'steps.html' , context=context)
+
+
+
+def tasks(request):
+    tasks = Task.objects.all()
+    context ={
+        'tasks':tasks
+    }
+    return render(request , 'tasks.html' , context=context)
+
+
 
 class AdminListView(TemplateView):
-    template_name = 'users/admin/admin_list.html'
+    template_name = 'admin_list.html'
 
 
 class UpdateAdminView(TemplateView):
-    template_name = 'users/admin/update_admin.html'
+    template_name = 'update_admin.html'
 
 
 def pilgrims_list(request):
     pilgrims = Pilgrim.objects.all()
+    user_image = request.user.image.url
+    username = request.user.username
     context = {
-        'pilgrims':pilgrims
-    }
-    return render(request , 'users/customer/pligrims_list.html' , context)
+        'pilgrims':pilgrims,
+        'user_image' : user_image,
+        'username' : username
+ }
+    return render(request , 'pilgrims_list.html' , context)
 
 
 
 def add_pilgrim(request):
     form = NewUser()
+    user_image = request.user.image.url
+    username = request.user.username
     if request.method == 'POST':
         form = NewUser(request.POST)
         if form.is_valid():
@@ -55,9 +113,11 @@ def add_pilgrim(request):
             return redirect('pilgrims_list')
 
     context = {
-        'form' : form
+        'form' : form,
+        'user_image' : user_image,
+        'username' : username
     }
-    return render(request , 'users/customer/add_pilgrim.html' , context)
+    return render(request , 'add_pilgrim.html' , context)
 
 
 
@@ -81,7 +141,7 @@ def managers_list(request):
     context = {
         'managers':managers
     }
-    return render(request , 'users/admin/managers_list.html' , context)
+    return render(request , 'managers_list.html' , context)
 
 
 
@@ -97,7 +157,7 @@ def add_manager(request):
     context = {
         'form' : form
     }
-    return render(request , 'users/admin/add_manager.html' , context)
+    return render(request , 'add_manager.html' , context)
 
 
 
@@ -132,7 +192,7 @@ def guides_list(request):
     context = {
         'guides':guides
     }
-    return render(request , 'users/provider/guides_list.html' , context)
+    return render(request , 'guides_list.html' , context)
 
 
 
@@ -148,14 +208,14 @@ def add_guide(request):
     context = {
         'form' : form
     }
-    return render(request , 'users/provider/add_guide.html' , context)
+    return render(request , 'add_guide.html' , context)
 
 
 
 
 
 class UpdateGuideView(TemplateView):
-    template_name = 'users/provider/update_guide.html'
+    template_name = 'update_guide.html'
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         return context
@@ -175,7 +235,7 @@ def employees_list(request):
     context = {
         'employees':employees
     }
-    return render(request , 'users/employee/employees_list.html' , context)
+    return render(request , 'employees_list.html' , context)
 
 
 

@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+<div class="main-panel" id="main-panel" style="margin-right: 210px; background-color: rgb(77, 76, 76);">
+  <div class="content" dir="rtl" style="margin-top: 50px; margin-right: 10px;">
+
+      <div style="display: flex; gap: 0; font-size: 10px;">
+        <div style="height: 70px; margin-left: 1300px; display: flex; gap: 10px;">
+          <h5 style="color: white;">الرئيسية</h5>
+          <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: rgb(189, 9, 189);"></i></h5>
+          <h5 style="color: white;">الحجاج</h5>
+          <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: rgb(189, 9, 189);"></i></h5>
+        </div>
+        <div style="display: flex; gap: 10px;  margin-right: 100px; color: white;">
+          <h5><i class=" now-ui-icons arrows-1_cloud-download-93" style="margin-left: 5px;"></i>تصدير </h5>
+          <h5><i class=" now-ui-icons arrows-1_cloud-upload-94" style="margin-left: 5px;"></i>استيراد </h5>
+        </div>
+      </div>
+
+      <div class="row">
+      <div class="col-md-12">
+        <div class="card" style="background-color: rgb(57, 58, 58);">
+
+          <div style="display: flex;">
+            <div class="card-header" style="margin-left: 520px;">
+              <form action="" style="color: rgb(54, 54, 54);">
+                  <input type="text" class="custom-input" placeholder="  بحث">
+              </form>
+            </div>
+
+            <div style="display: flex; gap: 5px;  margin-right: 90px; margin-top: 15px; color: white; font-size: smaller;">
+              <a href="{% url 'export_pilgrim' %}"><h5 style="background: gray; width: 60px;padding: 4px; padding-bottom: 0; border-radius: 20px; color: white;"><i class=" now-ui-icons arrows-1_cloud-download-93" style="margin-left: 17px;"></i></h5></a>
+              <h5 style="background: gray; width: 60px;padding: 4px; padding-bottom: 0; border-radius: 20px;"><i class=" now-ui-icons arrows-1_cloud-upload-94" style="margin-left: 17px;"></i></h5>
+              <a href="{% url 'add_pilgrim' %}"><h5 style="background: green; width: 60px; padding: 4px; padding-bottom: 0; border-radius: 20px; color: white;"><i class=" now-ui-icons ui-1_simple-add" style="margin-left: 17px;"></i></h5></a>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="table-responsive">
+              <div style="overflow-x: auto; width: 100%;">
+                <table class="table" style="width: 1200px;">
+                  <thead class="text-primary" style="font-size: small ; background-color: rgb(88, 88, 88)">
+                    <th style="color: white;">
+                      ID
+                    </th>
+                    <th style="color: white;">
+                      الاسم
+                    </th>
+                    <th style="color: white;">
+                      اسم الأب
+                    </th>
+                    <th style="color: white;">
+                      العائلة
+                    </th>
+                    <th style="color: white;">
+                      رقم الرحلة
+                    </th>
+                    <th style="color: white;">
+                      موعد الاقلاع
+                    </th>
+                    <th style="color: white;">
+                      موعد الهبوط
+                    </th>
+                    <th style="color: white;">
+                      الفندق
+                    </th>
+                    <th style="color: white;">
+                      عنوان الفندق
+                    </th>
+                    <th style="color: white;">
+                      رقم الغرفة
+                    </th>
+                    <th style="color: white;">
+                      رقم الهاتف
+                    </th>
+                    <th style="color: white;">
+                      
+                    </th>
+                  </thead>
+                  <tbody style="color: white;">
+                  {% for pilgrim in pilgrims %}
+                    <tr style="font-size: large;">
+                      <td>
+                        {{pilgrim.id}}
+                      </td>
+                      <td>
+                        {{pilgrim.first_name}}
+                      </td>
+                      <td>
+                        {{pilgrim.grand_father}}
+                      </td>
+                      <td>
+                        {{pilgrim.last_name}}
+                      </td>
+                      <td>
+                        {{pilgrim.flight_num}}
+                      </td>
+                      <td>
+                        {{pilgrim.arrival}}
+                      </td>
+                      <td>
+                        {{pilgrim.departure}}
+                      </td>
+                      <td>
+                        {{pilgrim.hotel}}
+                      </td>
+                      <td>
+                        {{pilgrim.hotel_address}}
+                      </td>
+                      <td>
+                        {{pilgrim.room_num}}
+                      </td>
+                      <td>
+                        {{pilgrim.phonenumber}}
+                      </td>
+                      <td>
+                          <button type="button" rel="tooltip" class="btn btn-danger btn-simple btn-icon btn-sm" data-toggle="modal" data-target="#deleteadminModal{{ pilgrim.id }} ">
+                              <i class="now-ui-icons ui-1_simple-remove"></i><h4>تعديل</h4>
+                          </button>
+                          <a class="btn btn-success btn-sm btn-icon">
+                              <i class="now-ui-icons ui-2_settings-90"></i><h4>حذف</h4>
+                          </a>
+                      </td>
+                  </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

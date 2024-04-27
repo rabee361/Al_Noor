@@ -22,6 +22,7 @@ Licensed under the MIT license - http://opensource.org/licenses/MIT
 
 Copyright (c) 2015 Daniel Eden
 */
+sidebar
 .animated {
   -webkit-animation-duration: 1s;
   animation-duration: 1s;
@@ -4180,7 +4181,7 @@ Created using IcoMoon - icomoon.io
   min-height: calc(100vh - 123px);
   margin-top: -30px;
 }
-
+card
 .main-panel>.navbar {
   margin-bottom: 0;
 }
@@ -4201,12 +4202,12 @@ Created using IcoMoon - icomoon.io
     box-shadow: 0px 2px 22px 0 rgba(0, 0, 0, 0.2), 0px 2px 30px 0 rgba(0, 0, 0, 0.35);
   }
 }
-
+.active
 .panel-header {
   height: 260px;
   padding-top: 80px;
   padding-bottom: 45px;
-  background: #141E30;
+  background: #e909a6;  
   /* fallback for old browsers */
   background: -webkit-gradient(linear, left top, right top, from(#0c2646), color-stop(60%, #204065), to(#2a5788));
   background: linear-gradient(to right, #0c2646 0%, #204065 60%, #2a5788 100%);
@@ -4220,7 +4221,7 @@ Created using IcoMoon - icomoon.io
 
 .panel-header .header .category {
   max-width: 600px;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(224, 15, 214, 0.5);
   margin: 0 auto;
   font-size: 13px;
 }
@@ -4230,7 +4231,8 @@ Created using IcoMoon - icomoon.io
 }
 
 .panel-header-sm {
-  height: 135px;
+  height: 100px;
+  background-color: rgb(241, 7, 183);
 }
 
 .panel-header-lg {
@@ -4701,7 +4703,6 @@ Created using IcoMoon - icomoon.io
 .card .card-footer .btn {
   margin: 0;
 }
-
 .card-plain {
   background: transparent;
   box-shadow: none;

@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap');
+
+
+
+.custom-input::placeholder {
+    font-size: 16px;
+    color: white;
+    margin-left: 5px;
+}
+
+.custom-input {
+    width: 200px; /* Set the width of the input field */
+    height: 40px; /* Set the height of the input field */
+    background-color: rgb(135, 136, 136);
+    border: none;
+    border-radius: 10px;
+}
+
+
+body {
+    font-family: 'Cairo';
+}
+
+::-webkit-scrollbar {
+    width: 10px; /* Adjust the width of the scrollbar */
+}
+
+/* This will style the scrollbar handle */
+::-webkit-scrollbar-thumb {
+    background: #888; /* Dark color for the scrollbar handle */
+    border-radius: 5px; /* Optional: Rounded corners for the scrollbar handle */
+}
+
+/* This will style the scrollbar handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Darker color for the scrollbar handle on hover */
+}
