@@ -3,7 +3,7 @@ from django.shortcuts import render , HttpResponse , redirect
 from django.views.generic import TemplateView
 from base.models import *
 from base.resources import PilgrimResource
-from .forms import NewUser
+from .forms import NewUser , NewPilgrim
 
 
 
@@ -103,7 +103,7 @@ def pilgrims_list(request):
 
 
 def add_pilgrim(request):
-    form = NewUser()
+    form = NewPilgrim()
     user_image = request.user.image.url
     username = request.user.username
     if request.method == 'POST':

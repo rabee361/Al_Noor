@@ -45,11 +45,12 @@ class GuideFilter(django_filters.FilterSet):
 
 class TaskFilter(django_filters.FilterSet):
     completed = django_filters.BooleanFilter()
+    accepted = django_filters.BooleanFilter()
     employee_name = django_filters.CharFilter(field_name='user__username' , lookup_expr='startswith')
 
     class Meta:
         model = Task
-        fields = ['completed','employee_name']
+        fields = ['completed','accepted','employee_name']
 
 
 class NoteFilter(django_filters.FilterSet):

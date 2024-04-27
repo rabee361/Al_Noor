@@ -22,18 +22,61 @@
         </div>
 
         <div style="margin-right: 100px;">
-            <form action="" method="post" style="display: flex; flex-direction: column; gap: 30px;">
+            <form action="" method="post" style="display: flex; flex-direction: column; gap: 30px; color: white;">
                 {% csrf_token %}
                 <div style="background-color: rgb(57, 58, 58); width: 800px; height: 300px; border-radius: 30px;">
+                  <div style="width: 300px;">
+                    {{ form.phonenumber.label_tag }} {{ form.phonenumber }}
+                  </div>    
+                  <div style="width: 300px;">
+                    {{ form.first_name.label_tag }} {{ form.first_name }}
+                  </div>    
+                  <div style="width: 300px;">
+                    {{ form.father_name.label_tag }} {{ form.father_name }}
+                  </div>    
+                  <div style="width: 300px;">
+                    {{ form.grand_father.label_tag }} {{ form.grand_father }}
+                  </div>    
+                  <div style="width: 300px;">
+                    {{ form.last_name.label_tag }} {{ form.last_name }}
+                  </div>    
+                  <div style="width: 300px;">
+                    {{ form.registeration_id.label_tag }} {{ form.registeration_id }} 
+                  </div>    
+
+                </div>
+                <div style="background-color: rgb(57, 58, 58); width: 800px; height: 300px; border-radius: 30px;">
+
+                  <div style="width: 300px;">
+                    {{ form.hotel.label_tag }} {{ form.phonenumber }}
+                  </div>    
+                  <div style="width: 300px;">
+                    {{ form.hote_address.label_tag }} {{ form.first_name }}
+                  </div>    
+                  <div style="width: 300px;">
+                    {{ form.room_num.label_tag }} {{ form.father_name }}
+                  </div>    
+                  <div style="width: 300px;">
+                    {{ form.grand_father.label_tag }} {{ form.grand_father }}
+                  </div>    
+                  <div style="width: 300px;">
+                    {{ form.last_name.label_tag }} {{ form.last_name }}
+                  </div>    
+                  <div style="width: 300px;">
+                    {{ form.registeration_id.label_tag }} {{ form.registeration_id }} 
+                  </div>
 
                 </div>
                 <div style="background-color: rgb(57, 58, 58); width: 800px; height: 300px; border-radius: 30px;">
 
                 </div>
-                <div style="background-color: rgb(57, 58, 58); width: 800px; height: 300px; border-radius: 30px;">
 
+                <div style="display: flex; gap: 10px; justify-content: left;">
+                  <input type="submit" value="حفظ">
+                  <input type="submit" value="حفظ و أضف المزيد">
                 </div>
-            </form>
+
+              </form>
         </div>
   
     </div>
