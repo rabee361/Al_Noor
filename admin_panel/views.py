@@ -4,7 +4,8 @@ from django.views.generic import TemplateView
 from base.models import *
 from base.resources import PilgrimResource
 from .forms import NewUser , NewPilgrim
-
+from import_export.admin import ImportExportModelAdmin
+from .forms import PilgrimForm
 
 
 
@@ -119,6 +120,13 @@ def add_pilgrim(request):
     }
     return render(request , 'add_pilgrim.html' , context)
 
+
+
+
+def delete_pilgrim(request,pk):
+    Pilgrim.objects.get(id=pk).delete()
+
+    return redirect('pilgrims-list')
 
 
 class UpdatePilgrimView(TemplateView):
@@ -298,4 +306,17 @@ def export_pilgram(request):
 
 
 def import_pilgrim(request):
-    pass
+    if request.method == 'POST':
+        form = PilgrimForm(request.POST, request.FILES)
+        if form.is_valid():
+            pilgrim_resource = PilgrimResource()
+            dataset = tablib.Dataset().load(request.FILES['file'].read(), format='xlsx')
+            result = pilgrim_resource.import_data(dataset, dry_run=True) # Test the data import
+
+            if not result.has_errors():
+                pilgrim_resource.import_data(dataset, dry_run=False) # Actually import now
+                return HttpResponseRedirect('/success/url/')
+
+    else:
+        form = PilgrimForm()
+    return render(request, 'import.html', {'form': form})

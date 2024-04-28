@@ -16,6 +16,7 @@ urlpatterns = [
 
     path('pilgrims_list/' , pilgrims_list , name="pilgrims"),
     path('add_pilgrim/' , add_pilgrim , name="add_pilgrim"),
+    path('delete-pilgrim/<str:pk>/' , delete_pilgrim , name="delete-pilgrim"),
     path('update_pilgrim/<str:pk>/' , UpdatePilgrimView.as_view() , name="update_pilgrim"),
     path('delete_pilgrim/<str:pk>/' , delete_pilgrim , name="delete_pilgrim"),
 

@@ -45,3 +45,8 @@ class NewPilgrim(forms.ModelForm):
     #     password2 = cleaned_data.get('password2')
     #     if password1 and password2 and password1 != password2:
     #         self.add_error('password2', 'كلمات المرور المرور غير متطابقة.')
+
+
+
+class PilgrimForm(forms.Form):
+    file = forms.FileField()

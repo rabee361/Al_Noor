@@ -3,6 +3,7 @@ from .models import *
 from import_export.fields import Field 
 from import_export.widgets import ForeignKeyWidget  , BooleanWidget
 from .utils import generate_password
+from .sms import send_password
 
 # class PilgrimResource(resources.ModelResource):
 #     class Meta:
@@ -113,7 +114,9 @@ class PilgrimResource(resources.ModelResource):
         user.username = first_name
         user.first_name = first_name
         user.last_name = last_name
-        user.set_password(generate_password())
+        my_password = generate_password()
+        user.set_password(my_password)
+        # send_password(my_password)
         user.save()
 
     def after_save_instance(self, instance, using_transactions, dry_run):
