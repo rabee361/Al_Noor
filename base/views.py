@@ -21,6 +21,7 @@ from datetime import datetime
 from fcm_django.models import FCMDevice
 from django.shortcuts import get_object_or_404
 from django.db.models import Max , Count
+from django.db.models.functions import ExtractMonth
 
 
 class LoginUser(GenericAPIView):
@@ -482,15 +483,22 @@ class RetUpdDesReligiousCategory(RetrieveUpdateDestroyAPIView):
 
 
 
-# class Line(APIView):
-#     def get(self,request, year):
-#         grouped_expenses = Pilgrim.objects.filter(time_purchased__year=year)\
-#                                         .annotate(month=ExtractMonth("time_purchased"))\
-#                                         .values("month").annotate(sum=Sum("price"))\
-#                                         .values("month", "sum").order_by("month")
-#         serializer = ItemsPerMonthSerializer(grouped_expenses, many=True)
-#         return Response(serializer.data)
+class LineChart(APIView):
+    def get(self,request):
+        year = datetime.now().year
+        pilgrims = Pilgrim.objects.filter(created__year=year)\
+                                        .annotate(month=ExtractMonth("created"))\
+                                        .values("month").annotate(count=Count("id"))\
+                                        .values("month", "count").order_by("month")
+        serializer = ItemsPerMonthSerializer(pilgrims, many=True)
+        return Response(serializer.data)
     
+
+
+
+
+
+
 
 
 

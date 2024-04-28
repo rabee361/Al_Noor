@@ -5,6 +5,7 @@ from datetime import datetime
 from django.contrib.auth import  authenticate
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.tokens import TokenError, RefreshToken
+import calendar
 
 
 
@@ -261,9 +262,9 @@ class HajStepSerializer(serializers.ModelSerializer):
 
 
 
+class ItemsPerMonthSerializer(serializers.Serializer):
+    month_name = serializers.SerializerMethodField()
+    count = serializers.IntegerField()
 
-
-
-class TaskChartSerializer(serializers.Serializer):
-    sum = serializers.IntegerField()
-
+    def get_month_name(self, obj):
+        return calendar.month_name[obj['month']]
