@@ -24,7 +24,6 @@ from django.db.models import Max
 
 
 
-my_token = '7ZiFvN6GbYu4ouUM7lcf'
 
 
 class LoginUser(GenericAPIView):

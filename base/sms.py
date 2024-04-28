@@ -1,10 +1,11 @@
 import requests
+my_token = '7ZiFvN6GbYu4ouUM7lcf'
 
 
 def send_code(code,phonenumber):
     url = 'https://api.oursms.com/msgs/sms'
     headers = {
-        'Authorization': 'Bearer my_token',
+        'Authorization': f'Bearer {my_token}',
         'Content-Type': 'application/json',
     }
     data = {
@@ -19,7 +20,7 @@ def send_code(code,phonenumber):
 def send_password(phonenumber,password):
     url = 'https://api.oursms.com/msgs/sms'
     headers = {
-        'Authorization': 'Bearer my_token',
+        'Authorization': f'Bearer {my_token}',
         'Content-Type': 'application/json',
     }
     data = {
