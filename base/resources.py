@@ -116,7 +116,7 @@ class PilgrimResource(resources.ModelResource):
         user.last_name = last_name
         my_password = generate_password()
         user.set_password(my_password)
-        # send_password(my_password)
+        # send_password(phonenumber,my_password)
         user.save()
 
     def after_save_instance(self, instance, using_transactions, dry_run):

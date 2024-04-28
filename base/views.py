@@ -72,7 +72,7 @@ class SendCodePassword(GenericAPIView):
 
             url = 'https://api.oursms.com/msgs/sms'
             headers = {
-                'Authorization': 'Bearer my_token',
+                'Authorization': f'Bearer {my_token}',
                 'Content-Type': 'application/json',
             }
             data = {

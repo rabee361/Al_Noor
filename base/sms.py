@@ -24,7 +24,7 @@ def send_password(self,phonenumber,password):
     }
     data = {
             "src": "oursms",
-            "body": f'رمز التحقق الخاص بك هو {password}',
+            "body": f'كلمة المرور الخاصة بك هي {password}',
             "dests": [phonenumber]
     }
     requests.post(url , headers=headers , json=data)
