@@ -115,6 +115,7 @@ class Pilgrim(models.Model):
     hotel_address = models.CharField(max_length=100 , verbose_name="عنوان الفندق") #### link to google maps can be long and lat
     room_num = models.IntegerField(null=True, blank=True , verbose_name="رقم الغرفة")
     haj_steps = models.ManyToManyField('HajSteps' , blank=True)
+    created = models.DateTimeField(auto_now_add=True)
 
 
     def __str__(self) -> str:

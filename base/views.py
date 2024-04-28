@@ -20,10 +20,7 @@ from rest_framework import status
 from datetime import datetime
 from fcm_django.models import FCMDevice
 from django.shortcuts import get_object_or_404
-from django.db.models import Max
-
-
-
+from django.db.models import Max , Count
 
 
 class LoginUser(GenericAPIView):
@@ -480,3 +477,28 @@ class RetUpdDesReligiousCategory(RetrieveUpdateDestroyAPIView):
 
 
 
+
+
+
+
+
+# class Line(APIView):
+#     def get(self,request, year):
+#         grouped_expenses = Pilgrim.objects.filter(time_purchased__year=year)\
+#                                         .annotate(month=ExtractMonth("time_purchased"))\
+#                                         .values("month").annotate(sum=Sum("price"))\
+#                                         .values("month", "sum").order_by("month")
+#         serializer = ItemsPerMonthSerializer(grouped_expenses, many=True)
+#         return Response(serializer.data)
+    
+
+
+
+class PieChart(APIView): 
+    def get(self,request):
+        completed_tasks = Task.objects.filter(completed=True).values("completed").aggregate(Count('id'))['id__count']
+        remaining_tasks = Task.objects.filter(completed=False).values("completed").aggregate(Count('id'))['id__count']
+        return Response({
+            "completed":completed_tasks,
+            "remaining":remaining_tasks
+        })

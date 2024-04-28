@@ -38,5 +38,9 @@ urlpatterns = [
     path('religious-post/<str:pk>/' , RetUpdDesReligiousPost.as_view() , name="get-religious-post"),
     path('guidance-posts/' , ListCreateGuidancePost.as_view() , name="list-guidance-posts"),
     path('guidance-post/<str:pk>/' , RetUpdDesGuidancePost.as_view() , name="get-guidance-post"),
-    
+
+    # path('chart/options/', GetOptions.as_view(), name="options"),
+    # path('chart/line-chart/<int:year>/', LineChart.as_view() , name="line-chart"),
+    path('chart/pie-chart/' , PieChart.as_view() , name="pie-chart"),
+
 ]

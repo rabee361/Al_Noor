@@ -258,3 +258,12 @@ class HajStepSerializer(serializers.ModelSerializer):
     class Meta:
         model = HajSteps
         fields = '__all__'
+
+
+
+
+
+
+class TaskChartSerializer(serializers.Serializer):
+    sum = serializers.IntegerField()
+
