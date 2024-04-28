@@ -1,7 +1,7 @@
 import requests
 
 
-def send_code(self,code,phonenumber):
+def send_code(code,phonenumber):
     url = 'https://api.oursms.com/msgs/sms'
     headers = {
         'Authorization': 'Bearer my_token',
@@ -16,7 +16,7 @@ def send_code(self,code,phonenumber):
 
 
 
-def send_password(self,phonenumber,password):
+def send_password(phonenumber,password):
     url = 'https://api.oursms.com/msgs/sms'
     headers = {
         'Authorization': 'Bearer my_token',

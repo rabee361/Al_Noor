@@ -1,6 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 import requests
+from .sms import *
 from rest_framework.permissions import IsAuthenticated
 from django.http import HttpResponse
 from .serializers import *
@@ -22,6 +23,8 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Max
 
 
+
+my_token = '7ZiFvN6GbYu4ouUM7lcf'
 
 
 class LoginUser(GenericAPIView):
@@ -69,19 +72,7 @@ class SendCodePassword(GenericAPIView):
                 existing_code.delete()
             code_verivecation = generate_code()
             code = VerificationCode.objects.create(user=user, code=code_verivecation)
-
-            url = 'https://api.oursms.com/msgs/sms'
-            headers = {
-                'Authorization': f'Bearer {my_token}',
-                'Content-Type': 'application/json',
-            }
-            data = {
-                    "src": "oursms",
-                    "body": f'رمز التحقق الخاص بك هو {code}',
-                    "dests": [user.phonenumber]
-            }
-            requests.post(url , headers=headers , json=data)
-
+            # send_code(phonenumber,code)
             return Response({'message':'تم ارسال رمز التحقق',
                              'user_id' : user.id})
         except:
