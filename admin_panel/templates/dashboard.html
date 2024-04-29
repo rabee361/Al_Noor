@@ -8,7 +8,7 @@
 
 <script
 src="https://code.jquery.com/jquery-3.6.4.min.js"
-integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
+integrity="s127.0.0.1:8000z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
 crossorigin="anonymous">
 </script>
 
@@ -202,7 +202,6 @@ crossorigin="anonymous">
   });
 
 
-
   function loadChart2(chart, endpoint) {
  $.ajax({
     url: endpoint,
@@ -224,8 +223,10 @@ crossorigin="anonymous">
       });
 
       // Update counts based on the API response
-      jsonResponse.forEach(item => {
-        monthCounts[item.month_name] = item.count;
+      jsonResponse.data.datasets.forEach(dataset => {
+        dataset.data.forEach(item => {
+          monthCounts[item.month_name] = item.count;
+        });
       });
 
       // Prepare labels and data for the chart
@@ -244,8 +245,30 @@ crossorigin="anonymous">
         label: 'Pilgrims',
         data: data,
         borderColor: 'rgba(75, 192, 192, 1)',
-        fill: false
+        fill: false,
+        backgroundColor: '#FFFFFF'
       });
+
+
+      chart.options.scales = {
+        x: {
+          ticks: {
+            font: {
+              color: 'white', // Set the font color to white
+            }
+          }
+        },
+        y: {
+          ticks: {
+            font: {
+              color: 'white', // Set the font color to white
+            },
+            stepSize: 1, // Set the distance between y-axis labels to 1
+            beginAtZero: true // Ensure the scale starts at 0
+          }
+        }
+      };
+
       chart.update(); 
     },
     error: () => console.log("Failed to fetch chart data from " + endpoint + "!")
@@ -286,8 +309,8 @@ crossorigin="anonymous">
   }
  
   function loadAllCharts() {
-    loadChart2(spendPerCustomerChart, `http://85.31.237.33/al-noor/api/chart/line-chart/`);
-    loadChart(paymentMethodChart, `http://85.31.237.33/al-noor/api/chart/pie-chart/`);
+    loadChart2(spendPerCustomerChart, `http://127.0.0.1:8000/al-noor/api/chart/line-chart/`);
+    loadChart(paymentMethodChart, `http://127.0.0.1:8000/al-noor/api/chart/pie-chart/`);
   }
 
   loadAllCharts();

@@ -1,7 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 import requests
-from .sms import *
 from rest_framework.permissions import IsAuthenticated
 from django.http import HttpResponse
 from .serializers import *
@@ -69,7 +68,9 @@ class SendCodePassword(GenericAPIView):
                 existing_code.delete()
             code_verivecation = generate_code()
             code = VerificationCode.objects.create(user=user, code=code_verivecation)
-            # send_code(phonenumber,code)
+            chat = Chat.objects.get(user=user)
+            msg = ChatMessage.objects.create(content=f'كود تغيير كلمة المرور هو {code}',employee=True)
+            send_code(user=user,title='فريق الدعم',content='تم ارسال كود التحقق')
             return Response({'message':'تم ارسال رمز التحقق',
                              'user_id' : user.id})
         except:
@@ -491,9 +492,18 @@ class LineChart(APIView):
                                         .values("month").annotate(count=Count("id"))\
                                         .values("month", "count").order_by("month")
         serializer = ItemsPerMonthSerializer(pilgrims, many=True)
-        return Response(serializer.data)
+        return Response({
+        "title": "الحجاج المسجلين حديثا",
+        "data": {
+            "datasets": [{
+                "label": "Amount ($)",
+                "backgroundColor": '#FFFFFF',
+                "borderColor": '#FFFFFF',
+                "data": serializer.data,
+            }]
+        },
+    })
     
-
 
 
 

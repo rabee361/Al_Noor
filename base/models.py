@@ -212,7 +212,7 @@ class Chat(models.Model):
 
 
 class ChatMessage(models.Model):
-    sender = models.ForeignKey(CustomUser , on_delete=models.CASCADE , verbose_name="المرسل")
+    sender = models.ForeignKey(CustomUser , on_delete=models.CASCADE , verbose_name="المرسل",blank=True,null=True)
     chat = models.ForeignKey(Chat , on_delete=models.CASCADE , verbose_name="المحادثة")
     content = models.CharField(max_length=500 , verbose_name="المحتوى")
     timestamp = models.DateTimeField(auto_now_add=True , verbose_name="التاريخ والوقت")

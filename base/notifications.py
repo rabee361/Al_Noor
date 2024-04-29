@@ -24,3 +24,34 @@ def send_event_notification(users,title,content):
     users = CustomUser.objects.filter(user__in=pilgrims)
     
 
+
+
+def send_password(user,title,content):
+    if user.get_notifications:
+        devices = FCMDevice.objects.filter(user=user.id)
+        devices.send_message(
+                message =Message(
+                    notification=Notification(
+                        title=title,
+                        body=content
+                    ),
+                ),
+            )
+        UserNotification.objects.create(user=user,content=content,title=title)
+
+
+
+
+def send_code(user,title,content):
+    if user.get_notifications:
+        devices = FCMDevice.objects.filter(user=user.id)
+        devices.send_message(
+                message =Message(
+                    notification=Notification(
+                        title=title,
+                        body=content
+                    ),
+                ),
+            )
+        UserNotification.objects.create(user=user,content=content,title=title)
+

@@ -3,7 +3,7 @@ from .models import *
 from import_export.fields import Field 
 from import_export.widgets import ForeignKeyWidget  , BooleanWidget
 from .utils import generate_password
-from .sms import send_password
+from .notifications import send_password
 
 # class PilgrimResource(resources.ModelResource):
 #     class Meta:
@@ -111,13 +111,16 @@ class PilgrimResource(resources.ModelResource):
         first_name = row['الاسم الأول']
         last_name = row['العائلة']
         user, created = CustomUser.objects.get_or_create(phonenumber=phonenumber)
+        chat = Chat.objects.create(user=user)
         user.username = first_name
         user.first_name = first_name
         user.last_name = last_name
         my_password = generate_password()
         user.set_password(my_password)
-        # send_password(phonenumber,my_password)
         user.save()
+        content = f'كلمة مرورك هي {my_password}'
+        msg = ChatMessage.objects.create(chat=chat,content=content,employee=True)
+        send_password(user=user, title='فريق الدعم', content='تم تحديث كلمة المرور')
 
     def after_save_instance(self, instance, using_transactions, dry_run):
         if not dry_run:
