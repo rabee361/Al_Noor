@@ -17,6 +17,16 @@
 }
 
 
+.import-button {
+    background: gray;
+    width: 60px;padding: 4px;
+    padding-bottom: 0;
+    border-radius: 20px;
+    color: white;
+}
+
+
+
 body {
     font-family: 'Cairo';
 }
