@@ -6,6 +6,8 @@ urlpatterns = [
     path('test/' , TestView.as_view() , name="test"),
     path('' , mani_dashboard , name="main_dashboard"),
 
+    path('login/' , login_user , name="login"),
+
     path('forms/' , registration_forms , name="registration-forms"),
     path('steps/' , steps , name="steps"),
 
@@ -16,9 +18,8 @@ urlpatterns = [
 
     path('pilgrims_list/' , pilgrims_list , name="pilgrims"),
     path('add_pilgrim/' , add_pilgrim , name="add_pilgrim"),
-    path('delete-pilgrim/<str:pk>/' , delete_pilgrim , name="delete-pilgrim"),
-    path('update_pilgrim/<str:pk>/' , UpdatePilgrimView.as_view() , name="update_pilgrim"),
-    path('delete_pilgrim/<str:pk>/' , delete_pilgrim , name="delete_pilgrim"),
+    path('delete-pilgrim/<str:pilgrim_id>/' , delete_pilgrim , name="delete-pilgrim"),
+    # path('update_pilgrim/<str:pk>/' , update_pilgrim, name="update_pilgrim"),
 
     path('guides_list/' , guides_list , name="guides"),
     path('add_guide/' , add_guide , name="add_guide"),

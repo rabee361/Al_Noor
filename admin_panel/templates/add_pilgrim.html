@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static  %}
+{% load widget_tweaks %}
 
 {% block content %}
 
@@ -24,51 +25,114 @@
         <div style="margin-right: 100px;">
             <form action="" method="post" style="display: flex; flex-direction: column; gap: 30px; color: white;">
                 {% csrf_token %}
-                <div style="background-color: rgb(57, 58, 58); width: 800px; height: 300px; border-radius: 30px;">
-                  <div style="width: 300px;">
-                    {{ form.phonenumber.label_tag }} {{ form.phonenumber }}
-                  </div>    
-                  <div style="width: 300px;">
-                    {{ form.first_name.label_tag }} {{ form.first_name }}
-                  </div>    
-                  <div style="width: 300px;">
-                    {{ form.father_name.label_tag }} {{ form.father_name }}
-                  </div>    
-                  <div style="width: 300px;">
-                    {{ form.grand_father.label_tag }} {{ form.grand_father }}
-                  </div>    
-                  <div style="width: 300px;">
-                    {{ form.last_name.label_tag }} {{ form.last_name }}
-                  </div>    
-                  <div style="width: 300px;">
-                    {{ form.registeration_id.label_tag }} {{ form.registeration_id }} 
-                  </div>    
+                <div style="background-color: rgb(57, 58, 58); width: 800px; height: 300px;display: flex; justify-content: space-evenly; border-radius: 30px;" dir="rtl">
+                  
+                  <div class="form-block">
+                    <div style="width: 300px; display: flex; flex-direction: column;">
+                      <div class="form-label">{{ form.phonenumber.label_tag }}</div>
+                      <div class="form-input">{{ form.phonenumber|add_class:"form-control" }}</div>
+                    </div>
+                    <div style="width: 300px;">
+                      <div class="form-label">{{ form.first_name.label_tag }}</div>
+                      <div class="form-input">{{ form.first_name|add_class:"form-control" }}</div>
+                       
+                    </div>    
+                    <div style="width: 300px;">
+                      <div class="form-label">{{ form.father_name.label_tag }}</div>
+                      <div class="form-input">{{ form.father_name|add_class:"form-control" }}</div> 
+                    </div>
+                    <div style="width: 300px;">
+                      <div class="form-label">{{ form.grand_father.label_tag }}</div>
+                      <div class="form-input">{{ form.grand_father|add_class:"form-control" }}</div> 
+                    </div>    
+                  </div>
+
+                  <div class="form-block">
+                    <div style="width: 300px;">
+                      <div class="form-label">{{ form.last_name.label_tag }}</div>
+                      <div class="form-input">{{ form.last_name|add_class:"form-control" }}</div> 
+                    </div>
+                    <div style="width: 300px;">
+                      <div class="form-label">{{ form.registeration_id.label_tag }}</div>
+                      <div class="form-input">{{ form.registeration_id|add_class:"form-control" }}</div> 
+                    </div>
+                    <div style="width: 300px;">
+                      <div class="form-label">{{ form.birthday.label_tag }}</div>
+                      <div class="form-input">{{ form.birthday|add_class:"form-control" }}</div> 
+                    </div>
+                    <div style="width: 300px;">
+                      <div class="form-label">{{ form.password.label_tag }}</div>
+                      <div class="form-input">{{ form.password|add_class:"form-control" }}</div> 
+                    </div>
+                  </div>
+
 
                 </div>
-                <div style="background-color: rgb(57, 58, 58); width: 800px; height: 300px; border-radius: 30px;">
+                <div style="display: flex; justify-content: space-evenly; background-color: rgb(57, 58, 58); width: 800px; height: 300px; border-radius: 30px;">
+                  
 
-                  <div style="width: 300px;">
-                    {{ form.hotel.label_tag }} {{ form.phonenumber }}
-                  </div>    
-                  <div style="width: 300px;">
-                    {{ form.hote_address.label_tag }} {{ form.first_name }}
-                  </div>    
-                  <div style="width: 300px;">
-                    {{ form.room_num.label_tag }} {{ form.father_name }}
-                  </div>    
-                  <div style="width: 300px;">
-                    {{ form.grand_father.label_tag }} {{ form.grand_father }}
-                  </div>    
-                  <div style="width: 300px;">
-                    {{ form.last_name.label_tag }} {{ form.last_name }}
-                  </div>    
-                  <div style="width: 300px;">
-                    {{ form.registeration_id.label_tag }} {{ form.registeration_id }} 
+                  <div class="form-block">
+                    <div style="width: 300px;">
+                      <div class="form-label">{{ form.hotel.label_tag }}</div>
+                      <div class="form-input">{{ form.hotel|add_class:"form-control" }}</div> 
+                    </div>    
+                    <div style="width: 300px;">
+                      <div class="form-label">{{ form.hotel_address.label_tag }}</div>
+                      <div class="form-input">{{ form.hotel_address|add_class:"form-control" }}</div>
+                    </div>    
+                    <div style="width: 300px;">
+                      <div class="form-label">{{ form.room_num.label_tag }}</div>
+                      <div class="form-input">{{ form.room_num|add_class:"form-control" }}</div>
+                    </div>
+                    <div style="width: 300px;">
+                      <div class="form-label">{{ form.flight_num.label_tag }}</div>
+                      <div class="form-input">{{ form.flight_num|add_class:"form-control" }}</div>
+                    </div>
+                  </div>
+
+                  <div class="form-block">
+                    <div style="width: 300px;">
+                      <div class="form-label">{{ form.departure.label_tag }}</div>
+                      <div class="form-input" id="id_my_datetime_field">{{ form.departure|add_class:"form-control" }}</div>
+                    </div>
+                    <div style="width: 300px;">
+                      <div class="form-label">{{ form.arrival.label_tag }}</div>
+                      <div class="form-input">{{ form.arrival|add_class:"form-control" }}</div>
+                    </div>
+                    <div style="width: 300px;">
+                      <div class="form-label">{{ form.company_logo.label_tag }}</div>
+                      <div class="form-input">{{ form.company_logo|add_class:"form-control" }}</div>
+                    </div>
                   </div>
 
                 </div>
-                <div style="background-color: rgb(57, 58, 58); width: 800px; height: 300px; border-radius: 30px;">
+                <div style="display: flex; justify-content: space-evenly; background-color: rgb(57, 58, 58); width: 800px; height: 200px; border-radius: 30px;">
 
+
+                  <div class="form-block">
+                    <div style="width: 300px; display: flex; gap: 80px;">
+                      <div class="form-label">{{ form.get_notifications.label_tag }}</div>
+                      <div class="form-input">{{ form.get_notifications|add_class:"form-control-check" }}</div> 
+                    </div>
+                    <div style="width: 300px;">
+                      <div class="form-label">{{ form.image.label_tag }}</div>
+                      <div class="form-input">{{ form.image|add_class:"form-control" }}</div> 
+                    </div>
+                  </div>
+
+
+                  <div class="form-block">
+                    <div style="width: 300px;">
+                      <div class="form-label">{{ form.password.label_tag }}</div>
+                      <div class="form-input">{{ form.password|add_class:"form-control" }}</div> 
+                    </div>
+                    <div style="width: 300px;">
+                      <div class="form-label">{{ form.password2.label_tag }}</div>
+                      <div class="form-input">{{ form.password2|add_class:"form-control" }}</div> 
+                    </div>
+                  </div>  
+                  
+                  
                 </div>
 
                 <div style="display: flex; gap: 10px; justify-content: left;">
@@ -83,3 +147,14 @@
   </div>
 
 {% endblock content %}
+
+
+<script>
+  $(document).ready(function() {
+      $('#id_my_datetime_field').datepicker({
+          format: "yyyy-mm-dd",
+          autoclose: true,
+          todayHighlight: true
+      });
+  });
+  </script>

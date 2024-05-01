@@ -25,8 +25,8 @@
 
           <div style="display: flex;">
             <div class="card-header" style="margin-left: 520px;">
-              <form action="" style="color: rgb(54, 54, 54);">
-                  <input type="text" class="custom-input" placeholder="  بحث">
+              <form action="" method="get" style="color: rgb(54, 54, 54);">
+                  <input type="text" name="q" class="custom-input" placeholder="  بحث">
               </form>
             </div>
 
@@ -116,14 +116,39 @@
                         {{pilgrim.phonenumber}}
                       </td>
                       <td>
-                          <button type="button" rel="tooltip" class="btn btn-danger btn-simple btn-icon btn-sm" data-toggle="modal" data-target="#deleteadminModal{{ pilgrim.id }} ">
-                              <i class="now-ui-icons ui-1_simple-remove"></i><h4>تعديل</h4>
-                          </button>
-                          <a class="btn btn-success btn-sm btn-icon">
-                              <i class="now-ui-icons ui-2_settings-90"></i><h4>حذف</h4>
+                          <a href="" class="btn btn-success btn-sm btn-icon">
+                            <i class="now-ui-icons ui-2_settings-90"></i>
                           </a>
+                          <button type="button" rel="tooltip" class="btn btn-danger btn-simple btn-icon btn-sm" data-toggle="modal" data-target="#deleteadminModal{{ pilgrim.id }}">
+                            <i class="now-ui-icons ui-1_simple-remove"></i>
+                          </button>
                       </td>
                   </tr>
+
+
+                  <div class="modal fade" id="deleteadminModal{{ pilgrim.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteadminModalLabel{{ pilgrim.id }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="deleteadminModalLabel{{ pilgrim.id }}">حذف الحاج</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <p>"هل أنت واثق من أنك تريد حذف الحاج {{pilgrim.first_name}}?"</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
+                          <form action="{% url 'delete-pilgrim' pilgrim.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">حذف</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
                   {% endfor %}
                   </tbody>
                 </table>

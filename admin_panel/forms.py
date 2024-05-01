@@ -34,7 +34,15 @@ class NewPilgrim(forms.ModelForm):
     class Meta:
         model = Pilgrim
         fields = '__all__'
-        
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password'] = forms.CharField(label='كلمة السر', required=False)
+        self.fields['password2'] = forms.CharField(label='تأكيد كلمة السر', required=False)
+        self.fields['image'] = forms.ImageField(label='الصورة الشخصية', required=False)
+        self.fields['get_notifications'] = forms.BooleanField(label='تلقي اشعارات', required=False)
+
+
     # def clean(self):
     #     cleaned_data = super().clean()
     #     phonenumber = cleaned_data.get('phonenumber')

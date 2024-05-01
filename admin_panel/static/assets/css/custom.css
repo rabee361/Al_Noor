@@ -17,6 +17,48 @@
 }
 
 
+
+.form-control {
+    outline: none;
+    border: rgb(58, 57, 57);
+    color: #999;
+    background-color: rgb(126, 126, 126);
+    height: 35px;
+}
+
+
+.form-control-check {
+    outline: none;
+    border: rgb(58, 57, 57);
+    color: #999;
+    height: 35px;
+    margin-bottom: 34px;
+    background-color: rgb(126, 126, 126);
+}
+
+
+.form-label {
+    text-align: right;
+}
+
+
+
+
+
+.input-group {
+    display: flex;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px; 
+}
+
+
+.form-block {
+    padding-top: 20px;
+}
+
+
 .import-button {
     background: gray;
     width: 60px;padding: 4px;
@@ -44,4 +86,63 @@ body {
 /* This will style the scrollbar handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #555; /* Darker color for the scrollbar handle on hover */
+}
+
+
+:root {
+    --bg-color: rgb(20,20,20);
+}
+
+
+.login-wrapper{
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.login-body {
+    background: rgb(70, 69, 69);
+    padding: 60px;
+    border-radius: 30px;
+}
+
+
+.login-field {
+    border-color: #007bff;
+    outline: none;
+    border: none;
+    box-shadow: 10px;
+    border-radius: 20px;
+    color: white;
+    background-color: rgb(126, 126, 126);
+    height: 35px;
+    width: 250px;
+}
+
+
+.form-body {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.login-btn {
+    background: #a30188;
+    color: white;
+    border-radius: 30px;
+    border: none;
+    height: 40px;
+}
+
+
+.login-title {
+    color: white;
+    font-family: Cairo;
+    text-align: center;
 }

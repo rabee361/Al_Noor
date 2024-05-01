@@ -6,7 +6,31 @@ from base.resources import PilgrimResource
 from .forms import NewUser , NewPilgrim
 from import_export.admin import ImportExportModelAdmin
 from .forms import PilgrimForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate , login , logout
 
+
+
+
+
+
+def login_user(request):
+    if request.method == 'POST':
+        phonenumber = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request,username=phonenumber, password=password)
+        if user is not None:
+            login(request,user)
+            return redirect('main_dashboard')
+
+    return render(request , 'login.html')
+
+
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('login')
 
 
 
@@ -27,6 +51,8 @@ class HiView(TemplateView):
 class LoginView(TemplateView):
     template_name = 'login.html'
 
+
+@login_required(login_url='login')
 def mani_dashboard(request):
     total_pilgrims = Pilgrim.objects.count()
     total_employees = Employee.objects.count()
@@ -47,7 +73,7 @@ def mani_dashboard(request):
     return render(request , 'dashboard.html' , context)
 
 
-
+@login_required(login_url='login')
 def notifications(request):
     context ={
         
@@ -55,7 +81,7 @@ def notifications(request):
     return render(request , 'notifications.html' , context=context)
 
 
-
+@login_required(login_url='login')
 def registration_forms(request):
     context = {
 
@@ -64,7 +90,7 @@ def registration_forms(request):
 
 
 
-
+@login_required(login_url='login')
 def steps(request):
     context = {
 
@@ -72,7 +98,7 @@ def steps(request):
     return render(request , 'steps.html' , context=context)
 
 
-
+@login_required(login_url='login')
 def tasks(request):
     tasks = Task.objects.all()
     context ={
@@ -89,9 +115,11 @@ class AdminListView(TemplateView):
 class UpdateAdminView(TemplateView):
     template_name = 'update_admin.html'
 
-
+@login_required(login_url='login')
 def pilgrims_list(request):
-    pilgrims = Pilgrim.objects.all()
+    q = request.GET.get('q') or ''
+    print(q)
+    pilgrims = Pilgrim.objects.filter(first_name__startswith = q)
     user_image = request.user.image.url
     username = request.user.username
     context = {
@@ -102,7 +130,7 @@ def pilgrims_list(request):
     return render(request , 'pilgrims_list.html' , context)
 
 
-
+@login_required(login_url='login')
 def add_pilgrim(request):
     form = NewPilgrim()
     user_image = request.user.image.url
@@ -122,7 +150,7 @@ def add_pilgrim(request):
 
 
 
-
+@login_required(login_url='login')
 def delete_pilgrim(request,pk):
     Pilgrim.objects.get(id=pk).delete()
 
@@ -135,7 +163,7 @@ class UpdatePilgrimView(TemplateView):
         context = super().get_context_data(**kwargs)
         return context
 
-
+@login_required(login_url='login')
 def delete_pilgrim(request,pilgrim_id):
     Pilgrim.objects.get(id=pilgrim_id).delete()
     return HttpResponse("greate")
