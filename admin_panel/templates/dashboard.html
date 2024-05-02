@@ -67,7 +67,7 @@ crossorigin="anonymous">
     </div>
     <div class="row" style="color: white;">
       <div class="col-md-6">
-        <div class="card card-chart" style="width: 250px; height: 130px; background-color: rgb(47, 48, 48);">
+        <div class="card card-chart" style="width: 250px; height: 130px; background-color: rgb(47, 48, 48); margin-right: 80px;">
           <div class="card-header">
             <h4 class="card-title" style="text-align: center; border-bottom: solid; border-color: rgb(189, 9, 189);">عدد الاداريين </h4>
           </div>
@@ -309,8 +309,8 @@ crossorigin="anonymous">
   }
  
   function loadAllCharts() {
-    loadChart2(spendPerCustomerChart, `http://127.0.0.1:8000/al-noor/api/chart/line-chart/`);
-    loadChart(paymentMethodChart, `http://127.0.0.1:8000/al-noor/api/chart/pie-chart/`);
+    loadChart2(spendPerCustomerChart, `http://85.31.237.33/test/api/chart/line-chart/`);
+    loadChart(paymentMethodChart, `http://85.31.237.33/test/api/chart/pie-chart/`);
   }
 
   loadAllCharts();
