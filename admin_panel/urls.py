@@ -8,7 +8,10 @@ urlpatterns = [
 
     path('login/' , login_user , name="login"),
 
-    path('forms/' , registration_forms , name="registration-forms"),
+    path('forms/' , registration_forms , name="registration_forms"),
+    path('add_form/' , add_register_form , name="add_register_form"),
+    path('delete_form/<str:form_id>' , delete_register_form , name="delete_register_form"),
+
     path('steps/' , steps , name="steps"),
 
     path('managers_list/' , managers_list , name="managers"),
@@ -30,6 +33,10 @@ urlpatterns = [
     path('add_employee/' , add_employee , name="add_employee"),
     path('update_employee/<str:pk>' , UpdateGuideView.as_view() , name="update_employee"),
     path('delete_employee/<str:pk>/' , delete_employee , name="delete_employee"),
+
+    path('tasks/' , task_list  , name="tasks"),
+    path('add-task/' , add_task  , name="add_task"),
+    path('delete-task/<str:task_id>/' , delete_task  , name="delete_task"),
 
     # path('guide_list/' , guides_list , name="guide_list"),
     # path('add_guide/' , AddGuideView.as_view() , name="add_guide"),

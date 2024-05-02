@@ -1,0 +1,242 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+<div class="main-panel" id="main-panel" style="margin-right: 210px; background-color: rgb(77, 76, 76);">
+  <div class="content" dir="rtl" style="margin-top: 50px; margin-right: 10px;">
+
+      <div style="display: flex; gap: 0; font-size: 10px;">
+        <div style="height: 70px; margin-left: 1300px; display: flex; gap: 10px;">
+          <h5 style="color: white;">الرئيسية</h5>
+          <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: rgb(189, 9, 189);"></i></h5>
+          <h5 style="color: white;">استمارات التسجيل</h5>
+          <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: rgb(189, 9, 189);"></i></h5>
+        </div>
+      </div>
+
+      <div class="row">
+      <div class="col-md-12">
+        <div class="card" style="background-color: rgb(57, 58, 58);">
+
+          <div style="display: flex;">
+            <div class="card-header" style="margin-left: 520px;">
+              <form action="" method="get" style="color: rgb(54, 54, 54);">
+                  <input type="text" name="q" class="custom-input" placeholder="  بحث">
+              </form>
+            </div>
+
+            <div style="display: flex; gap: 5px;  margin-right: 90px; margin-top: 15px; color: white; font-size: smaller;">
+              <a href="{% url 'add_register_form' %}"><h5 style="background: green; width: 60px; padding: 4px; padding-bottom: 0; border-radius: 20px; color: white;"><i class=" now-ui-icons ui-1_simple-add" style="margin-left: 17px;"></i></h5></a>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="table-responsive">
+              <div style="overflow-x: auto; width: 100%;">
+                <table class="table" style="width: 1200px;">
+                  <thead class="text-primary" style="font-size: small ; background-color: rgb(88, 88, 88); text-align: center;">
+                    <th style="color: white;">
+                      ID
+                    </th>
+                    <th style="color: white;">
+                    رقم الهاتف
+                    </th>
+                    <th style="color: white;">
+                    الاسم الاول
+                    </th>
+                    <th style="color: white;">
+                    الاب
+                    </th>
+                    <th style="color: white;">
+                    الجد
+                    </th>
+                    <th style="color: white;">
+                    العائلة 
+                    </th>
+                    <th style="color: white;">
+                    رقم الهوية
+                    </th>
+                    <th style="color: white;">
+                    الميلاد
+                    </th>
+                    <th style="color: white;">
+                    العمل
+                    </th>
+                    <th style="color: white;">
+                    الجنس
+                    </th>
+                    <th style="color: white;">
+                    خيارات الرحلة
+                    </th>
+                    <th style="color: white;">
+                    الحالة الاجتماعية
+                    </th>
+                    <th style="color: white;">
+                    مكان السكن
+                    </th>
+                    <th style="color: white;">
+                    نوع الحجة
+                    </th>
+                    <th style="color: white;">
+                    مرجع التقليد
+                    </th>
+                    <th style="color: white;">
+                    عدد الحجات
+                    </th>
+                    <th style="color: white;">
+                    اخر سنة حج
+                    </th>
+                    <th style="color: white;">
+                    وسيلة الرحلة
+                    </th>
+                    <th style="color: white;">
+                    فصيلة الدم
+                    </th>
+                    <th style="color: white;">
+                    أمراض
+                    </th>
+                    <th style="color: white;">
+                    أمراض مزمنة
+                    </th>
+                    <th style="color: white;">
+                    مساعدة في الطواف
+                    </th>
+                    <th style="color: white;">
+                    مساعدة في السعي
+                    </th>
+                    <th style="color: white;">
+                    كرسي متحرك
+                    </th>
+                    <th style="color: white;">
+                    نوع المساعدة
+                    </th>
+                    <th style="color: white;">
+                      
+                    </th>
+                  </thead>
+                  <tbody style="color: white;">
+                  {% for form in forms %}
+                    <tr style="font-size: large; text-wrap: nowrap; text-align: right;">
+                      <td>
+                        {{form.id}}
+                      </td>
+                      <td>
+                        {{form.phonenumber}}
+                      </td>
+                      <td>
+                        {{form.first_name}}
+                      </td>
+                      <td>
+                        {{form.father_name}}
+                      </td>
+                      <td>
+                        {{form.grand_father}}
+                      </td>
+                      <td>
+                        {{form.last_name}}
+                      </td>
+                      <td>
+                        {{form.id_number}}
+                      </td>
+                      <td>
+                        {{form.birthday}}
+                      </td>
+                      <td>
+                        {{form.job_position}}
+                      </td>
+                      <td>
+                        {{form.gender}}
+                      </td>
+                      <td>
+                        {{form.options_trip}}
+                      </td>
+                      <td>
+                        {{form.marital_status}}
+                      </td>
+                      <td>
+                        {{form.address}}
+                      </td>
+                      <td>
+                        {{form.alhajj}}
+                      </td>
+                      <td>
+                        {{form.tradition_reference}}
+                      </td>
+                      <td>
+                        {{form.count_hajjas}}
+                      </td>
+                      <td>
+                        {{form.last_year}}
+                      </td>
+                      <td>
+                        {{form.means_journey}}
+                      </td>
+                      <td>
+                        {{form.blood_type}}
+                      </td>
+                      <td>
+                        {{form.illness}}
+                      </td>
+                      <td>
+                        {{form.chronic_diseases}}
+                      </td>
+                      <td>
+                        {{form.tawaf}}
+                      </td>
+                      <td>
+                        {{form.sai}}
+                      </td>
+                      <td>
+                        {{form.wheelchair}}
+                      </td>
+                      <td>
+                        {{form.type_help}}
+                      </td>
+                      <td>
+                          <a href="" class="btn btn-success btn-sm btn-icon">
+                            <i class="now-ui-icons ui-2_settings-90"></i>
+                          </a>
+                          <button type="button" rel="tooltip" class="btn btn-danger btn-simple btn-icon btn-sm" data-toggle="modal" data-target="#deleteadminModal{{ form.id }}">
+                            <i class="now-ui-icons ui-1_simple-remove"></i>
+                          </button>
+                      </td>
+                  </tr>
+
+
+                  <div class="modal fade" id="deleteadminModal{{ form.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteadminModalLabel{{ form.id }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="deleteadminModalLabel{{ form.id }}">حذف استمارة</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <p>"هل أنت واثق من أنك تريد حذف استمارة الحاج  {{form.first_name}}?"</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
+                          <form action="{% url 'delete_register_form' form.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">حذف</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

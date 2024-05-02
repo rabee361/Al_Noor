@@ -3,7 +3,7 @@ from django.shortcuts import render , HttpResponse , redirect
 from django.views.generic import TemplateView
 from base.models import *
 from base.resources import PilgrimResource
-from .forms import NewUser , NewPilgrim
+from .forms import *
 from import_export.admin import ImportExportModelAdmin
 from .forms import PilgrimForm
 from django.contrib.auth.decorators import login_required
@@ -115,11 +115,69 @@ class AdminListView(TemplateView):
 class UpdateAdminView(TemplateView):
     template_name = 'update_admin.html'
 
+
+
+
+@login_required(login_url='login')
+def registration_forms(request):
+    q = request.GET.get('q') or ''
+    print(q)
+    forms = Registration.objects.filter(first_name__startswith = q).order_by('-id')
+    user_image = request.user.image.url
+    username = request.user.username
+
+    context = {
+        'forms':forms,
+        'user_image' : user_image,
+        'username' : username
+ }
+    return render(request , 'registration_forms.html' , context)
+
+
+
+
+
+@login_required(login_url='login')
+def add_register_form(request):
+    form = NewRegisterForm()
+    user_image = request.user.image.url
+    username = request.user.username
+
+    if request.method == 'POST':
+        form = NewRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('registration_forms')
+
+    context = {
+        'form': form,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request, 'add_form.html', context)
+
+
+
+
+
+
+
+def delete_register_form(request,form_id):
+    Registration.objects.get(id=form_id).delete()
+
+    return redirect('registration_forms')
+
+
+
+
+
+
+
 @login_required(login_url='login')
 def pilgrims_list(request):
     q = request.GET.get('q') or ''
     print(q)
-    pilgrims = Pilgrim.objects.filter(first_name__startswith = q)
+    pilgrims = Pilgrim.objects.filter(first_name__startswith = q).order_by('-id')
     user_image = request.user.image.url
     username = request.user.username
     context = {
@@ -130,23 +188,44 @@ def pilgrims_list(request):
     return render(request , 'pilgrims_list.html' , context)
 
 
+
+
 @login_required(login_url='login')
 def add_pilgrim(request):
     form = NewPilgrim()
     user_image = request.user.image.url
     username = request.user.username
+
     if request.method == 'POST':
-        form = NewUser(request.POST)
+        form = NewPilgrim(request.POST, request.FILES)  # Ensure you pass request.FILES if you're handling files
         if form.is_valid():
-            user = form.save()
+            user = CustomUser.objects.create_user(
+                username=form.cleaned_data['first_name'],
+                phonenumber=form.cleaned_data['phonenumber'],
+                # email=form.cleaned_data['email'],
+                password=form.cleaned_data['password'],
+                get_notifications=form.cleaned_data['get_notifications'],
+                image=form.cleaned_data['image'],
+            )
+
+            print(user)
+            pilgrim = Pilgrim.objects.create(
+                user=user,
+                departure=form.cleaned_data['departure'],
+                arrival=form.cleaned_data['arrival'],
+            )
+
+            pilgrim.save()
             return redirect('pilgrims_list')
+    
 
     context = {
-        'form' : form,
-        'user_image' : user_image,
-        'username' : username
+        'form': form,
+        'user_image': user_image,
+        'username': username
     }
-    return render(request , 'add_pilgrim.html' , context)
+    return render(request, 'add_pilgrim.html', context)
+
 
 
 
@@ -173,7 +252,7 @@ def delete_pilgrim(request,pilgrim_id):
 
 
 def managers_list(request):
-    managers = Management.objects.all()
+    managers = Management.objects.filter().order_by('-id')
     context = {
         'managers':managers
     }
@@ -195,6 +274,61 @@ def add_manager(request):
     }
     return render(request , 'add_manager.html' , context)
 
+
+
+
+@login_required(login_url='login')
+def task_list(request):
+    q = request.GET.get('q') or ''
+    tasks = Task.objects.filter(title__startswith = q).order_by('-id')
+    user_image = request.user.image.url
+    username = request.user.username
+    context = {
+        'tasks':tasks,
+        'user_image' : user_image,
+        'username' : username
+ }
+    return render(request , 'tasks.html' , context)
+
+
+
+
+
+
+
+
+@login_required(login_url='login')
+def add_task(request):
+    form = NewTask()
+    user_image = request.user.image.url
+    username = request.user.username
+
+    if request.method == 'POST':
+        form = NewTask(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('tasks')
+
+    context = {
+        'form': form,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request, 'add_task.html', context)
+
+
+
+
+
+
+
+
+
+@login_required(login_url='login')
+def delete_task(request,task_id):
+    Task.objects.get(id=task_id).delete()
+
+    return redirect('task-list')
 
 
 

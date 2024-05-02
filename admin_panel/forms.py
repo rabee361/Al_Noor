@@ -10,11 +10,12 @@ class NewUser(UserCreationForm):
     email = forms.EmailField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}), label="الايميل")
     password1 = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control' , 'type' : 'password'}), label="كلمة المرور")
     password2 = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control' , 'type' : 'password'}) , label="تأكيد كملة المرور")
-
+    image = forms.ImageField()
+    get_notifications = forms.BooleanField()
         
     class Meta:
         model = CustomUser
-        fields = ("username","phonenumber","email","password1","password2")
+        fields = ["username","phonenumber","email","password1","password2","get_notifications","image"]
         
     def clean(self):
         cleaned_data = super().clean()
@@ -37,8 +38,10 @@ class NewPilgrim(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['password'] = forms.CharField(label='كلمة السر', required=False)
-        self.fields['password2'] = forms.CharField(label='تأكيد كلمة السر', required=False)
+        self.fields['password'] = forms.CharField(label=' كلمة السر',required=True,widget=forms.PasswordInput())
+        self.fields['password2'] = forms.CharField(label='تأكيد كلمة السر',required=True,widget=forms.PasswordInput())
+        # self.fields['email'] = forms.EmailField(label='تأكيد كلمة السر', required=False)
+        # self.fields['first_name'] = forms.CharField(label='الاسم', required=False)
         self.fields['image'] = forms.ImageField(label='الصورة الشخصية', required=False)
         self.fields['get_notifications'] = forms.BooleanField(label='تلقي اشعارات', required=False)
 
@@ -58,3 +61,19 @@ class NewPilgrim(forms.ModelForm):
 
 class PilgrimForm(forms.Form):
     file = forms.FileField()
+
+
+
+
+
+class NewTask(ModelForm):
+    class Meta:
+        model = Task
+        fields = '__all__'
+
+
+
+class NewRegisterForm(ModelForm):
+    class Meta:
+        model = Registration
+        fields = '__all__'

@@ -288,7 +288,7 @@ class ReligiousPost(models.Model):
         verbose_name = ("عمل ديني")
         verbose_name_plural = ("أعمال دينية")
 
-
+ 
 
 
 class SecondarySteps(models.Model):
