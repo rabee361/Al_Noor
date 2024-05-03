@@ -152,3 +152,16 @@ class NewRegisterForm(ModelForm):
     class Meta:
         model = Registration
         fields = '__all__'
+
+
+
+class NotificationForm(ModelForm):
+    class Meta:
+        model = BaseNotification
+        fields = '__all__'
+
+
+class GuidancePostForm(ModelForm):
+    class Meta:
+        model = GuidancePost
+        fields = '__all__'

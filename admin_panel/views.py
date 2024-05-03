@@ -56,13 +56,6 @@ def mani_dashboard(request):
     return render(request , 'dashboard.html' , context)
 
 
-@login_required(login_url='login')
-def notifications(request):
-    context ={
-        
-    }
-    return render(request , 'notifications.html' , context=context)
-
 
 @login_required(login_url='login')
 def registration_forms(request):
@@ -603,3 +596,124 @@ def import_pilgrim(request):
     else:
         form = PilgrimForm()
     return render(request, 'import.html', {'form': form})
+
+
+
+
+
+def notifications_list(request):
+    q = request.GET.get('q') or ''
+    user_image = request.user.image.url
+    username = request.user.username
+    notifications = BaseNotification.objects.filter(title__startswith=q).order_by('-id')
+    context = {
+        'notifications':notifications,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request , 'notifications_list.html' , context)
+
+
+
+
+
+
+
+@login_required(login_url='login')
+def add_notification(request):
+    form = NotificationForm()
+    user_image = request.user.image.url
+    username = request.user.username
+    if request.method == 'POST':
+        form = NotificationForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('notifications')
+    context = {
+        'form' : form,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request , 'add_notification.html' , context)
+
+    
+
+
+def delete_notifications(request,notification_id):
+    BaseNotification.objects.get(id=notification_id).delete()
+    return redirect('notifications')
+
+
+
+
+
+
+
+def guidance_posts(request):
+    q = request.GET.get('q') or ''
+    user_image = request.user.image.url
+    username = request.user.username
+    posts = GuidancePost.objects.filter(title__startswith=q).order_by('-id')
+    context = {
+        'posts':posts,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request , 'guidance_posts.html' , context)
+
+
+
+
+
+
+@login_required(login_url='login')
+def add_guidance_post(request):
+    form = GuidancePostForm()
+    user_image = request.user.image.url
+    username = request.user.username
+    if request.method == 'POST':
+        form = GuidancePostForm(request.POST, request.FILES)
+        print(form.errors)
+        if form.is_valid():
+            form.save()
+            return redirect('guidance_posts')
+    context = {
+        'form' : form,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request , 'add_guidance_post.html' , context)
+
+
+
+
+
+@login_required(login_url='login')
+def update_guidance_post(request,post_id):
+    post = GuidancePost.objects.get(id=post_id)
+    form = GuidancePostForm(instance=post)
+    user_image = request.user.image.url
+    username = request.user.username
+
+    if request.method == 'POST':
+        form = GuidancePostForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('guidance_posts')
+
+    context = {
+        'form': form,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request, 'add_guidance_post.html', context)
+
+
+
+
+
+@login_required(login_url='login')
+def delete_guidance_post(request,post_id):
+    GuidancePost.objects.get(id=post_id).delete()
+    return redirect('guideance_posts')
+

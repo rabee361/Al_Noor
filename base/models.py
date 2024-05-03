@@ -183,6 +183,18 @@ class UserNotification(models.Model):
 
 
 
+class BaseNotification(models.Model):
+    title = models.CharField(max_length=100 , verbose_name="العنوان")
+    content = models.CharField(max_length=200 , verbose_name="المحتوى")
+    info = models.CharField(max_length=200 , verbose_name="معلومات اضافية")
+    created = models.DateTimeField(auto_now_add=True , verbose_name="تاريخ الانشاء")
+
+    def __str__(self) -> str:
+        return self.title
+
+
+
+
 class Note(models.Model):
     pilgrim = models.ForeignKey(Pilgrim,on_delete=models.CASCADE , verbose_name="الحاج")
     guide = models.ForeignKey(Guide,on_delete=models.CASCADE , verbose_name="المرشد")
@@ -251,7 +263,7 @@ class GuidancePost(models.Model):
     created = models.DateField(auto_now_add=True, verbose_name="تاريخ الانشاء") ##datetime ??
 
     def __str__(self) -> str:
-        return self.name
+        return self.title
     
     class Meta:
         ordering = ['-created']

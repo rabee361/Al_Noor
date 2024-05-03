@@ -42,8 +42,14 @@ urlpatterns = [
     # path('add_guide/' , AddGuideView.as_view() , name="add_guide"),
     # path('update_guide/<str:pk>/' , UpdateGuideView.as_view() , name="update_guide"),
 
-    path('tasks/' , task_list , name="tasks"),
-    path('notifications/' , notifications , name="notifications"),
+    path('notifications/' , notifications_list , name="notifications"),
+    path('add-notification/' , add_notification , name="add_notification"),
+    path('delete-notification/<str:notification_id>' , delete_notifications , name="delete_notification"),
+
+    path('guidance-posts/' , guidance_posts , name="guidance_posts"),
+    path('add-guidance-post/' , add_guidance_post , name="add_guidance_post"),
+    path('update-guidance-post/<str:post_id>' , update_guidance_post , name="update_guidance_post"),
+    path('delete-guidance-post/<str:post_id>' , delete_guidance_post , name="delete_guidance_post"),
 
 
     path('category_list/' , CategoryListView.as_view() , name="category_list"),
