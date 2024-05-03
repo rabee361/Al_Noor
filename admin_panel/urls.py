@@ -3,7 +3,6 @@ from .views import *
 
 
 urlpatterns = [
-    path('test/' , TestView.as_view() , name="test"),
     path('' , mani_dashboard , name="main_dashboard"),
 
     path('login/' , login_user , name="login"),
@@ -14,9 +13,9 @@ urlpatterns = [
 
     path('steps/' , steps , name="steps"),
 
-    path('managers_list/' , managers_list , name="managers"),
+    path('managers/' , managers_list , name="managers"),
     path('add_manager/' , add_manager , name="add_manager"),
-    path('update_manager/<str:manager_id>/' , UpdateAdminView.as_view() , name="update_manager"),
+    path('update_manager/<str:manager_id>/' , update_manager , name="update_manager"),
     path('delete_manager/<str:manager_id>/' , delete_manager , name="delete_manager"),
 
     path('pilgrims_list/' , pilgrims_list , name="pilgrims"),
@@ -31,18 +30,19 @@ urlpatterns = [
 
     path('employees_list/' , employees_list , name="employees"),
     path('add_employee/' , add_employee , name="add_employee"),
-    path('update_employee/<str:pk>' , UpdateGuideView.as_view() , name="update_employee"),
-    path('delete_employee/<str:pk>/' , delete_employee , name="delete_employee"),
+    path('update_employee/<str:employee_id>' , update_employee , name="update_employee"),
+    path('delete_employee/<str:employee_id>/' , delete_employee , name="delete_employee"),
 
     path('tasks/' , task_list  , name="tasks"),
     path('add-task/' , add_task  , name="add_task"),
+    path('update-task/<str:task_id>' , update_task  , name="update_task"),
     path('delete-task/<str:task_id>/' , delete_task  , name="delete_task"),
 
     # path('guide_list/' , guides_list , name="guide_list"),
     # path('add_guide/' , AddGuideView.as_view() , name="add_guide"),
     # path('update_guide/<str:pk>/' , UpdateGuideView.as_view() , name="update_guide"),
 
-    path('tasks/' , tasks , name="tasks"),
+    path('tasks/' , task_list , name="tasks"),
     path('notifications/' , notifications , name="notifications"),
 
 
@@ -50,8 +50,8 @@ urlpatterns = [
     path('main_service_list/' , MainServiceListView.as_view() , name="main_service_list"),
     path('subscription_list/' , SubscriptionListView.as_view() , name="subscription_list"),
     path('promotion-subscription-list/' ,  PromotionSubscriptionListView.as_view(), name="promotion-subscription-list"),
-    path('login/' , LoginView.as_view() , name="login"),
-    path('hi/' , HiView.as_view() , name="hi"),
-    path('pilgrim/export', export_pilgram, name='export_pilgrim'),
     path('pilgrim/import', import_pilgrim, name='import_pilgrim'),
+    path('pilgrim/export', export_pilgram, name='export_pilgrim'),
+    path('forms/export', export_forms, name='export_forms'),
+    
 ]

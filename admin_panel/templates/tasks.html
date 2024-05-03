@@ -74,13 +74,21 @@
                         {{task.content}}
                       </td>
                       <td>
-                        {{task.completed}}
+                        {% if task.completed %}
+                        <i class="fas fa-check" style="color: rgb(140, 206, 41);"></i>
+                        {% else %}
+                        <i class="far fa-circle-xmark" style="color: rgb(230, 73, 73);"></i>
+                        {% endif %}
                       </td>
                       <td>
-                        {{task.accepted}}
+                        {% if task.accepted %}
+                        <i class="fas fa-check" style="color: rgb(140, 206, 41);"></i>
+                        {% else %}
+                        <i class="far fa-circle-xmark" style="color: rgb(230, 73, 73);"></i>
+                        {% endif %}
                       </td>
                       <td>
-                          <a href="" class="btn btn-success btn-sm btn-icon">
+                          <a href="{% url 'update_task' task.id %}" class="btn btn-success btn-sm btn-icon">
                             <i class="now-ui-icons ui-2_settings-90"></i>
                           </a>
                           <button type="button" rel="tooltip" class="btn btn-danger btn-simple btn-icon btn-sm" data-toggle="modal" data-target="#deleteadminModal{{ task.id }}">
