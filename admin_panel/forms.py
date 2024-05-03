@@ -68,6 +68,24 @@ class NewEmployee(ModelForm):
 
 
 
+class NewGuide(ModelForm):
+    class Meta:
+        model = Guide
+        fields = '__all__'
+        exclude = ['user']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password1'] = forms.CharField(label=' كلمة السر',required=True,widget=forms.PasswordInput())
+        self.fields['password2'] = forms.CharField(label='تأكيد كلمة السر',required=True,widget=forms.PasswordInput())
+        self.fields['phonenumber'] = forms.CharField(label='رقم الهاتف', required=True)
+        self.fields['username'] = forms.CharField(label='الاسم', required=True)
+        self.fields['image'] = forms.ImageField(label='الصورة الشخصية', required=True)
+        self.fields['get_notifications'] = forms.BooleanField(label='تلقي اشعارات', required=False)
+
+
+
+
 class UpdateManager(forms.ModelForm):
     class Meta:
         model = Management
@@ -87,6 +105,22 @@ class UpdateManager(forms.ModelForm):
 class UpdateEmployee(forms.ModelForm):
     class Meta:
         model = Employee
+        fields = '__all__'
+        exclude = ['user']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password1'] = forms.CharField(label=' كلمة السر',widget=forms.PasswordInput())
+        self.fields['password2'] = forms.CharField(label='تأكيد كلمة السر',widget=forms.PasswordInput())
+        self.fields['phonenumber'] = forms.CharField(label='رقم الهاتف', required=True)
+        self.fields['username'] = forms.CharField(label='الاسم', required=True)
+        self.fields['get_notifications'] = forms.BooleanField(label='تلقي اشعارات', required=False)
+
+
+
+class UpdateGuide(forms.ModelForm):
+    class Meta:
+        model = Guide
         fields = '__all__'
         exclude = ['user']
 
@@ -164,4 +198,10 @@ class NotificationForm(ModelForm):
 class GuidancePostForm(ModelForm):
     class Meta:
         model = GuidancePost
+        fields = '__all__'
+
+
+class StepForm(ModelForm):
+    class Meta:
+        model = HajSteps
         fields = '__all__'

@@ -177,6 +177,7 @@ def add_pilgrim(request):
                 hotel_address=form.cleaned_data['hotel_address'],
                 birthday=form.cleaned_data['birthday'],
                 duration=form.cleaned_data['duration'],
+                borading_time=form.cleaned_data['borading_time'],
                 gate_num=form.cleaned_data['gate_num'],
                 arrival=form.cleaned_data['arrival'],
             )
@@ -184,7 +185,6 @@ def add_pilgrim(request):
             return redirect('pilgrims')
         
         else:
-            print(form.errors)
             return redirect('pilgrims')
     
 
@@ -265,19 +265,27 @@ def update_manager(request,manager_id):
 
     if request.method == 'POST':
         form = UpdateManager(request.POST,request.FILES,instance=manager)
-        print(form.is_valid)
-        print(form.error_class)
         if form.is_valid():
-            user = CustomUser.objects.update(
-                username=form.cleaned_data['username'],
+            user = CustomUser.objects.get(
                 phonenumber=form.cleaned_data['phonenumber'],
-                # email=form.cleaned_data['email'],
-                password=form.cleaned_data['password1'],
-                get_notifications=form.cleaned_data['get_notifications'],
-                image=request.FILES.get('image'),
             )
+            password1=form.cleaned_data['password1']
+            password2=form.cleaned_data['password2']
+            image=request.FILES.get('image')
+            print(image)
+            if image:
+                user.image = request.FILES.get('image')
+            else:
+                user.image = manager.user.image
+            # if password1:
+            #     user.set_password(password1)
+
+
+            user.get_notifications = form.cleaned_data['get_notifications']
+            user.username = form.cleaned_data['username']
+            user.save()
             return redirect('managers')
-                
+
     user_image = request.user.image.url
     manager_image = manager.user.image.url
     username = request.user.username
@@ -286,9 +294,10 @@ def update_manager(request,manager_id):
         'form': form,
         'user_image': user_image,
         'manager_image': manager_image,
-        'username': username
+        'username': username,
     }
     return render(request, 'update_manager.html', context)
+
 
 
 
@@ -393,44 +402,6 @@ def delete_task(request,task_id):
 
 
 
-def guides_list(request):
-    guides = Guide.objects.all()
-    context = {
-        'guides':guides
-    }
-    return render(request , 'guides_list.html' , context)
-
-
-
-
-def add_guide(request):
-    form = NewUser()
-    if request.method == 'POST':
-        form = NewUser(request.POST)
-        if form.is_valid():
-            user = form.save()
-            Guide.objects.create(user=user)
-            return redirect('guides_list')
-    context = {
-        'form' : form
-    }
-    return render(request , 'add_guide.html' , context)
-
-
-
-
-
-class UpdateGuideView(TemplateView):
-    template_name = 'update_guide.html'
-    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-        return context
-    
-
-def delete_guide(self,request,guide_id):
-    Guide.objects.get(id=guide_id).delete()
-    return HttpResponse("great")
-
 
 
 
@@ -532,6 +503,107 @@ def update_employee(request,employee_id):
 def delete_employee(request,employee_id):
     Employee.objects.get(id=employee_id).delete()
     return redirect('employees')
+
+
+
+
+
+
+@login_required(login_url='login')
+def guides_list(request):
+    q = request.GET.get('q') or ''
+    user_image = request.user.image.url
+    username = request.user.username
+    guides = Employee.objects.filter(user__username__startswith=q).order_by('-id')
+    context = {
+        'guides':guides,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request , 'guides_list.html' , context)
+
+
+
+@login_required(login_url='login')
+def add_guide(request):
+    form = NewGuide()
+    user_image = request.user.image.url
+    username = request.user.username
+    if request.method == 'POST':
+        form = NewGuide(request.POST, request.FILES)
+        if form.is_valid():
+            user = CustomUser.objects.create(
+                username=form.cleaned_data['username'],
+                phonenumber=form.cleaned_data['phonenumber'],
+                # email=form.cleaned_data['email'],
+                password=form.cleaned_data['password1'],
+                get_notifications=form.cleaned_data['get_notifications'],
+                image=form.cleaned_data['image'],
+            )
+            
+            Employee.objects.create(user=user)
+            return redirect('guides')
+    context = {
+        'form' : form,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request , 'add_guide.html' , context)
+
+
+
+
+
+def update_guide(request,guide_id):
+    guide = Guide.objects.get(id=guide_id)
+    user = guide.user
+    form = UpdateGuide(instance=user)
+
+    if request.method == 'POST':
+        form = UpdateGuide(request.POST,request.FILES,instance=guide)
+        if form.is_valid():
+            user = CustomUser.objects.get(
+                phonenumber=form.cleaned_data['phonenumber'],
+            )
+            password1=form.cleaned_data['password1']
+            password2=form.cleaned_data['password2']
+            image=request.FILES.get('image')
+            print(image)
+            if image:
+                user.image = request.FILES.get('image')
+            else:
+                user.image = guide.user.image
+            # if password1:
+            #     user.set_password(password1)
+
+
+            user.get_notifications = form.cleaned_data['get_notifications']
+            user.username = form.cleaned_data['username']
+            user.save()
+            return redirect('guides')
+
+    user_image = request.user.image.url
+    guide_image = guide.user.image.url
+    username = request.user.username
+    
+    context = {
+        'form': form,
+        'user_image': user_image,
+        'guide_image': guide_image,
+        'username': username,
+    }
+    return render(request, 'update_guide.html', context)
+
+
+    
+
+def delete_guide(request,guide_id):
+    Guide.objects.get(id=guide_id).delete()
+    return redirect('guides')
+
+
+
+
 
 
 
@@ -716,4 +788,77 @@ def update_guidance_post(request,post_id):
 def delete_guidance_post(request,post_id):
     GuidancePost.objects.get(id=post_id).delete()
     return redirect('guideance_posts')
+
+
+
+
+
+@login_required(login_url='login')
+def steps_list(request):
+    q = request.GET.get('q') or ''
+    user_image = request.user.image.url
+    username = request.user.username
+    steps = HajSteps.objects.filter(name__startswith=q).order_by('-id')
+    context = {
+        'steps':steps,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request , 'steps.html' , context)
+
+
+
+
+
+
+@login_required(login_url='login')
+def add_step(request):
+    form = StepForm()
+    user_image = request.user.image.url
+    username = request.user.username
+    if request.method == 'POST':
+        form = StepForm(request.POST)
+        print(form.errors)
+        if form.is_valid():
+            form.save()
+            return redirect('steps')
+    context = {
+        'form' : form,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request , 'add_step.html' , context)
+
+
+
+
+
+@login_required(login_url='login')
+def update_step(request,step_id):
+    step = HajSteps.objects.get(id=step_id)
+    form = StepForm(instance=step)
+    user_image = request.user.image.url
+    username = request.user.username
+
+    if request.method == 'POST':
+        form = StepForm(request.POST, instance=step)
+        if form.is_valid():
+            form.save()
+            return redirect('steps')
+
+    context = {
+        'form': form,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request, 'add_step.html', context)
+
+
+
+
+
+@login_required(login_url='login')
+def delete_step(request,step_id):
+    HajSteps.objects.get(id=step_id).delete()
+    return redirect('steps')
 

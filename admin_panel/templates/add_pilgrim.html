@@ -25,7 +25,7 @@
         <div style="margin-right: 100px;">
             <form action="" method="post" style="display: flex; flex-direction: column; gap: 30px; color: white;">
                 {% csrf_token %}
-                <div style="display: flex; flex-direction: column; background-color: rgb(57, 58, 58); width: 800px; height: 380px; border-radius: 30px;" dir="rtl">
+                <div style="display: flex; flex-direction: column; background-color: rgb(57, 58, 58); width: 800px; height: 430px; border-radius: 30px;" dir="rtl">
                   
                   <h4 style="text-align: right; margin-right: 65px;">معلومات</h4>
 
@@ -73,7 +73,7 @@
 
                 </div>
 
-                <div style=" background-color: rgb(57, 58, 58); width: 800px; height: 380px; border-radius: 30px;">
+                <div style=" background-color: rgb(57, 58, 58); width: 800px; height: 430px; border-radius: 30px;">
                   
                   <h4 style="text-align: right; margin-right: 65px;">معلومات</h4>
 
@@ -99,14 +99,6 @@
   
                     <div class="form-block">
                       <div style="width: 300px;">
-                        <div class="form-label">{{ form.departure.label_tag }}</div>
-                        <div class="form-input" id="id_my_datetime_field">{{ form.departure }}</div>
-                      </div>
-                      <div style="width: 300px;">
-                        <div class="form-label">{{ form.arrival.label_tag }}</div>
-                        <div class="form-input">{{ form.arrival }}</div>
-                      </div>
-                      <div style="width: 300px;">
                         <div class="form-label">{{ form.company_logo.label_tag }}</div>
                         <div class="form-input">{{ form.company_logo|add_class:"form-control" }}</div>
                       </div>
@@ -122,14 +114,10 @@
                   </div>
 
                 </div>
-                <div style="display: flex; justify-content: space-evenly; background-color: rgb(57, 58, 58); width: 800px; height: 200px; border-radius: 30px;">
+                <div style="display: flex; justify-content: space-evenly; background-color: rgb(57, 58, 58); width: 800px; height: 250px; border-radius: 30px;">
 
 
                   <div class="form-block">
-                    <div style="width: 300px; display: flex; gap: 80px;">
-                      <div class="form-label">{{ form.get_notifications.label_tag }}</div>
-                      <div class="form-input">{{ form.get_notifications|add_class:"form-control-check" }}</div> 
-                    </div>
                     <div style="width: 300px;">
                       <div class="form-label">{{ form.image.label_tag }}</div>
                       <div class="form-input">{{ form.image|add_class:"form-control" }}</div> 
@@ -138,6 +126,10 @@
                       <div class="form-label">{{ form.gate_num.label_tag }}</div>
                       <div class="form-input">{{ form.gate_num|add_class:"form-control" }}</div> 
                     </div>
+                    <div style="width: 300px; display: flex; align-items: center; justify-content: right; gap: 40px;">
+                      <div class="form-label">{{ form.get_notifications.label_tag }}</div>
+                      <div class="form-input" style="padding-top: 27px;">{{ form.get_notifications|add_class:"form-control-check" }}</div> 
+                  </div>
                   </div>
 
 

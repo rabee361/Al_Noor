@@ -11,8 +11,6 @@ urlpatterns = [
     path('add_form/' , add_register_form , name="add_register_form"),
     path('delete_form/<str:form_id>' , delete_register_form , name="delete_register_form"),
 
-    path('steps/' , steps , name="steps"),
-
     path('managers/' , managers_list , name="managers"),
     path('add_manager/' , add_manager , name="add_manager"),
     path('update_manager/<str:manager_id>/' , update_manager , name="update_manager"),
@@ -25,8 +23,8 @@ urlpatterns = [
 
     path('guides_list/' , guides_list , name="guides"),
     path('add_guide/' , add_guide , name="add_guide"),
-    path('update_guide/<str:pk>' , UpdateGuideView.as_view() , name="update_guide"),
-    path('delete_guide/<str:pk>/' , delete_guide , name="delete_guide"),
+    path('update_guide/<str:guide_id>' , update_guide , name="update_guide"),
+    path('delete_guide/<str:guide_id>/' , delete_guide , name="delete_guide"),
 
     path('employees_list/' , employees_list , name="employees"),
     path('add_employee/' , add_employee , name="add_employee"),
@@ -51,6 +49,10 @@ urlpatterns = [
     path('update-guidance-post/<str:post_id>' , update_guidance_post , name="update_guidance_post"),
     path('delete-guidance-post/<str:post_id>' , delete_guidance_post , name="delete_guidance_post"),
 
+    path('steps/' , steps_list , name="steps"),
+    path('add-step/' , add_step , name="add_step"),
+    path('update-step/<str:step_id>' , update_step , name="update_step"),
+    path('delete-step/<str:step_id>' , delete_step , name="delete_step"),
 
     path('category_list/' , CategoryListView.as_view() , name="category_list"),
     path('main_service_list/' , MainServiceListView.as_view() , name="main_service_list"),
