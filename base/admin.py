@@ -2,20 +2,50 @@ from django.contrib import admin
 from .models import *
 from .resources import *
 from import_export.admin import ImportExportModelAdmin
-from .forms import *
+from fcm_django.models import FCMDevice
+from fcm_django.admin import DeviceAdmin as DefaultDeviceAdmin
+from rest_framework_simplejwt.token_blacklist.models import OutstandingToken, BlacklistedToken
+from rest_framework_simplejwt.token_blacklist.admin import OutstandingTokenAdmin as DefaultOutstandingTokenAdmin
+from django.contrib.auth.models import Group
+
+
+admin.site.site_header = "Dashboard"
+admin.site.index_title = "Admin Panel"
+
+
+admin.site.unregister(FCMDevice)
+admin.site.unregister(BlacklistedToken)
+admin.site.unregister(OutstandingToken)
+admin.site.unregister(Group)
+
+class HiddenModelAdmin(admin.ModelAdmin):
+    def get_model_perms(self, request):
+        return {}
+    
+@admin.register(FCMDevice)
+class FCMDeviceAdmin(HiddenModelAdmin):
+    pass
+
+@admin.register(OutstandingToken)
+class OutstandingTokenAdmin(HiddenModelAdmin):
+    pass
+
+@admin.register(BlacklistedToken)
+class BlacklistedTokenAdmin(HiddenModelAdmin):
+    pass
+
+
 
 
 
 class CustomUserAdmin(admin.ModelAdmin):
-    add_form = CustomUserCreationForm
-    # form = CustomUserChangeForm
     list_display = ['id','first_name','last_name','phonenumber','is_verified','get_notifications']
 
 
 
 class RegistrationAdmin(ImportExportModelAdmin):
     resource_class = RegistrationResource
-    list_display = ['id']
+    list_display = ['id','first_name','last_name','phonenumber']
 
 
 ### needs modification
@@ -25,44 +55,45 @@ class PilgrimAdmin(ImportExportModelAdmin):
 
 
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ['id','first_name','last_name']
+    list_display = ['id','username','phonenumber' , 'email']
 
-    def first_name(self, obj):
-        return obj.user.first_name
-
-    def last_name(self, obj):
-        return obj.user.last_name
+    def email(self, obj):
+        return obj.user.email
 
     def phonenumber(self, obj):
         return obj.user.phonenumber
 
+    def username(self, obj):
+        return obj.user.username
 
+    def email(self, obj):
+        return obj.user.email
+    
 
 class GuideAdmin(admin.ModelAdmin):
-    list_display = ['id','first_name','last_name']
-
-    def first_name(self, obj):
-        return obj.user.first_name
-
-    def last_name(self, obj):
-        return obj.user.last_name
+    list_display = ['id','username','phonenumber', 'email']
 
     def phonenumber(self, obj):
         return obj.user.phonenumber
 
+    def email(self, obj):
+        return obj.user.email
+
+    def username(self, obj):
+        return obj.user.username
 
 
 class ManagementAdmin(admin.ModelAdmin):
-    list_display = ['id','first_name','last_name']
-
-    def first_name(self, obj):
-        return obj.user.first_name
-
-    def last_name(self, obj):
-        return obj.user.last_name
+    list_display = ['id','username','phonenumber' , 'email']
 
     def phonenumber(self, obj):
         return obj.user.phonenumber
+
+    def email(self, obj):
+        return obj.user.email
+
+    def username(self, obj):
+        return obj.user.username
 
 
 class UserNotificationAdmin(admin.ModelAdmin):
@@ -78,7 +109,7 @@ class TaskAdmin(admin.ModelAdmin):
 
 
 class ChatAdmin(admin.ModelAdmin):
-    list_display = ['id','user','created']
+    list_display = ['id','user','created','created']
 
 
 class ChatMessageAdmin(admin.ModelAdmin):
@@ -101,6 +132,17 @@ class ReligiousPostAdmin(admin.ModelAdmin):
     list_display = ['id','category','title','content','created']
 
 
+class SecondaryStepsAdmin(admin.ModelAdmin):
+    list_display = ['name','note']
+
+
+class HajStepsAdmin(admin.ModelAdmin):
+    list_display = ['name','display_secondary_steps']
+
+    def display_secondary_steps(self, obj):
+        return ', '.join([step.name for step in obj.secondary_steps.all()])
+    display_secondary_steps.short_description = 'الخطوات الفرعية'
+
 
 
 admin.site.register(Note,NoteAdmin)
@@ -118,7 +160,6 @@ admin.site.register(GuidancePost,GuidancePostAdmin)
 admin.site.register(ReligiousPost,ReligiousPostAdmin)
 admin.site.register(ReligiousCategory,ReligiousCategoryAdmin)
 admin.site.register(GuidanceCategory,GuidanceCategoryAdmin)
+admin.site.register(HajSteps,HajStepsAdmin)
+admin.site.register(SecondarySteps,SecondaryStepsAdmin)
 admin.site.register(VerificationCode)
-
-admin.site.register(TypeAhkamAlmrah)
-admin.site.register(AhkamAlmrah)

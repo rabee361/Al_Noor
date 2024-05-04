@@ -5,6 +5,7 @@ from datetime import datetime
 from django.contrib.auth import  authenticate
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.tokens import TokenError, RefreshToken
+import calendar
 
 
 
@@ -13,10 +14,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = '__all__'
 
-class UpdateImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CustomUser
-        fields = ('image',)
+
 
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
@@ -96,26 +94,36 @@ class NoteSerializer(serializers.ModelSerializer):
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
+    phonenumber = serializers.SerializerMethodField(read_only=True)
+    class Meta:
+        model = Employee
+        fields = '__all__'
+
+    def get_phonenumber(self,obj):
+        return obj.user.phonenumber.as_international
+        
+
+
+
+class CreateEmployeeSerializer(serializers.Serializer):
     username = serializers.CharField(write_only=True)
     phonenumber = serializers.CharField(write_only=True)
     email = serializers.EmailField(write_only=True)
     password = serializers.CharField(write_only=True)
-    user = serializers.CharField(source='user.username', read_only=True)
 
-    class Meta:
-        model = Employee
-        fields = '__all__'
-    
-    def create(self, validated_data):
-        username = validated_data.pop('username')
-        phonenumber = validated_data.pop('phonenumber')
-        email = validated_data.pop('email')
-        password = validated_data.pop('password')
-        user = CustomUser.objects.create(phonenumber=phonenumber, username=username, email=email)
+    def create(self, validated_data):#### needs modification
+        password = validated_data.get('password')
+        phonenumber = validated_data.get('phonenumber')
+        email = validated_data.get('email')
+        username = validated_data.get('username')
+        user = CustomUser.objects.create(username=username,email=email,phonenumber=phonenumber)
         user.set_password(password)
         user.save()
-        instance = Employee.objects.create(user=user)
-        return instance
+        validated_data['user'] = user
+        employee = Employee.objects.create(user=user)
+        return employee
+
+
 
 
 
@@ -125,62 +133,44 @@ class ManagementSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class AhkamAlmrahSerialzier(serializers.ModelSerializer):
-    class Meta:
-        model = AhkamAlmrah
-        fields = '__all__'
 
-class TypeAhkamAlmrahSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = TypeAhkamAlmrah
-        fields = '__all__'
 
 class PilgrimSerializer(serializers.ModelSerializer):
-    user = serializers.CharField(source='user.username', read_only=True)
+    phonenumber = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Pilgrim
-        # fields = '__all__'
-        exclude = ['ahkamalmrah',]
+        fields = '__all__'
 
-    # def create(self, validated_data):
-    #     first_name = validated_data.pop('first_name')
-    #     last_name = validated_data.pop('last_name')
-    #     phonenumber = validated_data.pop('phonenumber')
-    #     password = generate_password()
-    #     user = CustomUser.objects.create(phonenumber=phonenumber, username=f'{first_name} {last_name}')
-    #     user.set_password(password)
-    #     user.save()
-    #     instance = Pilgrim.objects.create(user=user, first_name=first_name, last_name=last_name,phonenumber=phonenumber, **validated_data)
-    #     return instance
+    def get_phonenumber(self,obj):
+        return obj.phonenumber.as_international
+        
 
-    def create(self, validated_data):#### needs modification 
+
+
+class CreatePilgrimSerializer(serializers.Serializer):
+    username = serializers.CharField(write_only=True)
+    phonenumber = serializers.CharField(write_only=True)
+    email = serializers.EmailField(write_only=True)
+    password = serializers.CharField(write_only=True)
+
+    def create(self, validated_data):
+        password = validated_data.pop('password')
         phonenumber = validated_data.pop('phonenumber')
         first_name = validated_data.get('first_name')
         last_name = validated_data.get('last_name')
         father_name = validated_data.get('father_name')
         grand_father = validated_data.get('grand_father')
-        full_name = first_name+' '+father_name+' '+grand_father+' '+last_name
+        full_name = first_name+father_name+grand_father+last_name
         user = CustomUser.objects.create(username=full_name,first_name=first_name,last_name=last_name,phonenumber=phonenumber)
-        password = generate_password()
         user.set_password(password)
         user.save()
         validated_data['user'] = user
-        pilgrim = Pilgrim.objects.create(phonenumber=phonenumber, **validated_data)
+        pilgrim = Pilgrim.objects.create(**validated_data)
         return pilgrim
+    
 
 
 
-# class InfoFlowSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Pilgrim
-#         fields = ['flight_num', 'arrival', 'departure', 'duration', 'borading_time', 'gate_num', 'flight_company', 'company_logo', 'status']
-
-
-# class InfoHotelSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         fields = ['hotel', 'hotel_address', 'room_num']
-
-        
 class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserNotification
@@ -252,3 +242,29 @@ class ReligiousCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = ReligiousCategory
         fields = '__all__'
+
+
+
+class SecondaryStepsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SecondarySteps
+        fields = ['name','note']
+
+
+
+
+class HajStepSerializer(serializers.ModelSerializer):
+    secondary_steps = SecondaryStepsSerializer(many=True)
+
+    class Meta:
+        model = HajSteps
+        fields = '__all__'
+
+
+
+class ItemsPerMonthSerializer(serializers.Serializer):
+    month_name = serializers.SerializerMethodField()
+    count = serializers.IntegerField()
+
+    def get_month_name(self, obj):
+        return calendar.month_name[obj['month']]

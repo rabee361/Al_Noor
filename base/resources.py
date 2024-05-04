@@ -1,8 +1,9 @@
 from import_export import resources
 from .models import *
 from import_export.fields import Field 
-from import_export.widgets import ForeignKeyWidget 
+from import_export.widgets import ForeignKeyWidget  , BooleanWidget
 from .utils import generate_password
+from .notifications import send_password
 
 # class PilgrimResource(resources.ModelResource):
 #     class Meta:
@@ -12,6 +13,13 @@ from .utils import generate_password
 
     # def get_import_id_fields(self):
     #     return ['name']
+
+
+class YesNoBooleanWidget(BooleanWidget):
+    def render(self, value, obj=None):
+        if value:
+            return 'نعم'
+        return 'لا'
 
 
 class PilgrimResource(resources.ModelResource):
@@ -103,17 +111,26 @@ class PilgrimResource(resources.ModelResource):
         first_name = row['الاسم الأول']
         last_name = row['العائلة']
         user, created = CustomUser.objects.get_or_create(phonenumber=phonenumber)
+        chat = Chat.objects.create(user=user)
         user.username = first_name
         user.first_name = first_name
         user.last_name = last_name
-        user.set_password(generate_password())
+        my_password = generate_password()
+        user.set_password(my_password)
         user.save()
+        content = f'كلمة مرورك هي {my_password}'
+        msg = ChatMessage.objects.create(chat=chat,content=content,employee=True)
+        send_password(user=user, title='فريق الدعم', content='تم تحديث كلمة المرور')
 
     def after_save_instance(self, instance, using_transactions, dry_run):
         if not dry_run:
             instance.user = CustomUser.objects.get(phonenumber=instance.phonenumber)
             instance.save()
         return True
+
+
+
+
 
 class RegistrationResource(resources.ModelResource):
     phonenumber = Field(
@@ -191,6 +208,7 @@ class RegistrationResource(resources.ModelResource):
     illness = Field(
         column_name='هل لديك أمراض مزمنة',
         attribute='illness',
+        widget=YesNoBooleanWidget(),
     )
     chronic_diseases = Field(
         column_name='هل لديك أمراض مزمنة',
@@ -199,14 +217,17 @@ class RegistrationResource(resources.ModelResource):
     tawaf = Field(
         column_name='هل تحتاج لمن يساعدك خلال الطواف',
         attribute='tawaf',
+        widget=YesNoBooleanWidget(),
     )
     sai = Field(
         column_name='هل تحتاج لمن يساعدك خلال السعي',
         attribute='sai',
+        widget=YesNoBooleanWidget(),
     )
     wheelchair = Field(
         column_name='هل تحتاج إلى كرسي متحرك',
         attribute='wheelchair',
+        widget=YesNoBooleanWidget(),
     )
     type_help = Field(
         column_name='يمكنك كتابة المساعدة المطلوبة',

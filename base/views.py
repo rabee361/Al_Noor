@@ -1,29 +1,27 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
+import requests
 from rest_framework.permissions import IsAuthenticated
 from django.http import HttpResponse
 from .serializers import *
 from .models import *
 from .filters import *
-from .notifications import *
 from .resources import *
+from .permissions import *
+from .notifications import *
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.generics import RetrieveUpdateDestroyAPIView , ListAPIView , UpdateAPIView, RetrieveAPIView , ListCreateAPIView , GenericAPIView
+from rest_framework.generics import RetrieveUpdateDestroyAPIView , ListAPIView  , CreateAPIView, UpdateAPIView, RetrieveAPIView , ListCreateAPIView , GenericAPIView
 from .utils import get_response
 from rest_framework import status
 from datetime import datetime
 from fcm_django.models import FCMDevice
 from django.shortcuts import get_object_or_404
-from django.db.models import Max
+from django.db.models import Max , Count
+from django.db.models.functions import ExtractMonth
 
-
-class UpdateImageView(UpdateAPIView):
-    queryset = CustomUser.objects.all()
-    serializer_class = UpdateImageSerializer
-    # permission_classes = (IsAuthenticated,)
 
 class LoginUser(GenericAPIView):
 
@@ -48,8 +46,8 @@ class LoginUser(GenericAPIView):
 
 
 class LogoutUser(GenericAPIView):
-    serializer_class = LogoutUserSerializer
     permission_classes = [IsAuthenticated]
+    serializer_class = LogoutUserSerializer
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -70,10 +68,13 @@ class SendCodePassword(GenericAPIView):
                 existing_code.delete()
             code_verivecation = generate_code()
             code = VerificationCode.objects.create(user=user, code=code_verivecation)
+            chat = Chat.objects.get(user=user)
+            msg = ChatMessage.objects.create(content=f'كود تغيير كلمة المرور هو {code}',employee=True)
+            send_code(user=user,title='فريق الدعم',content='تم ارسال كود التحقق')
             return Response({'message':'تم ارسال رمز التحقق',
                              'user_id' : user.id})
         except:
-            raise serializers.ValidationError({'error':'pleace enter valid phonenumber'})
+            raise serializers.ValidationError({'error':'أدخل رقم هاتف صحيح'})
     
 
 
@@ -81,6 +82,7 @@ class SendCodePassword(GenericAPIView):
 
 ######### needs modification to adapt to sms
 class VerifyCode(GenericAPIView):
+    # permission_classes = [IsAuthenticated]
 
     def post(self, request, pk):
         code = request.data['code']
@@ -89,7 +91,7 @@ class VerifyCode(GenericAPIView):
         if code_ver:
             if str(code) == str(code_ver.code):
                 if timezone.now() > code_ver.expires_at:
-                    return Response({"message":"Verification code has expired"}, status=status.HTTP_400_BAD_REQUEST)
+                    return Response({"message":"انتهت صلاحية رمز التحقق"}, status=status.HTTP_400_BAD_REQUEST)
                 code_ver.is_verified = True
                 code_ver.save()
                 return Response({"message":"تم التحقق من الرمز", 'user_id':code_ver.user.id},status=status.HTTP_200_OK)
@@ -98,10 +100,26 @@ class VerifyCode(GenericAPIView):
         
 
 
+class UpdateImage(GenericAPIView):
+    # permission_classes = [IsAuthenticated]
+
+    def post(self,request):
+        new_image = request.data['image'] or None
+        if new_image is not None:
+            user = request.user
+            user.image = new_image
+            user.save()
+            serializer = CustomUserSerializer(user,many=False)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response({"error":"اختر صورة من فضلك"} , status=status.HTTP_400_BAD_REQUEST)
+
+
 
 
 ######### needs modification to adapt to sms
 class ResetPassword(UpdateAPIView):
+    # permission_classes = [IsAuthenticated]
     serializer_class = ResetPasswordSerializer
 
     def put(self, request, user_id):
@@ -122,14 +140,45 @@ class ResetPassword(UpdateAPIView):
 
 
 class RegisterPilgrim(ListCreateAPIView):
+    # permission_classes = [IsAuthenticated]
     queryset =  Registration.objects.all()
     serializer_class = RegistrationSerializer
+
+
+
+class ListCreatePilgrim(ListAPIView):
+    # permission_classes = [IsAuthenticated]
+    queryset = Pilgrim.objects.all()
+    serializer_class = PilgrimSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = PilgrimFilter
+
+
+
+class GetPilgrim(RetrieveUpdateDestroyAPIView):
+    # permission_classes = [IsAuthenticated]
+    queryset = Pilgrim.objects.all()
+    serializer_class = PilgrimSerializer
+
+
+class PilgrimInfo(GenericAPIView):
+    # permission_classes = [IsAuthenticated]
+
+    def get(self,request):
+        user = request.user
+        try:
+            pilgrim = Pilgrim.objects.get(user=user)
+            serializer = PilgrimSerializer(pilgrim , many=False)
+            return Response(serializer.data , status=status.HTTP_200_OK)
+        except Pilgrim.DoesNotExist:
+            return Response({"error":"لا يوجد حاج بهذا الاسم"},status=status.HTTP_500_BAD_REQUEST)
 
 
 
 
 class RefreshFirebaseToken(GenericAPIView):
     # permission_classes = [IsAuthenticated]
+
     def post(self,request):
         token = request.data['firebase-token']
         user_id = request.data['user_id']
@@ -149,29 +198,34 @@ class RefreshFirebaseToken(GenericAPIView):
 
 ###### might meed modification to send the pilgrim id in the header
 class ListCreateNote(ListCreateAPIView):
+    # permission_classes = [IsAuthenticated]
     queryset =  Note.objects.all()
     serializer_class = NoteSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = NoteFilter
 
 
 class RetUpdDesNote(RetrieveUpdateDestroyAPIView):
+    # permission_classes = [IsAuthenticated]
     queryset =  Note.objects.all()
     serializer_class = NoteSerializer
 
 
 ##### needs modification to send more info in the notification body
-class ListNotifications(GenericAPIView):
-    permission_classes = [IsAuthenticated]
+class ListNotifications(ListAPIView):
+    # permission_classes = [IsAuthenticated]
+    queryset =  UserNotification.objects.all()
+    serializer_class = NotificationSerializer
 
-    def get(self, request):
-        user = request.user
-        notification = UserNotification.objects.filter(user__id=user.id)
-        serializer = NotificationSerializer(notification, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    def get_queryset(self):
+        user = self.request.user
+        notifications = UserNotification.objects.filter(user__id=user.id)
+        return notifications
         
 
 
-
-class ListCreateTask(ListCreateAPIView):
+######## show all tasks or employee's tasks ????? asap
+class ListTask(ListAPIView):
     permission_classes = [IsAuthenticated]
     queryset =  Task.objects.all()
     serializer_class = TaskSerializer
@@ -188,13 +242,54 @@ class ListCreateTask(ListCreateAPIView):
 
 
 
-class RetUpdDesTask(ListCreateAPIView):
+class RetUpdDesTask(RetrieveUpdateDestroyAPIView):
+    # permission_classes = [IsAuthenticated]
     queryset =  Task.objects.all()
     serializer_class = TaskSerializer
 
 
 
+class CompleteTask(GenericAPIView):
+    # permission_classes = [IsAuthenticated]
+    queryset =  Task.objects.all()
+    serializer_class = TaskSerializer
+
+    def post(self,request,task_id):
+        try:
+            task = Task.objects.get(id=task_id)
+            task.completed = True
+            task.save()
+            serializer = TaskSerializer(task , many=False)
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        except Task.DoesNotExist:
+            return Response({"error":"لا يوجد مهمة بهذا الرقم"},status=status.HTTP_400_BAD_REQUEST)
+        
+
+
+
+class AcceptTask(GenericAPIView):
+    # permission_classes = [IsAuthenticated]
+    queryset =  Task.objects.all()
+    serializer_class = TaskSerializer
+
+    def post(self,request,task_id):
+        try:
+            task = Task.objects.get(id=task_id)
+            task.accepted = True
+            task.save()
+            serializer = TaskSerializer(task , many=False)
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        except Task.DoesNotExist:
+            return Response({"error":"لا يوجد مهمة بهذا الرقم"},status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
 class SendTask(GenericAPIView):
+    # permission_classes = [IsAuthenticated]
+    queryset =  Task.objects.all()
+    serializer_class = TaskSerializer
+
     def post(self,request,pk):
         employee = Employee.objects.get(id=pk)
         title = request.data.get('title',None)
@@ -215,19 +310,55 @@ class SendTask(GenericAPIView):
 
 
 
+
+
+
+class CompleteStep(GenericAPIView):
+    # permission_classes = [IsAuthenticated]
+
+    def post(self,request,step_id):
+        try:
+            step = HajSteps.objects.get(id=step_id)
+            pilgrim = Pilgrim.objects.get(user=request.user)
+            if not pilgrim.haj_steps.filter(id=step.id).exists():
+                pilgrim.haj_steps.add(step)
+            else:
+                pilgrim.haj_steps.remove(step)
+
+            serializer = HajStepSerializer(step , many=False)
+            return Response(serializer.data)
+        except:
+            return Response({"error":"لا يوجد خطوة بهذا الاسم"})
+
+
+
+
+
+class ListHajSteps(ListAPIView):
+    queryset = HajSteps.objects.all()
+    serializer_class = HajStepSerializer
+    # permission_classes = [IsAuthenticated]
+
+
+
+
+
 class SendNotification(GenericAPIView):
     def post(self,request):
-        users = CustomUser.objects.filter()
-        if title is None or content is None:
-            title = request.data.get('title',None)
-            content = request.data.get('content',None)
-            send_event_notification(title=title,content=content)
-            return Response({
-                "message":"تم ارسال الاشعار"
-            })
+        pilgrims = Pilgrim.objects.values_list('user',flat=True)
+        users = CustomUser.objects.filter(id__in = pilgrims)
+        title = request.data.get('title',None)
+        content = request.data.get('content',None)
+        if pilgrims is not None:
+            if title is None or content is None:
+                # send_event_notification(users=users,title=title,content=content)
+                return Response({
+                    "message":"تم ارسال الاشعار"
+                })
+            else:
+                return Response({"error":"العنوان أو المحتوى فارغ"})
         else:
-            return Response({"error":"العنوان أو المحتوى فارغ"})
-
+            return Response({"error":"لا يوجد حجاج"})
 
 class Calender(GenericAPIView):
     def post(self,request):
@@ -268,108 +399,124 @@ class Calender(GenericAPIView):
 class ListChats(ListCreateAPIView):
     querset = Chat.objects.all()
     serializer_class = ChatSerializer
+    # permission_clasess = [IsGuide , IsAuthenticated]
 
     def get_queryset(self):
         chats = Chat.objects.annotate(latest_message_timestamp=Max('chatmessage__timestamp'))
         chats = chats.order_by('-latest_message_timestamp')
         return chats
-    
+
 
 
 class GetChat(RetrieveAPIView):
+    # permission_clasess = [IsAuthenticated]
     queryset = Chat.objects.all()
     serializer_class = ChatSerializer
 
 
 
 class ListCreateEmployee(ListCreateAPIView):
+    # permission_clasess = [IsAuthenticated]
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = EmployeeFilter
 
+
+class CreateEmployee(CreateAPIView):
+    # permission_clasess = [IsAuthenticated]
+    queryset = Employee.objects.all()
+    serializer_class = CreateEmployeeSerializer 
+   
 
 
 class ListCreateGuidancePost(ListCreateAPIView):
+    # permission_clasess = [IsAuthenticated]
     queryset = GuidancePost.objects.all()
     serializer_class = GuidancePostSerializer
 
 
 class RetUpdDesGuidancePost(RetrieveUpdateDestroyAPIView):
+    # permission_clasess = [IsAuthenticated]
     queryset = GuidancePost.objects.all()
     serializer_class = GuidancePostSerializer
 
 
 class ListCreateReligiousPost(ListCreateAPIView):
+    # permission_clasess = [IsAuthenticated]
     queryset = ReligiousPost.objects.all()
     serializer_class = ReligiousPostSerializer
 
 
 class RetUpdDesReligiousPost(RetrieveUpdateDestroyAPIView):
+    # permission_clasess = [IsAuthenticated]
     queryset = ReligiousPost.objects.all()
     serializer_class = ReligiousPostSerializer
 
 
 class ListCreateGuidanceCategory(ListCreateAPIView):
+    # permission_clasess = [IsAuthenticated]
     queryset = GuidanceCategory.objects.all()
     serializer_class = GuidanceCategorySerializer
 
 
 class RetUpdDesGuidanceCategory(RetrieveUpdateDestroyAPIView):
+    # permission_clasess = [IsAuthenticated]
     queryset = GuidanceCategory.objects.all()
     serializer_class = GuidanceCategorySerializer
 
 
 class ListCreateReligiousCategory(ListCreateAPIView):
+    # permission_clasess = [IsAuthenticated]
     queryset = ReligiousCategory.objects.all()
     serializer_class = ReligiousCategorySerializer
 
 
 class RetUpdDesReligiousCategory(RetrieveUpdateDestroyAPIView):
+    # permission_clasess = [IsAuthenticated]
     queryset = ReligiousCategory.objects.all()
     serializer_class = ReligiousCategorySerializer
 
 
 
-def export_pilgram(request):
-    pilgrim_resource = PilgrimResource()
-    dataset = pilgrim_resource.export()
-    response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = 'attachment; filename="pilgrims.xlsx"'
-    return response
 
-#########################################################################################################################
-class ListCreatePilgrimView(ListCreateAPIView):
-    queryset = Pilgrim.objects.all()
-    serializer_class = PilgrimSerializer
-    # permission_classes = [IsAuthenticated,]
 
-class ListAhkamAlmrahVeiw(ListAPIView):
-    queryset = AhkamAlmrah.objects.all()
-    serializer_class = AhkamAlmrahSerialzier
 
-class TypeAhkamAlmrahListView(GenericAPIView):
-    serializer_class = TypeAhkamAlmrahSerializer
 
-    def get(self, request, pk):
-        ahkamalmrah = AhkamAlmrah.objects.get(id=pk)
-        type_ahkam = ahkamalmrah.typeahkamalmrah_set.all()
-        serializer = self.get_serializer(type_ahkam, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
 
-class CompleatedAhkamAlmrah(GenericAPIView):
-    permission_classes = [IsAuthenticated,]
-
-    def put(self, request):
-        ahkam_al = request.data['ahkam_almrah']
-        ahkam_almrah = AhkamAlmrah.objects.get(id=int(ahkam_al))
-        pilgrim = Pilgrim.objects.get(user=request.user).ahkamalmrah.add(ahkam_almrah)
-        return Response({"success":"Tre"},status=status.HTTP_200_OK)
-
-class GetUpdateInfoFlowView(GenericAPIView):
-    permission_classes = [IsAuthenticated, ]
-    serializer_class = PilgrimSerializer
+class LineChart(APIView):
+    def get(self,request):
+        year = datetime.now().year
+        pilgrims = Pilgrim.objects.filter(created__year=year)\
+                                        .annotate(month=ExtractMonth("created"))\
+                                        .values("month").annotate(count=Count("id"))\
+                                        .values("month", "count").order_by("month")
+        serializer = ItemsPerMonthSerializer(pilgrims, many=True)
+        return Response({
+        "title": "الحجاج المسجلين حديثا",
+        "data": {
+            "datasets": [{
+                "label": "Amount ($)",
+                "backgroundColor": '#FFFFFF',
+                "borderColor": '#FFFFFF',
+                "data": serializer.data,
+            }]
+        },
+    })
     
-    def get(self, request):
-        user = CustomUser.objects.get(id=request.user.id)
-        pilgrim = user.pilgrim_set.all()
-        serializer = self.get_serializer(pilgrim, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+
+
+
+
+
+
+class PieChart(APIView): 
+    def get(self,request):
+        completed_tasks = Task.objects.filter(completed=True).values("completed").aggregate(Count('id'))['id__count']
+        remaining_tasks = Task.objects.filter(completed=False).values("completed").aggregate(Count('id'))['id__count']
+        return Response({
+            "completed":completed_tasks,
+            "remaining":remaining_tasks
+        })

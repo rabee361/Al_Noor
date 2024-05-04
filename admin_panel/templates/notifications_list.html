@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+<div class="main-panel" id="main-panel" style="margin-right: 210px; background-color: rgb(77, 76, 76);">
+  <div class="content" dir="rtl" style="margin-top: 50px; margin-right: 10px;">
+
+      <div style="display: flex; gap: 0; font-size: 10px;">
+        <div style="height: 70px; margin-left: 1300px; display: flex; gap: 10px;">
+          <h5 style="color: white;">الرئيسية</h5>
+          <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: rgb(189, 9, 189);"></i></h5>
+          <h5 style="color: white;">الاشعارات</h5>
+          <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: rgb(189, 9, 189);"></i></h5>
+        </div>
+      </div>
+
+      <div class="row">
+      <div class="col-md-12">
+        <div class="card" style="background-color: rgb(57, 58, 58);">
+
+          <div style="display: flex;">
+            <div class="card-header" style="margin-left: 520px;">
+              <form action="" method="get" style="color: rgb(54, 54, 54);">
+                  <input type="text" name="q" class="custom-input" placeholder="  بحث">
+              </form>
+            </div>
+
+            <div style="display: flex; gap: 5px;  margin-right: 90px; margin-top: 15px; color: white; font-size: smaller;">
+              <a href="{% url 'add_notification' %}"><h5 style="background: green; width: 60px; padding: 4px; padding-bottom: 0; border-radius: 20px; color: white;"><i class=" now-ui-icons ui-1_simple-add" style="margin-left: 17px;"></i></h5></a>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="table-responsive">
+              <div style="overflow-x: auto; width: 100%;">
+                <table class="table" style="width: 100%;">
+                  <thead class="text-primary" style="font-size: small ; background-color: rgb(88, 88, 88)">
+                    <th style="color: white;">
+                      ID
+                    </th>
+                    <th style="color: white;">
+                    المهمة
+                    </th>
+                    <th style="color: white;">
+                      المحتوى
+                    </th>
+                    <th style="color: white;">
+                      معلومات اضافية
+                    </th>
+                    <th style="color: white;">
+                      التاريخ
+                    </th>
+                    <th style="color: white;">
+                      
+                    </th>
+                  </thead>
+                  <tbody style="color: white;">
+                  {% for notification in notifications %}
+                    <tr style="font-size: large;">
+                      <td>
+                        {{notification.id}}
+                      </td>
+                      <td>
+                        {{notification.title}}
+                      </td>
+                      <td>
+                        {{notification.content}}
+                      </td>
+                      <td>
+                        {{notification.info}}
+                      </td>
+                      <td>
+                        {{notification.created}}
+                      </td>
+                      <td>
+                          <button type="button" rel="tooltip" class="btn btn-danger btn-simple btn-icon btn-sm" data-toggle="modal" data-target="#deleteadminModal{{ notification.id }}">
+                            <i class="now-ui-icons ui-1_simple-remove"></i>
+                          </button>
+                      </td>
+                  </tr>
+
+
+                  <div class="modal fade" id="deleteadminModal{{ notification.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteadminModalLabel{{ notification.id }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="deleteadminModalLabel{{ notification.id }}">حذف المهمة</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <p>"هل أنت واثق من أنك تريد حذف الاشعار {{notification.title}}?"</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
+                          <form action="{% url 'delete_notification' notification.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">حذف</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static  %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+<div class="main-panel" id="main-panel" style="margin-right: 210px; background-color: rgb(77, 76, 76);">
+    <div class="content" dir="rtl" style="margin-top: 50px; margin-right: 10px;">
+  
+        <div style="display: flex; gap: 0; font-size: 10px;">
+          <div style="height: 70px; margin-left: 1300px; display: flex; gap: 10px;">
+            <h5 style="color: white;">الرئيسية</h5>
+            <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: rgb(189, 9, 189);"></i></h5>
+            <h5 style="color: white;">المهام</h5>
+            <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: rgb(189, 9, 189);"></i></h5>
+            <h5 style="color: white;">إضافة</h5>
+            <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: rgb(189, 9, 189);"></i></h5>
+          </div>
+          <div style="display: flex; gap: 10px;  margin-right: 100px; color: white;">
+            <h5><i class=" now-ui-icons arrows-1_cloud-download-93" style="margin-left: 5px;"></i>تصدير </h5>
+            <h5><i class=" now-ui-icons arrows-1_cloud-upload-94" style="margin-left: 5px;"></i>استيراد </h5>
+          </div>
+        </div>
+
+        <div style="margin-right: 100px;">
+            <form action="" method="post" style="display: flex; flex-direction: column; gap: 30px; color: white;">
+                {% csrf_token %}
+                <div style="background-color: rgb(57, 58, 58); width: 800px; height: 300px;display: flex; justify-content: space-evenly; border-radius: 30px;" dir="rtl">
+                  
+                  <div class="form-block">
+                    <div style="width: 300px; display: flex; flex-direction: column;">
+                      <div class="form-label">{{ form.employee.label_tag }}</div>
+                      <div class="form-input">{{ form.employee|add_class:"form-control" }}</div>
+                    </div>
+                    <div style="width: 300px;">
+                      <div class="form-label">{{ form.title.label_tag }}</div>
+                      <div class="form-input">{{ form.title|add_class:"form-control" }}</div>
+                       
+                    </div>
+                    <div style="width: 300px;">
+                      <div class="form-label">{{ form.content.label_tag }}</div>
+                      <div class="form-input">{{ form.content|add_class:"form-control" }}</div> 
+                    </div>
+                </div>
+                
+                
+                <div class="form-block">
+                    <div style="width: 300px; display: flex; flex-direction: row; gap: 80px;">
+                        <div class="form-label">{{ form.accepted.label_tag }}</div>
+                        <div class="form-input">{{ form.accepted|add_class:"form-control-check" }}</div> 
+                    </div>    
+                    <div style="width: 300px; display: flex; flex-direction: row; gap: 80px;">
+                      <div class="form-label">{{ form.completed.label_tag }}</div>
+                      <div class="form-input">{{ form.completed|add_class:"form-control-check" }}</div>
+                    </div>
+                  </div>
+
+
+
+                </div>
+
+
+                <div style="display: flex; gap: 10px; justify-content: left;">
+                  <input type="submit" value="حفظ">
+                  <input type="submit" value="حفظ و أضف المزيد">
+                </div>
+
+              </form>
+        </div>
+  
+    </div>
+  </div>
+
+{% endblock content %}
+
+
+<script>
+  $(document).ready(function() {
+      $('#id_my_datetime_field').datepicker({
+          format: "yyyy-mm-dd",
+          autoclose: true,
+          todayHighlight: true
+      });
+  });
+  </script>
