@@ -13,10 +13,12 @@
           <h5 style="color: white;">الحجاج</h5>
           <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: rgb(189, 9, 189);"></i></h5>
         </div>
-        <div style="display: flex; gap: 10px;  margin-right: 100px; color: white;">
-          <h5><i class=" now-ui-icons arrows-1_cloud-download-93" style="margin-left: 5px;"></i>تصدير </h5>
-          <h5><i class=" now-ui-icons arrows-1_cloud-upload-94" style="margin-left: 5px;"></i>استيراد </h5>
-        </div>
+      </div>
+
+      <div style="display: flex; gap: 5px; color: white; font-size: smaller;" dir="ltr">
+        <a href="{% url 'export_pilgrim' %}"><h5 class="import-button"><i class=" now-ui-icons arrows-1_cloud-download-93"></i>تصدير ملف</h5></a>
+        <!-- <a style="background: gray; width: 70px;padding: 4px; border-radius: 20px;"><i class=" now-ui-icons arrows-1_cloud-upload-94" style="margin-left: 17px;"></i>استيراد ملف</a> -->
+        <a href="{% url 'add_pilgrim' %}"><h5 class="import-button" style="background-color: green;">إضافة</h5></a>
       </div>
 
       <div class="row">
@@ -28,12 +30,6 @@
               <form action="" method="get" style="color: rgb(54, 54, 54);">
                   <input type="text" name="q" class="custom-input" placeholder="  بحث">
               </form>
-            </div>
-
-            <div style="display: flex; gap: 5px; margin-top: 15px; color: white; font-size: smaller;">
-              <a href="{% url 'export_pilgrim' %}"><h5 class="import-button"><i class=" now-ui-icons arrows-1_cloud-download-93" style="margin-left: 17px;"></i></h5></a>
-              <h5 style="background: gray; width: 60px;padding: 4px; padding-bottom: 0; border-radius: 20px;"><i class=" now-ui-icons arrows-1_cloud-upload-94" style="margin-left: 17px;"></i></h5>
-              <a href="{% url 'add_pilgrim' %}"><h5 style="background: green; width: 60px; padding: 4px; padding-bottom: 0; border-radius: 20px; color: white;"><i class=" now-ui-icons ui-1_simple-add" style="margin-left: 17px;"></i></h5></a>
             </div>
           </div>
 

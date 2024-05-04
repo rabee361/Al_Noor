@@ -92,12 +92,37 @@
 
 
 .import-button {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
     background: gray;
-    width: 60px;padding: 4px;
-    padding-bottom: 0;
+    text-wrap: nowrap;
+    width: 140px;
     border-radius: 20px;
     color: white;
 }
+
+
+
+@media (max-width: 768px){
+    .import-button {
+        font-size: small;
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background: gray;
+        text-wrap: nowrap;
+        width: 90px;
+        border-radius: 20px;
+        color: white;
+    }
+    
+}
+
 
 
 
