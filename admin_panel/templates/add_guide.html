@@ -16,45 +16,41 @@
             <h5 style="color: white;">اضافة</h5>
             <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: rgb(189, 9, 189);"></i></h5>
           </div>
-          <div style="display: flex; gap: 10px;  margin-right: 100px; color: white;">
-            <h5><i class=" now-ui-icons arrows-1_cloud-download-93" style="margin-left: 5px;"></i>تصدير </h5>
-            <h5><i class=" now-ui-icons arrows-1_cloud-upload-94" style="margin-left: 5px;"></i>استيراد </h5>
-          </div>
         </div>
 
-        <div style="margin-right: 100px;">
+        <div>
             <form action="" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 30px; color: white;">
                 {% csrf_token %}
-                <div style="background-color: rgb(57, 58, 58); width: 800px; height: 330px;display: flex; justify-content: space-evenly; border-radius: 30px;" dir="rtl">
+                <div class="form-group">
                   
                   <div class="form-block">
-                    <div style="width: 300px;">
+                    <div class="form-input">
                       <div class="form-label">{{ form.username.label_tag }}</div>
-                      <div class="form-input">{{ form.username|add_class:"form-control" }}</div>
+                      <div>{{ form.username|add_class:"form-control" }}</div>
                     </div>
-                    <div style="width: 300px;">
+                    <div class="form-input">
                       <div class="form-label">{{ form.password1.label_tag }}</div>
-                      <div class="form-input" id="id_password1">{{ form.password1|add_class:"form-control" }}</div>
+                      <div id="id_password1">{{ form.password1|add_class:"form-control" }}</div>
                     </div>
-                    <div style="width: 300px;">
+                    <div class="form-input">
                       <div class="form-label">{{ form.password2.label_tag }}</div>
-                      <div class="form-input">{{ form.password2|add_class:"form-control" }}</div> 
+                      <div>{{ form.password2|add_class:"form-control" }}</div> 
                     </div>
                     <div style="width: 300px; display: flex; align-items: center; justify-content: right; gap: 40px;">
                         <div class="form-label">{{ form.get_notifications.label_tag }}</div>
-                        <div class="form-input" style="padding-top: 27px;">{{ form.get_notifications|add_class:"form-control-check" }}</div> 
+                        <div style="padding-top: 27px;">{{ form.get_notifications|add_class:"form-control-check" }}</div> 
                       </div>
                 </div>
                 
                 
                 <div class="form-block">
-                    <div style="width: 300px;">
+                    <div class="form-input">
                         <div class="form-label">{{ form.phonenumber.label_tag }}</div>
-                        <div class="form-input">{{ form.phonenumber|add_class:"form-control" }}</div> 
+                        <div>{{ form.phonenumber|add_class:"form-control" }}</div> 
                     </div>    
-                    <div style="width: 300px;">
+                    <div class="form-input">
                       <div class="form-label">{{ form.image.label_tag }}</div>
-                      <div class="form-input">{{ form.image|add_class:"form-control" }}</div>
+                      <div>{{ form.image|add_class:"form-control" }}</div>
                     </div>
                   </div>
 

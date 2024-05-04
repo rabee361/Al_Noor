@@ -16,33 +16,29 @@
             <h5 style="color: white;">إضافة</h5>
             <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: rgb(189, 9, 189);"></i></h5>
           </div>
-          <div style="display: flex; gap: 10px;  margin-right: 100px; color: white;">
-            <h5><i class=" now-ui-icons arrows-1_cloud-download-93" style="margin-left: 5px;"></i>تصدير </h5>
-            <h5><i class=" now-ui-icons arrows-1_cloud-upload-94" style="margin-left: 5px;"></i>استيراد </h5>
-          </div>
         </div>
 
-        <div style="margin-right: 100px;">
+        <div>
             <form action="" method="post" style="display: flex; flex-direction: column; gap: 30px; color: white;">
                 {% csrf_token %}
-                <div style="background-color: rgb(57, 58, 58); width: 800px; height: 300px;display: flex; justify-content: space-evenly; border-radius: 30px;" dir="rtl">
+                <div class="form-group" dir="rtl">
                   
                 <div class="form-block">
-                    <div style="width: 300px;">
+                    <div class="form-input">
                         <div class="form-label">{{ form.title.label_tag }}</div>
-                        <div class="form-input">{{ form.title|add_class:"form-control" }}</div>
+                        <div>{{ form.title|add_class:"form-control" }}</div>
                         
                     </div>
-                    <div style="width: 300px;">
+                    <div class="form-input">
                         <div class="form-label">{{ form.content.label_tag }}</div>
-                        <div class="form-input">{{ form.content|add_class:"form-control" }}</div> 
+                        <div>{{ form.content|add_class:"form-control" }}</div> 
                     </div>
                 </div>
 
                 <div class="form-block">
-                    <div style="width: 300px;">
+                    <div class="form-input">
                         <div class="form-label">{{ form.info.label_tag }}</div>
-                        <div class="form-input">{{ form.info|add_class:"form-control" }}</div>
+                        <div>{{ form.info|add_class:"form-control" }}</div>
                     </div>
                 </div>
                 

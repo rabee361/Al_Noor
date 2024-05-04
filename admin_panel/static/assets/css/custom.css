@@ -30,8 +30,20 @@
        gap: 20px; /* Sets the gap between the flex items */
      }
    }
+   
+   
+@media (max-width: 768px) {
+    .form-input-check {
+        gap: 10px;
+    }
+}
 
 
+.form-input-check {
+    display: flex;
+    flex-direction: row;
+    gap: 60px;
+}
 
 .custom-input::placeholder {
     font-size: 16px;
@@ -96,9 +108,9 @@
     background-color: rgb(57, 58, 58); 
     width: 100%; 
     height: 300px;
-    display: flex; 
+    display: flex;
     gap: 10px;
-    justify-content: space-evenly; 
+    justify-content: space-evenly;
     border-radius: 30px;
 }
 

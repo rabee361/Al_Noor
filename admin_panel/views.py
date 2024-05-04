@@ -232,6 +232,8 @@ def managers_list(request):
 @login_required(login_url='login')
 def add_manager(request):
     form = NewManager()
+    user_image = request.user.image.url
+    username = request.user.username
     if request.method == 'POST':
         form = NewManager(request.POST, request.FILES)
         if form.is_valid():
@@ -247,7 +249,9 @@ def add_manager(request):
             Management.objects.create(user=user)
             return redirect('managers')
     context = {
-        'form' : form
+        'form' : form,
+        'user_image': user_image,
+        'username': username,
     }
     return render(request , 'add_manager.html' , context)
 

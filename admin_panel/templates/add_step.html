@@ -18,22 +18,22 @@
           </div>
         </div>
 
-        <div style="margin-right: 100px;">
+        <div>
             <form action="" method="post" style="display: flex; flex-direction: column; gap: 30px; color: white;">
                 {% csrf_token %}
-                <div style="background-color: rgb(57, 58, 58); width: 800px; height: 300px;display: flex; justify-content: space-evenly; border-radius: 30px;" dir="rtl">
+                <div class="form-group" dir="rtl">
                   
                 <div class="form-block">
-                    <div style="width: 300px; display: flex; flex-direction: column;">
+                    <div class="form-input" style="display: flex; flex-direction: column;">
                         <div class="form-label">{{ form.name.label_tag }}</div>
-                        <div class="form-input">{{ form.name|add_class:"form-control" }}</div>
+                        <div>{{ form.name|add_class:"form-control" }}</div>
                     </div>
                 </div>
                   
                 <div class="form-block">
-                    <div style="width: 300px; display: flex; flex-direction: column;">
+                    <div class="form-input">
                         <div class="form-label">{{ form.secondary_steps.label_tag }}</div>
-                        <div class="form-input">{{ form.secondary_steps|add_class:"form-control" }}</div>
+                        <div>{{ form.secondary_steps|add_class:"form-control" }}</div>
                     </div>
                 </div>
                 
