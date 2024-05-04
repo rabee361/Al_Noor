@@ -4391,7 +4391,7 @@ sidebar-wrapper
 }
 
 .fixed-plugin .badge-yellow {
-  background-color: #FFB236;
+  background-color: rgb(53, 52, 52);
 }
 
 .fixed-plugin .badge-red {
@@ -4645,7 +4645,7 @@ sidebar-wrapper
 }
 
 .card[data-background-color="orange"] .card-header {
-  background-color: #f96332;
+  background-color: rgb(53, 52, 52);
 }
 
 .card[data-background-color="orange"] .card-footer .stats {
