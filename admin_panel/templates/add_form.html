@@ -16,139 +16,135 @@
             <h5 style="color: white;">إضافة</h5>
             <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: rgb(189, 9, 189);"></i></h5>
           </div>
-          <div style="display: flex; gap: 10px;  margin-right: 100px; color: white;">
-            <h5><i class=" now-ui-icons arrows-1_cloud-download-93" style="margin-left: 5px;"></i>تصدير </h5>
-            <h5><i class=" now-ui-icons arrows-1_cloud-upload-94" style="margin-left: 5px;"></i>استيراد </h5>
-          </div>
         </div>
 
-        <div style="margin-right: 100px;">
-            <form action="" method="post" style="display: flex; flex-direction: column; gap: 30px; color: white;">
+        <div>
+            <form action="" method="post" style="display: flex; flex-direction: column; gap: 30px; color: white; width: 100%;">
                 {% csrf_token %}
-                <div style="background-color: rgb(57, 58, 58); width: 800px; height: 300px;display: flex; justify-content: space-evenly; border-radius: 30px;" dir="rtl">
+                <div class="form-group" dir="rtl">
                   
                   <div class="form-block">
-                    <div style="width: 300px; display: flex; flex-direction: column;">
+                    <div class="form-input">
                       <div class="form-label">{{ form.phonenumber.label_tag }}</div>
-                      <div class="form-input">{{ form.phonenumber|add_class:"form-control" }}</div>
+                      <div>{{ form.phonenumber|add_class:"form-control" }}</div>
                     </div>
-                    <div style="width: 300px;">
+                    <div class="form-input">
                       <div class="form-label">{{ form.first_name.label_tag }}</div>
-                      <div class="form-input">{{ form.first_name|add_class:"form-control" }}</div>
+                      <div>{{ form.first_name|add_class:"form-control" }}</div>
                        
                     </div>    
-                    <div style="width: 300px;">
+                    <div class="form-input">
                       <div class="form-label">{{ form.father_name.label_tag }}</div>
-                      <div class="form-input">{{ form.father_name|add_class:"form-control" }}</div> 
+                      <div>{{ form.father_name|add_class:"form-control" }}</div> 
                     </div>
-                    <div style="width: 300px;">
+                    <div class="form-input">
                       <div class="form-label">{{ form.grand_father.label_tag }}</div>
-                      <div class="form-input">{{ form.grand_father|add_class:"form-control" }}</div> 
+                      <div>{{ form.grand_father|add_class:"form-control" }}</div> 
                     </div>    
                   </div>
 
                   <div class="form-block">
-                    <div style="width: 300px;">
+                    <div class="form-input">
                       <div class="form-label">{{ form.last_name.label_tag }}</div>
-                      <div class="form-input">{{ form.last_name|add_class:"form-control" }}</div> 
+                      <div>{{ form.last_name|add_class:"form-control" }}</div> 
                     </div>
-                    <div style="width: 300px;">
+                    <div class="form-input">
                       <div class="form-label">{{ form.id_number.label_tag }}</div>
-                      <div class="form-input">{{ form.id_number|add_class:"form-control" }}</div> 
+                      <div>{{ form.id_number|add_class:"form-control" }}</div> 
                     </div>
-                    <div style="width: 300px;">
+                    <div class="form-input">
                       <div class="form-label">{{ form.birthday.label_tag }}</div>
-                      <div class="form-input">{{ form.birthday|add_class:"form-control" }}</div> 
+                      <div>{{ form.birthday|add_class:"form-control" }}</div> 
                     </div>
-                    <div style="width: 300px;">
+                    <div class="form-input">
                       <div class="form-label">{{ form.job_position.label_tag }}</div>
-                      <div class="form-input">{{ form.job_position|add_class:"form-control" }}</div> 
+                      <div>{{ form.job_position|add_class:"form-control" }}</div> 
                     </div>
                   </div>
 
 
                 </div>
-                <div style="display: flex; justify-content: space-evenly; background-color: rgb(57, 58, 58); width: 800px; height: 300px; border-radius: 30px;">
+                <div class="form-group">
                   
 
                   <div class="form-block">
-                    <div style="width: 300px;">
+                    <div class="form-input">
                       <div class="form-label">{{ form.gender.label_tag }}</div>
-                      <div class="form-input">{{ form.gender|add_class:"form-control" }}</div> 
+                      <div>{{ form.gender|add_class:"form-control" }}</div> 
                     </div>    
-                    <div style="width: 300px;">
+                    <div class="form-input">
                       <div class="form-label">{{ form.options_trip.label_tag }}</div>
-                      <div class="form-input">{{ form.options_trip|add_class:"form-control" }}</div>
+                      <div>{{ form.options_trip|add_class:"form-control" }}</div>
                     </div>    
-                    <div style="width: 300px;">
+                    <div class="form-input">
                       <div class="form-label">{{ form.marital_status.label_tag }}</div>
-                      <div class="form-input">{{ form.marital_status|add_class:"form-control" }}</div>
+                      <div>{{ form.marital_status|add_class:"form-control" }}</div>
                     </div>
-                    <div style="width: 300px;">
+                    <div class="form-input">
                       <div class="form-label">{{ form.address.label_tag }}</div>
-                      <div class="form-input">{{ form.address|add_class:"form-control" }}</div>
+                      <div>{{ form.address|add_class:"form-control" }}</div>
                     </div>
                   </div>
 
                   <div class="form-block">
-                    <div style="width: 300px;">
+                    <div class="form-input">
                       <div class="form-label">{{ form.alhajj.label_tag }}</div>
-                      <div class="form-input" id="id_my_datetime_field">{{ form.alhajj|add_class:"form-control" }}</div>
+                      <div id="id_my_datetime_field">{{ form.alhajj|add_class:"form-control" }}</div>
                     </div>
-                    <div style="width: 300px;">
+                    <div class="form-input">
                       <div class="form-label">{{ form.tradition_reference.label_tag }}</div>
-                      <div class="form-input">{{ form.tradition_reference|add_class:"form-control" }}</div>
+                      <div>{{ form.tradition_reference|add_class:"form-control" }}</div>
                     </div>
-                    <div style="width: 300px;">
+                    <div class="form-input">
                       <div class="form-label">{{ form.count_hajjas.label_tag }}</div>
-                      <div class="form-input">{{ form.count_hajjas|add_class:"form-control" }}</div>
+                      <div>{{ form.count_hajjas|add_class:"form-control" }}</div>
                     </div>
-                    <div style="width: 300px;">
+                    <div class="form-input">
                       <div class="form-label">{{ form.last_year.label_tag }}</div>
-                      <div class="form-input">{{ form.last_year|add_class:"form-control" }}</div>
+                      <div>{{ form.last_year|add_class:"form-control" }}</div>
                     </div>
                   </div>
 
                 </div>
-                <div style="display: flex; justify-content: space-evenly; background-color: rgb(57, 58, 58); width: 800px; height: 350px; border-radius: 30px;">
+                <div class="form-group">
 
 
                   <div class="form-block">
-                    <div style="width: 300px;">
+                    <div class="form-input">
                       <div class="form-label">{{ form.means_journey.label_tag }}</div>
-                      <div class="form-input">{{ form.means_journey|add_class:"form-control-check" }}</div> 
+                      <div>{{ form.means_journey|add_class:"form-control-check" }}</div> 
                     </div>
-                    <div style="width: 300px;">
+                    <div class="form-input">
                       <div class="form-label">{{ form.blood_type.label_tag }}</div>
-                      <div class="form-input">{{ form.blood_type|add_class:"form-control" }}</div> 
+                      <div>{{ form.blood_type|add_class:"form-control" }}</div> 
                     </div>
-                    <div style="width: 300px;">
+                    <div class="form-input">
                       <div class="form-label">{{ form.illness.label_tag }}</div>
-                      <div class="form-input">{{ form.illness|add_class:"form-control-check" }}</div> 
+                      <div>{{ form.illness|add_class:"form-control-check" }}</div> 
                     </div>
-                    <div style="width: 300px;">
+                    <div class="form-input">
                       <div class="form-label">{{ form.chronic_diseases.label_tag }}</div>
-                      <div class="form-input">{{ form.chronic_diseases|add_class:"form-control" }}</div> 
+                      <div>{{ form.chronic_diseases|add_class:"form-control" }}</div> 
                     </div>
                   </div>
 
 
                   <div class="form-block">
-                    <div style="width: 300px;">
+                    <div class="form-input">
                       <div class="form-label">{{ form.tawaf.label_tag }}</div>
-                      <div class="form-input">{{ form.tawaf|add_class:"form-control" }}</div> 
+                      <div>{{ form.tawaf|add_class:"form-control" }}</div> 
                     </div>
-                    <div style="width: 300px;">
+                    <div class="form-input">
                       <div class="form-label">{{ form.sai.label_tag }}</div>
-                      <div class="form-input">{{ form.sai|add_class:"form-control" }}</div> 
+                      <div>{{ form.sai|add_class:"form-control" }}</div> 
                     </div>
-                    <div style="width: 300px;">
+                    <div class="form-input">
                       <div class="form-label">{{ form.wheelchair.label_tag }}</div>
-                      <div class="form-input">{{ form.wheelchair|add_class:"form-control" }}</div> 
+                      <div>{{ form.wheelchair|add_class:"form-control" }}</div> 
                     </div>
-                    <div style="width: 300px;">
+                    <div class="form-input">
                       <div class="form-label">{{ form.type_help.label_tag }}</div>
-                      <div class="form-input">{{ form.type_help|add_class:"form-control" }}</div> 
+                      <div>{{ form.type_help|add_class:"form-control" }}</div> 
                     </div>
                   </div>  
                   
