@@ -293,7 +293,7 @@ class ReligiousPost(models.Model):
     created = models.DateField(auto_now_add=True , verbose_name="تاريخ الانشاء")## datetime ?
 
     def __str__(self) -> str:
-        return self.name
+        return self.title
 
     class Meta:
         ordering = ['-created']

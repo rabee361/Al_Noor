@@ -60,3 +60,17 @@ class NoteFilter(django_filters.FilterSet):
     class Meta:
         model = Note
         fields = ['pilgrim_name','guide_name']
+
+class ReligiousPostFilter(django_filters.FilterSet):
+    category = django_filters.CharFilter(field_name='category__name', lookup_expr='startswith')
+
+    class Meta:
+        model = ReligiousPost
+        fields = ['category', ]
+
+class GuidancePostFilter(django_filters.FilterSet):
+    category = django_filters.CharFilter(field_name='category__name', lookup_expr='startswith')
+
+    class Meta:
+        model = GuidancePost
+        fields = ['category', ]

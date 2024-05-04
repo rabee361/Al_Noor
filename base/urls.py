@@ -42,5 +42,6 @@ urlpatterns = [
     # path('chart/options/', GetOptions.as_view(), name="options"),
     path('chart/line-chart/', LineChart.as_view() , name="line-chart"),
     path('chart/pie-chart/' , PieChart.as_view() , name="pie-chart"),
-
+    # ----------------
+    path('pilgrim-info/', PilgrimInfo.as_view(), name='pilgrim-info')
 ]
