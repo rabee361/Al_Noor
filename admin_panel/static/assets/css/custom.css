@@ -2,6 +2,37 @@
 
 
 
+
+
+
+@media (min-width: 992px) {
+    .main-panel {
+       margin-right: 230px; /* Adjust the value as needed */
+     }
+   }
+
+
+
+
+/* Apply a gap between the flex items for larger screens */
+@media (max-width: 992px) {
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Sets the gap between the flex items */
+    }
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+    .container {
+       display: flex;
+       flex-direction: row; /* Sets the flex direction to row */
+       gap: 20px; /* Sets the gap between the flex items */
+     }
+   }
+
+
+
 .custom-input::placeholder {
     font-size: 16px;
     color: white;
