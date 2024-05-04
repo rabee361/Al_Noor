@@ -102,7 +102,7 @@ class PilgrimResource(resources.ModelResource):
 
     class Meta:
         model = Pilgrim
-        exclude = ['user','id']
+        exclude = ['id',]
         import_id_fields = ['phonenumber']
 
     ##### we will send an sms message with the password in here
@@ -121,12 +121,13 @@ class PilgrimResource(resources.ModelResource):
         content = f'كلمة مرورك هي {my_password}'
         msg = ChatMessage.objects.create(chat=chat,content=content,employee=True)
         send_password(user=user, title='فريق الدعم', content='تم تحديث كلمة المرور')
+        row['user'] = user.id  #########################
 
-    def after_save_instance(self, instance, using_transactions, dry_run):
-        if not dry_run:
-            instance.user = CustomUser.objects.get(phonenumber=instance.phonenumber)
-            instance.save()
-        return True
+    # def after_save_instance(self, instance, using_transactions, dry_run):
+    #     if not dry_run:
+    #         instance.user = CustomUser.objects.get(phonenumber=instance.phonenumber)
+    #         instance.save()
+    #     return True
 
 
 
