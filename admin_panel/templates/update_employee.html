@@ -21,24 +21,24 @@
         <div>
             <form action="" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 30px; color: white;">
                 {% csrf_token %}
-                <div class="form-group" dir="rtl">
+                <div class="form-group" style="height: 320px;" dir="rtl">
                   
                   <div class="form-block">
                     <div class="form-input">
                       <div class="form-label">{{ form.username.label_tag }}</div>
-                      <div class="form-input">{{ form.username|add_class:"form-control" }}</div>
+                      <div>{{ form.username|add_class:"form-control" }}</div>
                     </div>
                     <div class="form-input">
                       <div class="form-label">{{ form.password1.label_tag }}</div>
-                      <div class="form-input">{{ form.password1|add_class:"form-control" }}</div>
+                      <div>{{ form.password1|add_class:"form-control" }}</div>
                     </div>
                     <div class="form-input">
                       <div class="form-label">{{ form.password2.label_tag }}</div>
-                      <div class="form-input">{{ form.password2|add_class:"form-control" }}</div> 
+                      <div>{{ form.password2|add_class:"form-control" }}</div> 
                     </div>
                     <div class="form-input" style="display: flex; align-items: center; justify-content: right; gap: 40px;">
                       <div class="form-label">{{ form.get_notifications.label_tag }}</div>
-                      <div class="form-input" style="padding-top: 27px;">{{ form.get_notifications|add_class:"form-control-check" }}</div> 
+                      <div style="padding-top: 27px;">{{ form.get_notifications|add_class:"form-control-check" }}</div> 
                     </div>
                 </div>
                 
@@ -46,13 +46,13 @@
                 <div class="form-block">
                     <div class="form-input">
                         <div class="form-label">{{ form.phonenumber.label_tag }}</div>
-                        <div class="form-input">{{ form.phonenumber|add_class:"form-control" }}</div> 
+                        <div>{{ form.phonenumber|add_class:"form-control" }}</div> 
                     </div>    
                     <div class="form-input" style="text-align: right;">
                     <div class="form-label">الصورة الشخصية:</div>
                     <div style="display: flex; flex-direction: row; justify-content: right; margin-top: 7px; align-items: center; gap: 20px;">
                         <img src="{{ employee_image }}" alt="Current Image" width="50px" height="50px">
-                        <div class="form-input"><input type="file" name="image" id="image_id"></div>
+                        <div><input type="file" name="image" id="image_id"></div>
                     </div>
                     </div>
                   </div>

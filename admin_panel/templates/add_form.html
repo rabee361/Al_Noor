@@ -21,7 +21,7 @@
         <div>
             <form action="" method="post" style="display: flex; flex-direction: column; gap: 30px; color: white; width: 100%;">
                 {% csrf_token %}
-                <div class="form-group" dir="rtl">
+                <div class="form-group" style="height: 350px;" dir="rtl">
                   
                   <div class="form-block">
                     <div class="form-input">
@@ -64,7 +64,7 @@
 
 
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="height: 350px;" >
                   
 
                   <div class="form-block">
@@ -106,13 +106,13 @@
                   </div>
 
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="height: 390px;" >
 
 
                   <div class="form-block">
                     <div class="form-input">
                       <div class="form-label">{{ form.means_journey.label_tag }}</div>
-                      <div>{{ form.means_journey|add_class:"form-control-check" }}</div> 
+                      <div>{{ form.means_journey|add_class:"form-control" }}</div> 
                     </div>
                     <div class="form-input">
                       <div class="form-label">{{ form.blood_type.label_tag }}</div>
@@ -120,7 +120,7 @@
                     </div>
                     <div class="form-input">
                       <div class="form-label">{{ form.illness.label_tag }}</div>
-                      <div>{{ form.illness|add_class:"form-control-check" }}</div> 
+                      <div>{{ form.illness|add_class:"form-control" }}</div> 
                     </div>
                     <div class="form-input">
                       <div class="form-label">{{ form.chronic_diseases.label_tag }}</div>

@@ -36,7 +36,7 @@ def logout_user(request):
 
 
 @login_required(login_url='login')
-def mani_dashboard(request):
+def main_dashboard(request):
     total_pilgrims = Pilgrim.objects.count()
     total_employees = Employee.objects.count()
     total_managers = Management.objects.count()
@@ -96,6 +96,30 @@ def registration_forms(request):
 @login_required(login_url='login')
 def add_register_form(request):
     form = NewRegisterForm()
+    user_image = request.user.image.url
+    username = request.user.username
+
+    if request.method == 'POST':
+        form = NewRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('registration_forms')
+
+    context = {
+        'form': form,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request, 'add_form.html', context)
+
+
+
+
+
+@login_required(login_url='login')
+def update_register_form(request,form_id):
+    register_form = Registration.objects.get(id=form_id)
+    form = NewRegisterForm(instance=register_form)
     user_image = request.user.image.url
     username = request.user.username
 
@@ -518,7 +542,7 @@ def guides_list(request):
     q = request.GET.get('q') or ''
     user_image = request.user.image.url
     username = request.user.username
-    guides = Employee.objects.filter(user__username__startswith=q).order_by('-id')
+    guides = Guide.objects.filter(user__username__startswith=q).order_by('-id')
     context = {
         'guides':guides,
         'user_image': user_image,

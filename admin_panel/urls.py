@@ -3,12 +3,13 @@ from .views import *
 
 
 urlpatterns = [
-    path('' , mani_dashboard , name="main_dashboard"),
+    path('' , main_dashboard , name="main_dashboard"),
 
     path('login/' , login_user , name="login"),
 
     path('forms/' , registration_forms , name="registration_forms"),
     path('add_form/' , add_register_form , name="add_register_form"),
+    path('update_form/<str:form_id>' , update_register_form , name="update_register_form"),
     path('delete_form/<str:form_id>' , delete_register_form , name="delete_register_form"),
 
     path('managers/' , managers_list , name="managers"),

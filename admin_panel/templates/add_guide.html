@@ -21,7 +21,7 @@
         <div>
             <form action="" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 30px; color: white;">
                 {% csrf_token %}
-                <div class="form-group">
+                <div style="background-color: rgb(57, 58, 58); width: 100%;display: flex;gap: 10px;justify-content: space-evenly;border-radius: 30px;">
                   
                   <div class="form-block">
                     <div class="form-input">
@@ -43,14 +43,14 @@
                 </div>
                 
                 
-                <div class="form-block">
+                <div class="form-block">  
                     <div class="form-input">
                         <div class="form-label">{{ form.phonenumber.label_tag }}</div>
                         <div>{{ form.phonenumber|add_class:"form-control" }}</div> 
                     </div>    
-                    <div class="form-input">
+                    <div >
                       <div class="form-label">{{ form.image.label_tag }}</div>
-                      <div>{{ form.image|add_class:"form-control" }}</div>
+                      <div>{{ form.image|add_class:"form-control"}}</div>
                     </div>
                   </div>
 
