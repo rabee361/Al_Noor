@@ -124,7 +124,7 @@ def update_register_form(request,form_id):
     username = request.user.username
 
     if request.method == 'POST':
-        form = NewRegisterForm(request.POST)
+        form = NewRegisterForm(request.POST,instance=register_form)
         if form.is_valid():
             form.save()
             return redirect('registration_forms')

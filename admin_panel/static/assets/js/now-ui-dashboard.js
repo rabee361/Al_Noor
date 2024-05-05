@@ -32,6 +32,17 @@
 
  */
 
+
+ document.getElementById('dropdownButton').addEventListener('click', function() {
+  var dropdownMenu = document.getElementById('dropdownMenu');
+  if (dropdownMenu.style.display === "none") {
+      dropdownMenu.style.display = "block";
+  } else {
+      dropdownMenu.style.display = "none";
+  }
+});
+
+
 (function() {
   isWindows = navigator.platform.indexOf('Win') > -1 ? true : false;
 

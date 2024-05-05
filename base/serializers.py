@@ -221,9 +221,16 @@ class MessageSerializer(serializers.ModelSerializer):
 
 
 class GuidancePostSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = GuidancePost
         fields = '__all__'
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        content = representation.get('content', '')
+        representation['content'] = content[:50] + '...'
+        return representation
 
 
 class ReligiousPostSerializer(serializers.ModelSerializer):
@@ -231,6 +238,12 @@ class ReligiousPostSerializer(serializers.ModelSerializer):
         model = ReligiousPost
         fields = '__all__'
 
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        content = representation.get('content', '')
+        representation['content'] = content[:50] + "..."
+        return representation
+    
 
 class GuidanceCategorySerializer(serializers.ModelSerializer):
     class Meta:

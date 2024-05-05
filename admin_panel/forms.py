@@ -102,6 +102,13 @@ class UpdateManager(forms.ModelForm):
 
 
 
+
+class UpdateRegisterForm(ModelForm):
+    pass
+
+
+
+
 class UpdateEmployee(forms.ModelForm):
     class Meta:
         model = Employee

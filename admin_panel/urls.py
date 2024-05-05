@@ -19,8 +19,8 @@ urlpatterns = [
 
     path('pilgrims_list/' , pilgrims_list , name="pilgrims"),
     path('add_pilgrim/' , add_pilgrim , name="add_pilgrim"),
-    path('delete-pilgrim/<str:pilgrim_id>/' , delete_pilgrim , name="delete-pilgrim"),
     # path('update_pilgrim/<str:pk>/' , update_pilgrim, name="update_pilgrim"),
+    path('delete-pilgrim/<str:pilgrim_id>/' , delete_pilgrim , name="delete-pilgrim"),
 
     path('guides_list/' , guides_list , name="guides"),
     path('add_guide/' , add_guide , name="add_guide"),
