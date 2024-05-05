@@ -231,6 +231,7 @@ class GuidancePostSerializer(serializers.ModelSerializer):
         content = representation.get('content', '')
         category_name = instance.category.name if instance.category else None
         representation['content'] = content[:50] + '...'
+        representation['category_name'] = category_name
         return representation
 
 
@@ -244,6 +245,7 @@ class ReligiousPostSerializer(serializers.ModelSerializer):
         content = representation.get('content', '')
         category_name = instance.category.name if instance.category else None
         representation['content'] = content[:50] + "..."
+        representation['category_name'] = category_name
         return representation
     
 
