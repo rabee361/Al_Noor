@@ -434,7 +434,10 @@ class ListCreateGuidancePost(ListCreateAPIView):
     # permission_clasess = [IsAuthenticated]
     queryset = GuidancePost.objects.all()
     serializer_class = GuidancePostSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = GuidancePostFilter
 
+    
 
 class RetUpdDesGuidancePost(RetrieveUpdateDestroyAPIView):
     # permission_clasess = [IsAuthenticated]
@@ -446,6 +449,8 @@ class ListCreateReligiousPost(ListCreateAPIView):
     # permission_clasess = [IsAuthenticated]
     queryset = ReligiousPost.objects.all()
     serializer_class = ReligiousPostSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = ReligiousPostFilter
 
 
 class RetUpdDesReligiousPost(RetrieveUpdateDestroyAPIView):
@@ -458,6 +463,8 @@ class ListCreateGuidanceCategory(ListCreateAPIView):
     # permission_clasess = [IsAuthenticated]
     queryset = GuidanceCategory.objects.all()
     serializer_class = GuidanceCategorySerializer
+
+
 
 
 class RetUpdDesGuidanceCategory(RetrieveUpdateDestroyAPIView):
