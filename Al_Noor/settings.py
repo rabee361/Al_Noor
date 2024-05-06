@@ -40,7 +40,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'daphne',
-    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -58,66 +57,6 @@ INSTALLED_APPS = [
     'django_filters',
     'channels',
 ]
-
-JAZZMIN_SETTINGS = {
-    # "site_logo": "images/logo.png",
-    # "site_icon": "path/to/your/favicon.ico",
-    "show_ui_builder":True,
-    "color_scheme": "darkly", # Choose from 'lightly', 'darkly', 'slate', 'cyan', 'dark', 'light'
-    # "language_chooser": True,
-    "dashboard_modules": [
-        {
-            "title": "My Module",
-            "icon": "fa fa-cogs",
-            "cards": [
-                {
-                    "model": "auth.User",
-                    "name": "User Count",
-                    "description": "Total number of users",
-                    "query": "SELECT COUNT(*) FROM auth_user",
-                    "aggregate": "count",
-                    "color": "primary",
-                },
-                # Add more cards to the module here
-            ],
-        },
-        # Add more modules here
-    ],
-    
-}
-
-
-JAZZMIN_UI_TWEAKS = {
-    "navbar_small_text": False,
-    "footer_small_text": False,
-    "body_small_text": False,
-    "brand_small_text": False,
-    "brand_colour": False,
-    "accent": "accent-warning",
-    "navbar": "navbar-dark",
-    "no_navbar_border": False,
-    "navbar_fixed": False,
-    "layout_boxed": False,
-    "footer_fixed": False,
-    "sidebar_fixed": False,
-    "sidebar": "sidebar-dark-primary",
-    "sidebar_nav_small_text": False,
-    "sidebar_disable_expand": False,
-    "sidebar_nav_child_indent": False,
-    "sidebar_nav_compact_style": False,
-    "sidebar_nav_legacy_style": False,
-    "sidebar_nav_flat_style": False,
-    "theme": "darkly",
-    "dark_mode_theme": "darkly",
-    "button_classes": {
-        "primary": "btn-primary",
-        "secondary": "btn-secondary",
-        "info": "btn-info",
-        "warning": "btn-warning",
-        "danger": "btn-danger",
-        "success": "btn-success"
-    }
-}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
