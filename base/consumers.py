@@ -29,7 +29,10 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 		if chat_owner == self.user_id or await self.is_manager(self.user_id):
 			await self.accept()
 		else:
-			raise ValueError("You are not authorized to enter this chat.")
+			print(self.user_id)
+			print(chat_owner)
+			print(type(self.user_id))
+			print(type(chat_owner))
 
 	
 
