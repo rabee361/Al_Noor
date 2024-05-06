@@ -42,7 +42,11 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 			await self.get_manager(user.id)
 			msg = ChatMessage(sender=user,content=message, chat=chat, sent_user=False)
 		except Management.DoesNotExist:
-			msg = ChatMessage(sender=user,content=message, chat=chat, sent_user=True)
+			if chat.user == user:
+				msg = ChatMessage(sender=user,content=message, chat=chat, sent_user=True)
+			else:
+				raise ValueError("this is not you chat")
+			
 
 		serializer = MessageSerializer(msg,many=False)
 		await self.save_message(msg)
@@ -109,7 +113,7 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 
 	@database_sync_to_async
 	def get_user_ids(self):
-		return Employee.objects.values_list('id',flat=True)
+		return Management.objects.values_list('id',flat=True)
 
 
 	@database_sync_to_async
@@ -135,12 +139,6 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 	def get_guide(self,user):
 		return Guide.objects.get(id=user) or None
 
-
-	@database_sync_to_async
-	def get_manager(self,user):
-		return Management.objects.get(id=user) or None
-
-
 	@database_sync_to_async
 	def get_user(self, user_id):
 		return CustomUser.objects.get(id=user_id)
@@ -149,6 +147,10 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 	def get_chat(self, chat_id):
 		return Chat.objects.get(id=chat_id)
 
+	# @database_sync_to_async
+	# def get_chat_owner(self, chat_id):
+	# 	return Chat.objects.get(id=chat_id)
+	
 	@database_sync_to_async
 	def save_message(self, msg):
 		msg.save()
@@ -248,8 +250,8 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 
 	@database_sync_to_async
 	def send_to_all(self,title,body):
-		employees = Employee.objects.values_list('phonenumber',flat=True)
-		users = CustomUser.objects.filter(phonenumber__in=employees).values_list('id',flat=True)
+		managers = Management.objects.values_list('phonenumber',flat=True)
+		users = CustomUser.objects.filter(phonenumber__in=managers).values_list('id',flat=True)
 		devices = FCMDevice.objects.filter(user__in=users)
 		for device in devices:
 			device.send_message(
@@ -264,7 +266,7 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 
 	@database_sync_to_async
 	def get_user_ids(self):
-		return Employee.objects.values_list('id',flat=True)
+		return Management.objects.values_list('id',flat=True)
 
 
 	@database_sync_to_async
