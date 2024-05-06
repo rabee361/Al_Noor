@@ -136,8 +136,9 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 
 
 	@database_sync_to_async
-	def get_guide(self,user):
-		return Guide.objects.get(id=user) or None
+	def get_manager(self,user):
+		return Management.objects.get(id=user) or None
+
 
 	@database_sync_to_async
 	def get_user(self, user_id):
