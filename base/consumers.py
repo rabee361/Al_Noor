@@ -24,7 +24,14 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 			self.channel_name
 		)
 
-		await self.accept()
+		user = self.get_user(self.user_id)
+		chat_owner = self.get_chat_owner(self.chat_id)
+
+		if chat_owner == user or self.is_manager(self.user_id):
+			await self.accept()
+		else:
+			raise ValueError("this is not your chat")
+	
 
 		for message in messages:
 			await self.send(text_data=json.dumps(message))
@@ -42,10 +49,8 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 			await self.get_manager(user.id)
 			msg = ChatMessage(sender=user,content=message, chat=chat, sent_user=False)
 		except Management.DoesNotExist:
-			if chat.user == user:
-				msg = ChatMessage(sender=user,content=message, chat=chat, sent_user=True)
-			else:
-				raise ValueError("this is not you chat")
+			msg = ChatMessage(sender=user,content=message, chat=chat, sent_user=True)
+
 			
 
 		serializer = MessageSerializer(msg,many=False)
@@ -148,9 +153,18 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 	def get_chat(self, chat_id):
 		return Chat.objects.get(id=chat_id)
 
-	# @database_sync_to_async
-	# def get_chat_owner(self, chat_id):
-	# 	return Chat.objects.get(id=chat_id)
+	@database_sync_to_async
+	def get_chat_owner(self, chat_id):
+		chat = Chat.objects.get(id=chat_id)
+		user = CustomUser.objects.get(id=chat.user)
+		return user
+
+
+	@database_sync_to_async
+	def is_manager(self, user_id):
+		user = Management.objects.get(id=user_id) or None
+		return user
+	
 	
 	@database_sync_to_async
 	def save_message(self, msg):
