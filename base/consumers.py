@@ -27,10 +27,10 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 		user = self.get_user(self.user_id)
 		chat_owner = self.get_chat_owner(self.chat_id)
 
-		if chat_owner == user or self.is_manager(self.user_id):
-			await self.accept()
-		else:
+		if chat_owner == user and self.is_manager(self.user_id):
 			raise ValueError("this is not your chat")
+		else:
+			await self.accept()
 	
 
 		for message in messages:
