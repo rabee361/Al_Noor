@@ -157,7 +157,7 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 	@database_sync_to_async
 	def get_chat_owner(self, chat_id):
 		chat = Chat.objects.get(id=chat_id)
-		return chat.user.id
+		return int(chat.user.id)
 
 
 	@database_sync_to_async
