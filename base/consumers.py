@@ -203,7 +203,7 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 		if chat_owner == int(self.user_id) or await self.is_guide(self.user_id):
 			await self.accept()
 		else:
-			raise ValueError(f'{await self.is_guide(self.user_id)}')
+			raise ValueError(f'{self.user_id}')
 
 	
 
