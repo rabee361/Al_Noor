@@ -24,8 +24,8 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 			self.channel_name
 		)
 
-		user_id = self.get_user_id(self.user_id)
-		chat_owner = self.get_chat_owner(self.chat_id)
+		user_id = await self.get_user_id(self.user_id)
+		chat_owner = await self.get_chat_owner(self.chat_id)
 
 		if chat_owner == user_id or await self.is_manager(self.user_id):
 			await self.accept()
