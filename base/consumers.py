@@ -29,7 +29,7 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 		if chat_owner == self.user_id or await self.is_manager(self.user_id):
 			await self.accept()
 		else:
-			raise ValueError(f'{self.user_id} - {chat_owner} ')
+			raise ValueError(f'{type(self.user_id)} - {type(chat_owner)} ')
 
 	
 
