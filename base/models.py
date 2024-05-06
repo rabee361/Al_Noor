@@ -228,7 +228,7 @@ class ChatMessage(models.Model):
     chat = models.ForeignKey(Chat , on_delete=models.CASCADE , verbose_name="المحادثة")
     content = models.CharField(max_length=500 , verbose_name="المحتوى")
     timestamp = models.DateTimeField(auto_now_add=True , verbose_name="التاريخ والوقت")
-    employee = models.BooleanField(default=False , verbose_name="الموظف")
+    sent_user = models.BooleanField(default=False , verbose_name="الموظف")
 
     def __str__(self):
         return f'{self.sender} : "{self.content[0:20]}..."'

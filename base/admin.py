@@ -113,7 +113,7 @@ class ChatAdmin(admin.ModelAdmin):
 
 
 class ChatMessageAdmin(admin.ModelAdmin):
-    list_display = ['id','sender','chat','content','timestamp','employee']
+    list_display = ['id','sender','chat','content','timestamp','sent_user']
 
 
 class GuidanceCategoryAdmin(admin.ModelAdmin):

@@ -33,18 +33,16 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 	async def receive(self, text_data):
 		text_data_json = json.loads(text_data)
 		message = text_data_json['message']
-		# user_id = text_data_json['user_id'] 
-		# chat_id = text_data_json['chat_id']
+
 
 		user = await self.get_user(self.user_id)
 		chat = await self.get_chat(self.chat_id)
 
 		try:
-			await self.get_guide(user.id)
 			await self.get_manager(user.id)
-			msg = ChatMessage(sender=user,content=message, chat=chat, employee=True)
-		except Guide.DoesNotExist or Management.DoesNotExist:
-			msg = ChatMessage(sender=user,content=message, chat=chat, employee=False)
+			msg = ChatMessage(sender=user,content=message, chat=chat, sent_user=False)
+		except Management.DoesNotExist:
+			msg = ChatMessage(sender=user,content=message, chat=chat, sent_user=True)
 
 		serializer = MessageSerializer(msg,many=False)
 		await self.save_message(msg)
@@ -58,7 +56,7 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 				'sender' : serializer.data['sender'],
 				'content': serializer.data['content'],
 				'timestamp': serializer.data['timestamp'],
-				'employee': serializer.data['employee'],				
+				'sent_user': serializer.data['sent_user'],				
 				'chat': serializer.data['chat']				
 			}
 		)
@@ -68,14 +66,14 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 		content = event['content']
 		sender = event['sender']
 		timestamp = event['timestamp']
-		employee = event['employee']
+		sent_user = event['sent_user']
 		chat = event['chat']
 		await self.send(text_data=json.dumps({
 			'id':id,
 			'sender': sender,
 			'content': content,
 			'timestamp': timestamp,
-			'employee': employee,
+			'sent_user': sent_user,
 			'chat': chat
 		}))
 
@@ -164,6 +162,11 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 
 
 
+
+
+
+
+
 class CreateGuideMessage(AsyncWebsocketConsumer):
 	async def connect(self):
 		self.chat_id = self.scope['url_route']['kwargs']['chat_id']
@@ -186,18 +189,15 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 	async def receive(self, text_data):
 		text_data_json = json.loads(text_data)
 		message = text_data_json['message']
-		# user_id = text_data_json['user_id'] 
-		# chat_id = text_data_json['chat_id']
 
 		user = await self.get_user(self.user_id)
 		chat = await self.get_chat(self.chat_id)
 
 		try:
 			await self.get_guide(user.id)
-			await self.get_manager(user.id)
+			msg = ChatMessage(sender=user,content=message, chat=chat, sent_user=False)
+		except Guide.DoesNotExist:
 			msg = ChatMessage(sender=user,content=message, chat=chat, employee=True)
-		except Guide.DoesNotExist or Management.DoesNotExist:
-			msg = ChatMessage(sender=user,content=message, chat=chat, employee=False)
 
 		serializer = MessageSerializer(msg,many=False)
 		await self.save_message(msg)
@@ -211,7 +211,7 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 				'sender' : serializer.data['sender'],
 				'content': serializer.data['content'],
 				'timestamp': serializer.data['timestamp'],
-				'employee': serializer.data['employee'],				
+				'sent_user': serializer.data['sent_user'],				
 				'chat': serializer.data['chat']				
 			}
 		)
@@ -221,14 +221,14 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 		content = event['content']
 		sender = event['sender']
 		timestamp = event['timestamp']
-		employee = event['employee']
+		sent_user = event['sent_user']
 		chat = event['chat']
 		await self.send(text_data=json.dumps({
 			'id':id,
 			'sender': sender,
 			'content': content,
 			'timestamp': timestamp,
-			'employee': employee,
+			'sent_user': sent_user,
 			'chat': chat
 		}))
 
@@ -289,11 +289,6 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 	@database_sync_to_async
 	def get_guide(self,user):
 		return Guide.objects.get(id=user) or None
-
-
-	@database_sync_to_async
-	def get_manager(self,user):
-		return Management.objects.get(id=user) or None
 
 
 	@database_sync_to_async
