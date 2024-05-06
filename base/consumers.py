@@ -29,7 +29,7 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 		if chat_owner == int(self.user_id) or await self.is_manager(self.user_id):
 			await self.accept()
 		else:
-			raise ValueError(f'{type(self.user_id)} - {type(chat_owner)} ')
+			raise ValueError('this is not your chat')
 
 	
 
@@ -198,7 +198,14 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 			self.channel_name
 		)
 
-		await self.accept()
+		chat_owner = await self.get_chat_owner(self.chat_id)
+
+		if chat_owner == int(self.user_id) or await self.is_guide(self.user_id):
+			await self.accept()
+		else:
+			raise ValueError('this is not your chat')
+
+	
 
 		for message in messages:
 			await self.send(text_data=json.dumps(message))
@@ -307,6 +314,15 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 	@database_sync_to_async
 	def get_guide(self,user):
 		return Guide.objects.get(id=user) or None
+
+
+	@database_sync_to_async
+	def is_guide(self, user_id):
+		if Guide.objects.filter(id=user_id).exists():
+			return True
+		else:
+			return False
+	
 
 
 	@database_sync_to_async
