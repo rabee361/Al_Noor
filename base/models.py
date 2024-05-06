@@ -13,6 +13,7 @@ class CustomUser(AbstractUser):
     is_verified = models.BooleanField(default=False , verbose_name="تم التوثيق")
     get_notifications = models.BooleanField(default=True , verbose_name="تلقي اشعارات")
     username = models.CharField(max_length=255, blank=True, null=True , verbose_name="الاسم الكامل")
+    # active_now = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'phonenumber'
     REQUIRED_FIELDS = ('username',)
@@ -81,7 +82,7 @@ class Registration(models.Model):
     means_journey = models.CharField(choices=Means_journey, max_length=50, verbose_name="وسيلة الرحلة")
     blood_type = models.CharField(choices=Blood_type, null=True, blank=True, verbose_name="فصيلة الدم")
     illness = models.BooleanField(null=True, blank=True, verbose_name="أمراض")
-    chronic_diseases = models.CharField(null=True, blank=True, max_length=200, verbose_name="أمراض مزمنة")
+    # chronic_diseases = models.CharField(null=True, blank=True, max_length=200, verbose_name="أمراض مزمنة")
     tawaf = models.BooleanField(null=True, blank=True, verbose_name="مساعدة في الطواف")
     sai = models.BooleanField(null=True, blank=True, verbose_name="مساعدة في السعي")
     wheelchair = models.BooleanField(null=True, blank=True, verbose_name="كرسي متحرك")
@@ -213,6 +214,7 @@ class Note(models.Model):
 class Chat(models.Model):
     user = models.OneToOneField(CustomUser,on_delete=models.CASCADE , verbose_name="المستخدم")
     created = models.DateTimeField(auto_now_add=True , verbose_name="تاريخ الانشاء")
+    # chat_type = models.CharField(choices=CHAT_CHOICES , default='guide')
 
     def __str__(self) -> str:
         return f'{self.user.username} chat'

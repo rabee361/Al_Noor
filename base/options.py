@@ -26,7 +26,6 @@ Options_trip = (
 Marital_status = (
     ('متزوج','متزوج'),
     ('أعزب','أعزب'),
-    ('أعزب','أعزب'),
     ('مطلق','مطلق'),
 )
 
@@ -86,4 +85,10 @@ Blood_type = (
 Type_user = (
     ('إدارة', 'إدارة'),
     ('مرشد', 'مرشد')
+)
+
+
+CHAT_CHOICES = (
+    'guide' , 'guide',
+    'manager' , 'manager'
 )

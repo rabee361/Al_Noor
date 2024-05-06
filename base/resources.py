@@ -112,6 +112,7 @@ class PilgrimResource(resources.ModelResource):
         last_name = row['العائلة']
         user, created = CustomUser.objects.get_or_create(phonenumber=phonenumber)
         chat = Chat.objects.create(user=user)
+        chat = Chat.objects.create(user=user)
         user.username = first_name
         user.first_name = first_name
         user.last_name = last_name
