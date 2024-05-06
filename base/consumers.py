@@ -164,10 +164,11 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 
 	@database_sync_to_async
 	def is_manager(self, user_id):
-		user = Management.objects.get(id=user_id) or None
-		return user
-	
-	
+		if Management.objects.filter(id=user_id).exists():
+			return True
+		else:
+			return False	
+		
 	@database_sync_to_async
 	def save_message(self, msg):
 		msg.save()
