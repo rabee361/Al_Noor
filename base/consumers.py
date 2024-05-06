@@ -203,7 +203,7 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 		if chat_owner == int(self.user_id) or await self.is_guide(self.user_id):
 			await self.accept()
 		else:
-			raise ValueError('this is not your chat')
+			raise ValueError(f'{await self.is_guide(self.user_id)}')
 
 	
 
@@ -273,7 +273,7 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 
 	@database_sync_to_async
 	def send_to_all(self,title,body):
-		managers = Management.objects.values_list('phonenumber',flat=True)
+		managers = Guide.objects.values_list('phonenumber',flat=True)
 		users = CustomUser.objects.filter(phonenumber__in=managers).values_list('id',flat=True)
 		devices = FCMDevice.objects.filter(user__in=users)
 		for device in devices:
@@ -289,7 +289,7 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 
 	@database_sync_to_async
 	def get_user_ids(self):
-		return Management.objects.values_list('id',flat=True)
+		return Guide.objects.values_list('id',flat=True)
 
 
 	@database_sync_to_async
