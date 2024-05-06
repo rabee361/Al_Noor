@@ -162,7 +162,8 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 
 	@database_sync_to_async
 	def is_manager(self, user_id):
-		if Management.objects.filter(id=user_id).exists():
+		user = CustomUser.objects.get(id=user_id)
+		if Management.objects.filter(user=user).exists():
 			return True
 		else:
 			return False	
@@ -318,7 +319,8 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 
 	@database_sync_to_async
 	def is_guide(self, user_id):
-		if Guide.objects.filter(id=user_id).exists():
+		user = CustomUser.objects.get(id=user_id)
+		if Guide.objects.filter(user=user).exists():
 			return True
 		else:
 			return False
