@@ -89,6 +89,6 @@ Type_user = (
 
 
 CHAT_CHOICES = (
-    'guide' , 'guide',
-    'manager' , 'manager'
+    ('guide' , 'guide'),
+    ('manager' , 'manager')
 )

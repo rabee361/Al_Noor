@@ -4,13 +4,10 @@ from django.views.generic import TemplateView
 from base.models import *
 from base.resources import PilgrimResource , RegistrationResource
 from .forms import *
-from import_export.admin import ImportExportModelAdmin
 from .forms import PilgrimForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate , login , logout
-
-
-
+import pandas as pd
 
 
 
@@ -683,19 +680,24 @@ def export_forms(request):
 
 def import_pilgrim(request):
     if request.method == 'POST':
-        form = PilgrimForm(request.POST, request.FILES)
-        if form.is_valid():
-            pilgrim_resource = PilgrimResource()
-            dataset = tablib.Dataset().load(request.FILES['file'].read(), format='xlsx')
-            result = pilgrim_resource.import_data(dataset, dry_run=True) # Test the data import
-
-            if not result.has_errors():
-                pilgrim_resource.import_data(dataset, dry_run=False) # Actually import now
-                return HttpResponseRedirect('/success/url/')
-
+        resource = PilgrimResource()
+        my_file = request.FILES['file']
+        df = pd.read_excel(my_file)
+        
+        # Convert the DataFrame to a list of dictionaries
+        data = df.to_dict('records')
+        
+        # Attempt to import the data
+        try:
+            dataset = resource.import_data(data, raise_exception=True)
+            return redirect('pilgrims_list')
+        except Exception as e:
+            # Handle any exceptions that might occur during import
+            print(f"Error importing data: {e}")
+            return render(request, 'pilgrims_list.html', {'error': str(e)})
     else:
-        form = PilgrimForm()
-    return render(request, 'import.html', {'form': form})
+        return render(request, 'user.html')
+
 
 
 

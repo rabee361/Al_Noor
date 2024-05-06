@@ -31,10 +31,12 @@ class LoginUser(GenericAPIView):
         user = CustomUser.objects.get(phonenumber = request.data['username'])
         token = RefreshToken.for_user(user)
 
-        chat = Chat.objects.filter(user=user).first()
+        guide_chat = Chat.objects.get(user=user, chat_type='guide')
+        manager_chat = Chat.objects.get(user=user , chat_type='manager')
         data = serializer.data
-        if chat:
-            data['chat_id'] = chat.id
+        if guide_chat and manager_chat:
+            data['guide_chat_id'] = guide_chat.id
+            data['manager_chat_id'] = manager_chat.id
 
         data['image'] = request.build_absolute_uri(user.image.url)
         data['id'] = user.id
