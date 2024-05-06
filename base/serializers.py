@@ -220,7 +220,7 @@ class MessageSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class GuidancePostSerializer(serializers.ModelSerializer):
+class SimpleGuidancePostSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = GuidancePost
@@ -235,7 +235,19 @@ class GuidancePostSerializer(serializers.ModelSerializer):
         return representation
 
 
-class ReligiousPostSerializer(serializers.ModelSerializer):
+
+
+
+class GuidancePostSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = GuidancePost
+        fields = '__all__'
+
+
+
+
+class SimpleReligiousPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReligiousPost
         fields = '__all__'
@@ -248,6 +260,16 @@ class ReligiousPostSerializer(serializers.ModelSerializer):
         representation['category_name'] = category_name
         return representation
     
+
+
+
+class ReligiousPostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReligiousPost
+        fields = '__all__'
+
+
+
 
 class GuidanceCategorySerializer(serializers.ModelSerializer):
     class Meta:

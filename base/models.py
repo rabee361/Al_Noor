@@ -127,7 +127,7 @@ class Pilgrim(models.Model):
 
 
 class Guide(models.Model):
-    user = models.ForeignKey(CustomUser , on_delete=models.CASCADE ,default=1)
+    user = models.OneToOneField(CustomUser , on_delete=models.CASCADE ,default=1)
     
     def __str__(self) -> str:
         return self.user.username
