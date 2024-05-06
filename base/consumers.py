@@ -197,7 +197,7 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 			await self.get_guide(user.id)
 			msg = ChatMessage(sender=user,content=message, chat=chat, sent_user=False)
 		except Guide.DoesNotExist:
-			msg = ChatMessage(sender=user,content=message, chat=chat, employee=True)
+			msg = ChatMessage(sender=user,content=message, chat=chat, sent_user=True)
 
 		serializer = MessageSerializer(msg,many=False)
 		await self.save_message(msg)
