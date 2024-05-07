@@ -218,12 +218,20 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 
 		user = await self.get_user(self.user_id)
 		chat = await self.get_chat(self.chat_id)
-
-		try:
-			raise ValueError(f'{await self.get_guide(user.id)}')
+		x = await self.get_guide(user.id)
+		if x :
 			msg = ChatMessage(sender=user,content=message, chat=chat, sent_user=False)
-		except Guide.DoesNotExist:
+			raise ValueError(f'{x}')
+		else:
 			msg = ChatMessage(sender=user,content=message, chat=chat, sent_user=True)
+			raise ValueError(f'{x}')
+
+
+		# try:
+			# await self.get_guide(user.id)
+		# 	msg = ChatMessage(sender=user,content=message, chat=chat, sent_user=False)
+		# except Guide.DoesNotExist:
+		# 	msg = ChatMessage(sender=user,content=message, chat=chat, sent_user=True)
 
 		serializer = MessageSerializer(msg,many=False)
 		await self.save_message(msg)
