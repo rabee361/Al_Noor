@@ -19,6 +19,8 @@ from rest_framework import status
 from datetime import datetime
 from fcm_django.models import FCMDevice
 from django.shortcuts import get_object_or_404
+from fcm_django.models import FCMDevice
+from firebase_admin.messaging import Message, Notification
 from django.db.models import Max , Count
 from django.db.models.functions import ExtractMonth
 
@@ -31,6 +33,17 @@ class LoginUser(GenericAPIView):
         user = CustomUser.objects.get(phonenumber = request.data['username'])
         token = RefreshToken.for_user(user)
 
+
+        device_token = request.data.get('device_token',None)
+        device_type = request.data.get('device_type',None)
+        try:
+            device_tok = FCMDevice.objects.get(registration_id=device_token ,type=device_type)
+            device_tok.user = user
+            device_tok.save()
+        except:
+            FCMDevice.objects.create(user=user , registration_id=device_token ,type=device_type)
+    
+    
         guide_chat = Chat.objects.get(user=user, chat_type='guide')
         manager_chat = Chat.objects.get(user=user , chat_type='manager')
         data = serializer.data
@@ -145,19 +158,6 @@ class RegisterPilgrim(ListCreateAPIView):
     # permission_classes = [IsAuthenticated]
     queryset =  Registration.objects.all()
     serializer_class = RegistrationSerializer
-
-    def create(self, request, *args, **kwargs):
-        device_token = request.data.get('device_token', None)
-        device_type = request.data.get('device_type', None)
-
-        try:
-            device_tok = FCMDevice.objects.get(registration_id=device_token, type=device_type)
-            device_tok.user = request.user
-            device_tok.save()
-        except FCMDevice.DoesNotExist:
-            FCMDevice.objects.create(user=request.user, registration_id=device_token, type=device_type)
-
-        return super().create(request, *args, **kwargs)
 
 
 
