@@ -204,7 +204,7 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 		if chat_owner == int(self.user_id) or await self.is_guide(self.user_id):
 			await self.accept()
 		else:
-			raise ValueError(f'{self.user_id}')
+			raise ValueError('this is not your chat')
 
 	
 
@@ -220,8 +220,8 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 		chat = await self.get_chat(self.chat_id)
 
 		try:
-			await self.get_guide(user.id)
-			msg = ChatMessage(sender=user,content=message, chat=chat, sent_user=False)
+			raise ValueError(f'{await self.get_guide(self,user.id)}')
+			# msg = ChatMessage(sender=user,content=message, chat=chat, sent_user=False)
 		except Guide.DoesNotExist:
 			msg = ChatMessage(sender=user,content=message, chat=chat, sent_user=True)
 

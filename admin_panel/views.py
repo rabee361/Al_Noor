@@ -8,6 +8,8 @@ from .forms import PilgrimForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate , login , logout
 import pandas as pd
+from django.core.files.storage import default_storage
+from django.db import transaction
 
 
 
@@ -677,30 +679,50 @@ def export_forms(request):
 
 
 
-
+@transaction.atomic
 def import_pilgrim(request):
     if request.method == 'POST':
-        resource = PilgrimResource()
-        my_file = request.FILES['file']
-        df = pd.read_excel(my_file)
-        
-        # Convert the DataFrame to a list of dictionaries
-        data = df.to_dict('records')
-        
-        # Attempt to import the data
-        try:
-            dataset = resource.import_data(data, raise_exception=True)
-            return redirect('pilgrims_list')
-        except Exception as e:
-            # Handle any exceptions that might occur during import
-            print(f"Error importing data: {e}")
-            return render(request, 'pilgrims_list.html', {'error': str(e)})
-    else:
-        return render(request, 'user.html')
+        excel_file = request.FILES['file']
+        # file_path = default_storage.save('temp/' + excel_file.name, excel_file)
+        df = pd.read_excel(excel_file)  # or 'xlrd' for.xls files
 
+        # df['وقت الصعود'] = pd.to_datetime(df['وقت الصعود'], format='%H:%M', errors='coerce')
+        # df['تاريخ الميلاد'] = pd.to_datetime(df['تاريخ الميلاد - الميلادي فقط'], errors='coerce')
 
+        # Assuming the Excel file has columns that match the Pilgrim model fields
+        for index, row in df.iterrows():
+            # Convert phone number to a PhoneNumber object
+            user =CustomUser.objects.create(phonenumber=str(row['رقم الجوال']) , username=str(row['الاسم الأول']) )
+            user.save()
+            # Create a Pilgrim object
+            pilgrim = Pilgrim(
+                user=user,  # You need to set this based on your application logic
+                registeration_id=row['رقم الهوية'],
+                first_name=row['الاسم الأول'],
+                father_name=row['اسم الأب'],
+                grand_father=row['اسم الجد'],
+                last_name=row['العائلة'],
+                # birthday=row['تاريخ الميلاد - الميلادي فقط'],
+                phonenumber=str(row['رقم الجوال']),
+                # flight_num=row['رقم الرحلة'],
+                # arrival=row['arrival'],
+                # departure=row['departure'],
+                duration=row['مدة الرحلة'],
+                # borading_time=row['وقت الصعود'],
+                gate_num=row['رقم البوابة'],
+                flight_company=row['شركة الطيران'],
+                # company_logo=row['شعار الشركة'],  # This needs to be handled as an ImageFile
+                status=True,
+                hotel=row['الفندق'],
+                hotel_address=row['عنوان الفندق'],
+                room_num=33,
+                # haj_steps=row['haj_steps'],  # This needs to be handled as a ManyToManyField
+                # created=row['created']
+            )
+            pilgrim.save()
 
-
+        return render(request, 'pilgrims_list.html', {'message': 'Data imported successfully'})
+    return render(request, 'user.html')
 
 
 def notifications_list(request):

@@ -101,13 +101,13 @@ class Pilgrim(models.Model):
     father_name = models.CharField(max_length=50 , verbose_name="اسم الأب")
     grand_father = models.CharField(max_length=50 , verbose_name="اسم الجد")
     last_name = models.CharField(max_length=50 , verbose_name="العائلة")
-    birthday = models.DateField(verbose_name="الميلاد")
+    birthday = models.DateField(verbose_name="الميلاد", null=True , blank=True)
     phonenumber = PhoneNumberField(region='SA',unique=True , verbose_name="رقم الهاتف")
     flight_num = models.IntegerField(null=True, blank=True,verbose_name="رقم الرحلة")
     arrival = models.DateTimeField(verbose_name="موعد الوصول", null=True , blank=True)
     departure = models.DateTimeField(verbose_name="موعد الاقلاع" , null=True , blank=True)
     duration = models.DurationField(verbose_name="مدة الرحلة")
-    borading_time = models.TimeField(verbose_name="وقت الصعود")####
+    borading_time = models.TimeField(verbose_name="وقت الصعود", null=True , blank=True)####
     gate_num = models.IntegerField(null=True, blank=True , verbose_name="رقم البوابة")####
     flight_company = models.CharField(max_length=50 , verbose_name="اسم الشركة") ### can be a choice list
     company_logo = models.ImageField(verbose_name="شعار الشركة" , null=True , blank=True) ###
@@ -211,6 +211,7 @@ class Note(models.Model):
 
 
 
+
 class Chat(models.Model):
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE , verbose_name="المستخدم")
     created = models.DateTimeField(auto_now_add=True , verbose_name="تاريخ الانشاء")
@@ -230,7 +231,7 @@ class ChatMessage(models.Model):
     chat = models.ForeignKey(Chat , on_delete=models.CASCADE , verbose_name="المحادثة")
     content = models.CharField(max_length=500 , verbose_name="المحتوى")
     timestamp = models.DateTimeField(auto_now_add=True , verbose_name="التاريخ والوقت")
-    sent_user = models.BooleanField(default=False , verbose_name="الموظف")
+    sent_user = models.BooleanField(default=False , verbose_name="المستخدم")
 
     def __str__(self):
         return f'{self.sender} : "{self.content[0:20]}..."'

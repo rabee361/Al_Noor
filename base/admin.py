@@ -109,7 +109,7 @@ class TaskAdmin(admin.ModelAdmin):
 
 
 class ChatAdmin(admin.ModelAdmin):
-    list_display = ['id','user','created','created']
+    list_display = ['id','user','created','chat_type','created']
 
 
 class ChatMessageAdmin(admin.ModelAdmin):
