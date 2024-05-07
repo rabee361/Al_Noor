@@ -35,15 +35,15 @@ class LoginUser(GenericAPIView):
 
 
         device_token = request.data.get('device_token',None)
-        device_type = request.data.get('device_type',None)
+        # device_type = request.data.get('device_type',None)
         try:
-            device_tok = FCMDevice.objects.get(registration_id=device_token ,type=device_type)
+            device_tok = FCMDevice.objects.get(registration_id=device_token ,type='android')
             device_tok.user = user
             device_tok.save()
         except:
-            FCMDevice.objects.create(user=user , registration_id=device_token ,type=device_type)
+            FCMDevice.objects.create(user=user , registration_id=device_token ,type='android')
     
-    
+
         guide_chat = Chat.objects.get(user=user, chat_type='guide')
         manager_chat = Chat.objects.get(user=user , chat_type='manager')
         data = serializer.data
