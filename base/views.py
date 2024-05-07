@@ -366,7 +366,7 @@ class SendNotification(GenericAPIView):
         content = request.data.get('content',None)
         if pilgrims is not None:
             if title is None or content is None:
-                # send_event_notification(users=users,title=title,content=content)
+                send_event_notification(users=users,title=title,content=content)
                 return Response({
                     "message":"تم ارسال الاشعار"
                 })
@@ -374,6 +374,8 @@ class SendNotification(GenericAPIView):
                 return Response({"error":"العنوان أو المحتوى فارغ"})
         else:
             return Response({"error":"لا يوجد حجاج"})
+
+
 
 class Calender(GenericAPIView):
     def post(self,request):
