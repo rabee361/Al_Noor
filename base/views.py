@@ -146,6 +146,19 @@ class RegisterPilgrim(ListCreateAPIView):
     queryset =  Registration.objects.all()
     serializer_class = RegistrationSerializer
 
+    def create(self, request, *args, **kwargs):
+        device_token = request.data.get('device_token', None)
+        device_type = request.data.get('device_type', None)
+
+        try:
+            device_tok = FCMDevice.objects.get(registration_id=device_token, type=device_type)
+            device_tok.user = request.user
+            device_tok.save()
+        except FCMDevice.DoesNotExist:
+            FCMDevice.objects.create(user=request.user, registration_id=device_token, type=device_type)
+
+        return super().create(request, *args, **kwargs)
+
 
 
 class ListCreatePilgrim(ListAPIView):
