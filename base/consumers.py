@@ -143,7 +143,8 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 
 	@database_sync_to_async
 	def get_manager(self,user):
-		return Management.objects.get(id=user) or None
+		user = CustomUser.objects.get(id=user)
+		return Management.objects.get(user=user) or None
 
 
 	@database_sync_to_async
@@ -218,20 +219,12 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 
 		user = await self.get_user(self.user_id)
 		chat = await self.get_chat(self.chat_id)
-		x = await self.get_guide(user.id)
-		if x :
+
+		try:
+			await self.get_guide(user.id)
 			msg = ChatMessage(sender=user,content=message, chat=chat, sent_user=False)
-			raise ValueError(f'{x}')
-		else:
+		except Guide.DoesNotExist:
 			msg = ChatMessage(sender=user,content=message, chat=chat, sent_user=True)
-			raise ValueError(f'{x}')
-
-
-		# try:
-			# await self.get_guide(user.id)
-		# 	msg = ChatMessage(sender=user,content=message, chat=chat, sent_user=False)
-		# except Guide.DoesNotExist:
-		# 	msg = ChatMessage(sender=user,content=message, chat=chat, sent_user=True)
 
 		serializer = MessageSerializer(msg,many=False)
 		await self.save_message(msg)
@@ -322,7 +315,8 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 
 	@database_sync_to_async
 	def get_guide(self,user):
-		return Guide.objects.get(id=user) or None
+		user = CustomUser.objects.get(id=user)
+		return Guide.objects.get(user=user) or None
 
 
 	@database_sync_to_async
