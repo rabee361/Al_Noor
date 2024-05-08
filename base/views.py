@@ -31,6 +31,7 @@ class LoginUser(GenericAPIView):
         serializer = LoginSerializer(data = request.data)
         serializer.is_valid(raise_exception=True)
         user = CustomUser.objects.get(phonenumber = request.data['username'])
+        pilgrim = Pilgrim.objects.get(user=user)
         token = RefreshToken.for_user(user)
 
 
@@ -52,7 +53,8 @@ class LoginUser(GenericAPIView):
             data['manager_chat_id'] = manager_chat.id
 
         data['image'] = request.build_absolute_uri(user.image.url)
-        data['id'] = user.id
+        data['user_id'] = user.id
+        data['pilgrim_id'] = pilgrim.id
         data['tokens'] = {'refresh':str(token), 'access':str(token.access_token)}
 
         return Response(data, status=status.HTTP_200_OK)
