@@ -148,7 +148,7 @@ class PilgrimSerializer(serializers.ModelSerializer):
         
     def get_chat(self, obj):
         try:
-            chat = Chat.objects.get(user=obj.user)
+            chat = Chat.objects.filter(user=obj.user)
             return chat.id
         except Chat.DoesNotExist:
             return None 
