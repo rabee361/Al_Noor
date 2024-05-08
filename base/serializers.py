@@ -137,7 +137,8 @@ class ManagementSerializer(serializers.ModelSerializer):
 
 class PilgrimSerializer(serializers.ModelSerializer):
     phonenumber = serializers.SerializerMethodField(read_only=True)
-    chat = serializers.SerializerMethodField(read_only=True) # New method field for chat ID
+    guide_chat = serializers.SerializerMethodField(read_only=True) # New method field for chat ID
+    manager_chat = serializers.SerializerMethodField(read_only=True) # New method field for chat ID
 
     class Meta:
         model = Pilgrim
@@ -146,10 +147,17 @@ class PilgrimSerializer(serializers.ModelSerializer):
     def get_phonenumber(self,obj):
         return obj.phonenumber.as_international
         
-    def get_chat(self, obj):
+    def get_guide_chat(self, obj):
         try:
-            chat = Chat.objects.filter(user=obj.user)
-            return chat.id
+            guide_chat = Chat.objects.filter(user=obj.user , chat_type='guide')
+            return guide_chat.id
+        except Chat.DoesNotExist:
+            return None 
+        
+    def get_manager_chat(self, obj):
+        try:
+            manager_chat = Chat.objects.filter(user=obj.user , chat_type='manager')
+            return manager_chat.id
         except Chat.DoesNotExist:
             return None 
         
