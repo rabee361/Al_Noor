@@ -149,14 +149,14 @@ class PilgrimSerializer(serializers.ModelSerializer):
         
     def get_guide_chat(self, obj):
         try:
-            guide_chat = Chat.objects.filter(user=obj.user , chat_type='guide')
+            guide_chat = Chat.objects.get(user=obj.user , chat_type='guide')
             return guide_chat.id
         except Chat.DoesNotExist:
             return None 
         
     def get_manager_chat(self, obj):
         try:
-            manager_chat = Chat.objects.filter(user=obj.user , chat_type='manager')
+            manager_chat = Chat.objects.get(user=obj.user , chat_type='manager')
             return manager_chat.id
         except Chat.DoesNotExist:
             return None 
