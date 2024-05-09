@@ -7,6 +7,8 @@ from fcm_django.admin import DeviceAdmin as DefaultDeviceAdmin
 from rest_framework_simplejwt.token_blacklist.models import OutstandingToken, BlacklistedToken
 from rest_framework_simplejwt.token_blacklist.admin import OutstandingTokenAdmin as DefaultOutstandingTokenAdmin
 from django.contrib.auth.models import Group
+from django.contrib.auth.admin import UserAdmin
+from .forms import *
 
 
 admin.site.site_header = "Dashboard"
@@ -38,9 +40,18 @@ class BlacklistedTokenAdmin(HiddenModelAdmin):
 
 
 
-class CustomUserAdmin(admin.ModelAdmin):
+class CustomUserAdmin(UserAdmin):
+    add_form = CustomUserCreationForm
+    form = CustomUserChangeForm
     list_display = ['id','first_name','last_name','phonenumber','is_verified','get_notifications']
 
+    add_fieldsets = (
+        (None, {'classes':('wide',),
+            'fields':(
+                'email', 'username','phonenumber', 'password1', 'password2'
+            ),}
+            ),
+    )
 
 
 class RegistrationAdmin(ImportExportModelAdmin):

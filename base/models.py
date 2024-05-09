@@ -12,7 +12,7 @@ class CustomUser(AbstractUser):
     phonenumber = PhoneNumberField(region='SA',unique=True , verbose_name="رقم الهاتف")
     is_verified = models.BooleanField(default=False , verbose_name="تم التوثيق")
     get_notifications = models.BooleanField(default=True , verbose_name="تلقي اشعارات")
-    username = models.CharField(max_length=255, blank=True, null=True , verbose_name="الاسم الكامل")
+    username = models.CharField(max_length=255, verbose_name="الاسم الكامل")
     # active_now = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'phonenumber'

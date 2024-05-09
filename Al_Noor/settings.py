@@ -206,6 +206,8 @@ MAKEMESSAGES_IGNORE_PATTERNS = [
     # Add any other patterns you want to exclude here
 ]
 
+# AUTHENTICATION_BACKENDS = ['base.backends.PhoneNumberBackend']
+
 
 TIME_ZONE = 'UTC'
 
