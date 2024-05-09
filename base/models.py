@@ -104,7 +104,7 @@ class Pilgrim(models.Model):
     birthday = models.DateField(verbose_name="الميلاد", null=True , blank=True)
     phonenumber = PhoneNumberField(region='SA',unique=True , verbose_name="رقم الهاتف")
     flight_num = models.IntegerField(null=True, blank=True,verbose_name="رقم الرحلة")
-    flight_date = models.DateTimeField(null=True, blank=True,verbose_name="تاريخ الرحلة")
+    flight_date = models.DateField(null=True, blank=True,verbose_name="تاريخ الرحلة")
     arrival = models.DateTimeField(verbose_name="موعد الوصول", null=True , blank=True)
     departure = models.DateTimeField(verbose_name="موعد الاقلاع" , null=True , blank=True)
     from_city = models.CharField(max_length=40 , null=True , blank=True , verbose_name="من المدينة")
