@@ -137,6 +137,7 @@ class ManagementSerializer(serializers.ModelSerializer):
 
 class PilgrimSerializer(serializers.ModelSerializer):
     phonenumber = serializers.SerializerMethodField(read_only=True)
+    image = serializers.ImageField(source='user.image')
     class Meta:
         model = Pilgrim
         fields = '__all__'

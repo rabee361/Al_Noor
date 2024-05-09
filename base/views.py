@@ -101,7 +101,7 @@ class VerifyCode(GenericAPIView):
 
 
 class UpdateImage(GenericAPIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def post(self,request):
         new_image = request.data['image'] or None
