@@ -104,12 +104,13 @@ class Pilgrim(models.Model):
     birthday = models.DateField(verbose_name="الميلاد", null=True , blank=True)
     phonenumber = PhoneNumberField(region='SA',unique=True , verbose_name="رقم الهاتف")
     flight_num = models.IntegerField(null=True, blank=True,verbose_name="رقم الرحلة")
+    flight_date = models.DateTimeField(null=True, blank=True,verbose_name="تاريخ الرحلة")
     arrival = models.DateTimeField(verbose_name="موعد الوصول", null=True , blank=True)
     departure = models.DateTimeField(verbose_name="موعد الاقلاع" , null=True , blank=True)
     from_city = models.CharField(max_length=40 , null=True , blank=True , verbose_name="من المدينة")
     to_city = models.CharField(max_length=40 , null=True , blank=True , verbose_name="إلى المدينة")
     duration = models.DurationField(verbose_name="مدة الرحلة")
-    borading_time = models.TimeField(verbose_name="وقت الصعود", null=True , blank=True)####
+    boarding_time = models.TimeField(verbose_name="وقت الصعود", null=True , blank=True)####
     gate_num = models.IntegerField(null=True, blank=True , verbose_name="رقم البوابة")####
     flight_company = models.CharField(max_length=50 , verbose_name="اسم الشركة") ### can be a choice list
     company_logo = models.ImageField(verbose_name="شعار الشركة" , null=True , blank=True) ###
