@@ -106,6 +106,8 @@ class Pilgrim(models.Model):
     flight_num = models.IntegerField(null=True, blank=True,verbose_name="رقم الرحلة")
     arrival = models.DateTimeField(verbose_name="موعد الوصول", null=True , blank=True)
     departure = models.DateTimeField(verbose_name="موعد الاقلاع" , null=True , blank=True)
+    from_city = models.CharField(max_length=40 , null=True , blank=True , verbose_name="من المدينة")
+    to_city = models.CharField(max_length=40 , null=True , blank=True , verbose_name="إلى المدينة")
     duration = models.DurationField(verbose_name="مدة الرحلة")
     borading_time = models.TimeField(verbose_name="وقت الصعود", null=True , blank=True)####
     gate_num = models.IntegerField(null=True, blank=True , verbose_name="رقم البوابة")####

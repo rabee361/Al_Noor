@@ -139,6 +139,7 @@ class PilgrimSerializer(serializers.ModelSerializer):
     phonenumber = serializers.SerializerMethodField(read_only=True)
     guide_chat = serializers.SerializerMethodField(read_only=True) # New method field for chat ID
     manager_chat = serializers.SerializerMethodField(read_only=True) # New method field for chat ID
+    duration = serializers.SerializerMethodField()
 
     class Meta:
         model = Pilgrim
@@ -161,7 +162,13 @@ class PilgrimSerializer(serializers.ModelSerializer):
         except Chat.DoesNotExist:
             return None 
         
-        
+    def get_duration(self, obj):
+        duration = obj.duration
+        formatted_duration = str(duration).split('.')[0]  # Remove microseconds
+        return formatted_duration        
+
+
+
 
 class CreatePilgrimSerializer(serializers.Serializer):
     username = serializers.CharField(write_only=True)
