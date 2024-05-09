@@ -140,6 +140,7 @@ class PilgrimSerializer(serializers.ModelSerializer):
     guide_chat = serializers.SerializerMethodField(read_only=True) # New method field for chat ID
     manager_chat = serializers.SerializerMethodField(read_only=True) # New method field for chat ID
     duration = serializers.SerializerMethodField()
+    image = serializers.ImageField(source='user.image',read_only=True)
 
     class Meta:
         model = Pilgrim
