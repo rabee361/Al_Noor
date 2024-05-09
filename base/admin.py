@@ -10,8 +10,6 @@ from django.contrib.auth.models import Group
 from .forms import *
 from django.contrib.auth.admin import UserAdmin
 
-# from django.contrib.auth.forms import UserChangeForm, UserCreationForm
-
 
 admin.site.site_header = "Dashboard"
 admin.site.index_title = "Admin Panel"
