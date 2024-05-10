@@ -49,7 +49,7 @@ class LoginUser(GenericAPIView):
             manager_chat = Chat.objects.get(user=user , chat_type='manager')
             data['guide_chat_id'] = guide_chat.id
             data['manager_chat_id'] = manager_chat.id
-        except:
+        except Chat.DoesNotExist:
             None
 
 
