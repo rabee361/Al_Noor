@@ -220,12 +220,25 @@ class RefreshFirebaseToken(GenericAPIView):
 
 
 ###### might meed modification to send the pilgrim id in the header
-class ListCreateNote(ListCreateAPIView):
+class ListNote(ListAPIView):
     # permission_classes = [IsAuthenticated]
     queryset =  Note.objects.all()
     serializer_class = NoteSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = NoteFilter
+
+
+
+
+class CreateNote(APIView):
+    def post(self, request):
+        serializer = NoteSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+
+
 
 
 class RetUpdDesNote(RetrieveUpdateDestroyAPIView):

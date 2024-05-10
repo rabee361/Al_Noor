@@ -87,10 +87,21 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
 
 class NoteSerializer(serializers.ModelSerializer):
+    guide = serializers.CharField(required=False)
+
     class Meta:
         model = Note
         fields = '__all__'
 
+    def create(self, validated_data):
+        user = self.context['request'].user
+        guide = Guide.objects.get(user=user)
+        note = Note.objects.create(
+            pilgrim=validated_data['pilgrim'],
+            guide=guide,
+            content=validated_data['content'],
+        )
+        return note
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
@@ -227,6 +238,7 @@ class GregorianSerializer(serializers.Serializer):
 class ChatSerializer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
     username = serializers.CharField(source='user.username',read_only=True)
+    last_msg = serializers.SerializerMethodField()
 
     class Meta:
         model = Chat
@@ -237,6 +249,13 @@ class ChatSerializer(serializers.ModelSerializer):
         if obj.user.image:
             return request.build_absolute_uri(obj.user.image.url)
         return None
+    
+    def get_last_msg(self,obj):
+        try:
+            msg = ChatMessage.objects.filter(chat=obj).order_by('-timestamp').first()
+            return msg.content
+        except:
+            return '_'
 
 
 class MessageSerializer(serializers.ModelSerializer):
