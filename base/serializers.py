@@ -106,6 +106,9 @@ class NoteSerializer(serializers.ModelSerializer):
 
 class EmployeeSerializer(serializers.ModelSerializer):
     phonenumber = serializers.SerializerMethodField(read_only=True)
+    username = serializers.CharField(source='user.username')
+    image = serializers.ImageField(source='user.image',read_only=True)
+
     class Meta:
         model = Employee
         fields = '__all__'
