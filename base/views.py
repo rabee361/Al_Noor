@@ -43,13 +43,15 @@ class LoginUser(GenericAPIView):
         except:
             FCMDevice.objects.create(user=user , registration_id=device_token ,type='android')
     
-
-        guide_chat = Chat.objects.get(user=user, chat_type='guide')
-        manager_chat = Chat.objects.get(user=user , chat_type='manager')
         data = serializer.data
-        if guide_chat and manager_chat:
+        try:
+            guide_chat = Chat.objects.get(user=user, chat_type='guide')
+            manager_chat = Chat.objects.get(user=user , chat_type='manager')
             data['guide_chat_id'] = guide_chat.id
             data['manager_chat_id'] = manager_chat.id
+        except:
+            None
+
 
         data['image'] = request.build_absolute_uri(user.image.url)
         data['user_id'] = user.id
@@ -58,7 +60,7 @@ class LoginUser(GenericAPIView):
             data['pilgrim_id'] = pilgrim.id
         except Pilgrim.DoesNotExist:
             None
-            
+
         data['tokens'] = {'refresh':str(token), 'access':str(token.access_token)}
 
         return Response(data, status=status.HTTP_200_OK)
