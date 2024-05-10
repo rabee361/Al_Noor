@@ -455,7 +455,7 @@ class GetChat(RetrieveAPIView):
 
 
 
-class ListCreateEmployee(ListCreateAPIView):
+class ListEmployees(ListAPIView):
     # permission_clasess = [IsAuthenticated]
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
@@ -468,6 +468,26 @@ class CreateEmployee(CreateAPIView):
     queryset = Employee.objects.all()
     serializer_class = CreateEmployeeSerializer 
    
+
+
+
+class UpdateEmployee(UpdateAPIView):
+    queryset = Employee.objects.all()
+    serializer_class = UpdateEmployeeSerializer 
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        employee_id = serializer.data['id']
+        employee = Employee.objects.get(id=employee_id)
+        serializer = EmployeeSerializer(employee , many=False , context={'request':request})
+        return Response(serializer.data)
+
+
+
+
 
 
 class ListCreateGuidancePost(ListCreateAPIView):
