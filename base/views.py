@@ -415,12 +415,12 @@ class Calender(GenericAPIView):
             'year': response['data']['date']['gregorian']['year'],
         }
 
-        hijri_date = {
-                'day': response['data']['date']['hijri']['day'],
-                'month': response['data']['date']['hijri']['month']['ar'],
-                'year': response['data']['date']['hijri']['year'],
-                'weekday': response['data']['date']['hijri']['weekday']['ar'],
-            }
+        # hijri_date = {
+        #         'day': response['data']['date']['hijri']['day'],
+        #         'month': response['data']['date']['hijri']['month']['ar'],
+        #         'year': response['data']['date']['hijri']['year'],
+        #         'weekday': response['data']['date']['hijri']['weekday']['ar'],
+        #     }
 
         gregorian = GregorianSerializer(gregorian_date)
         hijri = HijriSerializer(hijri_date)
