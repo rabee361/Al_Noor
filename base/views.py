@@ -423,13 +423,13 @@ class Calender(GenericAPIView):
         #     }
 
         gregorian = GregorianSerializer(gregorian_date)
-        hijri = HijriSerializer(hijri_date)
+        # hijri = HijriSerializer(hijri_date)
         arabic_gregorian_date = gregorian.data
-        arabic_hijri_date = hijri.data
+        # arabic_hijri_date = hijri.data
 
         return Response({
             'timings': response['data']['timings'],
-            'hijri' : arabic_hijri_date,
+            # 'hijri' : arabic_hijri_date,
             'gregorian': arabic_gregorian_date,
             'city': response['data']['meta']['timezone']
         })
