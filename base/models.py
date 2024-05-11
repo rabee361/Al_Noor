@@ -86,7 +86,7 @@ class Registration(models.Model):
     tawaf = models.BooleanField(null=True, blank=True, verbose_name="مساعدة في الطواف")
     sai = models.BooleanField(null=True, blank=True, verbose_name="مساعدة في السعي")
     wheelchair = models.BooleanField(null=True, blank=True, verbose_name="كرسي متحرك")
-    type_help = models.TextField(null=True, blank=True, verbose_name="نوع المساعدة")
+    type_help = models.CharField(max_length=500,null=True, blank=True, verbose_name="نوع المساعدة")
 
     class Meta:
         verbose_name = ("استمارة تسجيل")
@@ -105,8 +105,8 @@ class Pilgrim(models.Model):
     phonenumber = PhoneNumberField(region='SA',unique=True , verbose_name="رقم الهاتف")
     flight_num = models.IntegerField(null=True, blank=True,verbose_name="رقم الرحلة")
     flight_date = models.DateField(null=True, blank=True,verbose_name="تاريخ الرحلة")
-    arrival = models.DateTimeField(verbose_name="موعد الوصول", null=True , blank=True)
-    departure = models.DateTimeField(verbose_name="موعد الاقلاع" , null=True , blank=True)
+    arrival = models.TimeField(verbose_name="موعد الوصول", null=True , blank=True)
+    departure = models.TimeField(verbose_name="موعد الاقلاع" , null=True , blank=True)
     from_city = models.CharField(max_length=40 , null=True , blank=True , verbose_name="من المدينة")
     to_city = models.CharField(max_length=40 , null=True , blank=True , verbose_name="إلى المدينة")
     duration = models.DurationField(verbose_name="مدة الرحلة")

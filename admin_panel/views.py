@@ -10,6 +10,8 @@ from django.contrib.auth import authenticate , login , logout
 import pandas as pd
 from django.core.files.storage import default_storage
 from django.db import transaction
+from django.views import View
+
 
 
 
@@ -169,6 +171,36 @@ def pilgrims_list(request):
 
 
 
+
+class update_pilgrim(View):
+    def get(self, request,pilgrim_id):
+        pilgrim = Pilgrim.objects.get(id=pilgrim_id)
+        user = CustomUser.objects.get(id=pilgrim.user.id)
+        user_form = CustomUserCreationForm(instance=user)
+        form = PilgrimForm(instance=pilgrim)
+        context = {'user_form': user_form,
+                    'form': form,
+                    
+                    }
+        return render(request, 'update_pilgrim.html', context=context)
+
+    def post(self, request, *args, **kwargs):
+        user_form = CustomUserCreationForm(request.POST)
+        pilgrim_form = PilgrimForm(request.POST, request.FILES)
+        if user_form.is_valid() and pilgrim_form.is_valid():
+            user = user_form.save()
+            pilgrim = pilgrim_form.save(commit=False)
+            pilgrim.user = user
+            pilgrim.save()
+            return redirect('pilgrims')  # Redirect to a success page
+        return render(request, 'registration/pilgrim_registration.html', {'user_form': user_form, 'pilgrim_form': pilgrim_form})
+
+
+
+
+
+
+
 @login_required(login_url='login')
 def add_pilgrim(request):
     form = NewPilgrim()
@@ -217,6 +249,53 @@ def add_pilgrim(request):
         'username': username
     }
     return render(request, 'add_pilgrim.html', context)
+
+
+
+
+
+
+# @login_required(login_url='login')
+# def update_pilgrim(request,pilgrim_id):
+#     pilgrim = Pilgrim.objects.get(id=pilgrim_id)
+#     user = CustomUser.objects.get(id=pilgrim.user)
+#     form = UpdatePilgrim(instance=user)
+
+#     if request.method == 'POST':
+#         form = UpdatePilgrim(request.POST,request.FILES,instance=pilgrim)
+#         if form.is_valid():
+#             user = CustomUser.objects.get(
+#                 phonenumber=form.cleaned_data['phonenumber'],
+#             )
+#             password1=form.cleaned_data['password1']
+#             password2=form.cleaned_data['password2']
+#             image=request.FILES.get('image')
+#             print(image)
+#             if image:
+#                 user.image = request.FILES.get('image')
+#             else:
+#                 user.image = pilgrim.user.image
+#             # if password1:
+#             #     user.set_password(password1)
+
+
+#             user.get_notifications = form.cleaned_data['get_notifications']
+#             user.username = form.cleaned_data['username']
+#             user.save()
+#             return redirect('pilgrims')
+
+#     user_image = request.user.image.url
+#     pilgrim_image = pilgrim.user.image.url
+#     username = request.user.username
+    
+#     context = {
+#         'form': form,
+#         'user_image': user_image,
+#         'pilgrim_image': pilgrim_image,
+#         'username': username,
+#     }
+#     return render(request, 'update_pilgrim.html', context)
+
 
 
 
@@ -417,7 +496,7 @@ def update_task(request,task_id):
 def delete_task(request,task_id):
     Task.objects.get(id=task_id).delete()
 
-    return redirect('task-list')
+    return redirect('tasks')
 
 
 

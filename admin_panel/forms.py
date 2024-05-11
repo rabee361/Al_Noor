@@ -2,6 +2,11 @@ from django.forms import ModelForm , Form
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from base.models import *
+from django.contrib.auth.forms import UserCreationForm
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
+from phonenumber_field.modelfields import PhoneNumberField
+from base.models import Pilgrim, HajSteps
 
 
 class NewUser(UserCreationForm):
@@ -143,6 +148,33 @@ class UpdateGuide(forms.ModelForm):
 
 
 
+class CustomUserCreationForm(ModelForm):
+    # Add other fields from CustomUser model here if needed
+
+    class Meta():
+        model = CustomUser
+        fields = ('username', 'phonenumber',)
+
+    def clean_password2(self):
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+        if password1 and password2 and password1!= password2:
+            raise ValidationError(
+                _("The two password fields didn't match."),
+                code="password_mismatch",
+            )
+        return password2
+
+
+
+class PilgrimForm(forms.ModelForm):
+    class Meta:
+        model = Pilgrim
+        fields = '__all__'  # Include all fields from the Pilgrim model
+        exclude = ['user']
+
+
+
 
 class NewPilgrim(forms.ModelForm):
     class Meta:
@@ -171,10 +203,6 @@ class NewPilgrim(forms.ModelForm):
     #     if password1 and password2 and password1 != password2:
     #         self.add_error('password2', 'كلمات المرور المرور غير متطابقة.')
 
-
-
-class PilgrimForm(forms.Form):
-    file = forms.FileField()
 
 
 

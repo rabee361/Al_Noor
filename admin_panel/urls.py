@@ -19,7 +19,7 @@ urlpatterns = [
 
     path('pilgrims_list/' , pilgrims_list , name="pilgrims"),
     path('add_pilgrim/' , add_pilgrim , name="add_pilgrim"),
-    # path('update_pilgrim/<str:pk>/' , update_pilgrim, name="update_pilgrim"),
+    path('update_pilgrim/<str:pilgrim_id>/' , update_pilgrim.as_view(), name="update_pilgrim"),
     path('delete-pilgrim/<str:pilgrim_id>/' , delete_pilgrim , name="delete-pilgrim"),
 
     path('guides_list/' , guides_list , name="guides"),

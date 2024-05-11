@@ -112,7 +112,7 @@
                         {{pilgrim.phonenumber}}
                       </td>
                       <td>
-                          <a href="" class="btn btn-success btn-sm btn-icon">
+                          <a href="{% url 'update_pilgrim' pilgrim.id %}" class="btn btn-success btn-sm btn-icon">
                             <i class="now-ui-icons ui-2_settings-90"></i>
                           </a>
                           <button type="button" rel="tooltip" class="btn btn-danger btn-simple btn-icon btn-sm" data-toggle="modal" data-target="#deleteadminModal{{ pilgrim.id }}">
