@@ -45,6 +45,21 @@ class CustomUserAdmin(UserAdmin):
     form = CustomUserChangeForm
     list_display = ['id','first_name','last_name','phonenumber','is_verified','get_notifications']
 
+    fieldsets = (
+        (None, 
+                {'fields':('phonenumber','email', 'password',)}
+            ),
+            ('User Information',
+                {'fields':('username', 'first_name', 'last_name','image')}
+            ),
+            ('Permissions', 
+                {'fields':('is_verified', 'get_notifications' ,'is_staff', 'is_superuser', 'is_active', 'groups','user_permissions',)}
+            ),
+            ('Registration', 
+                {'fields':('date_joined', 'last_login',)}
+            )
+    )
+
     add_fieldsets = (
         (None, {'classes':('wide',),
             'fields':(
