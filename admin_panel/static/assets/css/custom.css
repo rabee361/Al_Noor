@@ -220,14 +220,22 @@ body {
 }
 
 
+
+.login-btn:hover {
+    background: #c002a0;
+}
+
+
+
 .login-btn {
     background: #a30188;
     color: white;
     border-radius: 30px;
     border: none;
     height: 40px;
+    margin-top: 30px;
+    /* box-shadow: -1px 1px 2px 2px #ccc, 1px 1px 1px 1px #272727; */
 }
-
 
 .login-title {
     color: white;

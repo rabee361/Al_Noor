@@ -116,7 +116,7 @@ class NoteAdmin(admin.ModelAdmin):
 
 
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ['id','employee','title','content','created','completed']
+    list_display = ['id','employee','title','content','created','completed','accepted']
 
 
 class ChatAdmin(admin.ModelAdmin):

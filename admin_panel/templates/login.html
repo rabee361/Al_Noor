@@ -45,8 +45,14 @@
             <h2 class="login-title">Login</h2>
             <form action="" method="post" class="form-body">
                 {% csrf_token %}
-                <input type="text" name="username" class="login-field">
-                <input type="text" name="password" class="login-field">
+                <div style="display: flex; flex-direction: column; gap: 5px;">
+                  <div style="color: white; display: flex;">رقم الهاتف :</div>
+                  <input type="text" name="username" class="login-field">
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 5px;">
+                  <div style="color: white; display: flex;">كلمة السر :</div>
+                  <input type="password" name="password" class="login-field">
+                </div>
                 <input type="submit" class="login-btn">
             </form>
     

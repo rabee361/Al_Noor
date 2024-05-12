@@ -29,6 +29,7 @@ def login_user(request):
 
 
 
+@login_required(login_url='login')
 def logout_user(request):
     logout(request)
     return redirect('login')
@@ -762,8 +763,7 @@ def export_forms(request):
 def import_pilgrim(request):
     if request.method == 'POST':
         excel_file = request.FILES['file']
-        # file_path = default_storage.save('temp/' + excel_file.name, excel_file)
-        df = pd.read_excel(excel_file)  # or 'xlrd' for.xls files
+        df = pd.read_excel(excel_file)
 
         # df['وقت الصعود'] = pd.to_datetime(df['وقت الصعود'], format='%H:%M', errors='coerce')
         # df['تاريخ الميلاد'] = pd.to_datetime(df['تاريخ الميلاد - الميلادي فقط'], errors='coerce')
@@ -771,10 +771,11 @@ def import_pilgrim(request):
         # Assuming the Excel file has columns that match the Pilgrim model fields
         for index, row in df.iterrows():
             # Convert phone number to a PhoneNumber object
-            user =CustomUser.objects.create(phonenumber=str(row['رقم الجوال']) , username=str(row['الاسم الأول']) )
+            username = str(row['الاسم الأول']) + str(row['اسم الأب']) + str(row['الجد']) + str(row['العائلة'])
+            user =CustomUser.objects.create(phonenumber=str(row['رقم الجوال']) , username= username)
             user.save()
             # Create a Pilgrim object
-            pilgrim = Pilgrim(
+            pilgrim = Pilgrim.objects.update_or_create(
                 user=user,  # You need to set this based on your application logic
                 registeration_id=row['رقم الهوية'],
                 first_name=row['الاسم الأول'],
@@ -796,12 +797,11 @@ def import_pilgrim(request):
                 hotel_address=row['عنوان الفندق'],
                 room_num=33,
                 # haj_steps=row['haj_steps'],  # This needs to be handled as a ManyToManyField
-                # created=row['created']
             )
             pilgrim.save()
 
-        return render(request, 'pilgrims_list.html', {'message': 'Data imported successfully'})
-    return render(request, 'user.html')
+        return render(request, 'import_.html', {'message': 'Data imported successfully'})
+    return render(request, 'import_pilgrims.html')
 
 
 def notifications_list(request):

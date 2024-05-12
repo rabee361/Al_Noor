@@ -26,46 +26,49 @@ from django.db.models.functions import ExtractMonth
 
 
 class LoginUser(GenericAPIView):
-
     def post(self, request):
-        serializer = LoginSerializer(data = request.data)
-        serializer.is_valid(raise_exception=True)
-        user = CustomUser.objects.get(phonenumber = request.data['username'])
-        token = RefreshToken.for_user(user)
+        if request.data.get('username') and request.data.get('password'):
+            serializer = LoginSerializer(data = request.data)
+
+            if serializer.is_valid(raise_exception=True):
+                user = CustomUser.objects.get(phonenumber = request.data['username'])
+                token = RefreshToken.for_user(user)
 
 
-        device_token = request.data.get('device_token',None)
-        # device_type = request.data.get('device_type',None)
-        try:
-            device_tok = FCMDevice.objects.get(registration_id=device_token ,type='android')
-            device_tok.user = user
-            device_tok.save()
-        except:
-            FCMDevice.objects.create(user=user , registration_id=device_token ,type='android')
-    
-        data = serializer.data
-        try:
-            guide_chat = Chat.objects.get(user=user, chat_type='guide')
-            manager_chat = Chat.objects.get(user=user , chat_type='manager')
-            data['guide_chat_id'] = guide_chat.id
-            data['manager_chat_id'] = manager_chat.id
-        except Chat.DoesNotExist:
-            None
+                device_token = request.data.get('device_token',None)
+                try:
+                    device_tok = FCMDevice.objects.get(registration_id=device_token ,type='android')
+                    device_tok.user = user
+                    device_tok.save()
+                except:
+                    FCMDevice.objects.create(user=user , registration_id=device_token ,type='android')
+            
+                data = serializer.data
+                try:
+                    guide_chat = Chat.objects.get(user=user, chat_type='guide')
+                    manager_chat = Chat.objects.get(user=user , chat_type='manager')
+                    data['guide_chat_id'] = guide_chat.id
+                    data['manager_chat_id'] = manager_chat.id
+                except Chat.DoesNotExist:
+                    None
 
 
-        data['image'] = request.build_absolute_uri(user.image.url)
-        data['user_id'] = user.id
-        try:
-            pilgrim = Pilgrim.objects.get(user=user)
-            data['pilgrim_id'] = pilgrim.id
-        except Pilgrim.DoesNotExist:
-            None
+                data['image'] = request.build_absolute_uri(user.image.url)
+                data['user_id'] = user.id
+                try:
+                    pilgrim = Pilgrim.objects.get(user=user)
+                    data['pilgrim_id'] = pilgrim.id
+                except Pilgrim.DoesNotExist:
+                    None
 
-        data['tokens'] = {'refresh':str(token), 'access':str(token.access_token)}
+                data['tokens'] = {'refresh':str(token), 'access':str(token.access_token)}
 
-        return Response(data, status=status.HTTP_200_OK)
-    
-
+                return Response(data, status=status.HTTP_200_OK)
+            else:
+                error_message = ', '.join(serializer.errors.values())
+                return Response({'fs': serializer.errors.values()}, status=400)    
+        else:
+            return Response({"error":"username and password can't be empty"} , status=status.HTTP_400_BAD_REQUEST)
 
 
 class LogoutUser(GenericAPIView):

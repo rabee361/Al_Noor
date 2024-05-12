@@ -24,18 +24,16 @@ class LoginSerializer(serializers.Serializer):
         username = data.get('username')
         password = data.get('password')
 
-        if username and password:
-            user = authenticate(request=self.context.get('request'), username=username, password=password)
-            if not user:
-                raise serializers.ValidationError("Incorrect Credentials")
-            if not user.is_active:
-                raise serializers.ValidationError({'message_error':'this account is not active'})
-        else:
-            raise serializers.ValidationError('Must include "username" and "password".')
+        user = authenticate(request=self.context.get('request'), username=username, password=password)
+        if not user:
+            raise serializers.ValidationError({"error":"Incorrect Credentials"})
+        if not user.is_active:
+            raise serializers.ValidationError({"error":"this account is not active"})
 
         data['user'] = user
         return data
     
+
 
 
 class LogoutUserSerializer(serializers.Serializer):
