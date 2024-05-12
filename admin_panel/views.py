@@ -233,7 +233,7 @@ def add_pilgrim(request):
                 hotel_address=form.cleaned_data['hotel_address'],
                 birthday=form.cleaned_data['birthday'],
                 duration=form.cleaned_data['duration'],
-                borading_time=form.cleaned_data['borading_time'],
+                boarding_time=form.cleaned_data['boarding_time'],
                 gate_num=form.cleaned_data['gate_num'],
                 arrival=form.cleaned_data['arrival'],
             )
@@ -788,7 +788,7 @@ def import_pilgrim(request):
                 # arrival=row['arrival'],
                 # departure=row['departure'],
                 duration=row['مدة الرحلة'],
-                # borading_time=row['وقت الصعود'],
+                # boarding_time=row['وقت الصعود'],
                 gate_num=row['رقم البوابة'],
                 flight_company=row['شركة الطيران'],
                 # company_logo=row['شعار الشركة'],  # This needs to be handled as an ImageFile
