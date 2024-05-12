@@ -231,10 +231,12 @@ def add_pilgrim(request):
                 phonenumber=form.cleaned_data['phonenumber'],
                 hotel=form.cleaned_data['hotel'],
                 hotel_address=form.cleaned_data['hotel_address'],
+                room_num=form.cleaned_data['room_num'],
+                gate_num=form.cleaned_data['gate_num'],
+                flight_num=form.cleaned_data['flight_num'],
                 birthday=form.cleaned_data['birthday'],
                 duration=form.cleaned_data['duration'],
                 boarding_time=form.cleaned_data['boarding_time'],
-                gate_num=form.cleaned_data['gate_num'],
                 arrival=form.cleaned_data['arrival'],
             )
 
