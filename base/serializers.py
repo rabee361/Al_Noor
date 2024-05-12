@@ -26,9 +26,9 @@ class LoginSerializer(serializers.Serializer):
 
         user = authenticate(request=self.context.get('request'), username=username, password=password)
         if not user:
-            raise serializers.ValidationError({"error":"Incorrect Credentials"})
+            raise serializers.ValidationError({"error":"لا يوجد مستخدم بهذه المعلومات"})
         if not user.is_active:
-            raise serializers.ValidationError({"error":"this account is not active"})
+            raise serializers.ValidationError({"error":"هذا الحساب غير مفعل"})
 
         data['user'] = user
         return data

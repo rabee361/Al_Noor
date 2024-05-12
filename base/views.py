@@ -68,7 +68,7 @@ class LoginUser(GenericAPIView):
                 error_message = ', '.join(serializer.errors.values())
                 return Response({'fs': serializer.errors.values()}, status=400)    
         else:
-            return Response({"error":"username and password can't be empty"} , status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error":"لا يمكن أن تكون الحقول فارغة"} , status=status.HTTP_400_BAD_REQUEST)
 
 
 class LogoutUser(GenericAPIView):
