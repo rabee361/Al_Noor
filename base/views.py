@@ -49,13 +49,13 @@ class LoginUser(GenericAPIView):
                     manager_chat = Chat.objects.get(user=user , chat_type='manager')
                     data['guide_chat_id'] = guide_chat.id
                     data['manager_chat_id'] = manager_chat.id
-                    data['full_name'] = user.username
                 except Chat.DoesNotExist:
                     None
 
 
                 data['image'] = request.build_absolute_uri(user.image.url)
                 data['user_id'] = user.id
+                data['full_name'] = user.username
                 try:
                     pilgrim = Pilgrim.objects.get(user=user)
                     data['pilgrim_id'] = pilgrim.id
