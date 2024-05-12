@@ -175,6 +175,9 @@ class PilgrimForm(forms.ModelForm):
 
 
 
+class TimePickerForm(forms.Form):
+    time_field = forms.TimeInput(attrs={'type': 'time'})
+
 
 class NewPilgrim(forms.ModelForm):
     class Meta:

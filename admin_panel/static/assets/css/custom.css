@@ -3,6 +3,10 @@
 
 
 
+:root {
+    --bg-color: rgb(20,20,20);
+}
+
 
 
 @media (min-width: 992px) {
@@ -59,6 +63,31 @@
     border-radius: 10px;
 }
 
+
+
+
+.time-field {
+    width: 80%;
+    outline: none;
+    border: rgb(58, 57, 57);
+    border-radius: 20px;
+    color: white;
+    font-size: larger;
+    background-color: rgb(126, 126, 126);
+    height: 45px;
+}
+
+
+.date-field {
+    width: 80%;
+    outline: none;
+    border: rgb(58, 57, 57);
+    border-radius: 20px;
+    color: white;
+    font-size: larger;
+    background-color: rgb(126, 126, 126);
+    height: 45px;
+}
 
 
 .form-control {
@@ -182,10 +211,6 @@ body {
     background: #555; /* Darker color for the scrollbar handle on hover */
 }
 
-
-:root {
-    --bg-color: rgb(20,20,20);
-}
 
 
 .login-wrapper{

@@ -81,6 +81,10 @@
                         <div class="form-label">{{ form.flight_num.label_tag }}</div>
                         <div>{{ form.flight_num|add_class:"form-control" }}</div>
                       </div>
+                      <div class="form-input">
+                        <div class="form-label">{{ form.arrival.label_tag }}</div>
+                        <div><input type="time" class="time-field" name="arrival"></div> 
+                      </div>
                     </div>
                     
                     <div class="form-block">
@@ -99,6 +103,10 @@
                       <div class="form-input">
                         <div class="form-label">{{ form.gate_num.label_tag }}</div>
                         <div>{{ form.gate_num|add_class:"form-control" }}</div> 
+                      </div>
+                      <div class="form-input">
+                        <div class="form-label">{{ form.departure.label_tag }}</div>
+                        <div><input type="time" class="time-field" name="departure"></div>
                       </div>
                     </div>
                   </div>
@@ -130,17 +138,17 @@
                         <div class="form-label">{{ form.last_name.label_tag }}</div>
                         <div>{{ form.last_name|add_class:"form-control" }}</div> 
                       </div>
-                      <div class="form-input">
+                      <!-- <div class="form-input">
                         <div class="form-label">{{ form.registeration_id.label_tag }}</div>
                         <div>{{ form.registeration_id|add_class:"form-control" }}</div> 
-                      </div>
+                      </div> -->
                       <div class="form-input">
                         <div class="form-label">{{ form.birthday.label_tag }}</div>
-                        <div>{{ form.birthday|add_class:"form-control" }}</div> 
+                        <div><input type="date" class="date-field" name="birthday"></div>
                       </div>
                       <div class="form-input">
-                        <div class="form-label">{{ form.borading_time.label_tag }}</div>
-                        <div>{{ form.borading_time|add_class:"form-control" }}</div> 
+                        <div class="form-label">{{ form.boarding_time.label_tag }}</div>
+                        <div><input type="time" class="time-field" name="boarding_time"></div> 
                       </div>
                     </div>
                   </div>

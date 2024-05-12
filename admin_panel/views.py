@@ -221,7 +221,6 @@ def add_pilgrim(request):
                 image=form.cleaned_data['image'],
             )
 
-            print(user)
             pilgrim = Pilgrim.objects.create(
                 user=user,
                 first_name=form.cleaned_data['first_name'],
@@ -236,8 +235,8 @@ def add_pilgrim(request):
                 flight_num=form.cleaned_data['flight_num'],
                 birthday=form.cleaned_data['birthday'],
                 duration=form.cleaned_data['duration'],
-                boarding_time=form.cleaned_data['boarding_time'],
-                arrival=form.cleaned_data['arrival'],
+                boarding_time=request.POST['boarding_time'],
+                arrival=request.POST['arrival'],
             )
 
             return redirect('pilgrims')
@@ -249,7 +248,7 @@ def add_pilgrim(request):
     context = {
         'form': form,
         'user_image': user_image,
-        'username': username
+        'username': username,
     }
     return render(request, 'add_pilgrim.html', context)
 
