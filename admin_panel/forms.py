@@ -190,7 +190,7 @@ class NewPilgrim(forms.ModelForm):
         self.fields['password'] = forms.CharField(label=' كلمة السر',required=True,widget=forms.PasswordInput())
         self.fields['password2'] = forms.CharField(label='تأكيد كلمة السر',required=True,widget=forms.PasswordInput())
         # self.fields['email'] = forms.EmailField(label='تأكيد كلمة السر', required=False)
-        # self.fields['first_name'] = forms.CharField(label='الاسم', required=False)
+        self.fields['first_name'] = forms.CharField(label='الاسم', required=False)
         self.fields['image'] = forms.ImageField(label='الصورة الشخصية', required=False)
         self.fields['get_notifications'] = forms.BooleanField(label='تلقي اشعارات', required=False)
 

@@ -103,6 +103,8 @@ def add_register_form(request):
 
     if request.method == 'POST':
         form = NewRegisterForm(request.POST)
+        print(form.errors)
+        print(form.is_valid())
         if form.is_valid():
             form.save()
             return redirect('registration_forms')
@@ -209,8 +211,13 @@ def add_pilgrim(request):
     username = request.user.username
 
     if request.method == 'POST':
-        form = NewPilgrim(request.POST, request.FILES)  # Ensure you pass request.FILES if you're handling files
+        form = NewPilgrim(request.POST, request.FILES)
+        print(request.POST['boarding_time'])
+        print(request.POST['birthday'])
+        print(request.POST['arrival'])
+        print(request.POST['departure'])
         print(form.is_valid())
+        print(form.errors)
         if form.is_valid():
             user = CustomUser.objects.create(
                 username=form.cleaned_data['first_name'],
@@ -227,19 +234,21 @@ def add_pilgrim(request):
                 father_name=form.cleaned_data['father_name'],
                 last_name=form.cleaned_data['last_name'],
                 grand_father=form.cleaned_data['grand_father'],
+                registeration_id=form.cleaned_data['registeration_id'],
                 phonenumber=form.cleaned_data['phonenumber'],
                 hotel=form.cleaned_data['hotel'],
                 hotel_address=form.cleaned_data['hotel_address'],
                 room_num=form.cleaned_data['room_num'],
                 gate_num=form.cleaned_data['gate_num'],
                 flight_num=form.cleaned_data['flight_num'],
-                birthday=form.cleaned_data['birthday'],
+                birthday=request.POST['birthday'],
                 duration=form.cleaned_data['duration'],
                 boarding_time=request.POST['boarding_time'],
                 arrival=request.POST['arrival'],
+                departure=request.POST['departure'],
             )
 
-            return redirect('pilgrims')
+            return redirect('add_pilgrim')
         
         else:
             return redirect('pilgrims')

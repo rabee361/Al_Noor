@@ -124,6 +124,10 @@
     width: 100%;
 }
 
+.form-input-datetime {
+    width: 100%;
+    text-align: right;
+}
 
 .form-body {
     display: flex;
