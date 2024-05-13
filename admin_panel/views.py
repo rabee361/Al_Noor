@@ -248,10 +248,10 @@ def add_pilgrim(request):
                 departure=request.POST['departure'],
             )
 
-            return redirect('add_pilgrim')
+            return redirect('pilgrims')
         
         else:
-            return redirect('pilgrims')
+            return redirect('add_pilgrim')
     
 
     context = {

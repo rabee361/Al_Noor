@@ -43,7 +43,7 @@ class BlacklistedTokenAdmin(HiddenModelAdmin):
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
-    list_display = ['id','first_name','last_name','phonenumber','is_verified','get_notifications']
+    list_display = ['id','username','first_name','last_name','phonenumber','is_verified','get_notifications']
 
     fieldsets = (
         (None, 
