@@ -77,10 +77,44 @@ class ResetPasswordSerializer(serializers.Serializer):
 
 
 
-class RegistrationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Registration
-        fields = '__all__'
+class RegistrationSerializer(serializers.Serializer):
+    phonenumber = serializers.CharField(write_only=True)
+    # class Meta:
+    #     model = Registration
+        # fields = ['phonenumber']
+
+
+
+    def validate_phonenumber(self, value):
+        if not value:
+            raise serializers.ValidationError("لا يمكن لحقل الرقم ان يكون فارغا")
+        return value
+    
+
+    # def validate_name(self, value):
+    #     if not value:
+    #         raise serializers.ValidationError("Name cannot be empty.")
+    #     return value
+    
+
+    # def validate_name(self, value):
+    #     if not value:
+    #         raise serializers.ValidationError("Name cannot be empty.")
+    #     return value
+    
+
+    # def validate_name(self, value):
+    #     if not value:
+    #         raise serializers.ValidationError("Name cannot be empty.")
+    #     return value
+    
+
+    # def validate_name(self, value):
+    #     if not value:
+    #         raise serializers.ValidationError("Name cannot be empty.")
+    #     return value
+    
+
 
 
 

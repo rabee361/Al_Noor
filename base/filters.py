@@ -1,15 +1,21 @@
 import django_filters
 from .models import *
+from django.db.models import Q
+
 
 
 
 class PilgrimFilter(django_filters.FilterSet):
-    name = django_filters.CharFilter(field_name='first_name', lookup_expr='startswith')
-    phonenumber = django_filters.CharFilter(field_name='phonenumber' , lookup_expr='icontains')
+    query = django_filters.CharFilter(method='filter_query')
 
     class Meta:
         model = Pilgrim
-        fields = ['name','phonenumber']
+        fields = ['query']
+
+    def filter_query(self, queryset, name,value):
+        if value:
+            return queryset.filter(Q(phonenumber__icontains=value)|Q(first_name__istartswith=value))
+        return queryset
 
 
 

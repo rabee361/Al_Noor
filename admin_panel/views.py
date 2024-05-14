@@ -180,9 +180,14 @@ class update_pilgrim(View):
         pilgrim = Pilgrim.objects.get(id=pilgrim_id)
         user = CustomUser.objects.get(id=pilgrim.user.id)
         user_form = CustomUserCreationForm(instance=user)
+        try:
+            pilgrim_image = pilgrim.user.image.url
+        except:
+            pilgrim_image = ' '
         form = PilgrimForm(instance=pilgrim)
         context = {'user_form': user_form,
                     'form': form,
+                    'pilgrim_image':pilgrim_image,
                     }
         return render(request, 'update_pilgrim.html', context=context)
 
@@ -194,8 +199,8 @@ class update_pilgrim(View):
             pilgrim = pilgrim_form.save(commit=False)
             pilgrim.user = user
             pilgrim.save()
-            return redirect('pilgrims')  # Redirect to a success page
-        return render(request, 'registration/pilgrim_registration.html', {'user_form': user_form, 'pilgrim_form': pilgrim_form})
+            # return redirect('pilgrims')  # Redirect to a success page
+        return render(request, 'add_pilgrim.html', {'user_form': user_form, 'pilgrim_form': pilgrim_form})
 
 
 
