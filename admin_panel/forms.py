@@ -99,9 +99,8 @@ class UpdateManager(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['password1'] = forms.CharField(label=' كلمة السر',required=True,widget=forms.PasswordInput())
-        self.fields['password2'] = forms.CharField(label='تأكيد كلمة السر',required=True,widget=forms.PasswordInput())
         self.fields['phonenumber'] = forms.CharField(label='رقم الهاتف', required=True)
+        self.fields['email'] = forms.CharField(label='الايميل', required=False)
         self.fields['username'] = forms.CharField(label='الاسم', required=True)
         self.fields['get_notifications'] = forms.BooleanField(label='تلقي اشعارات', required=False)
 
@@ -122,9 +121,8 @@ class UpdateEmployee(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['password1'] = forms.CharField(label=' كلمة السر',widget=forms.PasswordInput())
-        self.fields['password2'] = forms.CharField(label='تأكيد كلمة السر',widget=forms.PasswordInput())
         self.fields['phonenumber'] = forms.CharField(label='رقم الهاتف', required=True)
+        self.fields['email'] = forms.CharField(label='الايميل', required=False)
         self.fields['username'] = forms.CharField(label='الاسم', required=True)
         self.fields['get_notifications'] = forms.BooleanField(label='تلقي اشعارات', required=False)
 
@@ -138,9 +136,8 @@ class UpdateGuide(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['password1'] = forms.CharField(label=' كلمة السر',widget=forms.PasswordInput())
-        self.fields['password2'] = forms.CharField(label='تأكيد كلمة السر',widget=forms.PasswordInput())
         self.fields['phonenumber'] = forms.CharField(label='رقم الهاتف', required=True)
+        self.fields['email'] = forms.CharField(label='الايميل   ', required=False)
         self.fields['username'] = forms.CharField(label='الاسم', required=True)
         self.fields['get_notifications'] = forms.BooleanField(label='تلقي اشعارات', required=False)
 

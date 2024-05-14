@@ -10,13 +10,13 @@
         <div style="height: 70px; margin-left: 1300px; display: flex; gap: 10px;">
           <h5 style="color: white;">الرئيسية</h5>
           <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: rgb(189, 9, 189);"></i></h5>
-          <h5 style="color: white;">الحجاج</h5>
+          <h5 style="color: white;">المرشدين</h5>
           <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: rgb(189, 9, 189);"></i></h5>
         </div>
       </div>
 
       <div style="display: flex; gap: 5px; color: white; font-size: smaller;" dir="ltr">
-        <a href="{% url 'add_guide' %}"><h5 class="import-button" style="background-color: green;">إضافة</h5></a>
+        <a href="{% url 'add_guide' %}" style="text-decoration: none;"><h5 class="import-button" style="background-color: green;">إضافة</h5></a>
       </div>
 
       <div class="row">
@@ -47,6 +47,9 @@
                         رقم الهاتف
                       </th>
                       <th style="color: white;">
+                        الايميل 
+                      </th>
+                      <th style="color: white;">
                         تلقي الاشعارات
                       </th>
                     <th style="color: white;">
@@ -64,6 +67,9 @@
                         </td>
                         <td>
                         {{guide.user.phonenumber}}
+                        </td>
+                        <td>
+                        {{guide.user.email}}
                         </td>
                         <td>
                         {% if employee.user.get_notifications %}

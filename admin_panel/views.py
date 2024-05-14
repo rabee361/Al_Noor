@@ -183,7 +183,6 @@ class update_pilgrim(View):
         form = PilgrimForm(instance=pilgrim)
         context = {'user_form': user_form,
                     'form': form,
-                    
                     }
         return render(request, 'update_pilgrim.html', context=context)
 
@@ -386,8 +385,6 @@ def update_manager(request,manager_id):
             user = CustomUser.objects.get(
                 phonenumber=form.cleaned_data['phonenumber'],
             )
-            password1=form.cleaned_data['password1']
-            password2=form.cleaned_data['password2']
             image=request.FILES.get('image')
             print(image)
             if image:
@@ -400,6 +397,7 @@ def update_manager(request,manager_id):
 
             user.get_notifications = form.cleaned_data['get_notifications']
             user.username = form.cleaned_data['username']
+            user.email = form.cleaned_data['email']
             user.save()
             return redirect('managers')
 
@@ -580,20 +578,17 @@ def update_employee(request,employee_id):
             user = CustomUser.objects.get(
                 phonenumber=form.cleaned_data['phonenumber'],
             )
-            password1=form.cleaned_data['password1']
-            password2=form.cleaned_data['password2']
             image=request.FILES.get('image')
             print(image)
             if image:
                 user.image = request.FILES.get('image')
             else:
                 user.image = employee.user.image
-            # if password1:
-            #     user.set_password(password1)
 
 
             user.get_notifications = form.cleaned_data['get_notifications']
             user.username = form.cleaned_data['username']
+            user.email = form.cleaned_data['email']
             user.save()
             return redirect('employees')
 
@@ -682,20 +677,17 @@ def update_guide(request,guide_id):
             user = CustomUser.objects.get(
                 phonenumber=form.cleaned_data['phonenumber'],
             )
-            password1=form.cleaned_data['password1']
-            password2=form.cleaned_data['password2']
             image=request.FILES.get('image')
-            print(image)
             if image:
                 user.image = request.FILES.get('image')
             else:
                 user.image = guide.user.image
-            # if password1:
-            #     user.set_password(password1)
 
 
             user.get_notifications = form.cleaned_data['get_notifications']
             user.username = form.cleaned_data['username']
+            user.email = form.cleaned_data['email']
+            print(form.cleaned_data['email'])
             user.save()
             return redirect('guides')
 

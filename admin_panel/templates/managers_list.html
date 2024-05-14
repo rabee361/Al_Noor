@@ -17,7 +17,7 @@
 
 
       <div style="display: flex; gap: 5px; color: white; font-size: smaller;" dir="ltr">
-        <a href="{% url 'add_manager' %}"><h5 class="import-button" style="background-color: green;">إضافة</h5></a>
+        <a href="{% url 'add_manager' %}" style="text-decoration: none;"><h5 class="import-button" style="background-color: green;">إضافة</h5></a>
       </div>
       
       <div class="row">
@@ -50,6 +50,9 @@
                       رقم الهاتف
                     </th>
                     <th style="color: white;">
+                      الايميل
+                    </th>
+                    <th style="color: white;">
                       تلقي الاشعارات
                     </th>
                     <th style="color: white;">
@@ -67,6 +70,9 @@
                       </td>
                       <td>
                         {{manager.user.phonenumber}}
+                      </td>
+                      <td>
+                        {{manager.user.email}}
                       </td>
                       <td>
                         {% if manager.user.get_notifications %}

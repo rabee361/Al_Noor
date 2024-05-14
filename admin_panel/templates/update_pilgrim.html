@@ -21,16 +21,13 @@
         <div>
             <form action="" method="post" style="display: flex; flex-direction: column; gap: 30px; color: white;">
                 {% csrf_token %}
-                <div class="form-group" style="height: 430px;display: flex; flex-direction: column; justify-content: flex-start; gap: 0px;" dir="rtl">
+
+                <div class="form-group" style="height: 450px;display: flex; flex-direction: column; justify-content: flex-start; gap: 0px;" dir="rtl">
                   
                   <h4 style="text-align: center">المعلومات الشخصية</h4>
-
-                  <div style="background-color: rgb(57, 58, 58); width: 100%;display: flex;gap: 10px;justify-content: space-evenly;border-radius: 30px; display: flex; justify-content: space-evenly;" >
+    
+                  <div style="background-color: rgb(57, 58, 58); width: 100%; display: flex;gap: 10px;justify-content: space-evenly;border-radius: 30px; display: flex; justify-content: space-evenly;" >
                     <div class="form-block">
-                      <div class="form-input" style="flex-direction: column;">
-                        <div class="form-label">{{ form.phonenumber.label_tag }}</div>
-                        <div>{{ form.phonenumber|add_class:"form-control" }}</div>
-                      </div>
                       <div class="form-input">
                         <div class="form-label">{{ form.first_name.label_tag }}</div>
                         <div>{{ form.first_name|add_class:"form-control" }}</div>
@@ -44,35 +41,41 @@
                         <div class="form-label">{{ form.grand_father.label_tag }}</div>
                         <div>{{ form.grand_father|add_class:"form-control" }}</div> 
                       </div>    
+                      <div class="form-input" style="text-align: right;">
+                        <div class="form-label">الصورة الشخصية:</div>
+                        <div style="display: flex; flex-direction: row; justify-content: right; margin-top: 7px; align-items: center; gap: 20px;">
+                            <img src="{{ guide_image }}" alt="Current Image" width="50px" height="50px">
+                            <div class="form-input"><input type="file" name="image" id="image_id"></div>
+                        </div>
+                      </div>
+
                     </div>
-  
+    
                     <div class="form-block">
-                      <div class="form-input">
-                        <div class="form-label">{{ form.last_name.label_tag }}</div>
-                        <div>{{ form.last_name|add_class:"form-control" }}</div> 
-                      </div>
-                      <div class="form-input">
-                        <div class="form-label">{{ form.registeration_id.label_tag }}</div>
-                        <div>{{ form.registeration_id|add_class:"form-control" }}</div> 
-                      </div>
-                      <div class="form-input">
-                        <div class="form-label">{{ form.birthday.label_tag }}</div>
-                        <div>{{ form.birthday|add_class:"form-control" }}</div> 
-                      </div>
-                      <div class="form-input">
-                        <div class="form-label">{{ form.borading_time.label_tag }}</div>
-                        <div>{{ form.borading_time|add_class:"form-control" }}</div> 
+                        <div class="form-input">
+                          <div class="form-label">{{ form.last_name.label_tag }}</div>
+                          <div>{{ form.last_name|add_class:"form-control" }}</div> 
+                        </div>
+                        <div class="form-input">
+                          <div class="form-label">{{ form.registeration_id.label_tag }}</div>
+                          <div>{{ form.registeration_id|add_class:"form-control" }}</div> 
+                        </div>
+                        <div class="form-input-datetime">
+                          <div class="form-label">{{ form.birthday.label_tag }}</div>
+                          <div><input type="date" class="date-field" name="birthday"></div>
+                        </div>
+                        <div class="form-input">
                       </div>
                     </div>
                   </div>
-
-
                 </div>
 
-                <div style="background-color: rgb(57, 58, 58); width: 100%;display: flex;gap: 10px;justify-content: space-evenly;border-radius: 30px; height: 430px;display: flex; flex-direction: column; justify-content: flex-start; gap: 0px;">
-                  
-                  <h4 style="text-align: center">معلومات الاقامة</h4>
 
+                
+                <div style="background-color: rgb(57, 58, 58); width: 100%;display: flex;gap: 10px;justify-content: space-evenly;border-radius: 30px; height: 560px;display: flex; flex-direction: column; justify-content: flex-start; gap: 0px;">
+                  
+                  <h4 style="text-align: center">معلومات الاقامة و الرحلة</h4>
+                  
                   <div  style="display: flex; justify-content: space-evenly;">
                     <div class="form-block">
                       <div class="form-input">
@@ -91,8 +94,16 @@
                         <div class="form-label">{{ form.flight_num.label_tag }}</div>
                         <div>{{ form.flight_num|add_class:"form-control" }}</div>
                       </div>
+                      <div class="form-input-datetime">
+                        <div class="form-label">{{ form.arrival.label_tag }}</div>
+                        <div><input type="time" class="time-field" name="arrival"></div> 
+                      </div>
+                      <div class="form-input-datetime">
+                        <div class="form-label">{{ form.boarding_time.label_tag }}</div>
+                        <div><input type="time" class="time-field" name="boarding_time"></div> 
+                      </div>
                     </div>
-  
+                    
                     <div class="form-block">
                       <div class="form-input" style="text-align: right;">
                         <div class="form-label">شعار الشركة:</div>
@@ -109,10 +120,20 @@
                         <div class="form-label">{{ form.duration.label_tag }}</div>
                         <div>{{ form.duration|add_class:"form-control" }}</div>
                       </div>
+                      <div class="form-input">
+                        <div class="form-label">{{ form.gate_num.label_tag }}</div>
+                        <div>{{ form.gate_num|add_class:"form-control" }}</div> 
+                      </div>
+                      <div class="form-input-datetime">
+                        <div class="form-label">{{ form.departure.label_tag }}</div>
+                        <div><input type="time" class="time-field" name="departure" value="{{form.departure}}"></div>
+                      </div>
                     </div>
                   </div>
-
                 </div>
+                
+
+    
                 <div style="background-color: rgb(57, 58, 58); width: 100%;display: flex;gap: 10px;justify-content: space-evenly;border-radius: 30px; height: 430px;display: flex; flex-direction: column; justify-content: flex-start; gap: 0px;">
 
                   <h4 style="text-align: center">معلومات الحساب</h4>
@@ -120,13 +141,16 @@
                   <div style="display: flex; justify-content: space-evenly;">
 
                     <div class="form-block">
-                      <div class="form-input">
-                        <div class="form-label">{{ form.image.label_tag }}</div>
-                        <div>{{ form.image|add_class:"form-control" }}</div> 
-                      </div>
-                      <div class="form-input">
-                        <div class="form-label">{{ form.gate_num.label_tag }}</div>
-                        <div>{{ form.gate_num|add_class:"form-control" }}</div> 
+                      <!-- <div class="form-input" style="text-align: right;">
+                        <div class="form-label">الصورة الشخصية:</div>
+                        <div style="display: flex; flex-direction: row; justify-content: right; margin-top: 7px; align-items: center; gap: 20px;">
+                            <img src="{{ guide_image }}" alt="Current Image" width="50px" height="50px">
+                            <div class="form-input"><input type="file" name="image" id="image_id"></div>
+                        </div>
+                      </div> -->
+                      <div class="form-input" style="flex-direction: column;">
+                        <div class="form-label">{{ form.phonenumber.label_tag }}</div>
+                        <div>{{ form.phonenumber|add_class:"form-control" }}</div>
                       </div>
                       <div class="form-input" style="display: flex; align-items: center; justify-content: right; gap: 40px;">
                         <div class="form-label">{{ user_form.get_notifications.label_tag }}</div>
@@ -137,29 +161,27 @@
 
                     <div class="form-block">
                       <div class="form-input">
-                        <div class="form-label">{{ user_form.username.label_tag }}</div>
-                        <div>{{ user_form.username|add_class:"form-control" }}</div> 
+                        <div class="form-label">{{ user_form.password.label_tag }}</div>
+                        <div>{{ form.password|add_class:"form-control" }}</div> 
                       </div>
-                      <div class="form-input" style="text-align: right;">
-                        <div class="form-label">الصورة الشخصية:</div>
-                        <div style="display: flex; flex-direction: row; justify-content: right; margin-top: 7px; align-items: center; gap: 20px;">
-                            <img src="{{ guide_image }}" alt="Current Image" width="50px" height="50px">
-                            <div class="form-input"><input type="file" name="image" id="image_id"></div>
-                        </div>
+                      <div class="form-input">
+                        <div class="form-label">{{ form.password2.label_tag }}</div>
+                        <div>{{ user_form.password2|add_class:"form-control" }}</div> 
                       </div>
                     </div>  
                   </div>
                   
-                </div>
-
+                </div>   
+                
+                
                 <div style="display: flex; gap: 10px; justify-content: left;">
                   <input type="submit" value="حفظ">
                   <input type="submit" value="حفظ و أضف المزيد">
                 </div>
-
+                
               </form>
-        </div>
-  
+            </div>
+            
     </div>
   </div>
 
