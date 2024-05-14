@@ -15,7 +15,7 @@ class PilgrimFilter(django_filters.FilterSet):
 
 class EmployeeFilter(django_filters.FilterSet):
     name = django_filters.CharFilter(field_name='user__username', lookup_expr='startswith')
-    phonenumber = django_filters.CharFilter(field_name='user__phonenumber' , lookup_expr='startswith')
+    phonenumber = django_filters.CharFilter(field_name='user__phonenumber' , lookup_expr='icontains')
     
     class Meta:
         model = Employee
@@ -25,7 +25,7 @@ class EmployeeFilter(django_filters.FilterSet):
 
 class ManagementFilter(django_filters.FilterSet):
     name = django_filters.CharFilter(field_name='user__username', lookup_expr='startswith')
-    phonenumber = django_filters.CharFilter(field_name='user__phonenumber' , lookup_expr='startswith')
+    phonenumber = django_filters.CharFilter(field_name='user__phonenumber' , lookup_expr='icontains')
     
     class Meta:
         model = Management
@@ -35,7 +35,7 @@ class ManagementFilter(django_filters.FilterSet):
 
 class GuideFilter(django_filters.FilterSet):
     name = django_filters.CharFilter(field_name='user__username', lookup_expr='startswith')
-    phonenumber = django_filters.CharFilter(field_name='user__phonenumber' , lookup_expr='startswith')
+    phonenumber = django_filters.CharFilter(field_name='user__phonenumber' , lookup_expr='icontains')
     
     class Meta:
         model = Guide
