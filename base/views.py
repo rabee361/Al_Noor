@@ -29,15 +29,30 @@ class LoginUser(GenericAPIView):
         serializer = LoginSerializer(data = request.data)
         serializer.is_valid(raise_exception=True)
         user = CustomUser.objects.get(phonenumber = request.data['username'])
+        pilgrim = Pilgrim.objects.filter(user=user).first()
         token = RefreshToken.for_user(user)
 
-        chat = Chat.objects.filter(user=user).first()
+
+        device_token = request.data.get('device_token',None)
+        # device_type = request.data.get('device_type',None)
+        try:
+            device_tok = FCMDevice.objects.get(registration_id=device_token ,type='android')
+            device_tok.user = user
+            device_tok.save()
+        except:
+            FCMDevice.objects.create(user=user , registration_id=device_token ,type='android')
+    
+
+        guide_chat = Chat.objects.get(user=user, chat_type='guide')
+        manager_chat = Chat.objects.get(user=user , chat_type='manager')
         data = serializer.data
-        if chat:
-            data['chat_id'] = chat.id
+        if guide_chat and manager_chat:
+            data['guide_chat_id'] = guide_chat.id
+            data['manager_chat_id'] = manager_chat.id
 
         data['image'] = request.build_absolute_uri(user.image.url)
-        data['id'] = user.id
+        data['user_id'] = user.id
+        data['pilgrim_id'] = pilgrim.id
         data['tokens'] = {'refresh':str(token), 'access':str(token.access_token)}
 
         return Response(data, status=status.HTTP_200_OK)

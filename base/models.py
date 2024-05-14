@@ -1,3 +1,4 @@
+from typing import Iterable
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import AbstractUser
@@ -136,6 +137,11 @@ class Guide(models.Model):
         verbose_name = ("المرشد")
         verbose_name_plural = ("المرشدين")
 
+    def save(self, *args, **kwargs) -> None:
+        super().save(*args, **kwargs)
+        chat = Chat.objects.create(user=self.user, chat_type='guide')
+        
+
 
 class Employee(models.Model):
     user = models.OneToOneField(CustomUser,on_delete=models.CASCADE)
@@ -212,6 +218,7 @@ class Note(models.Model):
 
 class Chat(models.Model):
     user = models.OneToOneField(CustomUser,on_delete=models.CASCADE , verbose_name="المستخدم")
+    chat_type = models.CharField(max_length=20, choices=CHAT_CHOICES, default='guide')
     created = models.DateTimeField(auto_now_add=True , verbose_name="تاريخ الانشاء")
 
     def __str__(self) -> str:
