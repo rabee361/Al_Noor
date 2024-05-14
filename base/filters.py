@@ -5,7 +5,7 @@ from .models import *
 
 class PilgrimFilter(django_filters.FilterSet):
     name = django_filters.CharFilter(field_name='first_name', lookup_expr='startswith')
-    phonenumber = django_filters.CharFilter(field_name='phonenumber' , lookup_expr='startswith')
+    phonenumber = django_filters.CharFilter(field_name='phonenumber' , lookup_expr='icontains')
 
     class Meta:
         model = Pilgrim
