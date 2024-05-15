@@ -140,7 +140,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField(read_only=True)
     phonenumber = serializers.SerializerMethodField(read_only=True)
     username = serializers.CharField(source='user.username')
-    email = serializers.CharField(source='email.username')
+    email = serializers.CharField(source='user.email')
     image = serializers.ImageField(source='user.image',read_only=True)
 
     class Meta:
