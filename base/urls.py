@@ -31,6 +31,7 @@ urlpatterns = [
     path('update-pilgrim/<str:pk>/' , UpdatePilgrim.as_view() , name="update-pilgrim"),
     path('get-pilgrim/<str:pk>/' , GetPilgrim.as_view() , name="get-pilgrim"),
     path('create-employee/' , CreateEmployee.as_view() , name="create-employee"),
+    path('get-employee/<str:pk>/' , GetEmployee.as_view() , name="get-employee"),
     path('list-employees/' , ListEmployees.as_view() , name="list-employees"),
     path('update-employee/<str:pk>/' , UpdateEmployee.as_view() , name="update-employee"),
     path('complete-step/<str:step_id>/' , CompleteStep.as_view() , name="complete-step"),

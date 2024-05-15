@@ -497,6 +497,14 @@ class ListEmployees(ListAPIView):
     filterset_class = EmployeeFilter
 
 
+
+
+class GetEmployee(RetrieveAPIView):
+    queryset = Employee.objects.all()
+    serializer_class = EmployeeSerializer
+
+
+
 class CreateEmployee(CreateAPIView):
     # permission_clasess = [IsAuthenticated]
     queryset = Employee.objects.all()
