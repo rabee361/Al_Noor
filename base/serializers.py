@@ -185,14 +185,13 @@ class UpdateEmployeeSerializer(serializers.ModelSerializer):
     username = serializers.CharField(write_only=True)
     phonenumber = serializers.CharField(write_only=True)
     email = serializers.EmailField(write_only=True)
-    password = serializers.CharField(write_only=True)
+    # password = serializers.CharField(write_only=True)
 
     class Meta:
         model = Employee
         exclude = ['user']
 
     def update(self, instance, validated_data):
-        password = validated_data.get('password')
         username = validated_data.get('username')
         phonenumber = validated_data.get('phonenumber')
         email = validated_data.get('email')
@@ -200,7 +199,11 @@ class UpdateEmployeeSerializer(serializers.ModelSerializer):
         user.username = username
         user.email = email
         user.phonenumber = phonenumber
-        user.set_password(password)
+        try:
+            password = validated_data.get('password')
+            user.set_password(password)
+        except:
+            pass
         user.save()
         employee = Employee.objects.get(user=user)
 
