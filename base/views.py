@@ -191,6 +191,13 @@ class CreatePilgrim(CreateAPIView):
 
 
 
+class UpdatePilgrim(UpdateAPIView):
+    queryset = Pilgrim.objects.all()
+    serializer_class = UpdatePilgrimSerializer
+
+
+
+
 
 class GetPilgrim(RetrieveUpdateDestroyAPIView):
     # permission_classes = [IsAuthenticated]

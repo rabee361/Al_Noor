@@ -261,7 +261,7 @@ class CreatePilgrimSerializer(serializers.ModelSerializer):
         model = Pilgrim
         exclude = ['user']
 
-    def create(self, validated_data):
+    def create(self , validated_data):
         password = validated_data.pop('password')
         phonenumber = validated_data.pop('phonenumber')
         first_name = validated_data.get('first_name')
@@ -276,7 +276,42 @@ class CreatePilgrimSerializer(serializers.ModelSerializer):
         validated_data['user'] = user
         pilgrim = Pilgrim.objects.create(**validated_data)
         return pilgrim
+
+
+
+
+
+
+class UpdatePilgrimSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Pilgrim
+        exclude = ['user']
     
+    def update(self,instance,validated_data):
+        user = instance.user
+        validated_data.pop('haj_steps')
+        phonenumber = validated_data.get('phonenumber')
+        first_name = validated_data.get('first_name')
+        last_name = validated_data.get('last_name')
+        father_name = validated_data.get('father_name')
+        grand_father = validated_data.get('grand_father')
+        full_name = first_name+father_name+grand_father+last_name
+        user.username = full_name
+        user.first_name = first_name
+        user.last_name = last_name
+        user.phonenumber = phonenumber
+        try:
+            password = validated_data.pop('password')
+            user.set_password(password)
+        except:
+            pass
+        user.save()
+
+        validated_data['user'] = user
+        return super(UpdatePilgrimSerializer, self).update(instance, validated_data)
+
+
 
 
 

@@ -28,6 +28,7 @@ urlpatterns = [
     path('send-notification/' , SendNotification.as_view() , name="send-notification"),
     path('list-pilgrims/' , ListPilgrim.as_view() , name="list-pilgrims"),
     path('create-pilgrim/' , CreatePilgrim.as_view() , name="create-pilgrim"),
+    path('update-pilgrim/<str:pk>/' , UpdatePilgrim.as_view() , name="update-pilgrim"),
     path('get-pilgrim/<str:pk>/' , GetPilgrim.as_view() , name="get-pilgrim"),
     path('create-employee/' , CreateEmployee.as_view() , name="create-employee"),
     path('list-employees/' , ListEmployees.as_view() , name="list-employees"),
