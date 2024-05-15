@@ -263,11 +263,15 @@ class CreatePilgrimSerializer(serializers.ModelSerializer):
 
     def create(self , validated_data):
         password = validated_data.pop('password')
-        phonenumber = validated_data.pop('phonenumber')
+        phonenumber = validated_data.get('phonenumber')
         first_name = validated_data.get('first_name')
         last_name = validated_data.get('last_name')
         father_name = validated_data.get('father_name')
         grand_father = validated_data.get('grand_father')
+        arrival_time = datetime.combine(datetime.today(), validated_data['arrival'])
+        departure_time = datetime.combine(datetime.today(), validated_data['departure'])
+        duration = arrival_time - departure_time
+        validated_data['duration'] = duration
         validated_data.pop('haj_steps')
         full_name = first_name+father_name+grand_father+last_name
         user = CustomUser.objects.create(username=full_name,first_name=first_name,last_name=last_name,phonenumber=phonenumber)
@@ -296,6 +300,10 @@ class UpdatePilgrimSerializer(serializers.ModelSerializer):
         last_name = validated_data.get('last_name')
         father_name = validated_data.get('father_name')
         grand_father = validated_data.get('grand_father')
+        arrival_time = datetime.combine(datetime.today(), validated_data['arrival'])
+        departure_time = datetime.combine(datetime.today(), validated_data['departure'])
+        duration = arrival_time - departure_time
+        validated_data['duration'] = duration
         full_name = first_name+father_name+grand_father+last_name
         user.username = full_name
         user.first_name = first_name
