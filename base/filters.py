@@ -28,7 +28,7 @@ class EmployeeFilter(django_filters.FilterSet):
 
     def filter_query(self, queryset, name,value):
         if value:
-            return queryset.filter(Q(phonenumber__icontains=value)|Q(first_name__istartswith=value))
+            return queryset.filter(Q(user__phonenumber__icontains=value)|Q(user__username__istartswith=value))
         return queryset
 
 
@@ -42,13 +42,9 @@ class ManagementFilter(django_filters.FilterSet):
 
     def filter_query(self, queryset, name,value):
         if value:
-            return queryset.filter(Q(phonenumber__icontains=value)|Q(first_name__istartswith=value))
+            return queryset.filter(Q(user__phonenumber__icontains=value)|Q(user__username__istartswith=value))
         return queryset
 
-    def filter_query(self, queryset, name,value):
-        if value:
-            return queryset.filter(Q(phonenumber__icontains=value)|Q(first_name__istartswith=value))
-        return queryset
 
 
 
@@ -62,7 +58,7 @@ class GuideFilter(django_filters.FilterSet):
 
     def filter_query(self, queryset, name,value):
         if value:
-            return queryset.filter(Q(phonenumber__icontains=value)|Q(first_name__istartswith=value))
+            return queryset.filter(Q(user__phonenumber__icontains=value)|Q(user__username__istartswith=value))
         return queryset
 
 
