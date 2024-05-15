@@ -157,11 +157,15 @@ class EmployeeSerializer(serializers.ModelSerializer):
 
 
 
-class CreateEmployeeSerializer(serializers.Serializer):
+class CreateEmployeeSerializer(serializers.ModelSerializer):
     username = serializers.CharField(write_only=True)
     phonenumber = serializers.CharField(write_only=True)
     email = serializers.EmailField(write_only=True)
     password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = Employee
+        exclude = ['user']
 
     def create(self,validated_data):#### needs modification
         password = validated_data.get('password')

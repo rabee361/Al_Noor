@@ -483,8 +483,16 @@ class ListEmployees(ListAPIView):
 class CreateEmployee(CreateAPIView):
     # permission_clasess = [IsAuthenticated]
     queryset = Employee.objects.all()
-    serializer_class = CreateEmployeeSerializer 
+    serializer_class = CreateEmployeeSerializer
    
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        employee_id = serializer.data['id']
+        employee = Employee.objects.get(id=employee_id)
+        serializer = EmployeeSerializer(employee , many=False , context={'request':request})
+        return Response(serializer.data)
 
 
 
