@@ -219,8 +219,8 @@ class ManagementSerializer(serializers.ModelSerializer):
 
 class PilgrimSerializer(serializers.ModelSerializer):
     phonenumber = serializers.SerializerMethodField(read_only=True)
-    guide_chat = serializers.SerializerMethodField(read_only=True) # New method field for chat ID
-    manager_chat = serializers.SerializerMethodField(read_only=True) # New method field for chat ID
+    guide_chat = serializers.SerializerMethodField(read_only=True)
+    manager_chat = serializers.SerializerMethodField(read_only=True)
     duration = serializers.SerializerMethodField()
     image = serializers.ImageField(source='user.image',read_only=True)
     active = serializers.BooleanField(source='user.is_active',read_only=True)
@@ -254,11 +254,12 @@ class PilgrimSerializer(serializers.ModelSerializer):
 
 
 
-class CreatePilgrimSerializer(serializers.Serializer):
-    username = serializers.CharField(write_only=True)
-    phonenumber = serializers.CharField(write_only=True)
-    email = serializers.EmailField(write_only=True)
+class CreatePilgrimSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = Pilgrim
+        exclude = ['user']
 
     def create(self, validated_data):
         password = validated_data.pop('password')
@@ -267,6 +268,7 @@ class CreatePilgrimSerializer(serializers.Serializer):
         last_name = validated_data.get('last_name')
         father_name = validated_data.get('father_name')
         grand_father = validated_data.get('grand_father')
+        validated_data.pop('haj_steps')
         full_name = first_name+father_name+grand_father+last_name
         user = CustomUser.objects.create(username=full_name,first_name=first_name,last_name=last_name,phonenumber=phonenumber)
         user.set_password(password)

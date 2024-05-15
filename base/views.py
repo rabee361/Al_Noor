@@ -173,12 +173,22 @@ class RegisterPilgrim(ListCreateAPIView):
 
 
 
-class ListCreatePilgrim(ListAPIView):
+class ListPilgrim(ListAPIView):
     # permission_classes = [IsAuthenticated]
     queryset = Pilgrim.objects.all()
     serializer_class = PilgrimSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = PilgrimFilter
+
+
+
+
+
+class CreatePilgrim(CreateAPIView):
+    queryset = Pilgrim.objects.all()
+    serializer_class = CreatePilgrimSerializer
+
+
 
 
 
