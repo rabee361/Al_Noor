@@ -446,7 +446,20 @@ class ListChats(ListCreateAPIView):
     # permission_clasess = [IsGuide , IsAuthenticated]
 
     def get_queryset(self):
-        chats = Chat.objects.annotate(latest_message_timestamp=Max('chatmessage__timestamp'))
+        chats = Chat.objects.filter(chat_type='guide').annotate(latest_message_timestamp=Max('chatmessage__timestamp'))
+        chats = chats.order_by('-latest_message_timestamp')
+        return chats
+
+
+
+
+class ListManagerChats(ListCreateAPIView):
+    querset = Chat.objects.all()
+    serializer_class = ChatSerializer
+    # permission_clasess = [IsGuide , IsAuthenticated]
+
+    def get_queryset(self):
+        chats = Chat.objects.filter(chat_type='manager').annotate(latest_message_timestamp=Max('chatmessage__timestamp'))
         chats = chats.order_by('-latest_message_timestamp')
         return chats
 

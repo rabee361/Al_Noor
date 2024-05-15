@@ -175,33 +175,35 @@ def pilgrims_list(request):
 
 
 
-class update_pilgrim(View):
-    def get(self, request,pilgrim_id):
+def update_pilgrim(request,pilgrim_id):
         pilgrim = Pilgrim.objects.get(id=pilgrim_id)
         user = CustomUser.objects.get(id=pilgrim.user.id)
-        user_form = CustomUserCreationForm(instance=user)
+        form = PilgrimForm(instance=pilgrim)
+
+        if request.method == 'POST':
+
+            pilgrim_form = PilgrimForm(instance=pilgrim,data=request.POST, files=request.FILES)
+
+            if pilgrim_form.is_valid():
+                pilgrim = pilgrim_form.save(commit=False)
+                pilgrim.user = user
+                pilgrim.user.username = request.POST['first_name']
+                pilgrim.save()
+
+            return redirect('pilgrims')
+
+
         try:
             pilgrim_image = pilgrim.user.image.url
         except:
             pilgrim_image = ' '
-        form = PilgrimForm(instance=pilgrim)
-        context = {'user_form': user_form,
-                    'form': form,
+
+        context = { 'form': form,
                     'pilgrim_image':pilgrim_image,
+                    'user_image':request.user.image.url
                     }
+
         return render(request, 'update_pilgrim.html', context=context)
-
-    def post(self, request, *args, **kwargs):
-        user_form = CustomUserCreationForm(request.POST)
-        pilgrim_form = PilgrimForm(request.POST, request.FILES)
-        if user_form.is_valid() and pilgrim_form.is_valid():
-            user = user_form.save()
-            pilgrim = pilgrim_form.save(commit=False)
-            pilgrim.user = user
-            pilgrim.save()
-            # return redirect('pilgrims')  # Redirect to a success page
-        return render(request, 'add_pilgrim.html', {'user_form': user_form, 'pilgrim_form': pilgrim_form})
-
 
 
 
@@ -692,7 +694,6 @@ def update_guide(request,guide_id):
             user.get_notifications = form.cleaned_data['get_notifications']
             user.username = form.cleaned_data['username']
             user.email = form.cleaned_data['email']
-            print(form.cleaned_data['email'])
             user.save()
             return redirect('guides')
 

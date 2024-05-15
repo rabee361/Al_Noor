@@ -14,6 +14,7 @@ urlpatterns = [
     path('firebase-token/refresh/',RefreshFirebaseToken.as_view(),name="refresh-firebase-token"),
     path('prayers-timings/' , Calender.as_view() , name="prayers-timings"),
     path('list-chats/' , ListChats.as_view() , name="list-chats"),
+    path('list-manager-chats/' , ListManagerChats.as_view() , name="list-chats"),
     path('get-chat/<str:pk>/' , GetChat.as_view() , name="get-chat"),
     path('create-note/' , CreateNote.as_view() , name="create-note"),
     path('list-notes/' , ListNote.as_view() , name="list-notes"),

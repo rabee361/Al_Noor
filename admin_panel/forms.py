@@ -146,29 +146,37 @@ class UpdateGuide(forms.ModelForm):
 
 
 class CustomUserCreationForm(ModelForm):
-    # Add other fields from CustomUser model here if needed
 
-    class Meta():
+    class Meta:
         model = CustomUser
-        fields = ['username','image','get_notifications']
+        fields = ['username','get_notifications']
 
-    def clean_password2(self):
-        password1 = self.cleaned_data.get("password1")
-        password2 = self.cleaned_data.get("password2")
-        if password1 and password2 and password1!= password2:
-            raise ValidationError(
-                _("The two password fields didn't match."),
-                code="password_mismatch",
-            )
-        return password2
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['get_notifications'] = forms.BooleanField(label='تلقي اشعارات', required=False)
+
+    # def clean_password2(self):
+    #     password1 = self.cleaned_data.get("password1")
+    #     password2 = self.cleaned_data.get("password2")
+    #     if password1 and password2 and password1!= password2:
+    #         raise ValidationError(
+    #             _("The two password fields didn't match."),
+    #             code="password_mismatch",
+    #         )
+    #     return password2
 
 
 
 class PilgrimForm(forms.ModelForm):
     class Meta:
         model = Pilgrim
-        fields = '__all__'  # Include all fields from the Pilgrim model
+        fields = '__all__'
         exclude = ['user']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['get_notifications'] = forms.BooleanField(label='تلقي اشعارات', required=False)
+
 
 
 

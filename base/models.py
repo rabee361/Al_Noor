@@ -113,7 +113,7 @@ class Pilgrim(models.Model):
     boarding_time = models.TimeField(verbose_name="وقت الصعود", null=True , blank=True)####
     gate_num = models.IntegerField(null=True, blank=True , verbose_name="رقم البوابة")####
     flight_company = models.CharField(max_length=50 , verbose_name="اسم الشركة") ### can be a choice list
-    company_logo = models.ImageField(verbose_name="شعار الشركة" , null=True , blank=True) ###
+    company_logo = models.ImageField(verbose_name="شعار الشركة" , null=True , blank=True,default='images/account.jpg') ###
     status = models.BooleanField(null=True, blank=True , verbose_name="الحالة")
     hotel = models.CharField(max_length=100, null=True, blank=True , verbose_name="الفندق")
     hotel_address = models.CharField(max_length=100 , verbose_name="عنوان الفندق") #### link to google maps can be long and lat
