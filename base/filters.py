@@ -20,32 +20,50 @@ class PilgrimFilter(django_filters.FilterSet):
 
 
 class EmployeeFilter(django_filters.FilterSet):
-    name = django_filters.CharFilter(field_name='user__username', lookup_expr='startswith')
-    phonenumber = django_filters.CharFilter(field_name='user__phonenumber' , lookup_expr='icontains')
+    query = django_filters.CharFilter(method='filter_query')
     
     class Meta:
         model = Employee
-        fields = ['name','phonenumber']
+        fields = ['query']
+
+    def filter_query(self, queryset, name,value):
+        if value:
+            return queryset.filter(Q(phonenumber__icontains=value)|Q(first_name__istartswith=value))
+        return queryset
 
 
 
 class ManagementFilter(django_filters.FilterSet):
-    name = django_filters.CharFilter(field_name='user__username', lookup_expr='startswith')
-    phonenumber = django_filters.CharFilter(field_name='user__phonenumber' , lookup_expr='icontains')
-    
+    query = django_filters.CharFilter(method='filter_query')
+
     class Meta:
         model = Management
-        fields = ['name','phonenumber']
+        fields = ['query']
+
+    def filter_query(self, queryset, name,value):
+        if value:
+            return queryset.filter(Q(phonenumber__icontains=value)|Q(first_name__istartswith=value))
+        return queryset
+
+    def filter_query(self, queryset, name,value):
+        if value:
+            return queryset.filter(Q(phonenumber__icontains=value)|Q(first_name__istartswith=value))
+        return queryset
+
 
 
 
 class GuideFilter(django_filters.FilterSet):
-    name = django_filters.CharFilter(field_name='user__username', lookup_expr='startswith')
-    phonenumber = django_filters.CharFilter(field_name='user__phonenumber' , lookup_expr='icontains')
-    
+    query = django_filters.CharFilter(method='filter_query')
+
     class Meta:
         model = Guide
-        fields = ['name','phonenumber']
+        fields = ['query']
+
+    def filter_query(self, queryset, name,value):
+        if value:
+            return queryset.filter(Q(phonenumber__icontains=value)|Q(first_name__istartswith=value))
+        return queryset
 
 
 
