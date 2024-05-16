@@ -40,6 +40,32 @@
   <link href="{% static '/assets/css/custom.css' %}" rel="stylesheet" />
 </head>
 
+<style>
+  .mydropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .mydropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 6px 8px;
+    z-index: 1;
+  }
+  
+  .mydropdown:hover .mydropdown-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mydropdown-content p :hover {
+    background: #cfcdcd;
+  }
+  </style>
+
 <body class="" style="background-color: rgb(77, 76, 76); font-family: Cairo;">  
   <div class="wrapper">
     <!-- <div class="sidebar" style="left: auto; right: 0; width: 230px;  height: 700px;">
@@ -244,9 +270,16 @@
               <span class="navbar-toggler-bar bar3"></span>
             </button>
           </div>
-          <div style="margin-left: 20px;">
+          <div class="mydropdown">
+            <span style="color: white;"><i class="now-ui-icons arrows-1_minimal-down"></i></span>
+            <div class="mydropdown-content" dir="rtl">
+              <!-- <p>Logout</p> -->
+              <p>تسجيل خروج</p>
+              <p>حسابي</p>
+            </div>
+          </div>          <!-- <div style="margin-left: 20px;">
             <a href="{% url 'logout' %}"><h5><i class="now-ui-icons arrows-1_share-66"></i></h5></a>
-          </div>
+          </div> -->
         </div>
       </div>
     </nav>

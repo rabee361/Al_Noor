@@ -3916,7 +3916,7 @@ sidebar-wrapper
 
 .sidebar .nav li.active>a,
 .off-canvas-sidebar .nav li.active>a {
-  background-color: #b73cad;
+  background-color: #D7A401;
   box-shadow: 0 1px 15px 1px rgba(39, 39, 39, 0.1);
 }
 
@@ -4160,7 +4160,7 @@ sidebar-wrapper
 }
 
 .off-canvas-sidebar .nav>li>a:focus {
-  background: rgba(216, 5, 209, 0.768);
+  background: #D7A401;
 }
 
 .main-panel {
@@ -4207,7 +4207,7 @@ sidebar-wrapper
   height: 260px;
   padding-top: 80px;
   padding-bottom: 45px;
-  background: #e909a6;  
+  background: #D7A401;  
   /* fallback for old browsers */
   background: -webkit-gradient(linear, left top, right top, from(#0c2646), color-stop(60%, #204065), to(#2a5788));
   background: linear-gradient(to right, #0c2646 0%, #204065 60%, #2a5788 100%);
@@ -4221,7 +4221,7 @@ sidebar-wrapper
 
 .panel-header .header .category {
   max-width: 600px;
-  color: rgba(224, 15, 214, 0.5);
+  color: #D7A401;
   margin: 0 auto;
   font-size: 13px;
 }
@@ -4232,7 +4232,7 @@ sidebar-wrapper
 
 .panel-header-sm {
   height: 100px;
-  background-color: rgb(241, 7, 183);
+  background-color: #D7A401;
 }
 
 .panel-header-lg {

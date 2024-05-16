@@ -251,13 +251,13 @@ body {
 
 
 .login-btn:hover {
-    background: #c002a0;
+    background: #D7A401;
 }
 
 
 
 .login-btn {
-    background: #a30188;
+    background: #D7A401;
     color: white;
     border-radius: 30px;
     border: none;
@@ -293,4 +293,9 @@ body {
 
 .dropdown-menu a:hover {
     background-color: #464545;
+}
+
+
+.bread-crumbs-arrow {
+    color: #D7A401;
 }
