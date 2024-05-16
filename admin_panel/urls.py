@@ -38,10 +38,6 @@ urlpatterns = [
     path('update-task/<str:task_id>' , update_task  , name="update_task"),
     path('delete-task/<str:task_id>/' , delete_task  , name="delete_task"),
 
-    # path('guide_list/' , guides_list , name="guide_list"),
-    # path('add_guide/' , AddGuideView.as_view() , name="add_guide"),
-    # path('update_guide/<str:pk>/' , UpdateGuideView.as_view() , name="update_guide"),
-
     path('notifications/' , notifications_list , name="notifications"),
     path('add-notification/' , add_notification , name="add_notification"),
     path('delete-notification/<str:notification_id>' , delete_notifications , name="delete_notification"),
@@ -63,7 +59,5 @@ urlpatterns = [
     path('pilgrim/import', import_pilgrim, name='import_pilgrim'),
     path('pilgrim/export', export_pilgram, name='export_pilgrim'),
     path('forms/export', export_forms, name='export_forms'),
-
-
     
 ]

@@ -47,12 +47,16 @@ class PilgrimResource(resources.ModelResource):
         column_name='رقم الجوال',
         attribute='phonenumber',
     )
+    phonenumber = Field(
+        column_name='رقم الهوية',
+        attribute='registration_id',
+    )
     flight_num = Field(
         column_name='رقم الرحلة',
         attribute='flight_num',
     )
     registeration_id = Field(
-        column_name='رقم التذكرة',
+        column_name='رقم الهوية',
         attribute='registeration_id',
     )
     arrival = Field(
@@ -154,9 +158,9 @@ class RegistrationResource(resources.ModelResource):
         column_name='العائلة',
         attribute='last_name',
     )
-    id_number = Field(
+    registeration_id = Field(
         column_name='رقم الهوية',
-        attribute='id_number',
+        attribute='registeration_id',
     )
     birthday = Field(
         column_name='تاريخ الميلاد - الميلادي فقط',

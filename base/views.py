@@ -491,6 +491,22 @@ class GetChat(RetrieveAPIView):
 
 
 
+
+
+class SetActive(APIView):
+    def post(self,request,pilgrim_id):
+        try:
+            pilgrim = Pilgrim.objects.get(id=pilgrim_id)
+            pilgrim.active_now = request.data['state']
+            pilgrim.save()
+            serializer = PilgrimSerializer(pilgrim,many=False)
+            return Response(serializer.data , status=status.HTTP_200_OK)
+
+        except:
+            return Response({"error":"لا يوجد حاج بهذا الرقم"})
+
+
+
 class ListEmployees(ListAPIView):
     # permission_clasess = [IsAuthenticated]
     queryset = Employee.objects.all()
