@@ -460,6 +460,8 @@ class Calender(GenericAPIView):
 class ListChats(ListCreateAPIView):
     querset = Chat.objects.all()
     serializer_class = ChatSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = ChatFilter
     # permission_clasess = [IsGuide , IsAuthenticated]
 
     def get_queryset(self):

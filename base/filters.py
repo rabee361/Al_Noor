@@ -99,3 +99,20 @@ class ReligiousPostFilter(django_filters.FilterSet):
     class Meta:
         model = ReligiousPost
         fields = ['category_name']
+
+
+
+
+class ChatFilter(django_filters.FilterSet):
+    query = django_filters.CharFilter(method='filter_query')
+
+    class Meta:
+        model = Chat
+        fields = ['query']
+
+    def filter_query(self, queryset, name,value):
+        if value:
+            return queryset.filter(Q(user__phonenumber__icontains=value)|Q(user__username__istartswith=value))
+        return queryset
+
+
