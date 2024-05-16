@@ -789,22 +789,24 @@ def import_pilgrim(request):
                 user.save()
                 # Create a Pilgrim object
                 pilgrim = Pilgrim.objects.create(
-                    user=user,  # You need to set this based on your application logic
-                    registeration_id=row['رقم التذكرة'],
+                    user=user,
+                    registeration_id=row['رقم الهوية'],
                     first_name=row['الاسم الأول'],
                     father_name=row['اسم الأب'],
                     grand_father=row['اسم الجد'],
                     last_name=row['العائلة'],
-                    # birthday=row['تاريخ الميلاد - الميلادي فقط'],
+                    birthday=row['تاريخ الميلاد - الميلادي فقط'],
                     phonenumber=str(row['رقم الجوال']),
-                    # flight_num=row['رقم الرحلة'],
-                    # arrival=row['arrival'],
-                    # departure=row['departure'],
-                    duration=row['مدة الرحلة'],
-                    # boarding_time=row['وقت الصعود'],
+                    flight_num=row['رقم الرحلة'],
+                    flight_date=row['تاريخ الرحلة'],
+                    arrival=row['موعد الوصول'],
+                    departure=row['موعد الرحيل'],
+                    from_city=row['من المدينة'],
+                    to_city=row['إلى المدينة'],
+                    # duration=row['مدة الرحلة'],
+                    boarding_time=row['وقت الصعود'],
                     gate_num=row['رقم البوابة'],
                     flight_company=row['شركة الطيران'],
-                    # company_logo=row['شعار الشركة'],  # This needs to be handled as an ImageFile
                     status=True,
                     hotel=row['الفندق'],
                     hotel_address=row['عنوان الفندق'],
