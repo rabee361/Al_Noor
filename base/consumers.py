@@ -238,8 +238,8 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 				'sender' : serializer.data['sender'],
 				'content': serializer.data['content'],
 				'timestamp': serializer.data['timestamp'],
-				'sent_user': serializer.data['sent_user'],				
-				'chat': serializer.data['chat']				
+				'sent_user': serializer.data['sent_user'],			
+				'chat': serializer.data['chat']
 			}
 		)
 
@@ -307,7 +307,7 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 
 	@database_sync_to_async
 	def get_chat_msgs(self,chat_id):
-		messages = ChatMessage.objects.filter(chat=chat_id)
+		messages = ChatMessage.objects.filter(chat=chat_id).order_by('-timestamp')
 		serializer = MessageSerializer(messages,many=True)
 		return serializer.data
 
