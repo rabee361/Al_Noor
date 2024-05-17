@@ -123,7 +123,7 @@ class Pilgrim(models.Model):
 
 
     def __str__(self) -> str:
-        return f'{self.id} - {self.id}'
+        return f'{self.user.username}'
 
     class Meta:
         verbose_name = ("حاج")

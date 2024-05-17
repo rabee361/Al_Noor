@@ -38,6 +38,11 @@ urlpatterns = [
     path('add-task/' , add_task  , name="add_task"),
     path('update-task/<str:task_id>' , update_task  , name="update_task"),
     path('delete-task/<str:task_id>/' , delete_task  , name="delete_task"),
+   
+    path('notes/' , notes_list  , name="notes"),
+    path('add-note/' , add_note  , name="add_note"),
+    path('update-note/<str:note_id>/' , update_note  , name="update_note"),
+    path('delete-note/<str:note_id>/' , delete_note  , name="delete_note"),
 
     path('notifications/' , notifications_list , name="notifications"),
     path('add-notification/' , add_notification , name="add_notification"),

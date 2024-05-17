@@ -225,6 +225,13 @@ class NewTask(ModelForm):
 
 
 
+class NewNote(ModelForm):
+    class Meta:
+        model = Note
+        fields = '__all__'
+
+
+
 class NewRegisterForm(ModelForm):
     class Meta:
         model = Registration

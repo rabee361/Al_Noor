@@ -539,6 +539,86 @@ def delete_task(request,task_id):
 
 
 
+@login_required(login_url='login')
+def notes_list(request):
+    q = request.GET.get('q') or ''
+    notes = Note.objects.filter(pilgrim__user__username__startswith = q).order_by('-id')
+    user_image = request.user.image.url
+    username = request.user.username
+    context = {
+        'notes':notes,
+        'user_image' : user_image,
+        'username' : username
+ }
+    return render(request , 'notes.html' , context)
+
+
+
+
+
+@login_required(login_url='login')
+def add_note(request):
+    form = NewNote()
+    user_image = request.user.image.url
+    username = request.user.username
+
+    if request.method == 'POST':
+        form = NewNote(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('notes')
+
+    context = {
+        'form': form,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request, 'add_note.html', context)
+
+
+
+
+
+
+
+@login_required(login_url='login')
+def update_note(request,note_id):
+    note = Note.objects.get(id=note_id)
+    form = NewNote(instance=note)
+    user_image = request.user.image.url
+    username = request.user.username
+
+    if request.method == 'POST':
+        form = NewNote(request.POST, instance=note)
+        if form.is_valid():
+            form.save()
+            return redirect('notes')
+
+    context = {
+        'form': form,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request, 'add_note.html', context)
+
+
+
+
+
+
+
+@login_required(login_url='login')
+def delete_note(request,note_id):
+    Note.objects.get(id=note_id).delete()
+
+    return redirect('notes')
+
+
+
+
+
+
+
 
 
 
