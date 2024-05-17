@@ -7,7 +7,7 @@ urlpatterns = [
 
     path('login/' , login_user , name="login"),
     path('logout/' , logout_user , name="logout"),
-    path('change-password/<int:user_id>/' , change_password , name="change_password"),
+    path('change-password/<str:user_id>/' , change_password , name="change_password"),
 
     path('forms/' , registration_forms , name="registration_forms"),
     path('add_form/' , add_register_form , name="add_register_form"),
@@ -45,8 +45,8 @@ urlpatterns = [
 
     path('guidance-posts/' , guidance_posts , name="guidance_posts"),
     path('add-guidance-post/' , add_guidance_post , name="add_guidance_post"),
-    path('update-guidance-post/<str:post_id>' , update_guidance_post , name="update_guidance_post"),
-    path('delete-guidance-post/<str:post_id>' , delete_guidance_post , name="delete_guidance_post"),
+    path('update-guidance-post/<str:post_id>/' , update_guidance_post , name="update_guidance_post"),
+    path('delete-guidance-post/<str:post_id>/' , delete_guidance_post , name="delete_guidance_post"),
 
     path('steps/' , steps_list , name="steps"),
     path('add-step/' , add_step , name="add_step"),

@@ -101,6 +101,19 @@
 }
 
 
+
+.form-control-text {
+    width: 100%;
+    outline: none;
+    border: rgb(58, 57, 57);
+    border-radius: 20px;
+    color: white;
+    font-size: larger;
+    background-color: rgb(126, 126, 126);
+    height: 80px;
+}
+
+
 .form-control-check {
     outline: none;
     border: rgb(58, 57, 57);
@@ -327,7 +340,6 @@ body {
 
   .mydropdown-content p :hover {
     background: #cfcdcd;
-    padding: 5px;
   }
 
   .mydropdown-content p {

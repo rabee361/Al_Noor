@@ -13,7 +13,7 @@
             <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: #D7A401;"></i></h5>
             <h5 style="color: white;">الارشاد الديني</h5>
             <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: #D7A401;"></i></h5>
-            <h5 style="color: white;">إضافة</h5>
+            <h5 style="color: white;">تعديل</h5>
             <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: #D7A401;"></i></h5>
           </div>
         </div>
@@ -36,10 +36,13 @@
                 
                 
                 <div class="form-block">
-                    <div class="form-input">
-                        <div class="form-label">{{ form.cover.label_tag }}</div>
-                        <div>{{ form.cover|add_class:"form-control" }}</div> 
-                    </div>
+                    <div class="form-input" style="text-align: right;">
+                        <div class="form-label">الصورة الشخصية:</div>
+                        <div style="display: flex; flex-direction: row; justify-content: right; margin-top: 7px; align-items: center; gap: 20px;">
+                            <img src="{{ post_image }}" alt="Current Image" width="50px" height="50px">
+                            <div class="form-input"><input type="file" name="image" id="image_id"></div>
+                        </div>
+                      </div>
                     <div class="form-input" style="border-radius: 20px;">
                         <div class="form-label">{{ form.content.label_tag }}</div>
                         <div>{{ form.content|add_class:"form-control-text" }}</div> 

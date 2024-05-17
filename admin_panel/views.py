@@ -38,16 +38,17 @@ def logout_user(request):
 
 
 
-def change_password(request,used_id):
-    user = CustomUser.objects.get(id=used_id)
+def change_password(request,user_id):
     if request.method == 'POST':
-        form = PasswordChangeForm(request.POST, instance=user)
-        if form.is_valid():
-            form.save()
+            password1 = request.POST['password1']
+            password2 = request.POST['password2']
+            if password1 and password2:
+                user = CustomUser.objects.get(id=user_id)
+                user.set_password(password1)
+                user.save()
             return redirect('pilgrims')
-    else:
-        form = PasswordChangeForm(user=user)
-    return render(request, 'change_password.html', {'form': form})
+        
+    return render(request, 'change_password.html')
 
 
 
@@ -677,7 +678,7 @@ def add_guide(request):
                 image=form.cleaned_data['image'],
             )
             
-            Employee.objects.create(user=user)
+            Guide.objects.create(user=user)
             return redirect('guides')
     context = {
         'form' : form,
@@ -787,6 +788,14 @@ def export_forms(request):
 @transaction.atomic
 def import_pilgrim(request):
         
+        user_image = request.user.image.url
+        username = request.user.username
+        
+        context = {
+            'user_image': user_image,
+            'username': username,
+        }
+
         if request.method == 'POST':
             print("#########################")
             print(request.FILES)
@@ -834,7 +843,7 @@ def import_pilgrim(request):
                 
 
             return redirect('pilgrims')
-        return render(request, 'import_pilgrims.html')
+        return render(request, 'import_pilgrims.html' , context=context)
 
 
 def notifications_list(request):
@@ -940,9 +949,10 @@ def update_guidance_post(request,post_id):
     context = {
         'form': form,
         'user_image': user_image,
-        'username': username
+        'username': username,
+        'post_image':post.cover.url
     }
-    return render(request, 'add_guidance_post.html', context)
+    return render(request, 'update_guidance_post.html', context)
 
 
 
