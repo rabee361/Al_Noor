@@ -244,6 +244,14 @@ class GuidancePostForm(ModelForm):
         fields = '__all__'
 
 
+
+class ReligiousPostForm(ModelForm):
+    class Meta:
+        model = ReligiousPost
+        fields = '__all__'
+
+
+
 class StepForm(ModelForm):
     class Meta:
         model = HajSteps

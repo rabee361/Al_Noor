@@ -11,7 +11,7 @@
           <div style="height: 70px; margin-left: 1300px; display: flex; gap: 10px;">
             <h5 style="color: white;">الرئيسية</h5>
             <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: #D7A401;"></i></h5>
-            <h5 style="color: white;">جدول الحملة</h5>
+            <h5 style="color: white;">الأعمال الديني</h5>
             <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: #D7A401;"></i></h5>
             <h5 style="color: white;">إضافة</h5>
             <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: #D7A401;"></i></h5>
@@ -19,24 +19,35 @@
         </div>
 
         <div>
-            <form action="" method="post" style="display: flex; flex-direction: column; gap: 30px; color: white;">
+            <form action="" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 30px; color: white;">
                 {% csrf_token %}
-                <div class="form-group" style="height: 200px;" dir="rtl">
+                <div style="height: 240px ;background-color: rgb(57, 58, 58); width: 100%; display: flex; gap: 10px ;justify-content: space-evenly; border-radius: 30px;" dir="rtl">
                   
-                <div class="form-block">
-                    <div class="form-input" style="display: flex; flex-direction: column;">
-                        <div class="form-label">{{ form.name.label_tag }}</div>
-                        <div>{{ form.name|add_class:"form-control" }}</div>
-                    </div>
-                </div>
-                  
-                <div class="form-block">
+                  <div class="form-block">
                     <div class="form-input">
-                        <div class="form-label">{{ form.secondary_steps.label_tag }}</div>
-                        <div>{{ form.secondary_steps|add_class:"form-control" }}</div>
+                      <div class="form-label">{{ form.category.label_tag }}</div>
+                      <div>{{ form.category|add_class:"form-control" }}</div>
+                    </div>
+                    <div class="form-input">
+                      <div class="form-label">{{ form.title.label_tag }}</div>
+                      <div>{{ form.title|add_class:"form-control" }}</div>
                     </div>
                 </div>
                 
+                
+                <div class="form-block">
+                    <div class="form-input">
+                        <div class="form-label">{{ form.cover.label_tag }}</div>
+                        <div>{{ form.cover|add_class:"form-control" }}</div> 
+                    </div>
+                    <div class="form-input" style="border-radius: 20px;">
+                        <div class="form-label">{{ form.content.label_tag }}</div>
+                        <div>{{ form.content|add_class:"form-control-text" }}</div> 
+                    </div>
+                </div>
+
+
+
                 </div>
 
 

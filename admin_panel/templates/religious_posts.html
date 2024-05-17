@@ -10,13 +10,13 @@
         <div style="height: 70px; margin-left: 1300px; display: flex; gap: 10px;">
           <h5 style="color: white;">الرئيسية</h5>
           <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
-          <h5 style="color: white;">الارشاد الديني</h5>
+          <h5 style="color: white;">العمل الديني</h5>
           <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
         </div>
       </div>
 
       <div style="display: flex; gap: 5px; color: white; font-size: smaller;" dir="ltr">
-        <a href="{% url 'add_guidance_post' %}" style="text-decoration: none;"><h5 class="import-button" style="background-color: green;">إضافة</h5></a>
+        <a href="{% url 'add_religious_post' %}" style="text-decoration: none;"><h5 class="import-button" style="background-color: green;">إضافة</h5></a>
       </div>
 
       <div class="row">
@@ -63,7 +63,7 @@
                         {{post.id}}
                       </td>
                       <td>
-                        <a href="{% url 'update_guidance_post' post.id %}" style="text-decoration: none; color: white;">
+                        <a href="{% url 'update_religious_post' post.id %}" style="text-decoration: none; color: white;">
                           {{post.title}}
                         </a>
                       </td>
@@ -77,7 +77,7 @@
                         {{post.created}}
                       </td>
                       <td>
-                          <a href="{% url 'update_guidance_post' post.id %}" class="btn btn-success btn-sm btn-icon">
+                          <a href="{% url 'update_religious_post' post.id %}" class="btn btn-success btn-sm btn-icon">
                             <i class="now-ui-icons ui-2_settings-90"></i>
                           </a>
                           <button type="button" rel="tooltip" class="btn btn-danger btn-simple btn-icon btn-sm" data-toggle="modal" data-target="#deleteadminModal{{ post.id }}">
@@ -91,17 +91,17 @@
                     <div class="modal-dialog" role="document">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title" id="deleteadminModalLabel{{ task.id }}">حذف المهمة</h5>
+                          <h5 class="modal-title" id="deleteadminModalLabel{{ post.id }}">حذف العمل الديني</h5>
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                           </button>
                         </div>
                         <div class="modal-body">
-                          <p>"هل أنت واثق من أنك تريد حذف الارشاد الديني {{post.title}}?"</p>
+                          <p>"هل أنت واثق من أنك تريد حذف العمل الديني {{post.title}}?"</p>
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
-                          <form action="{% url 'delete_guidance_post' post.id %}" method="post">
+                          <form action="{% url 'delete_religious_post' post.id %}" method="post">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-danger">حذف</button>
                           </form>

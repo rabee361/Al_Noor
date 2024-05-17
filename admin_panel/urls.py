@@ -48,6 +48,11 @@ urlpatterns = [
     path('update-guidance-post/<str:post_id>/' , update_guidance_post , name="update_guidance_post"),
     path('delete-guidance-post/<str:post_id>/' , delete_guidance_post , name="delete_guidance_post"),
 
+    path('religious-posts/' , religious_posts , name="religious_posts"),
+    path('add-religious-post/' , add_religious_post , name="add_religious_post"),
+    path('update-religious-post/<str:post_id>/' , update_religious_post , name="update_religious_post"),
+    path('delete-religious-post/<str:post_id>/' , delete_religious_post , name="delete_religious_post"),
+
     path('steps/' , steps_list , name="steps"),
     path('add-step/' , add_step , name="add_step"),
     path('update-step/<str:step_id>' , update_step , name="update_step"),

@@ -18,6 +18,14 @@
           </div>
         </div>
 
+
+
+        <div style="display: flex; gap: 5px; color: white; font-size: smaller;" dir="ltr">
+          <a href="{% url 'change_password' user_id %}" style="text-decoration: none;"><h5 class="change-button" style="background-color: #969696;">تعديل كلمة المرور</h5></a>
+        </div>
+
+
+
         <div>
             <form action="" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 30px; color: white;">
                 {% csrf_token %}

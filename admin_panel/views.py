@@ -215,6 +215,7 @@ def update_pilgrim(request,pilgrim_id):
 
         context = { 'form': form,
                     'pilgrim_image':pilgrim_image,
+                    'user_id': user.id,
                     'user_image':request.user.image.url
                     }
 
@@ -433,6 +434,7 @@ def update_manager(request,manager_id):
         'form': form,
         'user_image': user_image,
         'manager_image': manager_image,
+        'user_id': user.id,
         'username': username,
     }
     return render(request, 'update_manager.html', context)
@@ -723,6 +725,7 @@ def update_guide(request,guide_id):
         'form': form,
         'user_image': user_image,
         'guide_image': guide_image,
+        'user_id': user.id,
         'username': username,
     }
     return render(request, 'update_guide.html', context)
@@ -808,7 +811,7 @@ def import_pilgrim(request):
             # Assuming the Excel file has columns that match the Pilgrim model fields
             for index, row in df.iterrows():
                 # Convert phone number to a PhoneNumber object
-                username = str(row['الاسم الأول']) + str(row['اسم الأب']) + str(row['اسم الجد']) + str(row['العائلة'])
+                username = str(row['الاسم الأول']) + ' ' + str(row['اسم الأب']) + ' ' + str(row['اسم الجد']) + ' ' + str(row['العائلة'])
                 user =CustomUser.objects.create(phonenumber=str(row['رقم الجوال']) , username= username)
                 user.save()
                 # Create a Pilgrim object
@@ -962,6 +965,78 @@ def update_guidance_post(request,post_id):
 def delete_guidance_post(request,post_id):
     GuidancePost.objects.get(id=post_id).delete()
     return redirect('guideance_posts')
+
+
+
+
+def religious_posts(request):
+    q = request.GET.get('q') or ''
+    user_image = request.user.image.url
+    username = request.user.username
+    posts = ReligiousPost.objects.filter(title__startswith=q).order_by('-id')
+    context = {
+        'posts':posts,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request , 'religious_posts.html' , context)
+
+
+
+
+
+
+@login_required(login_url='login')
+def add_religious_post(request):
+    form = ReligiousPostForm()
+    user_image = request.user.image.url
+    username = request.user.username
+    if request.method == 'POST':
+        form = ReligiousPostForm(request.POST, request.FILES)
+        print(form.errors)
+        if form.is_valid():
+            form.save()
+            return redirect('religious_posts')
+    context = {
+        'form' : form,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request , 'add_religious_post.html' , context)
+
+
+
+
+
+@login_required(login_url='login')
+def update_religious_post(request,post_id):
+    post = ReligiousPost.objects.get(id=post_id)
+    form = ReligiousPostForm(instance=post)
+    user_image = request.user.image.url
+    username = request.user.username
+
+    if request.method == 'POST':
+        form = ReligiousPostForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('religious_posts')
+
+    context = {
+        'form': form,
+        'user_image': user_image,
+        'username': username,
+        'post_image':post.cover.url
+    }
+    return render(request, 'update_religious_post.html', context)
+
+
+
+
+
+@login_required(login_url='login')
+def delete_religious_post(request,post_id):
+    ReligiousPost.objects.get(id=post_id).delete()
+    return redirect('religious_posts')
 
 
 

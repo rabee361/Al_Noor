@@ -39,7 +39,7 @@
             <div class="table-responsive">
               <div style="overflow-x: auto; width: 100%;">
                 <table class="table" style="width: 1000px;">
-                  <thead class="text-primary" style="font-size: small ; background-color: rgb(88, 88, 88)">
+                  <thead class="text-primary" style="font-size: small ; background-color: rgb(88, 88, 88);text-align: center;">
                     <th style="color: white;">
                       ID
                     </th>
@@ -61,12 +61,14 @@
                   </thead>
                   <tbody style="color: white;">
                   {% for manager in managers %}
-                    <tr style="font-size: large;">
+                    <tr style="font-size: large; text-align: center;">
                       <td>
                         {{manager.id}}
                       </td>
                       <td>
-                        {{manager.user.username}}
+                        <a href="{% url 'update_manager' manager.id %}" style="color: white; text-decoration: none;">
+                          {{manager.user.username}}
+                        </a>
                       </td>
                       <td>
                         {{manager.user.phonenumber}}
