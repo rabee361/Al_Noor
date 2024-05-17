@@ -11,6 +11,7 @@ import pandas as pd
 from django.core.files.storage import default_storage
 from django.db import transaction
 from django.views import View
+from django.contrib.auth.forms import PasswordChangeForm
 
 
 
@@ -34,6 +35,19 @@ def logout_user(request):
     logout(request)
     return redirect('login')
 
+
+
+
+def change_password(request,used_id):
+    user = CustomUser.objects.get(id=used_id)
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('pilgrims')
+    else:
+        form = PasswordChangeForm(user=user)
+    return render(request, 'change_password.html', {'form': form})
 
 
 
@@ -608,6 +622,7 @@ def update_employee(request,employee_id):
     context = {
         'form': form,
         'user_image': user_image,
+        'user_id': user.id,
         'employee_image': employee_image,
         'username': username,
     }

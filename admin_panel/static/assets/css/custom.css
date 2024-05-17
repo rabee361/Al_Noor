@@ -176,6 +176,21 @@
 
 
 
+.change-button {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: gray;
+    text-wrap: nowrap;
+    width: 170px;
+    border-radius: 20px;
+    color: white;
+}
+
+
+
 @media (max-width: 768px){
     .import-button {
         font-size: small;

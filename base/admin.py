@@ -28,13 +28,13 @@ class HiddenModelAdmin(admin.ModelAdmin):
 # class FCMDeviceAdmin(HiddenModelAdmin):
 #     pass
 
-@admin.register(OutstandingToken)
-class OutstandingTokenAdmin(HiddenModelAdmin):
-    pass
+# @admin.register(OutstandingToken)
+# class OutstandingTokenAdmin(HiddenModelAdmin):
+#     pass
 
-@admin.register(BlacklistedToken)
-class BlacklistedTokenAdmin(HiddenModelAdmin):
-    pass
+# @admin.register(BlacklistedToken)
+# class BlacklistedTokenAdmin(HiddenModelAdmin):
+#     pass
 
 
 

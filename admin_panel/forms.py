@@ -2,7 +2,7 @@ from django.forms import ModelForm , Form
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from base.models import *
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm , PasswordChangeForm
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
