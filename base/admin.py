@@ -16,8 +16,8 @@ admin.site.index_title = "Admin Panel"
 
 
 # admin.site.unregister(FCMDevice)
-admin.site.unregister(BlacklistedToken)
-admin.site.unregister(OutstandingToken)
+# admin.site.unregister(BlacklistedToken)
+# admin.site.unregister(OutstandingToken)
 admin.site.unregister(Group)
 
 class HiddenModelAdmin(admin.ModelAdmin):
