@@ -206,7 +206,7 @@ class PilgrimSerializer(serializers.ModelSerializer):
     duration = serializers.SerializerMethodField()
     image = serializers.ImageField(source='user.image',read_only=True)
     active = serializers.BooleanField(source='user.is_active',read_only=True)
-    guide = GuideSerializer()
+    guide = GuideSerializer(many=False)
 
     class Meta:
         model = Pilgrim

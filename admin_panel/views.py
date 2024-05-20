@@ -271,6 +271,7 @@ def add_pilgrim(request):
                 boarding_time=request.POST['boarding_time'],
                 arrival=request.POST['arrival'],
                 departure=request.POST['departure'],
+                guide=form.cleaned_data['guide'],
             )
 
             return redirect('pilgrims')
