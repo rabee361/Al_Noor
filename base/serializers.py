@@ -188,6 +188,17 @@ class ManagementSerializer(serializers.ModelSerializer):
 
 
 
+
+class GuideSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username',read_only=True)
+    image = serializers.ImageField(source='user.image',read_only=True)
+
+    class Meta:
+        model = Guide
+        fields = ['username','image']
+
+
+
 class PilgrimSerializer(serializers.ModelSerializer):
     phonenumber = serializers.SerializerMethodField(read_only=True)
     guide_chat = serializers.SerializerMethodField(read_only=True)
@@ -195,6 +206,7 @@ class PilgrimSerializer(serializers.ModelSerializer):
     duration = serializers.SerializerMethodField()
     image = serializers.ImageField(source='user.image',read_only=True)
     active = serializers.BooleanField(source='user.is_active',read_only=True)
+    guide = GuideSerializer()
 
     class Meta:
         model = Pilgrim

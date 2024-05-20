@@ -119,6 +119,7 @@ class Pilgrim(models.Model):
     room_num = models.IntegerField(null=True, blank=True , verbose_name="رقم الغرفة")
     active_now = models.BooleanField(default=False)
     haj_steps = models.ManyToManyField('HajSteps' , blank=True)
+    guide = models.ForeignKey('Guide' , verbose_name="المرشد" , null=True , blank=True , on_delete=models.DO_NOTHING)
     created = models.DateTimeField(auto_now_add=True)
 
 
