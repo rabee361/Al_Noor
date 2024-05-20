@@ -69,7 +69,7 @@ class LoginUser(GenericAPIView):
                 error_message = ', '.join(serializer.errors.values())
                 return Response({'fs': serializer.errors.values()}, status=400)    
         else:
-            return Response({"error":"لا يمكن أن تكون الحقول فارغة"} , status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error":["لا يمكن أن تكون الحقول فارغة"]} , status=status.HTTP_400_BAD_REQUEST)
 
 
 class LogoutUser(GenericAPIView):
@@ -101,7 +101,7 @@ class SendCodePassword(GenericAPIView):
             return Response({'message':'تم ارسال رمز التحقق',
                              'user_id' : user.id})
         except:
-            raise serializers.ValidationError({'error':'أدخل رقم هاتف صحيح'})
+            raise serializers.ValidationError({'error':['أدخل رقم هاتف صحيح']})
     
 
 
@@ -118,12 +118,12 @@ class VerifyCode(GenericAPIView):
         if code_ver:
             if str(code) == str(code_ver.code):
                 if timezone.now() > code_ver.expires_at:
-                    return Response({"message":"انتهت صلاحية رمز التحقق"}, status=status.HTTP_400_BAD_REQUEST)
+                    return Response({"message":["انتهت صلاحية رمز التحقق"]}, status=status.HTTP_400_BAD_REQUEST)
                 code_ver.is_verified = True
                 code_ver.save()
                 return Response({"message":"تم التحقق من الرمز", 'user_id':code_ver.user.id},status=status.HTTP_200_OK)
             else:
-                return Response({'message':'الرمز خاطئ, يرجى إعادة إدخال الرمز بشكل صحيح'})
+                return Response({'message':['الرمز خاطئ, يرجى إعادة إدخال الرمز بشكل صحيح']})
         
 
 
@@ -139,7 +139,7 @@ class UpdateImage(GenericAPIView):
             serializer = CustomUserSerializer(user,many=False)
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
-            return Response({"error":"اختر صورة من فضلك"} , status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error":["اختر صورة من فضلك"]} , status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -162,7 +162,7 @@ class ResetPassword(UpdateAPIView):
             return Response(messages, status=status.HTTP_200_OK)
         
         else:
-            return Response({'error':'ليس لديك صلاحية لتغيير كلمة المرور'})
+            return Response({'error':['ليس لديك صلاحية لتغيير كلمة المرور']})
 
 
 
@@ -215,7 +215,7 @@ class PilgrimInfo(GenericAPIView):
             serializer = PilgrimSerializer(pilgrim , many=False)
             return Response(serializer.data , status=status.HTTP_200_OK)
         except Pilgrim.DoesNotExist:
-            return Response({"error":"لا يوجد حاج بهذا الاسم"},status=status.HTTP_500_BAD_REQUEST)
+            return Response({"error":["لا يوجد حاج بهذا الاسم"]},status=status.HTTP_500_BAD_REQUEST)
 
 
 
@@ -281,7 +281,7 @@ class ListNotifications(ListAPIView):
         
 
 
-######## show all tasks or employee's tasks ????? asap
+
 class ListTask(ListAPIView):
     permission_classes = [IsAuthenticated]
     queryset =  Task.objects.all()
@@ -319,7 +319,7 @@ class CompleteTask(GenericAPIView):
             serializer = TaskSerializer(task , many=False)
             return Response(serializer.data,status=status.HTTP_200_OK)
         except Task.DoesNotExist:
-            return Response({"error":"لا يوجد مهمة بهذا الرقم"},status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error":["لا يوجد مهمة بهذا الرقم"]},status=status.HTTP_400_BAD_REQUEST)
         
 
 
@@ -337,7 +337,7 @@ class AcceptTask(GenericAPIView):
             serializer = TaskSerializer(task , many=False)
             return Response(serializer.data,status=status.HTTP_200_OK)
         except Task.DoesNotExist:
-            return Response({"error":"لا يوجد مهمة بهذا الرقم"},status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error":["لا يوجد مهمة بهذا الرقم"]},status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -352,7 +352,7 @@ class SendTask(GenericAPIView):
         title = request.data.get('title',None)
         content = request.data.get('content',None)
         if title is None or content is None:
-            return Response({"error" : "العنوان أو المحتوى فارغ"},status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error" : ["العنوان أو المحتوى فارغ"]},status=status.HTTP_400_BAD_REQUEST)
         
         else:
             task = Task.objects.create(
@@ -385,7 +385,7 @@ class CompleteStep(GenericAPIView):
             serializer = HajStepSerializer(step , many=False)
             return Response(serializer.data)
         except:
-            return Response({"error":"لا يوجد خطوة بهذا الاسم"})
+            return Response({"error":["لا يوجد خطوة بهذا الاسم"]})
 
 
 
@@ -412,9 +412,9 @@ class SendNotification(APIView):
                     "message":"تم ارسال الاشعار"
                 })
             else:
-                return Response({"error":"العنوان أو المحتوى فارغ"})
+                return Response({"error":["العنوان أو المحتوى فارغ"]})
         else:
-            return Response({"error":"لا يوجد حجاج"})
+            return Response({"error":["لا يوجد حجاج"]})
 
 
 
@@ -500,7 +500,7 @@ class SetActive(APIView):
             return Response(serializer.data , status=status.HTTP_200_OK)
 
         except:
-            return Response({"error":"لا يوجد حاج بهذا الرقم"})
+            return Response({"error":["لا يوجد حاج بهذا الرقم"]})
 
 
 
