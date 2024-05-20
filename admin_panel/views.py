@@ -12,7 +12,7 @@ from django.core.files.storage import default_storage
 from django.db import transaction
 from django.views import View
 from django.contrib.auth.forms import PasswordChangeForm
-
+from base.notifications import send_event_notification
 
 
 
@@ -833,32 +833,6 @@ def delete_guide(request,guide_id):
 
 
 
-
-class StoreListView(TemplateView):
-    template_name = 'store_list.html'
-
-class CategoryListView(TemplateView):
-    template_name = 'category_list.html'
-
-class MainServiceListView(TemplateView):
-    template_name = 'main_service_list.html'
-
-class SubscriptionListView(TemplateView):
-    template_name = 'subscription_list.html'
-
-class PromotionSubscriptionListView(TemplateView):
-    template_name = 'promotion-subscription-list.html'
-
-class DashboardView(TemplateView):
-    template_name = 'base.html'
-
-class PromotionSubscriptionListView(TemplateView):
-    template_name = 'promotion-subscription-list.html'
-
-class PromotionSubscriptionListView(TemplateView):
-    template_name = 'promotion-subscription-list.html'
-
-
 def export_pilgram(request):
     pilgrim_resource = PilgrimResource()
     dataset = pilgrim_resource.export()
@@ -966,6 +940,9 @@ def add_notification(request):
     if request.method == 'POST':
         form = NotificationForm(request.POST, request.FILES)
         if form.is_valid():
+            title = form.cleaned_data['title']
+            content = form.cleaned_data['content']
+            send_event_notification(title=title,content=content)
             form.save()
             return redirect('notifications')
     context = {

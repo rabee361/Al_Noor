@@ -63,10 +63,6 @@ urlpatterns = [
     path('update-step/<str:step_id>' , update_step , name="update_step"),
     path('delete-step/<str:step_id>' , delete_step , name="delete_step"),
 
-    path('category_list/' , CategoryListView.as_view() , name="category_list"),
-    path('main_service_list/' , MainServiceListView.as_view() , name="main_service_list"),
-    path('subscription_list/' , SubscriptionListView.as_view() , name="subscription_list"),
-    path('promotion-subscription-list/' ,  PromotionSubscriptionListView.as_view(), name="promotion-subscription-list"),
     path('pilgrim/import', import_pilgrim, name='import_pilgrim'),
     path('pilgrim/export', export_pilgram, name='export_pilgrim'),
     path('forms/export', export_forms, name='export_forms'),
