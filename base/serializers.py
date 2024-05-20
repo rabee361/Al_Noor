@@ -197,7 +197,7 @@ class GuideSerializer(serializers.ModelSerializer):
         model = Guide
         fields = ['username','image']
 
-
+ 
 
 class PilgrimSerializer(serializers.ModelSerializer):
     phonenumber = serializers.SerializerMethodField(read_only=True)
