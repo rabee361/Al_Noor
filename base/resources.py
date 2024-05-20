@@ -75,10 +75,6 @@ class PilgrimResource(resources.ModelResource):
         column_name='موعد الرحيل',
         attribute='departure',
     )
-    duration = Field(
-        column_name='مدة الرحلة',
-        attribute='duration',
-    )
     borading_time = Field(
         column_name='وقت الصعود',
         attribute='borading_time',

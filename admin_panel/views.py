@@ -216,7 +216,8 @@ def update_pilgrim(request,pilgrim_id):
         context = { 'form': form,
                     'pilgrim_image':pilgrim_image,
                     'user_id': user.id,
-                    'user_image':request.user.image.url
+                    'user_image':request.user.image.url,
+                    'company_logo':pilgrim.company_logo.url
                     }
 
         return render(request, 'update_pilgrim.html', context=context)
@@ -337,8 +338,10 @@ def add_pilgrim(request):
 
 @login_required(login_url='login')
 def delete_pilgrim(request,pilgrim_id):
-    Pilgrim.objects.get(id=pilgrim_id).delete()
-
+    pilgrim = Pilgrim.objects.get(id=pilgrim_id)
+    user = CustomUser.objects.get(id=pilgrim.user.id)
+    user.delete()
+    
     return redirect('pilgrims')
 
 
@@ -444,8 +447,10 @@ def update_manager(request,manager_id):
 
 @login_required(login_url='login')
 def delete_manager(request,manager_id):
-    Management.objects.get(id=manager_id).delete()
-    return HttpResponse("greate")
+    manager = Pilgrim.objects.get(id=manager_id)
+    user = CustomUser.objects.get(id=manager.user.id)
+    user.delete()
+    return redirect("managers")
 
 
 
@@ -720,7 +725,9 @@ def update_employee(request,employee_id):
 
 @login_required(login_url='login')
 def delete_employee(request,employee_id):
-    Employee.objects.get(id=employee_id).delete()
+    employee = Pilgrim.objects.get(id=employee_id)
+    user = CustomUser.objects.get(id=employee.user.id)
+    user.delete()
     return redirect('employees')
 
 
@@ -814,7 +821,9 @@ def update_guide(request,guide_id):
     
 
 def delete_guide(request,guide_id):
-    Guide.objects.get(id=guide_id).delete()
+    guide = Pilgrim.objects.get(id=guide_id)
+    user = CustomUser.objects.get(id=guide.user.id)
+    user.delete()
     return redirect('guides')
 
 
@@ -880,21 +889,25 @@ def import_pilgrim(request):
         }
 
         if request.method == 'POST':
-            print("#########################")
-            print(request.FILES)
             excel_file = request.FILES['file']
             df = pd.read_excel(excel_file)
 
-            # df['وقت الصعود'] = pd.to_datetime(df['وقت الصعود'], format='%H:%M', errors='coerce')
-            # df['تاريخ الميلاد'] = pd.to_datetime(df['تاريخ الميلاد - الميلادي فقط'], errors='coerce')
-
-            # Assuming the Excel file has columns that match the Pilgrim model fields
             for index, row in df.iterrows():
-                # Convert phone number to a PhoneNumber object
+                # print(row['موعد الوصول'])
+                # print(row['موعد الرحيل'])
+
+                arrival_datetime = datetime.strptime(str(row['موعد الوصول']), '%H:%M:%S')
+                departure_datetime = datetime.strptime(str(row['موعد الرحيل']), '%H:%M:%S')
+
+                diff = departure_datetime - arrival_datetime
+
+                formatted_diff = str(timedelta(hours=diff.seconds//3600, minutes=diff.seconds//60%60))
+
+                print(formatted_diff)
+
                 username = str(row['الاسم الأول']) + ' ' + str(row['اسم الأب']) + ' ' + str(row['اسم الجد']) + ' ' + str(row['العائلة'])
                 user =CustomUser.objects.create(phonenumber=str(row['رقم الجوال']) , username= username)
                 user.save()
-                # Create a Pilgrim object
                 pilgrim = Pilgrim.objects.create(
                     user=user,
                     registeration_id=row['رقم الهوية'],
@@ -910,7 +923,7 @@ def import_pilgrim(request):
                     departure=row['موعد الرحيل'],
                     from_city=row['من المدينة'],
                     to_city=row['إلى المدينة'],
-                    # duration=row['مدة الرحلة'],
+                    duration=str(formatted_diff),
                     boarding_time=row['وقت الصعود'],
                     gate_num=row['رقم البوابة'],
                     flight_company=row['شركة الطيران'],
@@ -918,11 +931,9 @@ def import_pilgrim(request):
                     hotel=row['الفندق'],
                     hotel_address=row['عنوان الفندق'],
                     room_num=33,
-                    # haj_steps=row['haj_steps'],  # This needs to be handled as a ManyToManyField
                 )
-
                 pilgrim.save()
-
+                    
                 
 
             return redirect('pilgrims')

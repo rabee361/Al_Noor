@@ -84,37 +84,6 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
 
 
-    # def validate_phonenumber(self, value):
-    #     if not value:
-    #         raise serializers.ValidationError("لا يمكن لحقل الرقم ان يكون فارغا")
-    #     return value
-    
-
-    # def validate_name(self, value):
-    #     if not value:
-    #         raise serializers.ValidationError("Name cannot be empty.")
-    #     return value
-    
-
-    # def validate_name(self, value):
-    #     if not value:
-    #         raise serializers.ValidationError("Name cannot be empty.")
-    #     return value
-    
-
-    # def validate_name(self, value):
-    #     if not value:
-    #         raise serializers.ValidationError("Name cannot be empty.")
-    #     return value
-    
-
-    # def validate_name(self, value):
-    #     if not value:
-    #         raise serializers.ValidationError("Name cannot be empty.")
-    #     return value
-    
-
-
 
 
 class NoteSerializer(serializers.ModelSerializer):

@@ -75,7 +75,7 @@ class Registration(models.Model):
     marital_status = models.CharField(choices=Marital_status, max_length=10, verbose_name="الحالة الاجتماعية")
     address = models.CharField(choices=Address, max_length=15, verbose_name="مكان السكن")
     alhajj = models.CharField(choices=Type_alhajj, max_length=50, null=True, blank=True, verbose_name="نوع الحجة")
-    tradition_reference = models.CharField(choices=Tradition_reference, verbose_name="مرجع التقليد")
+    tradition_reference = models.CharField(verbose_name="مرجع التقليد")
     count_hajjas = models.BigIntegerField(null=True, blank=True, verbose_name="عدد الحجات")
     last_year = models.CharField(null=True, blank=True, verbose_name="اخر سنة حج")
     means_journey = models.CharField(choices=Means_journey, max_length=50, verbose_name="وسيلة الرحلة")
@@ -108,7 +108,7 @@ class Pilgrim(models.Model):
     departure = models.TimeField(verbose_name="موعد الاقلاع" , null=True , blank=True)
     from_city = models.CharField(max_length=40 , null=True , blank=True , verbose_name="من المدينة")
     to_city = models.CharField(max_length=40 , null=True , blank=True , verbose_name="إلى المدينة")
-    duration = models.CharField(max_length=20,null=True,blank=True , verbose_name="مدة الرحلة")
+    duration = models.CharField(max_length=40,null=True,blank=True , verbose_name="مدة الرحلة")
     boarding_time = models.TimeField(verbose_name="وقت الصعود", null=True , blank=True)####
     gate_num = models.IntegerField(null=True, blank=True , verbose_name="رقم البوابة")####
     flight_company = models.CharField(max_length=50 , verbose_name="اسم الشركة") ### can be a choice list
