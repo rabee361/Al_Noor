@@ -52,6 +52,8 @@ class LoginUser(GenericAPIView):
                 except Chat.DoesNotExist:
                     None
 
+                
+
 
                 data['image'] = request.build_absolute_uri(user.image.url)
                 data['user_id'] = user.id
@@ -59,6 +61,8 @@ class LoginUser(GenericAPIView):
                 try:
                     pilgrim = Pilgrim.objects.get(user=user)
                     data['pilgrim_id'] = pilgrim.id
+                    data['guide_image'] = request.build_absolute_uri(pilgrim.guide.user.image.url) 
+                    data['guide_name'] = pilgrim.guide.user.username
                 except Pilgrim.DoesNotExist:
                     None
 
@@ -425,6 +429,9 @@ class Calender(GenericAPIView):
         day = request.data.get('day')
         month = request.data.get('month')
         year = request.data.get('year')
+        time = request.data.get('time')
+
+        get_next_prayer(time)
 
         response = get_response(longitude,latitude,day,month,year)
         gregorian_date = {
