@@ -444,9 +444,10 @@ class Calender(GenericAPIView):
         arabic_gregorian_date = gregorian.data
 
 
-
-        next_prayer = get_next_prayer(response['data']['timings'] , time)
-
+        if time:
+            next_prayer = get_next_prayer(response['data']['timings'] , time)
+        else:
+            next_prayer = None
 
         return Response({
             'timings': response['data']['timings'],
