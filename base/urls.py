@@ -18,6 +18,7 @@ urlpatterns = [
     path('get-chat/<str:pk>/' , GetChat.as_view() , name="get-chat"),
     path('create-note/' , CreateNote.as_view() , name="create-note"),
     path('list-notes/' , ListNote.as_view() , name="list-notes"),
+    path('list-guides/' , ListGuides.as_view() , name="list-guides"),
     path('get-note/<str:pk>/' , RetUpdDesNote.as_view() , name="get-note"),
     path('list-tasks/' , ListTask.as_view() , name="list-tasks"),
     path('get-task/<str:pk>/' , RetUpdDesTask.as_view() , name="get-task"),

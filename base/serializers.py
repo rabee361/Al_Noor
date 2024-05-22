@@ -190,7 +190,19 @@ class ManagementSerializer(serializers.ModelSerializer):
 
 
 
+
 class GuideSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username',read_only=True)
+
+    class Meta:
+        model = Guide
+        fields = ['id','username']
+
+
+
+
+
+class SimpleGuideSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username',read_only=True)
     image = serializers.ImageField(source='user.image',read_only=True)
 
@@ -207,7 +219,7 @@ class PilgrimSerializer(serializers.ModelSerializer):
     duration = serializers.SerializerMethodField()
     image = serializers.ImageField(source='user.image',read_only=True)
     active = serializers.BooleanField(source='user.is_active',read_only=True)
-    guide = GuideSerializer(many=False)
+    guide = SimpleGuideSerializer(many=False)
 
     class Meta:
         model = Pilgrim

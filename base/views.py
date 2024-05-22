@@ -494,6 +494,14 @@ class GetChat(RetrieveAPIView):
 
 
 
+class ListGuides(ListAPIView):
+    queryset = Guide.objects.all()
+    serializer_class = GuideSerializer
+
+
+
+
+
 class SetActive(APIView):
     def post(self,request,pilgrim_id):
         try:
