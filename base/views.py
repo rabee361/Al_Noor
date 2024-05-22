@@ -431,7 +431,6 @@ class Calender(GenericAPIView):
         year = request.data.get('year')
         time = request.data.get('time')
 
-        get_next_prayer(time)
 
         response = get_response(longitude,latitude,day,month,year)
         gregorian_date = {
@@ -440,17 +439,14 @@ class Calender(GenericAPIView):
             'year': response['data']['date']['gregorian']['year'],
         }
 
-        # hijri_date = {
-        #         'day': response['data']['date']['hijri']['day'],
-        #         'month': response['data']['date']['hijri']['month']['ar'],
-        #         'year': response['data']['date']['hijri']['year'],
-        #         'weekday': response['data']['date']['hijri']['weekday']['ar'],
-        #     }
-
         gregorian = GregorianSerializer(gregorian_date)
-        # hijri = HijriSerializer(hijri_date)
         arabic_gregorian_date = gregorian.data
-        # arabic_hijri_date = hijri.data
+
+
+
+        # response['data']['timings']
+        # next_prayer = get_next_prayer(response['data']['timings'] , time)
+
 
         return Response({
             'timings': response['data']['timings'],
@@ -565,7 +561,7 @@ class UpdateEmployee(UpdateAPIView):
 class ListCreateGuidancePost(ListCreateAPIView):
     # permission_clasess = [IsAuthenticated]
     queryset = GuidancePost.objects.all()
-    serializer_class = SimpleGuidancePostSerializer
+    serializer_class = GuidancePostSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = GuidancePostFilter
 
@@ -581,7 +577,7 @@ class RetUpdDesGuidancePost(RetrieveUpdateDestroyAPIView):
 class ListCreateReligiousPost(ListCreateAPIView):
     # permission_clasess = [IsAuthenticated]
     queryset = ReligiousPost.objects.all()
-    serializer_class = SimpleReligiousPostSerializer
+    serializer_class = ReligiousPostSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = ReligiousPostFilter
 
