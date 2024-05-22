@@ -430,7 +430,7 @@ class Calender(GenericAPIView):
         day = request.data.get('day')
         month = request.data.get('month')
         year = request.data.get('year')
-        time = request.data.get('time')
+        time = request.data.get('time',None)
 
 
         response = get_response(longitude,latitude,day,month,year)
@@ -444,7 +444,7 @@ class Calender(GenericAPIView):
         arabic_gregorian_date = gregorian.data
 
 
-        if time:
+        if time is not None:
             next_prayer = get_next_prayer(response['data']['timings'] , time)
         else:
             next_prayer = None
@@ -452,7 +452,6 @@ class Calender(GenericAPIView):
         return Response({
             'timings': response['data']['timings'],
             'next_prayer' : next_prayer,
-            # 'hijri' : arabic_hijri_date,
             'gregorian': arabic_gregorian_date,
             'city': response['data']['meta']['timezone']
         })
