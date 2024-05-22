@@ -74,6 +74,13 @@ class RegistrationAdmin(ImportExportModelAdmin):
     list_display = ['id','first_name','last_name','phonenumber']
 
 
+
+# class UserTypeAdmin(admin.ModelAdmin):
+#     list_display = ['name']
+
+
+
+
 ### needs modification
 class PilgrimAdmin(ImportExportModelAdmin):
     resource_class = PilgrimResource
@@ -174,6 +181,7 @@ class HajStepsAdmin(admin.ModelAdmin):
 admin.site.register(Note,NoteAdmin)
 admin.site.register(UserNotification,UserNotificationAdmin)
 admin.site.register(CustomUser,CustomUserAdmin)
+# admin.site.register(UserType,UserTypeAdmin)
 admin.site.register(Pilgrim,PilgrimAdmin)
 admin.site.register(Registration,RegistrationAdmin)
 admin.site.register(Employee,EmployeeAdmin)

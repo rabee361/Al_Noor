@@ -28,6 +28,16 @@ class CustomUser(AbstractUser):
 
 
 
+
+# class User_Type(models.Model):
+#     name = models.CharField(max_length=30)
+
+#     def __str__(self) -> str:
+#         return self.name
+
+
+
+
 class VerificationCode(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     is_verified = models.BooleanField(default=False)

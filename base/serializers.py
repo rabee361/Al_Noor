@@ -251,10 +251,12 @@ class CreatePilgrimSerializer(serializers.ModelSerializer):
         last_name = validated_data.get('last_name')
         father_name = validated_data.get('father_name')
         grand_father = validated_data.get('grand_father')
-        arrival_time = datetime.combine(datetime.today(), validated_data['arrival'])
-        departure_time = datetime.combine(datetime.today(), validated_data['departure'])
-        duration = arrival_time - departure_time
-        validated_data['duration'] = duration
+
+
+        arrival_datetime = datetime.strptime(str(validated_data.get('arrival')), '%H:%M:%S')
+        departure_datetime = datetime.strptime(str(validated_data.get('departure')), '%H:%M:%S')
+        
+        validated_data['duration'] = arrival_datetime - departure_datetime
         validated_data.pop('haj_steps')
         full_name = first_name+father_name+grand_father+last_name
         user = CustomUser.objects.create(username=full_name,first_name=first_name,last_name=last_name,phonenumber=phonenumber)
@@ -283,10 +285,11 @@ class UpdatePilgrimSerializer(serializers.ModelSerializer):
         last_name = validated_data.get('last_name')
         father_name = validated_data.get('father_name')
         grand_father = validated_data.get('grand_father')
-        arrival_time = datetime.combine(datetime.today(), validated_data['arrival'])
-        departure_time = datetime.combine(datetime.today(), validated_data['departure'])
-        duration = arrival_time - departure_time
-        validated_data['duration'] = duration
+
+        arrival_datetime = datetime.strptime(str(validated_data.get('arrival')), '%H:%M:%S')
+        departure_datetime = datetime.strptime(str(validated_data.get('departure')), '%H:%M:%S')
+        
+        validated_data['duration'] = arrival_datetime - departure_datetime
         full_name = first_name+father_name+grand_father+last_name
         user.username = full_name
         user.first_name = first_name
