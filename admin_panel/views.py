@@ -243,6 +243,7 @@ def add_pilgrim(request):
                 password=form.cleaned_data['password'],
                 get_notifications=form.cleaned_data['get_notifications'],
                 image=form.cleaned_data['image'],
+                user_type = 'حاج'
             )
 
             pilgrim = Pilgrim.objects.create(
@@ -375,11 +376,13 @@ def add_manager(request):
             user = CustomUser.objects.create(
                 username=form.cleaned_data['username'],
                 phonenumber=form.cleaned_data['phonenumber'],
-                # email=form.cleaned_data['email'],
+                email=form.cleaned_data['email'],
                 password=form.cleaned_data['password1'],
                 get_notifications=form.cleaned_data['get_notifications'],
-                image=form.cleaned_data['image'],
+                user_type = 'اداري'
             )
+            if form.cleaned_data['image']:
+                user.image = form.cleaned_data['image']
             
             Management.objects.create(user=user)
             return redirect('managers')
@@ -442,7 +445,7 @@ def update_manager(request,manager_id):
 
 @login_required(login_url='login')
 def delete_manager(request,manager_id):
-    manager = Pilgrim.objects.get(id=manager_id)
+    manager = Management.objects.get(id=manager_id)
     user = CustomUser.objects.get(id=manager.user.id)
     user.delete()
     return redirect("managers")
@@ -653,12 +656,15 @@ def add_employee(request):
             user = CustomUser.objects.create(
                 username=form.cleaned_data['username'],
                 phonenumber=form.cleaned_data['phonenumber'],
-                # email=form.cleaned_data['email'],
+                email=form.cleaned_data['email'],
                 password=form.cleaned_data['password1'],
                 get_notifications=form.cleaned_data['get_notifications'],
-                image=form.cleaned_data['image'],
+                user_type = 'موظف'
             )
             
+            if form.cleaned_data['image']:
+                user.image = form.cleaned_data['image']
+
             Employee.objects.create(user=user)
             return redirect('employees')
     context = {
@@ -720,7 +726,7 @@ def update_employee(request,employee_id):
 
 @login_required(login_url='login')
 def delete_employee(request,employee_id):
-    employee = Pilgrim.objects.get(id=employee_id)
+    employee = Employee.objects.get(id=employee_id)
     user = CustomUser.objects.get(id=employee.user.id)
     user.delete()
     return redirect('employees')
@@ -756,12 +762,15 @@ def add_guide(request):
             user = CustomUser.objects.create(
                 username=form.cleaned_data['username'],
                 phonenumber=form.cleaned_data['phonenumber'],
-                # email=form.cleaned_data['email'],
+                email=form.cleaned_data['email'],
                 password=form.cleaned_data['password1'],
                 get_notifications=form.cleaned_data['get_notifications'],
-                image=form.cleaned_data['image'],
+                user_type = 'مرشد'
             )
-            
+
+            if form.cleaned_data['image']:
+                user.image = form.cleaned_data['image']    
+
             Guide.objects.create(user=user)
             return redirect('guides')
     context = {
@@ -816,7 +825,7 @@ def update_guide(request,guide_id):
     
 
 def delete_guide(request,guide_id):
-    guide = Pilgrim.objects.get(id=guide_id)
+    guide = Guide.objects.get(id=guide_id)
     user = CustomUser.objects.get(id=guide.user.id)
     user.delete()
     return redirect('guides')
@@ -875,7 +884,7 @@ def import_pilgrim(request):
                 print(formatted_diff)
 
                 username = str(row['الاسم الأول']) + ' ' + str(row['اسم الأب']) + ' ' + str(row['اسم الجد']) + ' ' + str(row['العائلة'])
-                user =CustomUser.objects.create(phonenumber=str(row['رقم الجوال']) , username= username)
+                user =CustomUser.objects.create(phonenumber=str(row['رقم الجوال']) , username= username,user_type='حاج')
                 user.save()
                 pilgrim = Pilgrim.objects.create(
                     user=user,

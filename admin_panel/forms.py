@@ -48,7 +48,8 @@ class NewManager(forms.ModelForm):
         self.fields['password2'] = forms.CharField(label='تأكيد كلمة السر',required=True,widget=forms.PasswordInput())
         self.fields['phonenumber'] = forms.CharField(label='رقم الهاتف', required=True)
         self.fields['username'] = forms.CharField(label='الاسم', required=True)
-        self.fields['image'] = forms.ImageField(label='الصورة الشخصية', required=True)
+        self.fields['email'] = forms.EmailField(label='الايميل', required=False)
+        self.fields['image'] = forms.ImageField(label='الصورة الشخصية', required=False)
         self.fields['get_notifications'] = forms.BooleanField(label='تلقي اشعارات', required=False)
 
 
@@ -67,7 +68,8 @@ class NewEmployee(ModelForm):
         self.fields['password2'] = forms.CharField(label='تأكيد كلمة السر',required=True,widget=forms.PasswordInput())
         self.fields['phonenumber'] = forms.CharField(label='رقم الهاتف', required=True)
         self.fields['username'] = forms.CharField(label='الاسم', required=True)
-        self.fields['image'] = forms.ImageField(label='الصورة الشخصية', required=True)
+        self.fields['email'] = forms.EmailField(label='الايميل', required=False)
+        self.fields['image'] = forms.ImageField(label='الصورة الشخصية', required=False)
         self.fields['get_notifications'] = forms.BooleanField(label='تلقي اشعارات', required=False)
 
 
@@ -85,7 +87,8 @@ class NewGuide(ModelForm):
         self.fields['password2'] = forms.CharField(label='تأكيد كلمة السر',required=True,widget=forms.PasswordInput())
         self.fields['phonenumber'] = forms.CharField(label='رقم الهاتف', required=True)
         self.fields['username'] = forms.CharField(label='الاسم', required=True)
-        self.fields['image'] = forms.ImageField(label='الصورة الشخصية', required=True)
+        self.fields['email'] = forms.EmailField(label='الايميل', required=False)
+        self.fields['image'] = forms.ImageField(label='الصورة الشخصية', required=False)
         self.fields['get_notifications'] = forms.BooleanField(label='تلقي اشعارات', required=False)
 
 

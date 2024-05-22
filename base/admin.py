@@ -50,7 +50,7 @@ class CustomUserAdmin(UserAdmin):
                 {'fields':('phonenumber','email', 'password',)}
             ),
             ('User Information',
-                {'fields':('username', 'first_name', 'last_name','image')}
+                {'fields':('username', 'first_name', 'last_name','image','user_type')}
             ),
             ('Permissions', 
                 {'fields':('is_verified', 'get_notifications' ,'is_staff', 'is_superuser', 'is_active', 'groups','user_permissions',)}

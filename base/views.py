@@ -57,6 +57,7 @@ class LoginUser(GenericAPIView):
 
                 data['image'] = request.build_absolute_uri(user.image.url)
                 data['user_id'] = user.id
+                data['user_type'] = user.user_type
                 data['full_name'] = user.username
                 try:
                     pilgrim = Pilgrim.objects.get(user=user)
@@ -71,7 +72,7 @@ class LoginUser(GenericAPIView):
                 return Response(data, status=status.HTTP_200_OK)
             else:
                 error_message = ', '.join(serializer.errors.values())
-                return Response({'fs': serializer.errors.values()}, status=400)    
+                return Response({'error': serializer.errors.values()}, status=400)    
         else:
             return Response({"error":["لا يمكن أن تكون الحقول فارغة"]} , status=status.HTTP_400_BAD_REQUEST)
 

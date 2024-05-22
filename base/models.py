@@ -8,11 +8,19 @@ from django.utils.translation import gettext_lazy as _
 
 
 class CustomUser(AbstractUser):
+    USER_TYPES = (
+        ('حاج' , 'حاج'),
+        ('مرشد' , 'مرشد'),
+        ('اداري' , 'اداري'),
+        ('موظف' , 'موظف'),
+    )
+        
     image = models.ImageField(upload_to='images/users',default='images/account.jpg' , verbose_name="الصورة الشخصية")
     phonenumber = PhoneNumberField(region='SA',unique=True , verbose_name="رقم الهاتف")
     is_verified = models.BooleanField(default=False , verbose_name="تم التوثيق")
     get_notifications = models.BooleanField(default=True , verbose_name="تلقي اشعارات")
     username = models.CharField(max_length=255, verbose_name="الاسم الكامل")
+    user_type = models.CharField(max_length=30 , choices=USER_TYPES , null=True , blank=True)
 
     USERNAME_FIELD = 'phonenumber'
     REQUIRED_FIELDS = ('username',)
@@ -28,12 +36,6 @@ class CustomUser(AbstractUser):
 
 
 
-
-# class User_Type(models.Model):
-#     name = models.CharField(max_length=30)
-
-#     def __str__(self) -> str:
-#         return self.name
 
 
 
@@ -52,10 +54,6 @@ class VerificationCode(models.Model):
         verbose_name = ("رمز التأكيد")
         verbose_name_plural = ("رموز التأكيد")
 
-
-# # in case we needed to store the hotel info in a seperate model
-# # class Hotel():
-# #     pass
 
 
 

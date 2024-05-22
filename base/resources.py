@@ -119,11 +119,13 @@ class PilgrimResource(resources.ModelResource):
         first_name = row['الاسم الأول']
         last_name = row['العائلة']
         user, created = CustomUser.objects.get_or_create(phonenumber=phonenumber)
-        chat1 = Chat.objects.create(user=user , chat_type='guide')
-        chat2 = Chat.objects.create(user=user , chat_type='manager')
+        if created:
+            chat1 = Chat.objects.create(user=user , chat_type='guide')
+            chat2 = Chat.objects.create(user=user , chat_type='manager')
         user.username = first_name
         user.first_name = first_name
         user.last_name = last_name
+        user.user_type = 'حاج'
         my_password = generate_password()
         user.set_password(my_password)
         user.save()

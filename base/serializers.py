@@ -142,6 +142,7 @@ class CreateEmployeeSerializer(serializers.ModelSerializer):
         username = validated_data.get('username')
         user = CustomUser.objects.create(username=username,email=email,phonenumber=phonenumber)
         user.set_password(password)
+        user.user_type = 'اداري'
         user.save()
         validated_data['user'] = user
         employee = Employee.objects.create(user=user)
@@ -261,6 +262,7 @@ class CreatePilgrimSerializer(serializers.ModelSerializer):
         full_name = first_name+father_name+grand_father+last_name
         user = CustomUser.objects.create(username=full_name,first_name=first_name,last_name=last_name,phonenumber=phonenumber)
         user.set_password(password)
+        user.user_type = 'حاج'
         user.save()
         validated_data['user'] = user
         pilgrim = Pilgrim.objects.create(**validated_data)
