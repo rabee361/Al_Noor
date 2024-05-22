@@ -561,7 +561,7 @@ class UpdateEmployee(UpdateAPIView):
 class ListCreateGuidancePost(ListCreateAPIView):
     # permission_clasess = [IsAuthenticated]
     queryset = GuidancePost.objects.all()
-    serializer_class = GuidancePostSerializer
+    serializer_class = SimpleGuidancePostSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = GuidancePostFilter
 
@@ -577,7 +577,7 @@ class RetUpdDesGuidancePost(RetrieveUpdateDestroyAPIView):
 class ListCreateReligiousPost(ListCreateAPIView):
     # permission_clasess = [IsAuthenticated]
     queryset = ReligiousPost.objects.all()
-    serializer_class = ReligiousPostSerializer
+    serializer_class = SimpleReligiousPostSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = ReligiousPostFilter
 
