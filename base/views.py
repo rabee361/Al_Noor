@@ -445,12 +445,12 @@ class Calender(GenericAPIView):
 
 
 
-        # response['data']['timings']
-        # next_prayer = get_next_prayer(response['data']['timings'] , time)
+        next_prayer = get_next_prayer(response['data']['timings'] , time)
 
 
         return Response({
             'timings': response['data']['timings'],
+            'next_prayer' : next_prayer,
             # 'hijri' : arabic_hijri_date,
             'gregorian': arabic_gregorian_date,
             'city': response['data']['meta']['timezone']

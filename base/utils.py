@@ -41,6 +41,36 @@ def get_response(longitude,latitude,day,month,year):
 
 
 
+
+
+def get_next_prayer(prayers,time):
+    Fajr = prayers['Fajr']
+    Sunrise = prayers['Sunrise']
+    Dhuhr = prayers['Dhuhr']
+    Asr = prayers['Asr']
+    Maghrib = prayers['Maghrib']
+    Isha = prayers['Isha']
+    Time = datetime.strptime(time, "%H:%M").time()
+    Fajr_time = datetime.strptime(Fajr, "%H:%M").time()
+    Sunrise_time = datetime.strptime(Sunrise, "%H:%M").time()
+    Dhuhr_time = datetime.strptime(Dhuhr, "%H:%M").time()
+    Asr_time = datetime.strptime(Asr, "%H:%M").time()
+    Maghrib_time = datetime.strptime(Maghrib, "%H:%M").time()
+    Isha_time = datetime.strptime(Isha, "%H:%M").time()
+
+    next_prayer_time = None
+    for prayer_time in [Fajr_time, Sunrise_time, Dhuhr_time, Asr_time, Maghrib_time, Isha_time]:
+        if prayer_time > Time:
+            next_prayer_time = prayer_time
+            break
+
+    if next_prayer_time == None:
+        next_prayer_time = Fajr_time
+
+    return next_prayer_time
+
+
+
 def get_expiration_time():
     return timezone.now() + timedelta(minutes=10)
 
