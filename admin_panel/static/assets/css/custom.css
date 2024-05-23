@@ -73,6 +73,39 @@
 }
 
 
+
+
+
+.import-button {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: gray;
+    text-wrap: nowrap;
+    width: 140px;
+    border-radius: 20px;
+    color: white;
+}
+
+
+
+.add-button {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: gray;
+    text-wrap: nowrap;
+    width: 140px;
+    border-radius: 20px;
+    color: white;
+}
+
+
+
 .current-image {
     width: 50px;
     height: 50px;
@@ -182,7 +215,7 @@
     }
 
     .bread-crumbs-size {
-        font-size: 5px;
+        font-size: 7px;
     }
 
         
@@ -291,35 +324,6 @@
 }
 
 
-
-
-.import-button {
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    background: gray;
-    text-wrap: nowrap;
-    width: 140px;
-    border-radius: 20px;
-    color: white;
-}
-
-
-
-.add-button {
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    background: gray;
-    text-wrap: nowrap;
-    width: 140px;
-    border-radius: 20px;
-    color: white;
-}
 
 
 
