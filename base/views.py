@@ -503,17 +503,16 @@ class ListGuides(ListAPIView):
 
 
 class SetActive(APIView):
-    def post(self,request,pilgrim_id):
+    def post(self,request,user_id):
         try:
-            user = CustomUser.objects.get(id=pilgrim_id)
-            pilgrim = Pilgrim.objects.get(id=user.id)
-            pilgrim.active_now = request.data['state']
-            pilgrim.save()
-            serializer = PilgrimSerializer(pilgrim,many=False)
+            user = CustomUser.objects.get(id=user_id)
+            user.active_now = request.data['state']
+            user.save()
+            serializer = CustomUserSerializer(user,many=False)
             return Response(serializer.data , status=status.HTTP_200_OK)
 
-        except Pilgrim.DoesNotExist or CustomUser.DoesNotExist:
-            return Response({"error":["لا يوجد حاج بهذا الرقم"]})
+        except CustomUser.DoesNotExist:
+            return Response({"error":["لا يوجد مستخدم بهذا الرقم"]})
 
 
 

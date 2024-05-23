@@ -21,6 +21,7 @@ class CustomUser(AbstractUser):
     get_notifications = models.BooleanField(default=True , verbose_name="تلقي اشعارات")
     username = models.CharField(max_length=255, verbose_name="الاسم الكامل")
     user_type = models.CharField(max_length=30 , choices=USER_TYPES , null=True , blank=True)
+    active_now = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'phonenumber'
     REQUIRED_FIELDS = ('username',)
@@ -125,7 +126,6 @@ class Pilgrim(models.Model):
     hotel = models.CharField(max_length=100, null=True, blank=True , verbose_name="الفندق")
     hotel_address = models.CharField(max_length=100 , verbose_name="عنوان الفندق") #### link to google maps can be long and lat
     room_num = models.IntegerField(null=True, blank=True , verbose_name="رقم الغرفة")
-    active_now = models.BooleanField(default=False)
     haj_steps = models.ManyToManyField('HajSteps' , blank=True)
     guide = models.ForeignKey('Guide' , verbose_name="المرشد" , null=True , blank=True , on_delete=models.DO_NOTHING)
     created = models.DateTimeField(auto_now_add=True)
