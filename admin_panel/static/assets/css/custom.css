@@ -165,7 +165,39 @@
 }
 
 
+
+.my-table {
+    width: 100%;
+}
+
+
+.header-wrapper {
+    background-color: rgb(88, 88, 88);
+    text-align: center;
+}
+
+.body-wrapper {
+    color: white; 
+    /* font-size: medium; */
+}
+
+.body-fields {
+    font-size: large;
+    text-wrap: nowrap;
+    text-align: center;
+} 
+
 @media (max-width:768px) {
+
+    .header-wrapper {
+        font-size: x-small ; 
+        background-color: rgb(88, 88, 88)
+    }
+
+    .body-fields {
+        font-size: medium;
+    } 
+
     .form-control {
         width: 100%;
         outline: none;

@@ -35,8 +35,8 @@
           <div class="card-body">
             <div class="table-responsive">
               <div style="overflow-x: auto; width: 100%;">
-                <table class="table" style="width: 100%;">
-                  <thead class="text-primary" style="font-size: small ; background-color: rgb(88, 88, 88); text-align: center;">
+                <table class="table my-table" >
+                  <thead class="text-primary header-wrapper" style="text-align: center;">
                     <th style="color: white;">
                       ID
                     </th>
@@ -58,7 +58,7 @@
                   </thead>
                   <tbody style="color: white;">
                   {% for notification in notifications %}
-                    <tr style="font-size: large; text-align: center;">
+                    <tr class="body-fields">
                       <td>
                         {{notification.id}}
                       </td>

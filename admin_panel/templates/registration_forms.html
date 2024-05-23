@@ -37,8 +37,8 @@
           <div class="card-body">
             <div class="table-responsive">
               <div style="overflow-x: auto; width: 100%;">
-                <table class="table" style="width: 1200px;">
-                  <thead class="text-primary" style="font-size: small ; background-color: rgb(88, 88, 88); text-align: center;">
+                <table class="table my-table">
+                  <thead class="text-primary header-wrapper" style=" text-align: center;">
                     <th style="color: white;">
                       ID
                     </th>
@@ -118,9 +118,9 @@
                       
                     </th>
                   </thead>
-                  <tbody style="color: white;">
+                  <tbody class="body-wrapper">
                   {% for form in forms %}
-                    <tr style="font-size: large; text-wrap: nowrap; text-align: right;">
+                    <tr class="body-fields">
                       <td>
                         {{form.id}}
                       </td>
