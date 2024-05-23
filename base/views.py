@@ -505,13 +505,14 @@ class ListGuides(ListAPIView):
 class SetActive(APIView):
     def post(self,request,pilgrim_id):
         try:
-            pilgrim = Pilgrim.objects.get(id=pilgrim_id)
+            user = CustomUser.objects.get(id=pilgrim_id)
+            pilgrim = Pilgrim.objects.get(id=user.id)
             pilgrim.active_now = request.data['state']
             pilgrim.save()
             serializer = PilgrimSerializer(pilgrim,many=False)
             return Response(serializer.data , status=status.HTTP_200_OK)
 
-        except:
+        except Pilgrim.DoesNotExist or CustomUser.DoesNotExist:
             return Response({"error":["لا يوجد حاج بهذا الرقم"]})
 
 
