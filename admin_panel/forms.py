@@ -266,3 +266,9 @@ class StepForm(ModelForm):
     class Meta:
         model = HajSteps
         fields = '__all__'
+
+
+class SecondaryStepForm(ModelForm):
+    class Meta:
+        model = SecondarySteps
+        fields = '__all__'

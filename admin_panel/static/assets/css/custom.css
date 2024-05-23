@@ -101,6 +101,19 @@
 }
 
 
+@media (max-width:768px) {
+    .form-control {
+        width: 100%;
+        outline: none;
+        border: rgb(58, 57, 57);
+        color: white;
+        font-size: x-small;
+        background-color: rgb(126, 126, 126);
+        height: 25px;
+    }
+}
+
+
 
 .form-control-text {
     width: 100%;

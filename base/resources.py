@@ -75,9 +75,9 @@ class PilgrimResource(resources.ModelResource):
         column_name='موعد الرحيل',
         attribute='departure',
     )
-    borading_time = Field(
+    boarding_time = Field(
         column_name='وقت الصعود',
-        attribute='borading_time',
+        attribute='boarding_time',
     )
     gate_num = Field(
         column_name='رقم البوابة',
@@ -166,7 +166,7 @@ class RegistrationResource(resources.ModelResource):
     )
     registeration_id = Field(
         column_name='رقم الهوية',
-        attribute='registeration_id',
+        attribute='id_number',
     )
     birthday = Field(
         column_name='تاريخ الميلاد - الميلادي فقط',

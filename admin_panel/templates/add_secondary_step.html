@@ -15,18 +15,16 @@
             <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: #D7A401;"></i></h5>
             <h5 style="color: white;">إضافة</h5>
             <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: #D7A401;"></i></h5>
+            <h5 style="color: white;">إضافة خطوة فرعية</h5>
+            <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: #D7A401;"></i></h5>
           </div>
         </div>
 
-        <div style="display: flex; gap: 5px; color: white; font-size: smaller;" dir="ltr">
-          <a href="{% url 'add_secondary' %}" style="text-decoration: none;"><h5 class="import-button" style="background-color: green;">إضافة خطوة فرعية</h5></a>
-        </div>
 
-
-        <div>
+        <div style="margin-top: 20px;">
             <form action="" method="post" style="display: flex; flex-direction: column; gap: 30px; color: white;">
                 {% csrf_token %}
-                <div class="form-group" style="height: 200px;" dir="rtl">
+                <div class="form-group" style="height: 150px;" dir="rtl">
                   
                 <div class="form-block">
                     <div class="form-input" style="display: flex; flex-direction: column;">
@@ -34,14 +32,7 @@
                         <div>{{ form.name|add_class:"form-control" }}</div>
                     </div>
                 </div>
-                  
-                <div class="form-block">
-                    <div class="form-input">
-                        <div class="form-label">{{ form.secondary_steps.label_tag }}</div>
-                        <div>{{ form.secondary_steps|add_class:"form-control" }}</div>
-                        <div class="form-label">اضغط ctrl مع تحديد الخطوات</div>
-                    </div>
-                </div>
+
                 
                 </div>
 
@@ -59,13 +50,3 @@
 
 {% endblock content %}
 
-
-<script>
-  $(document).ready(function() {
-      $('#id_my_datetime_field').datepicker({
-          format: "yyyy-mm-dd",
-          autoclose: true,
-          todayHighlight: true
-      });
-  });
-  </script>

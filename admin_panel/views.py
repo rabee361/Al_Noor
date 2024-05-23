@@ -1183,3 +1183,31 @@ def delete_step(request,step_id):
     HajSteps.objects.get(id=step_id).delete()
     return redirect('steps')
 
+
+
+
+
+
+
+
+
+
+
+@login_required(login_url='login')
+def add_secondary_step(request):
+    form = SecondaryStepForm()
+    user_image = request.user.image.url
+    username = request.user.username
+    if request.method == 'POST':
+        form = SecondaryStepForm(request.POST)
+        print(form.errors)
+        if form.is_valid():
+            form.save()
+            return redirect('steps')
+    context = {
+        'form' : form,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request , 'add_secondary_step.html' , context)
+
