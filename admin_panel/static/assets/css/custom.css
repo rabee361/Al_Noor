@@ -64,6 +64,28 @@
 }
 
 
+.current-image {
+    width: 50px;
+    height: 50px;
+}
+
+
+.my-img {
+    font-size: x-small;
+    text-wrap: wrap;
+}
+
+
+.current-image-wrapper {
+    display: flex; 
+    flex-direction: row; 
+    justify-content: right; 
+    margin-top: 7px; 
+    align-items: center; 
+    gap: 20px; 
+    text-wrap: wrap;
+}
+
 
 
 .time-field {
@@ -111,6 +133,50 @@
         background-color: rgb(126, 126, 126);
         height: 25px;
     }
+
+    .date-field {
+        width: 100%;
+        text-align: right;
+        outline: none;
+        border: rgb(58, 57, 57);
+        border-radius: 20px;
+        color: white;
+        font-size: x-small;
+        background-color: rgb(126, 126, 126);
+        height: 25px;
+    }
+
+    .time-field {
+        width: 100%;
+        text-align: right;
+        outline: none;
+        border: rgb(58, 57, 57);
+        border-radius: 20px;
+        color: white;
+        font-size: x-small;
+        background-color: rgb(126, 126, 126);
+        height: 25px;
+    }
+    
+    .current-image-wrapper {
+        display: flex; 
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 7px;
+        gap: 10px;
+    }
+
+    .current-image {
+        align-self: right;
+        width: 50px;
+        height: 50px;
+    }
+
+    /* .my-img {
+        align-self: right;
+    } */
+
+        
 }
 
 
@@ -202,6 +268,21 @@
 
 
 
+.add-button {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: gray;
+    text-wrap: nowrap;
+    width: 140px;
+    border-radius: 20px;
+    color: white;
+}
+
+
+
 .change-button {
     display: flex;
     flex-direction: row-reverse;
@@ -218,8 +299,8 @@
 
 
 @media (max-width: 768px){
-    .import-button {
-        font-size: small;
+    .add-button {
+        font-size:inherit;
         display: flex;
         flex-direction: row-reverse;
         align-items: center;
@@ -228,6 +309,20 @@
         background: gray;
         text-wrap: nowrap;
         width: 50px;
+        border-radius: 20px;
+        color: white;
+    }
+
+    .import-button {
+        font-size:inherit;
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background: gray;
+        text-wrap: nowrap;
+        width: 90px;
         border-radius: 20px;
         color: white;
     }

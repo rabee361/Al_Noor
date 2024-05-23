@@ -28,7 +28,7 @@
             <form action="" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 70px; color: white;">
                 {% csrf_token %}
 
-                <div style="background-color: rgb(57, 58, 58); width: 100%; height: 450px;display: flex; flex-direction: column; justify-content: space-evenly; border-radius: 30px; gap: 0px;" dir="rtl">
+                <div style="background-color: rgb(57, 58, 58); width: 100%; height: auto;display: flex; flex-direction: column; justify-content: space-evenly; border-radius: 30px; gap: 0px;" dir="rtl">
                   
                   <h4 style="text-align: center">المعلومات الشخصية</h4>
     
@@ -49,14 +49,14 @@
                       </div>    
                       <div class="form-input" style="text-align: right;">
                         <div class="form-label">الصورة الشخصية:</div>
-                        <div style="display: flex; flex-direction: row; justify-content: right; margin-top: 7px; align-items: center; gap: 20px;">
-                            <img src="{{ pilgrim_image }}" alt="Current Image" width="50px" height="50px">
-                            <div class="form-input"><input type="file" name="image" id="image_id"></div>
+                        <div class="current-image-wrapper">
+                            <img src="{{ pilgrim_image }}" alt="Current Image" class="current-image">
+                            <div class="form-input"><input type="file" name="image" id="image_id" class="my-img"></div>
                         </div>
                       </div>
                       <div class="form-input" style="display: flex; align-items: center; justify-content: right; gap: 40px;">
                         <div class="form-label">{{ form.get_notifications.label_tag }}</div>
-                          <div style="padding-top: 27px;">{{ form.get_notifications|add_class:"form-control-check" }}</div> 
+                        <div class="form-input" style="padding-top: 27px;">{{ form.get_notifications|add_class:"form-control-check" }}</div> 
                       </div>
                     </div>
     
@@ -73,6 +73,10 @@
                           <div class="form-label">{{ form.phonenumber.label_tag }}</div>
                           <div>{{ form.phonenumber|add_class:"form-control" }}</div>
                         </div>
+                        <div class="form-input" style="flex-direction: column;">
+                          <div class="form-label">{{ form.guide.label_tag }}</div>
+                          <div>{{ form.guide|add_class:"form-control" }}</div>
+                        </div>
                         <div class="form-input-datetime">
                           <div class="form-label">{{ form.birthday.label_tag }}</div>
                           <div><input type="date" class="date-field" name="birthday" value="{{form.birthday.value|date:'Y-m-d'}}"></div>
@@ -83,7 +87,7 @@
 
 
                 
-                <div style="background-color: rgb(57, 58, 58); width: 100%;display: flex;gap: 10px;justify-content: space-evenly;border-radius: 30px; height: 500px;display: flex; flex-direction: column; justify-content: flex-start; gap: 0px;">
+                <div style="background-color: rgb(57, 58, 58); width: 100%;display: flex;gap: 10px;justify-content: space-evenly;border-radius: 30px; height: auto;display: flex; flex-direction: column; justify-content: flex-start; gap: 0px; padding-bottom: 10px;">
                   
                   <h4 style="text-align: center">معلومات الرحلة</h4>
                   
@@ -112,13 +116,7 @@
                     </div>
                     
                     <div class="form-block">
-                      <div class="form-input" style="text-align: right;">
-                        <div class="form-label">شعار الشركة:</div>
-                        <div style="display: flex; flex-direction: row; justify-content: right; margin-top: 7px; align-items: center; gap: 20px;">
-                            <img src="{{ company_logo }}" alt="Current Image" width="50px" height="50px">
-                            <div class="form-input"><input type="file" name="image" id="image_id"></div>
-                        </div>
-                      </div>
+
                       <div class="form-input">
                         <div class="form-label">{{ form.flight_company.label_tag }}</div>
                         <div>{{ form.flight_company|add_class:"form-control" }}</div>
@@ -135,13 +133,20 @@
                         <div class="form-label">{{ form.to_city.label_tag }}</div>
                         <div>{{ form.to_city|add_class:"form-control" }}</div> 
                       </div>
+                      <div class="form-input" style="text-align: right; margin-top: 5px;">
+                        <div class="form-label">شعار الشركة:</div>
+                        <div class="current-image-wrapper">
+                            <img src="{{ company_logo }}" alt="Current Image" class="current-image">
+                            <div class="form-input"><input type="file" name="image" id="image_id" class="my-img"></div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
                 
 
                 
-                <div style="background-color: rgb(57, 58, 58); width: 100%;display: flex;gap: 10px;justify-content: space-evenly;border-radius: 30px; height: 300px;display: flex; flex-direction: column; justify-content: flex-start; gap: 0px;">
+                <div style="background-color: rgb(57, 58, 58); width: 100%;display: flex;gap: 10px;justify-content: space-evenly;border-radius: 30px; height: auto;display: flex; flex-direction: column; justify-content: flex-start; gap: 0px; padding-bottom: 20px;">
                   
                   <h4 style="text-align: center">معلومات الاقامة </h4>
                   

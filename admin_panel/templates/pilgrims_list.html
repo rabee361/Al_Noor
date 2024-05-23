@@ -18,7 +18,7 @@
       <div style="display: flex; gap: 5px; color: white; font-size: smaller;" dir="ltr">
         <a href="{% url 'export_pilgrim' %}" style="text-decoration: none;"><h5 class="import-button"><i class=" now-ui-icons arrows-1_cloud-download-93"></i>تصدير ملف</h5></a>
         <a href="{% url 'import_pilgrim' %}" style="text-decoration: none;"><h5 class="import-button"><i class=" now-ui-icons arrows-1_cloud-download-93"></i>استيراد ملف</h5></a>
-        <a href="{% url 'add_pilgrim' %}" style="text-decoration: none;"><h5 class="import-button" style="background-color: green;">إضافة</h5></a>
+        <a href="{% url 'add_pilgrim' %}" style="text-decoration: none;"><h5 class="add-button" style="background-color: green;">إضافة</h5></a>
       </div>
 
       <div class="row">
@@ -51,6 +51,9 @@
                       العائلة
                     </th>
                     <th style="color: white;">
+                      رقم الهاتف
+                    </th>
+                    <th style="color: white;">
                       المرشد
                     </th>
                     <th style="color: white;">
@@ -78,9 +81,6 @@
                       رقم الغرفة
                     </th>
                     <th style="color: white;">
-                      رقم الهاتف
-                    </th>
-                    <th style="color: white;">
                       
                     </th>
                   </thead>
@@ -98,6 +98,9 @@
                       </td>
                       <td>
                         {{pilgrim.last_name}}
+                      </td>
+                      <td>
+                        {{pilgrim.phonenumber}}
                       </td>
                       <td>
                         {{pilgrim.guide.user.username}}
@@ -125,9 +128,6 @@
                       </td>
                       <td>
                         {{pilgrim.room_num}}
-                      </td>
-                      <td>
-                        {{pilgrim.phonenumber}}
                       </td>
                       <td>
                           <a href="{% url 'update_pilgrim' pilgrim.id %}" class="btn btn-success btn-sm btn-icon">
