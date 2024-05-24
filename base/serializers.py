@@ -264,17 +264,16 @@ class CreatePilgrimSerializer(serializers.ModelSerializer):
         last_name = validated_data.get('last_name')
         father_name = validated_data.get('father_name')
         grand_father = validated_data.get('grand_father')
-
-
         arrival_datetime = datetime.strptime(str(validated_data.get('arrival')), '%H:%M:%S')
         departure_datetime = datetime.strptime(str(validated_data.get('departure')), '%H:%M:%S')
-        
         validated_data['duration'] = arrival_datetime - departure_datetime
         validated_data.pop('haj_steps')
         full_name = first_name+father_name+grand_father+last_name
         user = CustomUser.objects.create(username=full_name,first_name=first_name,last_name=last_name,phonenumber=phonenumber)
         user.set_password(password)
         user.user_type = 'حاج'
+        Chat.objects.create(user=user , chat_type='guide')
+        Chat.objects.create(user=user , chat_type='manager')
         user.save()
         validated_data['user'] = user
         pilgrim = Pilgrim.objects.create(**validated_data)

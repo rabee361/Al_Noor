@@ -103,7 +103,7 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 
 	@database_sync_to_async
 	def send_to_all(self,title,body):
-		employees = Employee.objects.values_list('phonenumber',flat=True)
+		employees = Management.objects.values_list('phonenumber',flat=True)
 		users = CustomUser.objects.filter(phonenumber__in=employees).values_list('id',flat=True)
 		devices = FCMDevice.objects.filter(user__in=users)
 		for device in devices:
