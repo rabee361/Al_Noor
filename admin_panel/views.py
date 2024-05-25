@@ -1200,10 +1200,9 @@ def add_secondary_step(request):
     username = request.user.username
     if request.method == 'POST':
         form = SecondaryStepForm(request.POST)
-        print(form.errors)
         if form.is_valid():
             form.save()
-            return redirect('steps')
+            return redirect('add_step')
     context = {
         'form' : form,
         'user_image': user_image,

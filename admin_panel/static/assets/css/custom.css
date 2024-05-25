@@ -90,6 +90,20 @@
 }
 
 
+.import-button2 {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: gray;
+    text-wrap: nowrap;
+    width: 170px;
+    border-radius: 20px;
+    color: white;
+}
+
+
 
 .add-button {
     display: flex;
@@ -275,6 +289,20 @@
         background: gray;
         text-wrap: nowrap;
         width: 90px;
+        border-radius: 20px;
+        color: white;
+    }    
+
+    .import-button2 {
+        font-size:inherit;
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background: gray;
+        text-wrap: nowrap;
+        width: 110px;
         border-radius: 20px;
         color: white;
     }    

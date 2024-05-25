@@ -19,7 +19,7 @@
         </div>
 
         <div style="display: flex; gap: 5px; color: white; font-size: smaller;" dir="ltr">
-          <a href="{% url 'add_secondary' %}" style="text-decoration: none;"><h5 class="import-button" style="background-color: green;">إضافة خطوة فرعية</h5></a>
+          <a href="{% url 'add_secondary' %}" style="text-decoration: none;"><h5 class="import-button2" style="background-color: green;">إضافة خطوة فرعية</h5></a>
         </div>
 
 
@@ -38,7 +38,7 @@
                 <div class="form-block">
                     <div class="form-input">
                         <div class="form-label">{{ form.secondary_steps.label_tag }}</div>
-                        <div>{{ form.secondary_steps|add_class:"form-control" }}</div>
+                        <div>{{ form.secondary_steps|add_class:"form-control-text" }}</div>
                         <div class="form-label">اضغط ctrl مع تحديد الخطوات</div>
                     </div>
                 </div>
