@@ -56,11 +56,13 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'django_filters',
     'channels',
+    'silk',
     # 'django_prometheus',
 ]
 
 MIDDLEWARE = [
     # 'django_prometheus.middleware.PrometheusBeforeMiddleware',
+    'silk.middleware.SilkyMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
