@@ -38,6 +38,8 @@
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="{% static '/assets/demo/demo.css' %}" rel="stylesheet" />
   <link href="{% static '/assets/css/custom.css' %}" rel="stylesheet" />
+
+
 </head>
 
 <body class="" style="background-color: rgb(77, 76, 76); font-family: Cairo;">  
@@ -145,28 +147,37 @@
             </li>
             <li>
               <a href="{% url 'notes' %}" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: larger;">
-                <i class="now-ui-icons users_single-02"></i>
+                <i class="now-ui-icons files_paper"></i>
                 <p>ملاحظات</p>
               </a>
             </li>
             <li>
-              <a href="{% url 'guides' %}" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: larger;">
-                <i class="now-ui-icons users_single-02"></i>
-                <p>المرشدين</p>
-              </a>
-            </li>
-            <li>
-              <a href="{% url 'managers' %}" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: larger;">
-                <i class="now-ui-icons users_single-02"></i>
-                <p>الادارة</p>
-              </a>
-            </li>
-            <li>
-              <a href="{% url 'employees' %}" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: larger;">
+              <a class="test" data-toggle="collapse" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: larger;">
                 <i class="now-ui-icons users_single-02"></i>
                 <p>الموظفين</p>
+                <i class="now-ui-icons arrows-1_minimal-down"></i>
               </a>
             </li>
+            <div class="collapse" style=" background: #2e2e2e;">
+              <li>
+                <a href="{% url 'guides' %}" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: 10pt;">
+                  <i class="now-ui-icons users_single-02" style="font-size: 11pt;"></i>
+                  <p>المرشدين</p>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'managers' %}" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: 10pt;">
+                  <i class="now-ui-icons users_single-02" style="font-size: 11pt;"></i>
+                  <p>الادارة</p>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'employees' %}" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: 10pt;">
+                  <i class="now-ui-icons users_single-02" style="font-size: 11pt;"></i>
+                  <p>الموظفين</p>
+                </a>
+              </li>
+            </div>
             <li>
               <a href="{% url 'tasks' %}" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: larger;">
                 <i class="now-ui-icons design_bullet-list-67"></i>
@@ -257,7 +268,13 @@
     });
   </script>
 
-
+<script>
+  $(document).ready(function(){
+    $(".test").click(function(){
+      $(".collapse").collapse('toggle');
+    });
+  });
+  </script>
 
 
 

@@ -22,7 +22,7 @@ crossorigin="anonymous">
 
     <div class="bread-crumbs-size" style="display: flex; gap: 0;">
       <div style="height: 70px; margin-left: 1300px; display: flex; gap: 10px;">
-        <h5 style="color: white;">الرئيسية</h5>
+        <a href="{% url 'main_dashboard' %}" style="text-decoration: none;"><h5 style="color: white;">الرئيسية</h5></a>
         <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
       </div>
     </div>
@@ -100,8 +100,6 @@ crossorigin="anonymous">
         <canvas id="paymentMethodChart"></canvas>
       </div>
     </div>
-  
-  
   </div>
 
 </div>
@@ -109,10 +107,14 @@ crossorigin="anonymous">
 
 
 
-
-
-
-
+<div class="container mt-3">
+  <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo">Simple collapsible</button>
+  <div id="demo" class="collapse">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+  </div>
+</div>
 
 
 
