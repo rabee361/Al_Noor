@@ -53,6 +53,17 @@ class NewManager(forms.ModelForm):
         self.fields['get_notifications'] = forms.BooleanField(label='تلقي اشعارات', required=False)
 
 
+class NewAdmin(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['username','image','email','phonenumber','get_notifications']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password1'] = forms.CharField(label=' كلمة السر',required=True,widget=forms.PasswordInput())
+        self.fields['password2'] = forms.CharField(label='تأكيد كلمة السر',required=True,widget=forms.PasswordInput())
+
+
 
 
 

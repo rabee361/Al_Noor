@@ -62,8 +62,9 @@ class LoginUser(GenericAPIView):
                 try:
                     pilgrim = Pilgrim.objects.get(user=user)
                     data['pilgrim_id'] = pilgrim.id 
-                    data['guide_image'] = request.build_absolute_uri(pilgrim.guide.user.image.url) 
-                    data['guide_name'] = pilgrim.guide.user.username
+                    if pilgrim.guide:
+                        data['guide_image'] = request.build_absolute_uri(pilgrim.guide.user.image.url) or None
+                        data['guide_name'] = pilgrim.guide.user.username
                 except Pilgrim.DoesNotExist:
                     None
 

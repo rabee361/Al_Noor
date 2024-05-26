@@ -1,6 +1,6 @@
 from import_export import resources
 from .models import *
-from import_export.fields import Field 
+from import_export.fields import Field
 from import_export.widgets import ForeignKeyWidget  , BooleanWidget
 from .utils import generate_password
 from .notifications import send_password
@@ -113,7 +113,6 @@ class PilgrimResource(resources.ModelResource):
         exclude = ['user','id']
         import_id_fields = ['phonenumber']
 
-    ##### we will send an sms message with the password in here
     def before_import_row(self, row, **kwargs):
         phonenumber = row['رقم الجوال']
         first_name = row['الاسم الأول']
@@ -254,3 +253,28 @@ class RegistrationResource(resources.ModelResource):
     #         print("123")
     #         user.save()
     #     return True
+
+
+
+
+
+
+
+
+class UserPasswordResource(resources.ModelResource):
+    phonenumber = Field(
+        column_name='رقم الجوال',
+        attribute='phonenumber',
+    )
+    username = Field(
+        column_name='الاسم ',
+        attribute='username',
+    )
+    password = Field(
+        column_name='كلمة السر',
+        attribute='password',
+    )
+ 
+    class Meta:
+        model = UserPassword
+        exclude = ['id']

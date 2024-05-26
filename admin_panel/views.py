@@ -2,7 +2,7 @@ from typing import Any
 from django.shortcuts import render , HttpResponse , redirect
 from django.views.generic import TemplateView
 from base.models import *
-from base.resources import PilgrimResource , RegistrationResource
+from base.resources import PilgrimResource , RegistrationResource , UserPasswordResource
 from .forms import *
 from .forms import PilgrimForm
 from django.contrib.auth.decorators import login_required
@@ -868,7 +868,6 @@ def import_pilgrim(request):
         if request.method == 'POST':
             excel_file = request.FILES['file']
             df = pd.read_excel(excel_file)
-
             for index, row in df.iterrows():
 
                 arrival_datetime = datetime.strptime(str(row['موعد الوصول']), '%H:%M:%S')
@@ -892,6 +891,7 @@ def import_pilgrim(request):
                     user.save()
                     chat1 = Chat.objects.create(user=user , chat_type='guide')
                     chat2 = Chat.objects.create(user=user , chat_type='manager')
+                    UserPassword.objects.create(password=my_password , username=user.username , phonenumber=str(user.phonenumber))
                 else:
                     user.first_name = row['الاسم الأول']
                     user.last_name = row['العائلة']
@@ -923,9 +923,19 @@ def import_pilgrim(request):
                     }
                 )
                 pilgrim.save()
-                
-            return redirect('pilgrims')
+
+            passwords = UserPasswordResource()
+            dataset = passwords.export()
+            response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
+            response['Content-Disposition'] = 'attachment; filename="passwords.xlsx"'
+            return response
+
+            # return redirect('pilgrims')
         return render(request, 'import_pilgrims.html' , context=context)
+
+
+
+
 
 
 def notifications_list(request):
@@ -1068,7 +1078,7 @@ def update_guidance_post(request,post_id):
 @login_required(login_url='login')
 def delete_guidance_post(request,post_id):
     GuidancePost.objects.get(id=post_id).delete()
-    return redirect('guideance_posts')
+    return redirect('guidance_posts')
 
 
 
@@ -1304,3 +1314,41 @@ def my_account(request):
     }
     
     return render(request , 'my_account.html' , context=context)
+
+
+
+
+
+
+
+@login_required(login_url='login')
+def add_admin(request):
+    form = NewAdmin()
+    user_image = request.user.image.url
+    username = request.user.username
+    if request.method == 'POST':
+        form = NewAdmin(request.POST, request.FILES)
+        print(form.errors)
+        if form.is_valid():
+            user = CustomUser.objects.create(
+                username=form.cleaned_data['username'],
+                phonenumber=form.cleaned_data['phonenumber'],
+                email=form.cleaned_data['email'],
+                password=form.cleaned_data['password1'],
+                get_notifications=form.cleaned_data['get_notifications'],
+                user_type = 'اداري',
+                is_superuser = True,
+                is_staff = True
+            )
+            if form.cleaned_data['image']:
+                user.image = form.cleaned_data['image']
+            
+            return redirect('main_dashboard')
+    context = {
+        'form' : form,
+        'user_image': user_image,
+        'username': username,
+    }
+    return render(request , 'add_admin.html' , context)
+
+

@@ -344,3 +344,23 @@ class HajSteps(models.Model):
     class Meta:
         verbose_name = ("خطوة")
         verbose_name_plural = ("خطوات الأعمال الديني")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class UserPassword(models.Model):
+    username = models.CharField(max_length=100 , verbose_name="الاسم")
+    phonenumber = models.CharField(max_length=100 , verbose_name="رقم الهاتف")
+    password = models.CharField(max_length=100 , verbose_name="كلمة السر")
+
