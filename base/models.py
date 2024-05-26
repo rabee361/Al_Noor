@@ -126,7 +126,7 @@ class Pilgrim(models.Model):
     hotel = models.CharField(max_length=100, null=True, blank=True , verbose_name="الفندق")
     hotel_address = models.CharField(max_length=100 , verbose_name="عنوان الفندق") #### link to google maps can be long and lat
     room_num = models.IntegerField(null=True, blank=True , verbose_name="رقم الغرفة")
-    haj_steps = models.ManyToManyField('HajSteps' , blank=True)
+    haj_steps = models.ManyToManyField('HajSteps' , blank=True , verbose_name="خطوات الحملة")
     guide = models.ForeignKey('Guide' , verbose_name="المرشد" , null=True , blank=True , on_delete=models.SET_NULL)
     created = models.DateTimeField(auto_now_add=True)
 

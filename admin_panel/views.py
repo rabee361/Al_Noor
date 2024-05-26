@@ -13,6 +13,7 @@ from django.db import transaction
 from django.views import View
 from django.contrib.auth.forms import PasswordChangeForm
 from base.notifications import send_event_notification
+from phonenumber_field.phonenumber import PhoneNumber
 
 
 
@@ -202,11 +203,11 @@ def update_pilgrim(request,pilgrim_id):
             if pilgrim_form.is_valid():
                 pilgrim = pilgrim_form.save(commit=False)
                 pilgrim.user = user
-                pilgrim.user.username = request.POST['first_name']
+                pilgrim.user.username = request.POST['first_name'] + request.POST['father_name'] + request.POST['grand_father'] + request.POST['last_name']
+                pilgrim.haj_steps.set(request.POST.getlist('haj_steps'))
                 pilgrim.save()
 
             return redirect('pilgrims')
-
 
         try:
             pilgrim_image = pilgrim.user.image.url
@@ -857,10 +858,8 @@ def export_forms(request):
 
 @transaction.atomic
 def import_pilgrim(request):
-        
         user_image = request.user.image.url
         username = request.user.username
-        
         context = {
             'user_image': user_image,
             'username': username,
@@ -871,8 +870,6 @@ def import_pilgrim(request):
             df = pd.read_excel(excel_file)
 
             for index, row in df.iterrows():
-                # print(row['موعد الوصول'])
-                # print(row['موعد الرحيل'])
 
                 arrival_datetime = datetime.strptime(str(row['موعد الوصول']), '%H:%M:%S')
                 departure_datetime = datetime.strptime(str(row['موعد الرحيل']), '%H:%M:%S')
@@ -880,40 +877,53 @@ def import_pilgrim(request):
                 diff = departure_datetime - arrival_datetime
 
                 formatted_diff = str(timedelta(hours=diff.seconds//3600, minutes=diff.seconds//60%60))
+                pilgrim_phonenumber = PhoneNumber.from_string(str(row['رقم الجوال']) , region='SA')
+                pilgrim_username = str(row['الاسم الأول']) + ' ' + str(row['اسم الأب']) + ' ' + str(row['اسم الجد']) + ' ' + str(row['العائلة'])
+                user , created =CustomUser.objects.update_or_create(phonenumber=pilgrim_phonenumber ,
+                                                                    defaults={
+                                                                    'username':pilgrim_username,
+                                                                    'user_type':'حاج',
+                                                                    'first_name':str(row['الاسم الأول']) , 
+                                                                    'last_name':str(row['العائلة'])   
+                                                                    })
+                if created:                
+                    my_password = generate_password()
+                    user.set_password(my_password)
+                    user.save()
+                    chat1 = Chat.objects.create(user=user , chat_type='guide')
+                    chat2 = Chat.objects.create(user=user , chat_type='manager')
+                else:
+                    user.first_name = row['الاسم الأول']
+                    user.last_name = row['العائلة']
 
-                print(formatted_diff)
-
-                username = str(row['الاسم الأول']) + ' ' + str(row['اسم الأب']) + ' ' + str(row['اسم الجد']) + ' ' + str(row['العائلة'])
-                user =CustomUser.objects.create(phonenumber=str(row['رقم الجوال']) , username= username,user_type='حاج')
-                user.save()
-                pilgrim = Pilgrim.objects.create(
+                pilgrim , created = Pilgrim.objects.update_or_create(
                     user=user,
-                    registeration_id=row['رقم الهوية'],
-                    first_name=row['الاسم الأول'],
-                    father_name=row['اسم الأب'],
-                    grand_father=row['اسم الجد'],
-                    last_name=row['العائلة'],
-                    birthday=row['تاريخ الميلاد - الميلادي فقط'],
-                    phonenumber=str(row['رقم الجوال']),
-                    flight_num=row['رقم الرحلة'],
-                    flight_date=row['تاريخ الرحلة'],
-                    arrival=row['موعد الوصول'],
-                    departure=row['موعد الرحيل'],
-                    from_city=row['من المدينة'],
-                    to_city=row['إلى المدينة'],
-                    duration=str(formatted_diff),
-                    boarding_time=row['وقت الصعود'],
-                    gate_num=row['رقم البوابة'],
-                    flight_company=row['شركة الطيران'],
-                    status=True,
-                    hotel=row['الفندق'],
-                    hotel_address=row['عنوان الفندق'],
-                    room_num=33,
+                    phonenumber=pilgrim_phonenumber,
+                    defaults={
+                    'registeration_id':row['رقم الهوية'],
+                    'first_name':row['الاسم الأول'],
+                    'father_name':row['اسم الأب'],
+                    'grand_father':row['اسم الجد'],
+                    'last_name':row['العائلة'],
+                    'birthday':row['تاريخ الميلاد - الميلادي فقط'],
+                    'flight_num':row['رقم الرحلة'],
+                    'flight_date':row['تاريخ الرحلة'],
+                    'arrival':row['موعد الوصول'],
+                    'departure':row['موعد الرحيل'],
+                    'from_city':row['من المدينة'],
+                    'to_city':row['إلى المدينة'],
+                    'duration':str(formatted_diff),
+                    'boarding_time':row['وقت الصعود'],
+                    'gate_num':row['رقم البوابة'],
+                    'flight_company':row['شركة الطيران'],
+                    'status':True,
+                    'hotel':row['الفندق'],
+                    'hotel_address':row['عنوان الفندق'],
+                    'room_num':33
+                    }
                 )
                 pilgrim.save()
-                    
                 
-
             return redirect('pilgrims')
         return render(request, 'import_pilgrims.html' , context=context)
 

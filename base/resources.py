@@ -129,9 +129,6 @@ class PilgrimResource(resources.ModelResource):
         my_password = generate_password()
         user.set_password(my_password)
         user.save()
-        # content = f'كلمة مرورك هي {my_password}'
-        # msg = ChatMessage.objects.create(chat=chat1,content=content,employee=True)
-        # send_password(user=user, title='فريق الدعم', content='تم تحديث كلمة المرور')
 
     def after_save_instance(self, instance, using_transactions, dry_run):
         if not dry_run:
