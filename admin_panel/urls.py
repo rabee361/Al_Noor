@@ -4,6 +4,8 @@ from .views import *
 
 urlpatterns = [
     path('' , main_dashboard , name="main_dashboard"),
+ 
+    path('my_account/' , my_account , name="my_account"),
 
     path('login/' , login_user , name="login"),
     path('logout/' , logout_user , name="logout"),

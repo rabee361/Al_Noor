@@ -131,6 +131,20 @@ class UpdateEmployee(forms.ModelForm):
 
 
 
+class UpdateUser(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['image','username','phonenumber','email','get_notifications']
+
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['phonenumber'] = forms.CharField(label='رقم الهاتف', required=True)
+    #     self.fields['email'] = forms.CharField(label='الايميل', required=False)
+    #     self.fields['username'] = forms.CharField(label='الاسم', required=True)
+    #     self.fields['get_notifications'] = forms.BooleanField(label='تلقي اشعارات', required=False)
+
+
+
 class UpdateGuide(forms.ModelForm):
     class Meta:
         model = Guide

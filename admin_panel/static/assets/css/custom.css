@@ -530,4 +530,9 @@ body {
     background: #D7A401;
   }
 
+  .mydropdown-content a:hover {
+    background: #D7A401;
+    border-radius: 10px;
+  }
+
 

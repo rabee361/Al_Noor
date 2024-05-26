@@ -1267,3 +1267,40 @@ def add_secondary_step(request):
     }
     return render(request , 'add_secondary_step.html' , context)
 
+
+
+
+def my_account(request):
+    user = request.user
+    form = UpdateUser(instance=user)
+
+    if request.method == 'POST':
+        form = UpdateUser(request.POST,request.FILES,instance=user)
+        if form.is_valid():
+            user = CustomUser.objects.get(
+                phonenumber=form.cleaned_data['phonenumber'],
+            )
+            image=request.FILES.get('image')
+            if image:
+                user.image = request.FILES.get('image')
+            else:
+                user.image = user.image
+
+
+            user.get_notifications = form.cleaned_data['get_notifications']
+            user.username = form.cleaned_data['username']
+            user.email = form.cleaned_data['email']
+            user.save()
+            return redirect('employees')
+
+    user_image = request.user.image.url
+    username = request.user.username
+    
+    context = {
+        'form': form,
+        'user_image': user_image,
+        'user_id': user.id,
+        'username': username,
+    }
+    
+    return render(request , 'my_account.html' , context=context)
