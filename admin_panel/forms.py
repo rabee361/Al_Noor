@@ -254,10 +254,23 @@ class GuidancePostForm(ModelForm):
         fields = '__all__'
 
 
+class GuidanceCategoryForm(ModelForm):
+    class Meta:
+        model = GuidanceCategory
+        fields = '__all__'
+
+
 
 class ReligiousPostForm(ModelForm):
     class Meta:
         model = ReligiousPost
+        fields = '__all__'
+
+
+
+class ReligiousCategoryForm(ModelForm):
+    class Meta:
+        model = ReligiousCategory
         fields = '__all__'
 
 

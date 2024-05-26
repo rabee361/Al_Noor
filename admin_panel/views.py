@@ -1019,6 +1019,28 @@ def add_guidance_post(request):
 
 
 @login_required(login_url='login')
+def add_guidance_category(request):
+    form = GuidanceCategoryForm()
+    user_image = request.user.image.url
+    username = request.user.username
+    if request.method == 'POST':
+        form = GuidanceCategoryForm(request.POST)
+        print(form.errors)
+        if form.is_valid():
+            form.save()
+            return redirect('add_guidance_post')
+    context = {
+        'form' : form,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request , 'add_guidance_category.html' , context)
+
+
+
+
+
+@login_required(login_url='login')
 def update_guidance_post(request,post_id):
     post = GuidancePost.objects.get(id=post_id)
     form = GuidancePostForm(instance=post)
@@ -1085,6 +1107,31 @@ def add_religious_post(request):
         'username': username
     }
     return render(request , 'add_religious_post.html' , context)
+
+
+
+
+
+
+
+
+@login_required(login_url='login')
+def add_religious_category(request):
+    form = ReligiousCategoryForm()
+    user_image = request.user.image.url
+    username = request.user.username
+    if request.method == 'POST':
+        form = ReligiousCategoryForm(request.POST)
+        print(form.errors)
+        if form.is_valid():
+            form.save()
+            return redirect('add_religious_post')
+    context = {
+        'form' : form,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request , 'add_religious_category.html' , context)
 
 
 

@@ -50,11 +50,13 @@ urlpatterns = [
 
     path('guidance-posts/' , guidance_posts , name="guidance_posts"),
     path('add-guidance-post/' , add_guidance_post , name="add_guidance_post"),
+    path('add-guidance-category/' , add_guidance_category , name="add_guidance_category"),
     path('update-guidance-post/<str:post_id>/' , update_guidance_post , name="update_guidance_post"),
     path('delete-guidance-post/<str:post_id>/' , delete_guidance_post , name="delete_guidance_post"),
 
     path('religious-posts/' , religious_posts , name="religious_posts"),
     path('add-religious-post/' , add_religious_post , name="add_religious_post"),
+    path('add-religious-category/' , add_religious_category , name="add_religious_category"),
     path('update-religious-post/<str:post_id>/' , update_religious_post , name="update_religious_post"),
     path('delete-religious-post/<str:post_id>/' , delete_religious_post , name="delete_religious_post"),
 

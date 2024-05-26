@@ -91,12 +91,12 @@
 
 
 .import-button2 {
+    background: #D7A401;
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
     justify-content: center;
     gap: 10px;
-    background: gray;
     text-wrap: nowrap;
     width: 170px;
     border-radius: 20px;
@@ -106,12 +106,12 @@
 
 
 .add-button {
+    background-color: #D7A401;
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
     justify-content: center;
     gap: 10px;
-    background: gray;
     text-wrap: nowrap;
     width: 140px;
     border-radius: 20px;
@@ -266,13 +266,13 @@
 
         
     .add-button {
+        background: #D7A401;
         font-size:inherit;
         display: flex;
         flex-direction: row-reverse;
         align-items: center;
         justify-content: center;
         gap: 10px;
-        background: gray;
         text-wrap: nowrap;
         width: 50px;
         border-radius: 20px;
@@ -280,13 +280,13 @@
     }
 
     .import-button {
+        background: gray;
         font-size:inherit;
         display: flex;
         flex-direction: row-reverse;
         align-items: center;
         justify-content: center;
         gap: 10px;
-        background: gray;
         text-wrap: nowrap;
         width: 90px;
         border-radius: 20px;
@@ -294,13 +294,13 @@
     }    
 
     .import-button2 {
+        background: #D7A401;
         font-size:inherit;
         display: flex;
         flex-direction: row-reverse;
         align-items: center;
         justify-content: center;
         gap: 10px;
-        background: gray;
         text-wrap: nowrap;
         width: 110px;
         border-radius: 20px;
@@ -517,11 +517,17 @@ body {
     gap: 5px;
   }
 
-  .mydropdown-content p :hover {
-    background: #cfcdcd;
-  }
+
 
   .mydropdown-content p {
     padding: 5px;
+    border-radius: 10px;
   }
+
+
+  .mydropdown-content p:hover {
+    padding: 5px;
+    background: #D7A401;
+  }
+
 
