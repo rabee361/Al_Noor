@@ -1029,28 +1029,6 @@ def add_guidance_post(request):
 
 
 @login_required(login_url='login')
-def add_guidance_category(request):
-    form = GuidanceCategoryForm()
-    user_image = request.user.image.url
-    username = request.user.username
-    if request.method == 'POST':
-        form = GuidanceCategoryForm(request.POST)
-        print(form.errors)
-        if form.is_valid():
-            form.save()
-            return redirect('add_guidance_post')
-    context = {
-        'form' : form,
-        'user_image': user_image,
-        'username': username
-    }
-    return render(request , 'add_guidance_category.html' , context)
-
-
-
-
-
-@login_required(login_url='login')
 def update_guidance_post(request,post_id):
     post = GuidancePost.objects.get(id=post_id)
     form = GuidancePostForm(instance=post)
@@ -1079,6 +1057,84 @@ def update_guidance_post(request,post_id):
 def delete_guidance_post(request,post_id):
     GuidancePost.objects.get(id=post_id).delete()
     return redirect('guidance_posts')
+
+
+
+
+
+
+def guidance_categories(request): 
+    q = request.GET.get('q') or ''
+    user_image = request.user.image.url
+    username = request.user.username
+    categories = GuidanceCategory.objects.filter(name__startswith=q).order_by('-id')
+    context = {
+        'categories':categories,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request , 'guidance_categories.html' , context)
+
+
+
+
+@login_required(login_url='login')
+def add_guidance_category(request):
+    form = GuidanceCategoryForm()
+    user_image = request.user.image.url
+    username = request.user.username
+    if request.method == 'POST':
+        form = GuidanceCategoryForm(request.POST)
+        print(form.errors)
+        if form.is_valid():
+            form.save()
+            return redirect('guidance_categories')
+    context = {
+        'form' : form,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request , 'add_guidance_category.html' , context)
+
+
+
+
+
+
+
+
+@login_required(login_url='login')
+def update_guidance_category(request,category_id):
+    category = GuidanceCategory.objects.get(id=category_id)
+    form = GuidanceCategoryForm(instance=category)
+    user_image = request.user.image.url
+    username = request.user.username
+
+    if request.method == 'POST':
+        form = GuidanceCategoryForm(request.POST, instance=category)
+        if form.is_valid():
+            form.save()
+            return redirect('guidance_categories')
+
+    context = {
+        'form': form,
+        'user_image': user_image,
+        'username': username,
+    }
+    return render(request, 'add_guidance_category.html', context)
+
+
+
+
+
+@login_required(login_url='login')
+def delete_guidance_category(request,category_id):
+    GuidanceCategory.objects.get(id=category_id).delete()
+    return redirect('guidance_categories')
+
+
+
+
 
 
 
@@ -1125,6 +1181,60 @@ def add_religious_post(request):
 
 
 
+
+@login_required(login_url='login')
+def update_religious_post(request,post_id):
+    post = ReligiousPost.objects.get(id=post_id)
+    form = ReligiousPostForm(instance=post)
+    user_image = request.user.image.url
+    username = request.user.username
+
+    if request.method == 'POST':
+        form = ReligiousPostForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('religious_posts')
+
+    context = {
+        'form': form,
+        'user_image': user_image,
+        'username': username,
+        'post_image':post.cover.url
+    }
+    return render(request, 'update_religious_post.html', context)
+
+
+
+
+
+@login_required(login_url='login')
+def delete_religious_post(request,post_id):
+    ReligiousPost.objects.get(id=post_id).delete()
+    return redirect('religious_posts')
+
+
+
+
+
+
+
+def religious_categories(request): 
+    q = request.GET.get('q') or ''
+    user_image = request.user.image.url
+    username = request.user.username
+    categories = ReligiousCategory.objects.filter(name__startswith=q).order_by('-id')
+    context = {
+        'categories':categories,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request , 'religious_categories.html' , context)
+
+
+
+
+
+
 @login_required(login_url='login')
 def add_religious_category(request):
     form = ReligiousCategoryForm()
@@ -1135,13 +1245,46 @@ def add_religious_category(request):
         print(form.errors)
         if form.is_valid():
             form.save()
-            return redirect('add_religious_post')
+            return redirect('religious_categories')
     context = {
         'form' : form,
         'user_image': user_image,
         'username': username
     }
     return render(request , 'add_religious_category.html' , context)
+
+
+
+
+
+@login_required(login_url='login')
+def update_religious_category(request,category_id):
+    category = ReligiousCategory.objects.get(id=category_id)
+    form = ReligiousCategoryForm(instance=category)
+    user_image = request.user.image.url
+    username = request.user.username
+
+    if request.method == 'POST':
+        form = ReligiousCategoryForm(request.POST, instance=category)
+        if form.is_valid():
+            form.save()
+            return redirect('religious_categories')
+
+    context = {
+        'form': form,
+        'user_image': user_image,
+        'username': username,
+    }
+    return render(request, 'add_religious_category.html', context)
+
+
+
+
+
+@login_required(login_url='login')
+def delete_religious_category(request,category_id):
+    ReligiousCategory.objects.get(id=category_id).delete()
+    return redirect('religious_categories')
 
 
 
@@ -1258,6 +1401,27 @@ def delete_step(request,step_id):
 
 
 
+@login_required(login_url='login')
+def secondary_steps_list(request):
+    q = request.GET.get('q') or ''
+    user_image = request.user.image.url
+    username = request.user.username
+    steps = SecondarySteps.objects.filter(name__startswith=q).order_by('-id')
+    context = {
+        'steps':steps,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request , 'secondary_steps.html' , context)
+
+
+
+
+
+
+
+
+
 
 
 @login_required(login_url='login')
@@ -1269,13 +1433,52 @@ def add_secondary_step(request):
         form = SecondaryStepForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('add_step')
+            return redirect('secondary_steps')
     context = {
         'form' : form,
         'user_image': user_image,
         'username': username
     }
     return render(request , 'add_secondary_step.html' , context)
+
+
+
+
+
+
+
+@login_required(login_url='login')
+def update_secondary_step(request,step_id):
+    step = SecondarySteps.objects.get(id=step_id)
+    form = SecondaryStepForm(instance=step)
+    user_image = request.user.image.url
+    username = request.user.username
+
+    if request.method == 'POST':
+        form = StepForm(request.POST, instance=step)
+        if form.is_valid():
+            form.save()
+            return redirect('secondary_steps')
+
+    context = {
+        'form': form,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request, 'add_secondary_step.html', context)
+
+
+
+
+
+
+
+
+@login_required(login_url='login')
+def delete_secondary_step(request,step_id):
+    SecondarySteps.objects.get(id=step_id).delete()
+    return redirect('secondary_steps')
+
 
 
 

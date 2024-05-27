@@ -267,7 +267,6 @@ class CreatePilgrimSerializer(serializers.ModelSerializer):
         arrival_datetime = datetime.strptime(str(validated_data.get('arrival')), '%H:%M:%S')
         departure_datetime = datetime.strptime(str(validated_data.get('departure')), '%H:%M:%S')
         validated_data['duration'] = arrival_datetime - departure_datetime
-        # validated_data.pop('haj_steps')
         full_name = first_name+father_name+grand_father+last_name
         user = CustomUser.objects.create(username=full_name,first_name=first_name,last_name=last_name,phonenumber=phonenumber)
         user.set_password(password)
@@ -288,11 +287,10 @@ class UpdatePilgrimSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Pilgrim
-        exclude = ['user']
+        exclude = ['user','haj_steps']
     
     def update(self,instance,validated_data):
         user = instance.user
-        validated_data.pop('haj_steps')
         phonenumber = validated_data.get('phonenumber')
         first_name = validated_data.get('first_name')
         last_name = validated_data.get('last_name')
@@ -446,7 +444,7 @@ class ReligiousCategorySerializer(serializers.ModelSerializer):
 class SecondaryStepsSerializer(serializers.ModelSerializer):
     class Meta:
         model = SecondarySteps
-        fields = ['name','note']
+        fields = ['name']
 
 
 
@@ -454,7 +452,7 @@ class SecondaryStepsSerializer(serializers.ModelSerializer):
 class HajStepSerializer(serializers.ModelSerializer):
     secondary_steps = SecondaryStepsSerializer(many=True)
 
-    class Meta:
+    class Meta: 
         model = HajSteps
         fields = '__all__'
 

@@ -152,13 +152,13 @@
               </a>
             </li>
             <li>
-              <a class="test" data-toggle="collapse" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: larger;">
+              <a class="test" id="trigger" data-toggle="collapse" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: larger;">
                 <i class="now-ui-icons users_single-02"></i>
                 <p>الموظفين</p>
                 <i class="now-ui-icons arrows-1_minimal-down"></i>
               </a>
             </li>
-            <div class="collapse" style=" background: #2e2e2e;">
+            <div class="collapse" id="section" style=" background: #2e2e2e;">
               <li>
                 <a href="{% url 'guides' %}" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: 10pt;">
                   <i class="now-ui-icons users_single-02" style="font-size: 11pt;"></i>
@@ -191,11 +191,30 @@
               </a>
             </li>
             <li>
-              <a href="{% url 'steps' %}" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: larger;">
-                <i class="now-ui-icons location_pin"></i>
+              <a class="test3" id="trigger3" data-toggle="collapse" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: larger;">
+                <i class="now-ui-icons users_single-02"></i>
                 <p>خط السير</p>
+                <i class="now-ui-icons arrows-1_minimal-down"></i>
               </a>
             </li>
+
+            <div class="collapse" id="section3" style=" background: #2e2e2e;">
+
+              <li>
+                <a href="{% url 'steps' %}" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: 10pt;">
+                  <i class="now-ui-icons users_single-02" style="font-size: 11pt;"></i>
+                  <p>الخطوات الرئيسية</p>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'secondary_steps' %}" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: 10pt;">
+                  <i class="now-ui-icons users_single-02" style="font-size: 11pt;"></i>
+                  <p>الخطوات الفرعية</p>
+                </a>
+              </li>
+  
+              </div>
+
             <li>
               <a href="{% url 'guidance_posts' %}" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: larger;">
                 <i class="now-ui-icons travel_istanbul"></i>
@@ -208,6 +227,29 @@
                 <p>الأعمال الدينية</p>
               </a>
             </li>
+            <li>
+              <a class="test2" id="trigger2" data-toggle="collapse" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: larger;">
+                <i class="now-ui-icons users_single-02"></i>
+                <p>فئات</p>
+                <i class="now-ui-icons arrows-1_minimal-down"></i>
+              </a>
+            </li>
+            <div class="collapse" id="section2" style=" background: #2e2e2e;">
+
+            <li>
+              <a href="{% url 'guides' %}" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: 10pt;">
+                <i class="now-ui-icons users_single-02" style="font-size: 11pt;"></i>
+                <p>فئات الأعمال الدينية</p>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'managers' %}" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: 10pt;">
+                <i class="now-ui-icons users_single-02" style="font-size: 11pt;"></i>
+                <p>فئات الإرشاد الديني</p>
+              </a>
+            </li>
+
+            </div>
           </ul>
         </div>
       </div>
@@ -270,8 +312,14 @@
 
 <script>
   $(document).ready(function(){
-    $(".test").click(function(){
-      $(".collapse").collapse('toggle');
+    $("#trigger").click(function(){
+      $("#section").collapse('toggle');
+    });
+    $("#trigger2").click(function(){
+      $("#section2").collapse('toggle');
+    });
+    $("#trigger3").click(function(){
+      $("#section3").collapse('toggle');
     });
   });
   </script>

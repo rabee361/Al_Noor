@@ -166,7 +166,7 @@ class ReligiousPostAdmin(admin.ModelAdmin):
 
 
 class SecondaryStepsAdmin(admin.ModelAdmin):
-    list_display = ['name','note']
+    list_display = ['name']
 
 
 class HajStepsAdmin(admin.ModelAdmin):
