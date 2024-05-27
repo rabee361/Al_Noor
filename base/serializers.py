@@ -255,7 +255,7 @@ class CreatePilgrimSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Pilgrim
-        exclude = ['user']
+        exclude = ['user','haj_steps']
 
     def create(self , validated_data):
         password = validated_data.pop('password')
@@ -267,7 +267,7 @@ class CreatePilgrimSerializer(serializers.ModelSerializer):
         arrival_datetime = datetime.strptime(str(validated_data.get('arrival')), '%H:%M:%S')
         departure_datetime = datetime.strptime(str(validated_data.get('departure')), '%H:%M:%S')
         validated_data['duration'] = arrival_datetime - departure_datetime
-        validated_data.pop('haj_steps')
+        # validated_data.pop('haj_steps')
         full_name = first_name+father_name+grand_father+last_name
         user = CustomUser.objects.create(username=full_name,first_name=first_name,last_name=last_name,phonenumber=phonenumber)
         user.set_password(password)
