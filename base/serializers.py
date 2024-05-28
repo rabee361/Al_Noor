@@ -86,6 +86,36 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
 
 
+
+class HajStepsPilgrimSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HaJStepsPilgrim
+        fields = '__all__'
+
+
+
+
+
+
+class SecondaryStepsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SecondarySteps
+        fields = ['name']
+
+
+
+
+class HajStepSerializer(serializers.ModelSerializer):
+    secondary_steps = SecondaryStepsSerializer(many=True)
+
+    class Meta: 
+        model = HajSteps
+        fields = '__all__'
+
+
+
+
+
 class NoteSerializer(serializers.ModelSerializer):
     guide = serializers.CharField(required=False)
 
@@ -220,10 +250,29 @@ class PilgrimSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(source='user.image',read_only=True)
     active = serializers.BooleanField(source='user.is_active',read_only=True)
     guide = SimpleGuideSerializer(many=False)
+    haj_steps = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Pilgrim
         fields = '__all__'
+
+    def get_haj_steps(self, obj):
+        haj_steps_data = []
+        steps = HaJStepsPilgrim.objects.filter(pilgrim=obj).values('haj_step')
+        total_steps = HajSteps.objects.values('name')
+
+        for haj_step_pilgrim in total_steps:
+            if steps.filter(haj_step__name=haj_step_pilgrim['name']).exists():
+                is_completed = True
+            else:
+                is_completed = False
+
+            haj_steps_data.append({
+                'haj_step': haj_step_pilgrim['name'],
+                'completed': is_completed,
+            })
+        return haj_steps_data
+
 
     def get_phonenumber(self,obj):
         return obj.phonenumber.as_international
@@ -440,21 +489,6 @@ class ReligiousCategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-
-class SecondaryStepsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SecondarySteps
-        fields = ['name']
-
-
-
-
-class HajStepSerializer(serializers.ModelSerializer):
-    secondary_steps = SecondaryStepsSerializer(many=True)
-
-    class Meta: 
-        model = HajSteps
-        fields = '__all__'
 
 
 

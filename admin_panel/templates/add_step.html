@@ -25,12 +25,16 @@
                 {% csrf_token %}
                 <div class="form-group" style="height: auto; padding-bottom: 20px;" dir="rtl">
                   
-                <div class="form-block">
-                    <div class="form-input" style="display: flex; flex-direction: column;">
-                        <div class="form-label">{{ form.name.label_tag }}</div>
-                        <div>{{ form.name|add_class:"form-control" }}</div>
-                    </div>
-                </div>
+                  <div class="form-block">
+                  <div class="form-input" style="display: flex; flex-direction: column;">
+                      <div class="form-label">{{ form.name.label_tag }}</div>
+                      <div>{{ form.name|add_class:"form-control" }}</div>
+                  </div>
+                  <div class="form-input" style="display: flex; flex-direction: column;">
+                      <div class="form-label">{{ form.note.label_tag }}</div>
+                      <div>{{ form.note|add_class:"form-control" }}</div>
+                  </div>
+              </div>
                   
                 <div class="form-block">
                     <div class="form-input">

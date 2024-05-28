@@ -118,15 +118,15 @@ class Pilgrim(models.Model):
     from_city = models.CharField(max_length=40 , null=True , blank=True , verbose_name="من المدينة")
     to_city = models.CharField(max_length=40 , null=True , blank=True , verbose_name="إلى المدينة")
     duration = models.CharField(max_length=40,null=True,blank=True , verbose_name="مدة الرحلة")
-    boarding_time = models.TimeField(verbose_name="وقت الصعود", null=True , blank=True)####
-    gate_num = models.IntegerField(null=True, blank=True , verbose_name="رقم البوابة")####
-    flight_company = models.CharField(max_length=50 , verbose_name="اسم الشركة") ### can be a choice list
-    company_logo = models.ImageField(verbose_name="شعار الشركة" , null=True , blank=True,default='images/account.jpg') ###
+    boarding_time = models.TimeField(verbose_name="وقت الصعود", null=True , blank=True)
+    gate_num = models.IntegerField(null=True, blank=True , verbose_name="رقم البوابة")
+    flight_company = models.CharField(max_length=50 , verbose_name="اسم الشركة")
+    company_logo = models.ImageField(verbose_name="شعار الشركة" , null=True , blank=True,default='images/account.jpg')
     status = models.BooleanField(null=True, blank=True , verbose_name="الحالة")
     hotel = models.CharField(max_length=100, null=True, blank=True , verbose_name="الفندق")
-    hotel_address = models.CharField(max_length=100 , verbose_name="عنوان الفندق") #### link to google maps can be long and lat
+    hotel_address = models.CharField(max_length=100 , verbose_name="عنوان الفندق")
     room_num = models.IntegerField(null=True, blank=True , verbose_name="رقم الغرفة")
-    haj_steps = models.ManyToManyField('HajSteps' , blank=True , verbose_name="خطوات الحملة")
+    haj_steps = models.ManyToManyField('HajSteps' , blank=True , verbose_name="خطوات الحملة", through='HaJStepsPilgrim')
     guide = models.ForeignKey('Guide' , verbose_name="المرشد" , null=True , blank=True , on_delete=models.SET_NULL)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -137,6 +137,9 @@ class Pilgrim(models.Model):
     class Meta:
         verbose_name = ("حاج")
         verbose_name_plural = ("الحجاج")
+
+
+
 
 
 class Guide(models.Model):
@@ -351,7 +354,13 @@ class HajSteps(models.Model):
 
 
 
+class HaJStepsPilgrim(models.Model):
+    pilgrim = models.ForeignKey(Pilgrim, on_delete=models.CASCADE)
+    haj_step = models.ForeignKey(HajSteps, on_delete=models.CASCADE)
+    completed = models.BooleanField(default=False)
 
+    def __str__(self):
+        return f"{self.pilgrim.user.username}: {self.haj_step.name}"
 
 
 
