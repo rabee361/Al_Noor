@@ -3,46 +3,63 @@ from .models import *
 from django.db.models import Q
 
 
+
+
 class PilgrimFilter(django_filters.FilterSet):
-    search_field = django_filters.CharFilter(method='filter_search_field')
+    query = django_filters.CharFilter(method='filter_query')
+
     class Meta:
         model = Pilgrim
-        fields = ['search_field']
+        fields = ['query']
 
-    def filter_search_field(self, quesryset, name, value):
+    def filter_query(self, queryset, name,value):
         if value:
-            return quesryset.filter(Q(phonenumber__icontains=value)|Q(first_name__istartswith=value))
-        return quesryset
+            return queryset.filter(Q(phonenumber__icontains=value)|Q(first_name__istartswith=value))
+        return queryset
 
 
 
 class EmployeeFilter(django_filters.FilterSet):
-    name = django_filters.CharFilter(field_name='user__username', lookup_expr='startswith')
-    phonenumber = django_filters.CharFilter(field_name='user__phonenumber' , lookup_expr='startswith')
+    query = django_filters.CharFilter(method='filter_query')
     
     class Meta:
         model = Employee
-        fields = ['name','phonenumber']
+        fields = ['query']
+
+    def filter_query(self, queryset, name,value):
+        if value:
+            return queryset.filter(Q(user__phonenumber__icontains=value)|Q(user__username__istartswith=value))
+        return queryset
 
 
 
 class ManagementFilter(django_filters.FilterSet):
-    name = django_filters.CharFilter(field_name='user__username', lookup_expr='startswith')
-    phonenumber = django_filters.CharFilter(field_name='user__phonenumber' , lookup_expr='startswith')
-    
+    query = django_filters.CharFilter(method='filter_query')
+
     class Meta:
         model = Management
-        fields = ['name','phonenumber']
+        fields = ['query']
+
+    def filter_query(self, queryset, name,value):
+        if value:
+            return queryset.filter(Q(user__phonenumber__icontains=value)|Q(user__username__istartswith=value))
+        return queryset
+
+
 
 
 
 class GuideFilter(django_filters.FilterSet):
-    name = django_filters.CharFilter(field_name='user__username', lookup_expr='startswith')
-    phonenumber = django_filters.CharFilter(field_name='user__phonenumber' , lookup_expr='startswith')
-    
+    query = django_filters.CharFilter(method='filter_query')
+
     class Meta:
         model = Guide
-        fields = ['name','phonenumber']
+        fields = ['query']
+
+    def filter_query(self, queryset, name,value):
+        if value:
+            return queryset.filter(Q(user__phonenumber__icontains=value)|Q(user__username__istartswith=value))
+        return queryset
 
 
 
@@ -64,16 +81,38 @@ class NoteFilter(django_filters.FilterSet):
         model = Note
         fields = ['pilgrim_name','guide_name']
 
+
+
+class GuidancePostFilter(django_filters.FilterSet):
+    category_name = django_filters.CharFilter(field_name='category__name' , lookup_expr='exact')
+    
+    class Meta:
+        model = GuidancePost
+        fields = ['category_name']
+
+
+
+
 class ReligiousPostFilter(django_filters.FilterSet):
-    category = django_filters.CharFilter(field_name='category__name', lookup_expr='startswith')
+    category_name = django_filters.CharFilter(field_name='category__name' , lookup_expr='exact')
 
     class Meta:
         model = ReligiousPost
-        fields = ['category', ]
+        fields = ['category_name']
 
-class GuidancePostFilter(django_filters.FilterSet):
-    category = django_filters.CharFilter(field_name='category__name', lookup_expr='startswith')
+
+
+
+class ChatFilter(django_filters.FilterSet):
+    query = django_filters.CharFilter(method='filter_query')
 
     class Meta:
-        model = GuidancePost
-        fields = ['category', ]
+        model = Chat
+        fields = ['query']
+
+    def filter_query(self, queryset, name,value):
+        if value:
+            return queryset.filter(Q(user__phonenumber__icontains=value)|Q(user__username__istartswith=value))
+        return queryset
+
+

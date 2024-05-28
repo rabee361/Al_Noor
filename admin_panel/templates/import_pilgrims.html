@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+<div class="main-panel" id="main-panel" style="background-color: rgb(77, 76, 76);">
+  <div class="content" dir="rtl" style="margin-top: 10px;">
+
+      <div class="bread-crumbs-size" style="display: flex; gap: 0;">
+        <div style="height: 70px; margin-left: 1300px; display: flex; gap: 10px;">
+          <a href="{% url 'main_dashboard' %}" style="text-decoration: none;"><h5 style="color: white;">الرئيسية</h5></a>
+          <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
+          <a href="{% url 'pilgrims' %}" style="text-decoration: none;"><h5 style="color: white;">الحجاج</h5></a>
+          <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
+          <h5 style="color: white;">استيراد</h5>
+          <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
+        </div>
+      </div>
+
+      <form action="" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 30px; color: white;">
+        {% csrf_token %}
+        <div style="background-color: rgb(57, 58, 58); width: 100%;display: flex;justify-content: right;border-radius: 30px; height: 100px;" dir="rtl">
+          
+          <div class="form-block" style="margin-right: 30px;">
+              <div class="form-input" style="display: flex; flex-direction: row;">
+                  <div class="form-label">اختر ملف الexcel</div>
+                  <div>
+                    <input class="form-control" type="file" name="file" >
+                  </div>
+              </div>
+          </div>
+        
+        </div>
+
+
+        <div style="display: flex; gap: 10px; justify-content: left;">
+          <input type="submit" value="حفظ" style="background: rgb(1, 199, 60); border-radius: 20px; border: none; width: 80px; color: black; font-size: 16pt;">
+        </div>
+
+      </form>
+
+  </div>
+</div>
+
+{% endblock content %}

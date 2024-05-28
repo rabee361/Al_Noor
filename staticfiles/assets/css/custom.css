@@ -1,0 +1,499 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap');
+
+
+
+
+:root {
+    --bg-color: rgb(20,20,20);
+}
+
+
+
+@media (min-width: 992px) {
+    .main-panel {
+       margin-right: 230px; /* Adjust the value as needed */
+     }
+   }
+
+
+
+
+/* Apply a gap between the flex items for larger screens */
+@media (max-width: 992px) {
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Sets the gap between the flex items */
+    }
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+    .container {
+       display: flex;
+       flex-direction: row; /* Sets the flex direction to row */
+       gap: 20px; /* Sets the gap between the flex items */
+     }
+   }
+   
+   
+@media (max-width: 768px) {
+    .form-input-check {
+        gap: 10px;
+    }
+}
+
+
+
+
+.bread-crumbs-size {
+    font-size: 9px;
+}
+
+
+
+
+.form-input-check {
+    display: flex;
+    flex-direction: row;
+    gap: 60px;
+}
+
+.custom-input::placeholder {
+    font-size: 16px;
+    color: white;
+    margin-left: 5px;
+}
+
+.custom-input {
+    width: 200px; /* Set the width of the input field */
+    height: 40px; /* Set the height of the input field */
+    background-color: rgb(135, 136, 136);
+    border: none;
+    border-radius: 10px;
+}
+
+
+
+
+
+.import-button {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: gray;
+    text-wrap: nowrap;
+    width: 140px;
+    border-radius: 20px;
+    color: white;
+}
+
+
+
+.add-button {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: gray;
+    text-wrap: nowrap;
+    width: 140px;
+    border-radius: 20px;
+    color: white;
+}
+
+
+
+.current-image {
+    width: 50px;
+    height: 50px;
+}
+
+
+.my-img {
+    font-size: x-small;
+    text-wrap: wrap;
+}
+
+
+.current-image-wrapper {
+    display: flex; 
+    flex-direction: row; 
+    justify-content: right; 
+    margin-top: 7px; 
+    align-items: center; 
+    gap: 20px; 
+    text-wrap: wrap;
+}
+
+
+
+.time-field {
+    width: 80%;
+    outline: none;
+    border: rgb(58, 57, 57);
+    border-radius: 20px;
+    color: white;
+    font-size: larger;
+    background-color: rgb(126, 126, 126);
+    height: 45px;
+}
+
+
+.date-field {
+    width: 80%;
+    outline: none;
+    border: rgb(58, 57, 57);
+    border-radius: 20px;
+    color: white;
+    font-size: larger;
+    background-color: rgb(126, 126, 126);
+    height: 45px;
+}
+
+
+.form-control {
+    width: 100%;
+    outline: none;
+    border: rgb(58, 57, 57);
+    color: white;
+    font-size: larger;
+    background-color: rgb(126, 126, 126);
+    height: 45px;
+}
+
+
+
+.my-table {
+    width: 100%;
+}
+
+
+.header-wrapper {
+    background-color: rgb(88, 88, 88);
+    text-align: center;
+}
+
+.body-wrapper {
+    color: white; 
+    /* font-size: medium; */
+}
+
+.body-fields {
+    font-size: large;
+    text-wrap: nowrap;
+    text-align: center;
+} 
+
+@media (max-width:768px) {
+
+    .header-wrapper {
+        font-size: x-small ; 
+        background-color: rgb(88, 88, 88)
+    }
+
+    .body-fields {
+        font-size: medium;
+    } 
+
+    .form-control {
+        width: 100%;
+        outline: none;
+        border: rgb(58, 57, 57);
+        color: white;
+        font-size: x-small;
+        background-color: rgb(126, 126, 126);
+        height: 25px;
+    }
+
+    .date-field {
+        width: 100%;
+        text-align: right;
+        outline: none;
+        border: rgb(58, 57, 57);
+        border-radius: 20px;
+        color: white;
+        font-size: x-small;
+        background-color: rgb(126, 126, 126);
+        height: 25px;
+    }
+
+    .time-field {
+        width: 100%;
+        text-align: right;
+        outline: none;
+        border: rgb(58, 57, 57);
+        border-radius: 20px;
+        color: white;
+        font-size: x-small;
+        background-color: rgb(126, 126, 126);
+        height: 25px;
+    }
+    
+    .current-image-wrapper {
+        display: flex; 
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 7px;
+        gap: 10px;
+    }
+
+    .current-image {
+        align-self: right;
+        width: 50px;
+        height: 50px;
+    }
+
+    .bread-crumbs-size {
+        font-size: 7px;
+    }
+
+        
+    .add-button {
+        font-size:inherit;
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background: gray;
+        text-wrap: nowrap;
+        width: 50px;
+        border-radius: 20px;
+        color: white;
+    }
+
+    .import-button {
+        font-size:inherit;
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background: gray;
+        text-wrap: nowrap;
+        width: 90px;
+        border-radius: 20px;
+        color: white;
+    }    
+
+}
+
+
+
+
+
+
+.form-control-text {
+    width: 100%;
+    outline: none;
+    border: rgb(58, 57, 57);
+    border-radius: 20px;
+    color: white;
+    font-size: larger;
+    background-color: rgb(126, 126, 126);
+    height: 80px;
+}
+
+
+.form-control-check {
+    outline: none;
+    border: rgb(58, 57, 57);
+    color: #999;
+    height: 35px;
+    margin-bottom: 34px;
+    background-color: rgb(126, 126, 126);
+}
+
+
+.form-label {
+    text-align: right;
+}
+
+.form-block {
+    padding-top: 20px;
+    width: 40%;
+}
+
+.form-input {
+    width: 100%;
+}
+
+.form-input-datetime {
+    width: 100%;
+    text-align: right;
+}
+
+.form-body {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+
+
+.form-group {
+    background-color: rgb(57, 58, 58); 
+    width: 100%; 
+    height: 300px;
+    display: flex;
+    gap: 10px;
+    justify-content: space-evenly;
+    border-radius: 30px;
+}
+
+
+
+
+.input-group {
+    display: flex;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px; 
+}
+
+
+
+
+
+.change-button {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: gray;
+    text-wrap: nowrap;
+    width: 170px;
+    border-radius: 20px;
+    color: white;
+}
+
+
+
+
+body {
+    font-family: 'Cairo';
+}
+
+::-webkit-scrollbar {
+    width: 10px; /* Adjust the width of the scrollbar */
+}
+
+/* This will style the scrollbar handle */
+::-webkit-scrollbar-thumb {
+    background: #888; /* Dark color for the scrollbar handle */
+    border-radius: 5px; /* Optional: Rounded corners for the scrollbar handle */
+}
+
+/* This will style the scrollbar handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Darker color for the scrollbar handle on hover */
+}
+
+
+
+.login-wrapper{
+    background-color: var(--bg-color);
+    height: 100vh;
+    overflow: hidden;
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.login-body {
+    background: rgb(70, 69, 69);
+    padding: 60px;
+    border-radius: 30px;
+}
+
+
+.login-field {
+    border-color: #007bff;
+    outline: none;
+    border: none;
+    box-shadow: 10px;
+    border-radius: 20px;
+    color: white;
+    background-color: rgb(126, 126, 126);
+    height: 35px;
+    width: 250px;
+}
+
+
+
+.login-btn:hover {
+    background: #D7A401;
+}
+
+
+
+.login-btn {
+    background: #D7A401;
+    color: white;
+    border-radius: 30px;
+    border: none;
+    height: 40px;
+    margin-top: 30px;
+    /* box-shadow: -1px 1px 2px 2px #ccc, 1px 1px 1px 1px #272727; */
+}
+
+.login-title {
+    color: white;
+    font-family: Cairo;
+    text-align: center;
+}
+
+
+
+.bread-crumbs-arrow {
+    color: #D7A401;
+}
+
+
+.mydropdown {
+    /* margin-left: auto;
+    margin-right: 0; */
+    margin-right: 240px;
+}
+
+@media (max-width:1019px) {
+    .mydropdown{
+        margin-left: auto;
+        margin-right: 0;
+    }
+  }
+  
+    .mydropdown-content {
+    display: none;
+    padding: 5px;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 100px;
+    border-radius: 10px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    /* padding: 6px 8px; */
+    z-index: 1;
+  }
+  
+  .mydropdown:hover .mydropdown-content {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .mydropdown-content p :hover {
+    background: #cfcdcd;
+  }
+
+  .mydropdown-content p {
+    padding: 5px;
+  }
+

@@ -3,17 +3,22 @@
 
 
 {% block content %}
-<div class="main-panel" id="main-panel" style="margin-right: 210px; background-color: rgb(77, 76, 76);">
-  <div class="content" dir="rtl" style="margin-top: 50px; margin-right: 10px;">
+<div class="main-panel" id="main-panel" style="background-color: rgb(77, 76, 76);">
+  <div class="content" dir="rtl" style="margin-top: 10px;">
 
-      <div style="display: flex; gap: 0; font-size: 10px;">
+      <div class="bread-crumbs-size" style="display: flex; gap: 0;">
         <div style="height: 70px; margin-left: 1300px; display: flex; gap: 10px;">
-          <h5 style="color: white;">الرئيسية</h5>
-          <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: rgb(189, 9, 189);"></i></h5>
-          <h5 style="color: white;">جدول الحملة</h5>
-          <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: rgb(189, 9, 189);"></i></h5>
+          <a href="{% url 'main_dashboard' %}" style="text-decoration: none;"><h5 style="color: white;">الرئيسية</h5></a>
+          <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
+          <h5 style="color: white;">الخطوات الرئيسية</h5>
+          <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
         </div>
       </div>
+
+      <div style="display: flex; gap: 5px; color: white; font-size: smaller;" dir="ltr">
+        <a href="{% url 'add_step' %}" style="text-decoration: none;"><h5 class="add-button">إضافة</h5></a>
+      </div>
+
 
       <div class="row">
       <div class="col-md-12">
@@ -26,16 +31,13 @@
               </form>
             </div>
 
-            <div style="display: flex; gap: 5px;  margin-right: 90px; margin-top: 15px; color: white; font-size: smaller;">
-              <a href="{% url 'add_step' %}"><h5 style="background: green; width: 60px; padding: 4px; padding-bottom: 0; border-radius: 20px; color: white;"><i class=" now-ui-icons ui-1_simple-add" style="margin-left: 17px;"></i></h5></a>
-            </div>
           </div>
 
           <div class="card-body">
             <div class="table-responsive">
               <div style="overflow-x: auto; width: 100%;">
-                <table class="table" style="width: 1000px;">
-                  <thead class="text-primary" style="font-size: small ; background-color: rgb(88, 88, 88)">
+                <table class="table my-table">
+                  <thead class="text-primary header-wrapper">
                     <th style="color: white;">
                     الخطوة
                     </th>
@@ -46,9 +48,9 @@
                       
                     </th>
                   </thead>
-                  <tbody style="color: white;">
+                  <tbody class="body-wrapper">
                   {% for step in steps %}
-                    <tr style="font-size: large;">
+                    <tr class="body-fields">
                       <td>
                         {{step.name}}
                       </td>

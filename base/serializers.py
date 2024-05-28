@@ -24,18 +24,16 @@ class LoginSerializer(serializers.Serializer):
         username = data.get('username')
         password = data.get('password')
 
-        if username and password:
-            user = authenticate(request=self.context.get('request'), username=username, password=password)
-            if not user:
-                raise serializers.ValidationError("Incorrect Credentials")
-            if not user.is_active:
-                raise serializers.ValidationError({'message_error':'this account is not active'})
-        else:
-            raise serializers.ValidationError('Must include "username" and "password".')
+        user = authenticate(request=self.context.get('request'), username=username, password=password)
+        if not user:
+            raise serializers.ValidationError({"error":"لا يوجد مستخدم بهذه المعلومات"})
+        if not user.is_active:
+            raise serializers.ValidationError({"error":"هذا الحساب غير مفعل"})
 
         data['user'] = user
         return data
     
+
 
 
 class LogoutUserSerializer(serializers.Serializer):
@@ -86,15 +84,44 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
 
 
+
+
 class NoteSerializer(serializers.ModelSerializer):
+    
+    pilgrim_name = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = Note
-        fields = '__all__'
+        exclude = ['guide']
 
+    def create(self, validated_data):
+        user = self.context['request'].user
+        guide = Guide.objects.get(user=user)
+        note = Note.objects.create(guide=guide, **validated_data)
+        return note
+    
+    def update(self, instance, validated_data):
+        for attrs, value in validated_data.items():
+            setattr(instance, attrs, value)
+        instance.save()
+        return instance
+    
+    def get_pilgrim_name(self, obj):
+        return f'{obj.pilgrim.first_name} {obj.pilgrim.father_name} {obj.pilgrim.grand_father} {obj.pilgrim.last_name}'
+    
+    def to_representation(self, instance):
+        repr = super().to_representation(instance)
+        repr['guide'] = instance.guide.user.username
+        return repr
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField(read_only=True)
     phonenumber = serializers.SerializerMethodField(read_only=True)
+    username = serializers.CharField(source='user.username')
+    email = serializers.CharField(source='user.email')
+    image = serializers.ImageField(source='user.image',read_only=True)
+
     class Meta:
         model = Employee
         fields = '__all__'
@@ -102,16 +129,24 @@ class EmployeeSerializer(serializers.ModelSerializer):
     def get_phonenumber(self,obj):
         return obj.user.phonenumber.as_international
         
+    def get_user(self,obj):
+        return obj.user.id
 
 
 
-class CreateEmployeeSerializer(serializers.Serializer):
+
+
+class CreateEmployeeSerializer(serializers.ModelSerializer):
     username = serializers.CharField(write_only=True)
     phonenumber = serializers.CharField(write_only=True)
     email = serializers.EmailField(write_only=True)
     password = serializers.CharField(write_only=True)
 
-    def create(self, validated_data):#### needs modification
+    class Meta:
+        model = Employee
+        exclude = ['user']
+
+    def create(self,validated_data):
         password = validated_data.get('password')
         phonenumber = validated_data.get('phonenumber')
         email = validated_data.get('email')
@@ -119,10 +154,44 @@ class CreateEmployeeSerializer(serializers.Serializer):
         user = CustomUser.objects.create(username=username,email=email,phonenumber=phonenumber)
         user.set_password(password)
         user.save()
-        validated_data['user'] = user
         employee = Employee.objects.create(user=user)
         return employee
+    
+    def update(self, instance, validated_data):
+        for attrs, value in validated_data.items:
+            setattr(instance, attrs, value)
+        instance.save()
+        return instance
 
+
+
+class UpdateEmployeeSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(write_only=True)
+    phonenumber = serializers.CharField(write_only=True)
+    email = serializers.EmailField(write_only=True)
+    # password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = Employee
+        exclude = ['user']
+
+    def update(self, instance, validated_data):
+        username = validated_data.get('username')
+        phonenumber = validated_data.get('phonenumber')
+        email = validated_data.get('email')
+        user = instance.user
+        user.username = username
+        user.email = email
+        user.phonenumber = phonenumber
+        try:
+            password = validated_data.get('password')
+            user.set_password(password)
+        except:
+            pass
+        user.save()
+        employee = Employee.objects.get(user=user)
+
+        return employee
 
 
 
@@ -135,9 +204,38 @@ class ManagementSerializer(serializers.ModelSerializer):
 
 
 
+
+
+class GuideSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username',read_only=True)
+
+    class Meta:
+        model = Guide
+        fields = ['id','username']
+
+
+
+
+
+class SimpleGuideSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username',read_only=True)
+    image = serializers.ImageField(source='user.image',read_only=True)
+
+    class Meta:
+        model = Guide
+        fields = ['username','image']
+
+ 
+
 class PilgrimSerializer(serializers.ModelSerializer):
     phonenumber = serializers.SerializerMethodField(read_only=True)
-    image = serializers.ImageField(source='user.image')
+    guide_chat = serializers.SerializerMethodField(read_only=True)
+    manager_chat = serializers.SerializerMethodField(read_only=True)
+    duration = serializers.SerializerMethodField()
+    image = serializers.ImageField(source='user.image',read_only=True)
+    active = serializers.BooleanField(source='user.is_active',read_only=True)
+    guide = SimpleGuideSerializer(many=False)
+
     class Meta:
         model = Pilgrim
         fields = '__all__'
@@ -145,30 +243,99 @@ class PilgrimSerializer(serializers.ModelSerializer):
     def get_phonenumber(self,obj):
         return obj.phonenumber.as_international
         
+    def get_guide_chat(self, obj):
+        try:
+            guide_chat = Chat.objects.get(user=obj.user , chat_type='guide')
+            return guide_chat.id
+        except Chat.DoesNotExist:
+            return None 
+        
+    def get_manager_chat(self, obj):
+        try:
+            manager_chat = Chat.objects.get(user=obj.user , chat_type='manager')
+            return manager_chat.id
+        except Chat.DoesNotExist:
+            return None 
+        
+    def get_duration(self, obj):
+        duration = obj.duration
+        formatted_duration = str(duration).split('.')[0]  # Remove microseconds
+        return formatted_duration        
 
 
 
-class CreatePilgrimSerializer(serializers.Serializer):
-    username = serializers.CharField(write_only=True)
-    phonenumber = serializers.CharField(write_only=True)
-    email = serializers.EmailField(write_only=True)
+
+class CreatePilgrimSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
+    guide = serializers.CharField()####
 
-    def create(self, validated_data):
+    class Meta:
+        model = Pilgrim
+        exclude = ['user','haj_steps']
+
+    def create(self , validated_data):
         password = validated_data.pop('password')
-        phonenumber = validated_data.pop('phonenumber')
+        phonenumber = validated_data.get('phonenumber')
         first_name = validated_data.get('first_name')
         last_name = validated_data.get('last_name')
         father_name = validated_data.get('father_name')
         grand_father = validated_data.get('grand_father')
+        guide_name = CustomUser.objects.get(username=validated_data.pop('guide'))###
+        guide = Guide.objects.get(user=guide_name)####
+        arrival_datetime = datetime.strptime(str(validated_data.get('arrival')), '%H:%M:%S')
+        departure_datetime = datetime.strptime(str(validated_data.get('departure')), '%H:%M:%S')
+        validated_data['duration'] = arrival_datetime - departure_datetime
         full_name = first_name+father_name+grand_father+last_name
         user = CustomUser.objects.create(username=full_name,first_name=first_name,last_name=last_name,phonenumber=phonenumber)
         user.set_password(password)
+        user.user_type = 'حاج'
+        Chat.objects.create(user=user , chat_type='guide')
+        Chat.objects.create(user=user , chat_type='manager')
         user.save()
         validated_data['user'] = user
+        validated_data['guide'] = guide####
         pilgrim = Pilgrim.objects.create(**validated_data)
         return pilgrim
+
+
+
+
+
+
+class UpdatePilgrimSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Pilgrim
+        exclude = ['user','haj_steps']
     
+    def update(self,instance,validated_data):
+        user = instance.user
+        phonenumber = validated_data.get('phonenumber')
+        first_name = validated_data.get('first_name')
+        last_name = validated_data.get('last_name')
+        father_name = validated_data.get('father_name')
+        grand_father = validated_data.get('grand_father')
+
+        arrival_datetime = datetime.strptime(str(validated_data.get('arrival')), '%H:%M:%S')
+        departure_datetime = datetime.strptime(str(validated_data.get('departure')), '%H:%M:%S')
+        
+        validated_data['duration'] = arrival_datetime - departure_datetime
+        full_name = first_name+father_name+grand_father+last_name
+        user.username = full_name
+        user.first_name = first_name
+        user.last_name = last_name
+        user.phonenumber = phonenumber
+        try:
+            password = validated_data.pop('password')
+            user.set_password(password)
+        except:
+            pass
+        user.save()
+
+        validated_data['user'] = user
+        return super(UpdatePilgrimSerializer, self).update(instance, validated_data)
+
+
 
 
 
@@ -184,7 +351,10 @@ class TaskSerializer(serializers.ModelSerializer):
         model = Task
         fields = '__all__'
 
-
+    def to_representation(self, instance):
+        repr = super().to_representation(instance)
+        repr['employee'] = instance.employee.user.username
+        return repr
 
 class HijriSerializer(serializers.Serializer):
     day = serializers.CharField()
@@ -203,6 +373,7 @@ class GregorianSerializer(serializers.Serializer):
 class ChatSerializer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
     username = serializers.CharField(source='user.username',read_only=True)
+    last_msg = serializers.SerializerMethodField()
 
     class Meta:
         model = Chat
@@ -213,6 +384,13 @@ class ChatSerializer(serializers.ModelSerializer):
         if obj.user.image:
             return request.build_absolute_uri(obj.user.image.url)
         return None
+    
+    def get_last_msg(self,obj):
+        try:
+            msg = ChatMessage.objects.filter(chat=obj).order_by('-timestamp').first()
+            return msg.content
+        except:
+            return '_'
 
 
 class MessageSerializer(serializers.ModelSerializer):
@@ -221,16 +399,55 @@ class MessageSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class GuidancePostSerializer(serializers.ModelSerializer):
+class SimpleGuidancePostSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = GuidancePost
         fields = '__all__'
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        content = representation.get('content', '')
+        category_name = instance.category.name if instance.category else None
+        representation['content'] = content[:60] + '...'
+        representation['category_name'] = category_name
+        return representation
+
+
+
+
+
+class GuidancePostSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = GuidancePost
+        fields = '__all__'
+
+
+
+
+class SimpleReligiousPostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReligiousPost
+        fields = '__all__'
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        content = representation.get('content', '')
+        category_name = instance.category.name if instance.category else None
+        representation['content'] = content[:60] + "..."
+        representation['category_name'] = category_name
+        return representation
+    
+
 
 
 class ReligiousPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReligiousPost
         fields = '__all__'
+
+
 
 
 class GuidanceCategorySerializer(serializers.ModelSerializer):
@@ -249,7 +466,7 @@ class ReligiousCategorySerializer(serializers.ModelSerializer):
 class SecondaryStepsSerializer(serializers.ModelSerializer):
     class Meta:
         model = SecondarySteps
-        fields = ['name','note']
+        fields = ['name']
 
 
 
@@ -257,7 +474,7 @@ class SecondaryStepsSerializer(serializers.ModelSerializer):
 class HajStepSerializer(serializers.ModelSerializer):
     secondary_steps = SecondaryStepsSerializer(many=True)
 
-    class Meta:
+    class Meta: 
         model = HajSteps
         fields = '__all__'
 

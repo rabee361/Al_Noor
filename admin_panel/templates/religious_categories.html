@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+<div class="main-panel" id="main-panel" style="background-color: rgb(77, 76, 76);">
+  <div class="content" dir="rtl" style="margin-top: 10px;">
+
+      <div class="bread-crumbs-size" style="display: flex; gap: 0;">
+        <div style="height: 70px; margin-left: 1300px; display: flex; gap: 10px;">
+          <a href="{% url 'main_dashboard' %}" style="text-decoration: none;"><h5 style="color: white;">الرئيسية</h5></a>
+          <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
+          <h5 style="color: white;">فئات الأعمال الدينية</h5>
+          <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 5px; color: white; font-size: smaller;" dir="ltr">
+        <a href="{% url 'add_religious_category' %}" style="text-decoration: none;"><h5 class="add-button">إضافة</h5></a>
+      </div>
+
+
+      <div class="row">
+      <div class="col-md-12">
+        <div class="card" style="background-color: rgb(57, 58, 58);">
+
+          <div style="display: flex;">
+            <div class="card-header" style="margin-left: 520px;">
+              <form action="" method="get" style="color: rgb(54, 54, 54);">
+                  <input type="text" name="q" class="custom-input" placeholder="  بحث">
+              </form>
+            </div>
+
+          </div>
+
+          <div class="card-body">
+            <div class="table-responsive">
+              <div style="overflow-x: auto; width: 100%;">
+                <table class="table my-table">
+                  <thead class="text-primary header-wrapper">
+                    <th style="color: white;">
+                    اسم الخطوة
+                    </th>
+                    <th style="color: white;">
+                      
+                    </th>
+                  </thead>
+                  <tbody class="body-wrapper">
+                  {% for category in categories %}
+                    <tr class="body-fields">
+                      <td>
+                        {{category.name}}
+                      </td>
+                      <td>
+                          <a href="{% url 'update_religious_category' category.id %}" class="btn btn-success btn-sm btn-icon">
+                            <i class="now-ui-icons ui-2_settings-90"></i>
+                          </a>
+                          <button type="button" rel="tooltip" class="btn btn-danger btn-simple btn-icon btn-sm" data-toggle="modal" data-target="#deleteadminModal{{ category.id }}">
+                            <i class="now-ui-icons ui-1_simple-remove"></i>
+                          </button>
+                      </td>
+                  </tr>
+
+
+                  <div class="modal fade" id="deleteadminModal{{ category.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteadminModalLabel{{ category.id }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="deleteadminModalLabel{{ category.id }}">حذف فئة</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <p>"هل أنت واثق من أنك تريد حذف الفئة {{category.name}}?"</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
+                          <form action="{% url 'delete_religious_category' category.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">حذف</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static  %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+<div class="main-panel" id="main-panel" style="background-color: rgb(77, 76, 76);">
+    <div class="content" dir="rtl" style="margin-top: 10px;">
+  
+        <div class="bread-crumbs-size" style="display: flex; gap: 0;">
+          <div style="height: 70px; margin-left: 1300px; display: flex; gap: 10px;">
+            <a href="{% url 'main_dashboard' %}" style="text-decoration: none;"><h5 style="color: white;">الرئيسية</h5></a>
+            <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: #D7A401;"></i></h5>
+            <a href="{% url 'religious_posts' %}" style="text-decoration: none;"><h5 style="color: white;">الأعمال الدينية</h5></a>
+            <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: #D7A401;"></i></h5>
+            <h5 style="color: white;">تعديل</h5>
+            <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: #D7A401;"></i></h5>
+          </div>
+        </div>
+
+        <div>
+            <form action="" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 30px; color: white;">
+                {% csrf_token %}
+                <div style="height: auto ;background-color: rgb(57, 58, 58); width: 100%; display: flex; gap: 10px ;justify-content: space-evenly; border-radius: 30px; padding-bottom: 10px;" dir="rtl">
+                  
+                  <div class="form-block">
+                    <div class="form-input">
+                      <div class="form-label">{{ form.category.label_tag }}</div>
+                      <div>{{ form.category|add_class:"form-control" }}</div>
+                    </div>
+                    <div class="form-input">
+                      <div class="form-label">{{ form.title.label_tag }}</div>
+                      <div>{{ form.title|add_class:"form-control" }}</div>
+                    </div>
+                </div>
+                
+                
+                <div class="form-block">
+                    <div class="form-input" style="text-align: right;">
+                        <div class="form-label">الصورة الشخصية:</div>
+                        <div class="current-image-wrapper">
+                            <img src="{{ post_image }}" alt="Current Image" class="current-image">
+                            <div class="form-input"><input type="file" name="image" id="image_id" class="my-img"></div>
+                        </div>
+                      </div>
+                    <div class="form-input" style="border-radius: 20px;">
+                        <div class="form-label">{{ form.content.label_tag }}</div>
+                        <div>{{ form.content|add_class:"form-control-text" }}</div> 
+                    </div>
+                </div>
+
+
+
+                </div>
+
+
+                <div style="display: flex; gap: 10px; justify-content: left;">
+                  <input type="submit" value="حفظ">
+                  <input type="submit" value="حفظ و أضف المزيد">
+                </div>
+
+              </form>
+        </div>
+  
+    </div>
+  </div>
+
+{% endblock content %}
+

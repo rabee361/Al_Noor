@@ -2,6 +2,11 @@ from django.forms import ModelForm , Form
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from base.models import *
+from django.contrib.auth.forms import UserCreationForm , PasswordChangeForm
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
+from phonenumber_field.modelfields import PhoneNumberField
+from base.models import Pilgrim, HajSteps
 
 
 class NewUser(UserCreationForm):
@@ -43,8 +48,20 @@ class NewManager(forms.ModelForm):
         self.fields['password2'] = forms.CharField(label='تأكيد كلمة السر',required=True,widget=forms.PasswordInput())
         self.fields['phonenumber'] = forms.CharField(label='رقم الهاتف', required=True)
         self.fields['username'] = forms.CharField(label='الاسم', required=True)
-        self.fields['image'] = forms.ImageField(label='الصورة الشخصية', required=True)
+        self.fields['email'] = forms.EmailField(label='الايميل', required=False)
+        self.fields['image'] = forms.ImageField(label='الصورة الشخصية', required=False)
         self.fields['get_notifications'] = forms.BooleanField(label='تلقي اشعارات', required=False)
+
+
+class NewAdmin(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['username','image','email','phonenumber','get_notifications']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password1'] = forms.CharField(label=' كلمة السر',required=True,widget=forms.PasswordInput())
+        self.fields['password2'] = forms.CharField(label='تأكيد كلمة السر',required=True,widget=forms.PasswordInput())
 
 
 
@@ -62,7 +79,8 @@ class NewEmployee(ModelForm):
         self.fields['password2'] = forms.CharField(label='تأكيد كلمة السر',required=True,widget=forms.PasswordInput())
         self.fields['phonenumber'] = forms.CharField(label='رقم الهاتف', required=True)
         self.fields['username'] = forms.CharField(label='الاسم', required=True)
-        self.fields['image'] = forms.ImageField(label='الصورة الشخصية', required=True)
+        self.fields['email'] = forms.EmailField(label='الايميل', required=False)
+        self.fields['image'] = forms.ImageField(label='الصورة الشخصية', required=False)
         self.fields['get_notifications'] = forms.BooleanField(label='تلقي اشعارات', required=False)
 
 
@@ -80,7 +98,8 @@ class NewGuide(ModelForm):
         self.fields['password2'] = forms.CharField(label='تأكيد كلمة السر',required=True,widget=forms.PasswordInput())
         self.fields['phonenumber'] = forms.CharField(label='رقم الهاتف', required=True)
         self.fields['username'] = forms.CharField(label='الاسم', required=True)
-        self.fields['image'] = forms.ImageField(label='الصورة الشخصية', required=True)
+        self.fields['email'] = forms.EmailField(label='الايميل', required=False)
+        self.fields['image'] = forms.ImageField(label='الصورة الشخصية', required=False)
         self.fields['get_notifications'] = forms.BooleanField(label='تلقي اشعارات', required=False)
 
 
@@ -94,11 +113,17 @@ class UpdateManager(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['password1'] = forms.CharField(label=' كلمة السر',required=True,widget=forms.PasswordInput())
-        self.fields['password2'] = forms.CharField(label='تأكيد كلمة السر',required=True,widget=forms.PasswordInput())
         self.fields['phonenumber'] = forms.CharField(label='رقم الهاتف', required=True)
+        self.fields['email'] = forms.CharField(label='الايميل', required=False)
         self.fields['username'] = forms.CharField(label='الاسم', required=True)
         self.fields['get_notifications'] = forms.BooleanField(label='تلقي اشعارات', required=False)
+
+
+
+
+class UpdateRegisterForm(ModelForm):
+    pass
+
 
 
 
@@ -110,11 +135,24 @@ class UpdateEmployee(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['password1'] = forms.CharField(label=' كلمة السر',widget=forms.PasswordInput())
-        self.fields['password2'] = forms.CharField(label='تأكيد كلمة السر',widget=forms.PasswordInput())
         self.fields['phonenumber'] = forms.CharField(label='رقم الهاتف', required=True)
+        self.fields['email'] = forms.CharField(label='الايميل', required=False)
         self.fields['username'] = forms.CharField(label='الاسم', required=True)
         self.fields['get_notifications'] = forms.BooleanField(label='تلقي اشعارات', required=False)
+
+
+
+class UpdateUser(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['image','username','phonenumber','email','get_notifications']
+
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['phonenumber'] = forms.CharField(label='رقم الهاتف', required=True)
+    #     self.fields['email'] = forms.CharField(label='الايميل', required=False)
+    #     self.fields['username'] = forms.CharField(label='الاسم', required=True)
+    #     self.fields['get_notifications'] = forms.BooleanField(label='تلقي اشعارات', required=False)
 
 
 
@@ -126,15 +164,52 @@ class UpdateGuide(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['password1'] = forms.CharField(label=' كلمة السر',widget=forms.PasswordInput())
-        self.fields['password2'] = forms.CharField(label='تأكيد كلمة السر',widget=forms.PasswordInput())
         self.fields['phonenumber'] = forms.CharField(label='رقم الهاتف', required=True)
+        self.fields['email'] = forms.CharField(label='الايميل   ', required=False)
         self.fields['username'] = forms.CharField(label='الاسم', required=True)
         self.fields['get_notifications'] = forms.BooleanField(label='تلقي اشعارات', required=False)
 
 
 
 
+
+class CustomUserCreationForm(ModelForm):
+
+    class Meta:
+        model = CustomUser
+        fields = ['username','get_notifications']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['get_notifications'] = forms.BooleanField(label='تلقي اشعارات', required=False)
+
+    # def clean_password2(self):
+    #     password1 = self.cleaned_data.get("password1")
+    #     password2 = self.cleaned_data.get("password2")
+    #     if password1 and password2 and password1!= password2:
+    #         raise ValidationError(
+    #             _("The two password fields didn't match."),
+    #             code="password_mismatch",
+    #         )
+    #     return password2
+
+
+
+class PilgrimForm(forms.ModelForm):
+    class Meta:
+        model = Pilgrim
+        fields = '__all__'
+        exclude = ['user']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['get_notifications'] = forms.BooleanField(label='تلقي اشعارات', required=False)
+
+
+
+
+class TimePickerForm(forms.Form):
+    time_field = forms.TimeInput(attrs={'type': 'time'})
 
 
 class NewPilgrim(forms.ModelForm):
@@ -148,7 +223,7 @@ class NewPilgrim(forms.ModelForm):
         self.fields['password'] = forms.CharField(label=' كلمة السر',required=True,widget=forms.PasswordInput())
         self.fields['password2'] = forms.CharField(label='تأكيد كلمة السر',required=True,widget=forms.PasswordInput())
         # self.fields['email'] = forms.EmailField(label='تأكيد كلمة السر', required=False)
-        # self.fields['first_name'] = forms.CharField(label='الاسم', required=False)
+        self.fields['first_name'] = forms.CharField(label='الاسم', required=False)
         self.fields['image'] = forms.ImageField(label='الصورة الشخصية', required=False)
         self.fields['get_notifications'] = forms.BooleanField(label='تلقي اشعارات', required=False)
 
@@ -166,10 +241,6 @@ class NewPilgrim(forms.ModelForm):
 
 
 
-class PilgrimForm(forms.Form):
-    file = forms.FileField()
-
-
 
 
 
@@ -178,6 +249,13 @@ class PilgrimForm(forms.Form):
 class NewTask(ModelForm):
     class Meta:
         model = Task
+        fields = '__all__'
+
+
+
+class NewNote(ModelForm):
+    class Meta:
+        model = Note
         fields = '__all__'
 
 
@@ -201,7 +279,34 @@ class GuidancePostForm(ModelForm):
         fields = '__all__'
 
 
+class GuidanceCategoryForm(ModelForm):
+    class Meta:
+        model = GuidanceCategory
+        fields = '__all__'
+
+
+
+class ReligiousPostForm(ModelForm):
+    class Meta:
+        model = ReligiousPost
+        fields = '__all__'
+
+
+
+class ReligiousCategoryForm(ModelForm):
+    class Meta:
+        model = ReligiousCategory
+        fields = '__all__'
+
+
+
 class StepForm(ModelForm):
     class Meta:
         model = HajSteps
+        fields = '__all__'
+
+
+class SecondaryStepForm(ModelForm):
+    class Meta:
+        model = SecondarySteps
         fields = '__all__'

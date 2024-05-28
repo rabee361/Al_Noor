@@ -1,6 +1,6 @@
 from import_export import resources
 from .models import *
-from import_export.fields import Field 
+from import_export.fields import Field
 from import_export.widgets import ForeignKeyWidget  , BooleanWidget
 from .utils import generate_password
 from .notifications import send_password
@@ -51,25 +51,33 @@ class PilgrimResource(resources.ModelResource):
         column_name='رقم الرحلة',
         attribute='flight_num',
     )
+    flight_date = Field(
+        column_name='تاريخ الرحلة',
+        attribute='flight_date',
+    )
     registeration_id = Field(
-        column_name='رقم التذكرة',
+        column_name='رقم الهوية',
         attribute='registeration_id',
+    )
+    from_city = Field(
+        column_name='من المدينة',
+        attribute='from_city',
+    )
+    to_city = Field(
+        column_name='إلى المدينة',
+        attribute='to_city',
     )
     arrival = Field(
         column_name='موعد الوصول',
         attribute='arrival',
     )
     departure = Field(
-        column_name='موعد الرحيل',
+        column_name='موعد الاقلاع',
         attribute='departure',
     )
-    duration = Field(
-        column_name='مدة الرحلة',
-        attribute='duration',
-    )
-    borading_time = Field(
+    boarding_time = Field(
         column_name='وقت الصعود',
-        attribute='borading_time',
+        attribute='boarding_time',
     )
     gate_num = Field(
         column_name='رقم البوابة',
@@ -102,32 +110,32 @@ class PilgrimResource(resources.ModelResource):
 
     class Meta:
         model = Pilgrim
-        exclude = ['id',]
+        exclude = ['id']
         import_id_fields = ['phonenumber']
 
-    ##### we will send an sms message with the password in here
     def before_import_row(self, row, **kwargs):
         phonenumber = row['رقم الجوال']
         first_name = row['الاسم الأول']
         last_name = row['العائلة']
         user, created = CustomUser.objects.get_or_create(phonenumber=phonenumber)
-        chat = Chat.objects.create(user=user)
+        if created:
+            chat1 = Chat.objects.create(user=user , chat_type='guide')
+            chat2 = Chat.objects.create(user=user , chat_type='manager')
         user.username = first_name
         user.first_name = first_name
         user.last_name = last_name
+        user.user_type = 'حاج'
         my_password = generate_password()
         user.set_password(my_password)
+        row['user'] = user.id
+        print(row['user'])
         user.save()
-        content = f'كلمة مرورك هي {my_password}'
-        msg = ChatMessage.objects.create(chat=chat,content=content,employee=True)
-        send_password(user=user, title='فريق الدعم', content='تم تحديث كلمة المرور')
-        row['user'] = user.id  #########################
 
-    # def after_save_instance(self, instance, using_transactions, dry_run):
-    #     if not dry_run:
-    #         instance.user = CustomUser.objects.get(phonenumber=instance.phonenumber)
-    #         instance.save()
-    #     return True
+    def after_save_instance(self, instance, using_transactions, dry_run):
+        if not dry_run:
+            instance.user = CustomUser.objects.get(phonenumber=instance.phonenumber)
+            instance.save()
+        return True
 
 
 
@@ -154,7 +162,7 @@ class RegistrationResource(resources.ModelResource):
         column_name='العائلة',
         attribute='last_name',
     )
-    id_number = Field(
+    registeration_id = Field(
         column_name='رقم الهوية',
         attribute='id_number',
     )
@@ -247,3 +255,28 @@ class RegistrationResource(resources.ModelResource):
     #         print("123")
     #         user.save()
     #     return True
+
+
+
+
+
+
+
+
+class UserPasswordResource(resources.ModelResource):
+    phonenumber = Field(
+        column_name='رقم الجوال',
+        attribute='phonenumber',
+    )
+    username = Field(
+        column_name='الاسم ',
+        attribute='username',
+    )
+    password = Field(
+        column_name='كلمة السر',
+        attribute='password',
+    )
+ 
+    class Meta:
+        model = UserPassword
+        exclude = ['id']

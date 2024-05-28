@@ -3,18 +3,23 @@
 
 
 {% block content %}
-<div class="main-panel" id="main-panel" style="margin-right: 210px; background-color: rgb(77, 76, 76);">
-  <div class="content" dir="rtl" style="margin-top: 50px; margin-right: 10px;">
+<div class="main-panel" id="main-panel" style="background-color: rgb(77, 76, 76);">
+  <div class="content" dir="rtl" style="margin-top: 10px;">
 
-      <div style="display: flex; gap: 0; font-size: 10px;">
+      <div class="bread-crumbs-size" style="display: flex; gap: 0;">
         <div style="height: 70px; margin-left: 1300px; display: flex; gap: 10px;">
-          <h5 style="color: white;">الرئيسية</h5>
-          <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: rgb(189, 9, 189);"></i></h5>
+          <a href="{% url 'main_dashboard' %}" style="text-decoration: none;"><h5 style="color: white;">الرئيسية</h5></a>
+          <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
           <h5 style="color: white;">استمارات التسجيل</h5>
-          <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: rgb(189, 9, 189);"></i></h5>
+          <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
         </div>
       </div>
 
+      <div style="display: flex; gap: 5px; color: white; font-size: smaller;" dir="ltr">
+        <a href="{% url 'export_forms' %}" style="text-decoration: none;"><h5 class="import-button"><i class=" now-ui-icons arrows-1_cloud-download-93"></i>تصدير ملف</h5></a>
+        <a href="{% url 'add_register_form' %}" style="text-decoration: none;"><h5 class="add-button">إضافة</h5></a>
+      </div>
+  
       <div class="row">
       <div class="col-md-12">
         <div class="card" style="background-color: rgb(57, 58, 58);">
@@ -25,18 +30,15 @@
                   <input type="text" name="q" class="custom-input" placeholder="  بحث">
               </form>
             </div>
-
-            <div style="display: flex; gap: 5px;  margin-right: 90px; margin-top: 15px; color: white; font-size: smaller;">
-              <a href="{% url 'export_forms' %}"><h5 class="import-button"><i class=" now-ui-icons arrows-1_cloud-download-93" style="margin-left: 17px;"></i></h5></a>
-              <a href="{% url 'add_register_form' %}"><h5 style="background: green; width: 60px; padding: 4px; padding-bottom: 0; border-radius: 20px; color: white;"><i class=" now-ui-icons ui-1_simple-add" style="margin-left: 17px;"></i></h5></a>
-            </div>
           </div>
+
+
 
           <div class="card-body">
             <div class="table-responsive">
               <div style="overflow-x: auto; width: 100%;">
-                <table class="table" style="width: 1200px;">
-                  <thead class="text-primary" style="font-size: small ; background-color: rgb(88, 88, 88); text-align: center;">
+                <table class="table my-table">
+                  <thead class="text-primary header-wrapper" style=" text-align: center;">
                     <th style="color: white;">
                       ID
                     </th>
@@ -109,16 +111,16 @@
                     <th style="color: white;">
                     كرسي متحرك
                     </th>
-                    <th style="color: white;">
+                    <th style="color: white;">  
                     نوع المساعدة
                     </th>
                     <th style="color: white;">
                       
                     </th>
                   </thead>
-                  <tbody style="color: white;">
+                  <tbody class="body-wrapper">
                   {% for form in forms %}
-                    <tr style="font-size: large; text-wrap: nowrap; text-align: right;">
+                    <tr class="body-fields">
                       <td>
                         {{form.id}}
                       </td>
@@ -211,7 +213,7 @@
                         {{form.type_help}}
                       </td>
                       <td>
-                          <a href="" class="btn btn-success btn-sm btn-icon">
+                          <a href="{% url 'update_register_form' form.id %}" class="btn btn-success btn-sm btn-icon">
                             <i class="now-ui-icons ui-2_settings-90"></i>
                           </a>
                           <button type="button" rel="tooltip" class="btn btn-danger btn-simple btn-icon btn-sm" data-toggle="modal" data-target="#deleteadminModal{{ form.id }}">

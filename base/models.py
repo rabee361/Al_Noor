@@ -1,4 +1,3 @@
-from typing import Iterable
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import AbstractUser
@@ -9,11 +8,20 @@ from django.utils.translation import gettext_lazy as _
 
 
 class CustomUser(AbstractUser):
+    USER_TYPES = (
+        ('حاج' , 'حاج'),
+        ('مرشد' , 'مرشد'),
+        ('اداري' , 'اداري'),
+        ('موظف' , 'موظف'),
+    )
+        
     image = models.ImageField(upload_to='images/users',default='images/account.jpg' , verbose_name="الصورة الشخصية")
     phonenumber = PhoneNumberField(region='SA',unique=True , verbose_name="رقم الهاتف")
     is_verified = models.BooleanField(default=False , verbose_name="تم التوثيق")
     get_notifications = models.BooleanField(default=True , verbose_name="تلقي اشعارات")
-    username = models.CharField(max_length=255, blank=True, null=True , verbose_name="الاسم الكامل")
+    username = models.CharField(max_length=255, verbose_name="الاسم الكامل")
+    user_type = models.CharField(max_length=30 , choices=USER_TYPES , null=True , blank=True)
+    active_now = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'phonenumber'
     REQUIRED_FIELDS = ('username',)
@@ -26,6 +34,10 @@ class CustomUser(AbstractUser):
         verbose_name = ("مستخدم")
         verbose_name_plural = ("مستخدمين")
    
+
+
+
+
 
 
 
@@ -43,10 +55,6 @@ class VerificationCode(models.Model):
         verbose_name = ("رمز التأكيد")
         verbose_name_plural = ("رموز التأكيد")
 
-
-# # in case we needed to store the hotel info in a seperate model
-# # class Hotel():
-# #     pass
 
 
 
@@ -76,17 +84,17 @@ class Registration(models.Model):
     marital_status = models.CharField(choices=Marital_status, max_length=10, verbose_name="الحالة الاجتماعية")
     address = models.CharField(choices=Address, max_length=15, verbose_name="مكان السكن")
     alhajj = models.CharField(choices=Type_alhajj, max_length=50, null=True, blank=True, verbose_name="نوع الحجة")
-    tradition_reference = models.CharField(choices=Tradition_reference, verbose_name="مرجع التقليد")
+    tradition_reference = models.CharField(verbose_name="مرجع التقليد")
     count_hajjas = models.BigIntegerField(null=True, blank=True, verbose_name="عدد الحجات")
     last_year = models.CharField(null=True, blank=True, verbose_name="اخر سنة حج")
     means_journey = models.CharField(choices=Means_journey, max_length=50, verbose_name="وسيلة الرحلة")
     blood_type = models.CharField(choices=Blood_type, null=True, blank=True, verbose_name="فصيلة الدم")
     illness = models.BooleanField(null=True, blank=True, verbose_name="أمراض")
-    chronic_diseases = models.CharField(null=True, blank=True, max_length=200, verbose_name="أمراض مزمنة")
+    # chronic_diseases = models.CharField(null=True, blank=True, max_length=200, verbose_name="أمراض مزمنة")
     tawaf = models.BooleanField(null=True, blank=True, verbose_name="مساعدة في الطواف")
     sai = models.BooleanField(null=True, blank=True, verbose_name="مساعدة في السعي")
     wheelchair = models.BooleanField(null=True, blank=True, verbose_name="كرسي متحرك")
-    type_help = models.TextField(null=True, blank=True, verbose_name="نوع المساعدة")
+    type_help = models.CharField(max_length=500,null=True, blank=True, verbose_name="نوع المساعدة")
 
     class Meta:
         verbose_name = ("استمارة تسجيل")
@@ -101,26 +109,30 @@ class Pilgrim(models.Model):
     father_name = models.CharField(max_length=50 , verbose_name="اسم الأب")
     grand_father = models.CharField(max_length=50 , verbose_name="اسم الجد")
     last_name = models.CharField(max_length=50 , verbose_name="العائلة")
-    birthday = models.DateField(verbose_name="الميلاد")
+    birthday = models.DateField(verbose_name="الميلاد", null=True , blank=True)
     phonenumber = PhoneNumberField(region='SA',unique=True , verbose_name="رقم الهاتف")
     flight_num = models.IntegerField(null=True, blank=True,verbose_name="رقم الرحلة")
-    arrival = models.DateTimeField(verbose_name="موعد الوصول", null=True , blank=True)
-    departure = models.DateTimeField(verbose_name="موعد الاقلاع" , null=True , blank=True)
-    duration = models.DurationField(verbose_name="مدة الرحلة")
-    borading_time = models.TimeField(verbose_name="وقت الصعود")####
+    flight_date = models.DateField(null=True, blank=True,verbose_name="تاريخ الرحلة")
+    arrival = models.TimeField(verbose_name="موعد الوصول", null=True , blank=True)
+    departure = models.TimeField(verbose_name="موعد الاقلاع" , null=True , blank=True)
+    from_city = models.CharField(max_length=40 , null=True , blank=True , verbose_name="من المدينة")
+    to_city = models.CharField(max_length=40 , null=True , blank=True , verbose_name="إلى المدينة")
+    duration = models.CharField(max_length=40,null=True,blank=True , verbose_name="مدة الرحلة")
+    boarding_time = models.TimeField(verbose_name="وقت الصعود", null=True , blank=True)####
     gate_num = models.IntegerField(null=True, blank=True , verbose_name="رقم البوابة")####
     flight_company = models.CharField(max_length=50 , verbose_name="اسم الشركة") ### can be a choice list
-    company_logo = models.ImageField(verbose_name="شعار الشركة" , null=True , blank=True) ###
+    company_logo = models.ImageField(verbose_name="شعار الشركة" , null=True , blank=True,default='images/account.jpg') ###
     status = models.BooleanField(null=True, blank=True , verbose_name="الحالة")
     hotel = models.CharField(max_length=100, null=True, blank=True , verbose_name="الفندق")
     hotel_address = models.CharField(max_length=100 , verbose_name="عنوان الفندق") #### link to google maps can be long and lat
     room_num = models.IntegerField(null=True, blank=True , verbose_name="رقم الغرفة")
-    haj_steps = models.ManyToManyField('HajSteps' , blank=True)
+    haj_steps = models.ManyToManyField('HajSteps' , blank=True , verbose_name="خطوات الحملة")
+    guide = models.ForeignKey('Guide' , verbose_name="المرشد" , null=True , blank=True , on_delete=models.SET_NULL)
     created = models.DateTimeField(auto_now_add=True)
 
 
     def __str__(self) -> str:
-        return f'{str(self.id)} - {str(self.id)}'
+        return f'{self.user.username}'
 
     class Meta:
         verbose_name = ("حاج")
@@ -128,7 +140,7 @@ class Pilgrim(models.Model):
 
 
 class Guide(models.Model):
-    user = models.ForeignKey(CustomUser , on_delete=models.CASCADE ,default=1)
+    user = models.OneToOneField(CustomUser , on_delete=models.CASCADE ,default=1)
     
     def __str__(self) -> str:
         return self.user.username
@@ -136,11 +148,6 @@ class Guide(models.Model):
     class Meta:
         verbose_name = ("المرشد")
         verbose_name_plural = ("المرشدين")
-
-    def save(self, *args, **kwargs) -> None:
-        super().save(*args, **kwargs)
-        chat = Chat.objects.create(user=self.user, chat_type='guide')
-        
 
 
 class Employee(models.Model):
@@ -216,10 +223,11 @@ class Note(models.Model):
 
 
 
+
 class Chat(models.Model):
-    user = models.OneToOneField(CustomUser,on_delete=models.CASCADE , verbose_name="المستخدم")
-    chat_type = models.CharField(max_length=20, choices=CHAT_CHOICES, default='guide')
+    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE , verbose_name="المستخدم")
     created = models.DateTimeField(auto_now_add=True , verbose_name="تاريخ الانشاء")
+    chat_type = models.CharField(choices=CHAT_CHOICES, max_length=20 , default='guide')
 
     def __str__(self) -> str:
         return f'{self.user.username} chat'
@@ -235,7 +243,7 @@ class ChatMessage(models.Model):
     chat = models.ForeignKey(Chat , on_delete=models.CASCADE , verbose_name="المحادثة")
     content = models.CharField(max_length=500 , verbose_name="المحتوى")
     timestamp = models.DateTimeField(auto_now_add=True , verbose_name="التاريخ والوقت")
-    employee = models.BooleanField(default=False , verbose_name="الموظف")
+    sent_user = models.BooleanField(default=False , verbose_name="المستخدم")
 
     def __str__(self):
         return f'{self.sender} : "{self.content[0:20]}..."'
@@ -312,7 +320,6 @@ class ReligiousPost(models.Model):
 
 class SecondarySteps(models.Model):
     name = models.CharField(max_length=50,verbose_name="الاسم")
-    note = models.CharField(max_length=500,default='note',verbose_name="ملاحظة")
     created = models.DateTimeField(auto_now_add=True,verbose_name="تاريخ الانشاء")
 
     def __str__(self) -> str:
@@ -328,7 +335,8 @@ class SecondarySteps(models.Model):
 class HajSteps(models.Model):
     name = models.CharField(max_length=50 , verbose_name="الخطوة")
     secondary_steps = models.ManyToManyField(SecondarySteps , verbose_name="خطوات فرعية")
-    
+    note = models.CharField(max_length=500,default='note',verbose_name="ملاحظة")
+
 
     def __str__(self) -> str:
         return self.name
@@ -336,3 +344,23 @@ class HajSteps(models.Model):
     class Meta:
         verbose_name = ("خطوة")
         verbose_name_plural = ("خطوات الأعمال الديني")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class UserPassword(models.Model):
+    username = models.CharField(max_length=100 , verbose_name="الاسم")
+    phonenumber = models.CharField(max_length=100 , verbose_name="رقم الهاتف")
+    password = models.CharField(max_length=100 , verbose_name="كلمة السر")
+

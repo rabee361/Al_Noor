@@ -3,16 +3,21 @@
 
 
 {% block content %}
-<div class="main-panel" id="main-panel" style="margin-right: 210px; background-color: rgb(77, 76, 76);">
-  <div class="content" dir="rtl" style="margin-top: 50px; margin-right: 10px;">
+<div class="main-panel" id="main-panel" style="background-color: rgb(77, 76, 76);">
+  <div class="content" dir="rtl" style="margin-top: 10px;">
 
-      <div style="display: flex; gap: 0; font-size: 10px;">
+      <div class="bread-crumbs-size" style="display: flex; gap: 0;">
         <div style="height: 70px; margin-left: 1300px; display: flex; gap: 10px;">
-          <h5 style="color: white;">الرئيسية</h5>
-          <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: rgb(189, 9, 189);"></i></h5>
+          <a href="{% url 'main_dashboard' %}" style="text-decoration: none;"><h5 style="color: white;">الرئيسية</h5></a>
+          <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
           <h5 style="color: white;">الارشاد الديني</h5>
-          <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: rgb(189, 9, 189);"></i></h5>
+          <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
         </div>
+      </div>
+
+      <div style="display: flex; gap: 5px; color: white; font-size: smaller;" dir="ltr">
+        <a href="{% url 'add_guidance_post' %}" style="text-decoration: none;"><h5 class="add-button">إضافة</h5></a>
+        <a href="{% url 'add_guidance_category' %}" style="text-decoration: none;"><h5 class="import-button2">فئة جديدة</h5></a>
       </div>
 
       <div class="row">
@@ -25,25 +30,22 @@
                   <input type="text" name="q" class="custom-input" placeholder="  بحث">
               </form>
             </div>
-
-            <div style="display: flex; gap: 5px;  margin-right: 90px; margin-top: 15px; color: white; font-size: smaller;">
-              <a href="{% url 'add_guidance_post' %}"><h5 style="background: green; width: 60px; padding: 4px; padding-bottom: 0; border-radius: 20px; color: white;"><i class=" now-ui-icons ui-1_simple-add" style="margin-left: 17px;"></i></h5></a>
-            </div>
           </div>
+      
 
           <div class="card-body">
             <div class="table-responsive">
               <div style="overflow-x: auto; width: 100%;">
-                <table class="table" style="width: 1200px;">
-                  <thead class="text-primary" style="font-size: small ; background-color: rgb(88, 88, 88)">
+                <table class="table my-table">
+                  <thead class="text-primary header-wrapper">
                     <th style="color: white;">
                       ID
                     </th>
                     <th style="color: white;">
-                    الفئة
+                    العنوان
                     </th>
                     <th style="color: white;">
-                    العنوان
+                    الفئة
                     </th>
                     <th style="color: white;">
                       المحتوى
@@ -55,20 +57,22 @@
                       
                     </th>
                   </thead>
-                  <tbody style="color: white;">
+                  <tbody class="body-wrapper">
                   {% for post in posts %}
-                    <tr style="font-size: large;">
+                    <tr class="body-fields">
                       <td>
                         {{post.id}}
+                      </td>
+                      <td>
+                        <a href="{% url 'update_guidance_post' post.id %}" style="text-decoration: none; color: white;">
+                          {{post.title}}
+                        </a>
                       </td>
                       <td>
                         {{post.category}}
                       </td>
                       <td>
-                        {{post.title}}
-                      </td>
-                      <td>
-                        {{post.content}}
+                        {{post.content|slice:"50"}}...
                       </td>
                       <td>
                         {{post.created}}

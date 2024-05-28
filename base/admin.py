@@ -7,34 +7,34 @@ from fcm_django.admin import DeviceAdmin as DefaultDeviceAdmin
 from rest_framework_simplejwt.token_blacklist.models import OutstandingToken, BlacklistedToken
 from rest_framework_simplejwt.token_blacklist.admin import OutstandingTokenAdmin as DefaultOutstandingTokenAdmin
 from django.contrib.auth.models import Group
-from .forms import *
 from django.contrib.auth.admin import UserAdmin
+from .forms import *
 
 
 admin.site.site_header = "Dashboard"
 admin.site.index_title = "Admin Panel"
 
 
-admin.site.unregister(FCMDevice)
-admin.site.unregister(BlacklistedToken)
-admin.site.unregister(OutstandingToken)
+# admin.site.unregister(FCMDevice)
+# admin.site.unregister(BlacklistedToken)
+# admin.site.unregister(OutstandingToken)
 admin.site.unregister(Group)
 
 class HiddenModelAdmin(admin.ModelAdmin):
     def get_model_perms(self, request):
         return {}
     
-@admin.register(FCMDevice)
-class FCMDeviceAdmin(HiddenModelAdmin):
-    pass
+# @admin.register(FCMDevice)
+# class FCMDeviceAdmin(HiddenModelAdmin):
+#     pass
 
-@admin.register(OutstandingToken)
-class OutstandingTokenAdmin(HiddenModelAdmin):
-    pass
+# @admin.register(OutstandingToken)
+# class OutstandingTokenAdmin(HiddenModelAdmin):
+#     pass
 
-@admin.register(BlacklistedToken)
-class BlacklistedTokenAdmin(HiddenModelAdmin):
-    pass
+# @admin.register(BlacklistedToken)
+# class BlacklistedTokenAdmin(HiddenModelAdmin):
+#     pass
 
 
 
@@ -43,7 +43,22 @@ class BlacklistedTokenAdmin(HiddenModelAdmin):
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
-    list_display = ['id','first_name','last_name','phonenumber','is_verified','get_notifications']
+    list_display = ['id','username','first_name','last_name','phonenumber','is_verified','get_notifications']
+
+    fieldsets = (
+        (None, 
+                {'fields':('phonenumber','email', 'password',)}
+            ),
+            ('User Information',
+                {'fields':('username', 'first_name', 'last_name','image','user_type')}
+            ),
+            ('Permissions', 
+                {'fields':('is_verified', 'get_notifications' ,'is_staff', 'is_superuser', 'is_active', 'groups','user_permissions',)}
+            ),
+            ('Registration', 
+                {'fields':('date_joined', 'last_login',)}
+            )
+    )
 
     add_fieldsets = (
         (None, {'classes':('wide',),
@@ -59,10 +74,17 @@ class RegistrationAdmin(ImportExportModelAdmin):
     list_display = ['id','first_name','last_name','phonenumber']
 
 
+
+# class UserTypeAdmin(admin.ModelAdmin):
+#     list_display = ['name']
+
+
+
+
 ### needs modification
 class PilgrimAdmin(ImportExportModelAdmin):
     resource_class = PilgrimResource
-    list_display = ['id','first_name','father_name','last_name','phonenumber','flight_num','flight_company','arrival','departure','hotel','hotel_address','room_num']
+    list_display = ['id','first_name','father_name','last_name','guide','phonenumber','flight_num','flight_company','arrival','departure','hotel','hotel_address','room_num']
 
 
 class EmployeeAdmin(admin.ModelAdmin):
@@ -116,15 +138,15 @@ class NoteAdmin(admin.ModelAdmin):
 
 
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ['id','employee','title','content','created','completed']
+    list_display = ['id','employee','title','content','created','completed','accepted']
 
 
 class ChatAdmin(admin.ModelAdmin):
-    list_display = ['id','user','created','created']
+    list_display = ['id','user','created','chat_type','created']
 
 
 class ChatMessageAdmin(admin.ModelAdmin):
-    list_display = ['id','sender','chat','content','timestamp','employee']
+    list_display = ['id','sender','chat','content','timestamp','sent_user']
 
 
 class GuidanceCategoryAdmin(admin.ModelAdmin):
@@ -144,7 +166,7 @@ class ReligiousPostAdmin(admin.ModelAdmin):
 
 
 class SecondaryStepsAdmin(admin.ModelAdmin):
-    list_display = ['name','note']
+    list_display = ['name']
 
 
 class HajStepsAdmin(admin.ModelAdmin):
@@ -159,6 +181,7 @@ class HajStepsAdmin(admin.ModelAdmin):
 admin.site.register(Note,NoteAdmin)
 admin.site.register(UserNotification,UserNotificationAdmin)
 admin.site.register(CustomUser,CustomUserAdmin)
+# admin.site.register(UserType,UserTypeAdmin)
 admin.site.register(Pilgrim,PilgrimAdmin)
 admin.site.register(Registration,RegistrationAdmin)
 admin.site.register(Employee,EmployeeAdmin)

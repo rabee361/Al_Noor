@@ -2,15 +2,18 @@ from typing import Any
 from django.shortcuts import render , HttpResponse , redirect
 from django.views.generic import TemplateView
 from base.models import *
-from base.resources import PilgrimResource , RegistrationResource
+from base.resources import PilgrimResource , RegistrationResource , UserPasswordResource
 from .forms import *
-from import_export.admin import ImportExportModelAdmin
 from .forms import PilgrimForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate , login , logout
-
-
-
+import pandas as pd
+from django.core.files.storage import default_storage
+from django.db import transaction
+from django.views import View
+from django.contrib.auth.forms import PasswordChangeForm
+from base.notifications import send_event_notification
+from phonenumber_field.phonenumber import PhoneNumber
 
 
 
@@ -28,6 +31,7 @@ def login_user(request):
 
 
 
+@login_required(login_url='login')
 def logout_user(request):
     logout(request)
     return redirect('login')
@@ -35,8 +39,22 @@ def logout_user(request):
 
 
 
+def change_password(request,user_id):
+    if request.method == 'POST':
+            password1 = request.POST['password1']
+            password2 = request.POST['password2']
+            if password1 and password2:
+                user = CustomUser.objects.get(id=user_id)
+                user.set_password(password1)
+                user.save()
+            return redirect('pilgrims')
+        
+    return render(request, 'change_password.html')
+
+
+
 @login_required(login_url='login')
-def mani_dashboard(request):
+def main_dashboard(request):
     total_pilgrims = Pilgrim.objects.count()
     total_employees = Employee.objects.count()
     total_managers = Management.objects.count()
@@ -101,6 +119,32 @@ def add_register_form(request):
 
     if request.method == 'POST':
         form = NewRegisterForm(request.POST)
+        print(form.errors)
+        print(form.is_valid())
+        if form.is_valid():
+            form.save()
+            return redirect('registration_forms')
+
+    context = {
+        'form': form,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request, 'add_form.html', context)
+
+
+
+
+
+@login_required(login_url='login')
+def update_register_form(request,form_id):
+    register_form = Registration.objects.get(id=form_id)
+    form = NewRegisterForm(instance=register_form)
+    user_image = request.user.image.url
+    username = request.user.username
+
+    if request.method == 'POST':
+        form = NewRegisterForm(request.POST,instance=register_form)
         if form.is_valid():
             form.save()
             return redirect('registration_forms')
@@ -146,6 +190,44 @@ def pilgrims_list(request):
 
 
 
+
+def update_pilgrim(request,pilgrim_id):
+        pilgrim = Pilgrim.objects.get(id=pilgrim_id)
+        user = CustomUser.objects.get(id=pilgrim.user.id)
+        form = PilgrimForm(instance=pilgrim)
+
+        if request.method == 'POST':
+
+            pilgrim_form = PilgrimForm(instance=pilgrim,data=request.POST, files=request.FILES)
+
+            if pilgrim_form.is_valid():
+                pilgrim = pilgrim_form.save(commit=False)
+                pilgrim.user = user
+                pilgrim.user.username = request.POST['first_name'] + request.POST['father_name'] + request.POST['grand_father'] + request.POST['last_name']
+                pilgrim.haj_steps.set(request.POST.getlist('haj_steps'))
+                pilgrim.save()
+
+            return redirect('pilgrims')
+
+        try:
+            pilgrim_image = pilgrim.user.image.url
+        except:
+            pilgrim_image = ' '
+
+        context = { 'form': form,
+                    'pilgrim_image':pilgrim_image,
+                    'user_id': user.id,
+                    'user_image':request.user.image.url,
+                    'company_logo':pilgrim.company_logo.url
+                    }
+
+        return render(request, 'update_pilgrim.html', context=context)
+
+
+
+
+
+
 @login_required(login_url='login')
 def add_pilgrim(request):
     form = NewPilgrim()
@@ -153,8 +235,7 @@ def add_pilgrim(request):
     username = request.user.username
 
     if request.method == 'POST':
-        form = NewPilgrim(request.POST, request.FILES)  # Ensure you pass request.FILES if you're handling files
-        print(form.is_valid())
+        form = NewPilgrim(request.POST, request.FILES)
         if form.is_valid():
             user = CustomUser.objects.create(
                 username=form.cleaned_data['first_name'],
@@ -163,46 +244,102 @@ def add_pilgrim(request):
                 password=form.cleaned_data['password'],
                 get_notifications=form.cleaned_data['get_notifications'],
                 image=form.cleaned_data['image'],
+                user_type = 'حاج'
             )
 
-            print(user)
             pilgrim = Pilgrim.objects.create(
                 user=user,
                 first_name=form.cleaned_data['first_name'],
                 father_name=form.cleaned_data['father_name'],
                 last_name=form.cleaned_data['last_name'],
                 grand_father=form.cleaned_data['grand_father'],
+                registeration_id=form.cleaned_data['registeration_id'],
                 phonenumber=form.cleaned_data['phonenumber'],
                 hotel=form.cleaned_data['hotel'],
                 hotel_address=form.cleaned_data['hotel_address'],
-                birthday=form.cleaned_data['birthday'],
-                duration=form.cleaned_data['duration'],
-                borading_time=form.cleaned_data['borading_time'],
+                room_num=form.cleaned_data['room_num'],
                 gate_num=form.cleaned_data['gate_num'],
-                arrival=form.cleaned_data['arrival'],
+                flight_num=form.cleaned_data['flight_num'],
+                from_city=form.cleaned_data['from_city'],
+                to_city=form.cleaned_data['to_city'],
+                birthday=request.POST['birthday'],
+                duration=form.cleaned_data['duration'],
+                boarding_time=request.POST['boarding_time'],
+                arrival=request.POST['arrival'],
+                departure=request.POST['departure'],
+                guide=form.cleaned_data['guide'],
             )
 
             return redirect('pilgrims')
         
         else:
-            return redirect('pilgrims')
+            return redirect('add_pilgrim')
     
 
     context = {
         'form': form,
         'user_image': user_image,
-        'username': username
+        'username': username,
     }
     return render(request, 'add_pilgrim.html', context)
 
 
 
 
-@login_required(login_url='login')
-def delete_pilgrim(request,pk):
-    Pilgrim.objects.get(id=pk).delete()
 
-    return redirect('pilgrims-list')
+
+# @login_required(login_url='login')
+# def update_pilgrim(request,pilgrim_id):
+#     pilgrim = Pilgrim.objects.get(id=pilgrim_id)
+#     user = CustomUser.objects.get(id=pilgrim.user)
+#     form = UpdatePilgrim(instance=user)
+
+#     if request.method == 'POST':
+#         form = UpdatePilgrim(request.POST,request.FILES,instance=pilgrim)
+#         if form.is_valid():
+#             user = CustomUser.objects.get(
+#                 phonenumber=form.cleaned_data['phonenumber'],
+#             )
+#             password1=form.cleaned_data['password1']
+#             password2=form.cleaned_data['password2']
+#             image=request.FILES.get('image')
+#             print(image)
+#             if image:
+#                 user.image = request.FILES.get('image')
+#             else:
+#                 user.image = pilgrim.user.image
+#             # if password1:
+#             #     user.set_password(password1)
+
+
+#             user.get_notifications = form.cleaned_data['get_notifications']
+#             user.username = form.cleaned_data['username']
+#             user.save()
+#             return redirect('pilgrims')
+
+#     user_image = request.user.image.url
+#     pilgrim_image = pilgrim.user.image.url
+#     username = request.user.username
+    
+#     context = {
+#         'form': form,
+#         'user_image': user_image,
+#         'pilgrim_image': pilgrim_image,
+#         'username': username,
+#     }
+#     return render(request, 'update_pilgrim.html', context)
+
+
+
+
+
+@login_required(login_url='login')
+def delete_pilgrim(request,pilgrim_id):
+    pilgrim = Pilgrim.objects.get(id=pilgrim_id)
+    user = CustomUser.objects.get(id=pilgrim.user.id)
+    user.delete()
+    
+    return redirect('pilgrims')
 
 
 
@@ -232,22 +369,28 @@ def managers_list(request):
 @login_required(login_url='login')
 def add_manager(request):
     form = NewManager()
+    user_image = request.user.image.url
+    username = request.user.username
     if request.method == 'POST':
         form = NewManager(request.POST, request.FILES)
         if form.is_valid():
             user = CustomUser.objects.create(
                 username=form.cleaned_data['username'],
                 phonenumber=form.cleaned_data['phonenumber'],
-                # email=form.cleaned_data['email'],
+                email=form.cleaned_data['email'],
                 password=form.cleaned_data['password1'],
                 get_notifications=form.cleaned_data['get_notifications'],
-                image=form.cleaned_data['image'],
+                user_type = 'اداري'
             )
+            if form.cleaned_data['image']:
+                user.image = form.cleaned_data['image']
             
             Management.objects.create(user=user)
             return redirect('managers')
     context = {
-        'form' : form
+        'form' : form,
+        'user_image': user_image,
+        'username': username,
     }
     return render(request , 'add_manager.html' , context)
 
@@ -269,8 +412,6 @@ def update_manager(request,manager_id):
             user = CustomUser.objects.get(
                 phonenumber=form.cleaned_data['phonenumber'],
             )
-            password1=form.cleaned_data['password1']
-            password2=form.cleaned_data['password2']
             image=request.FILES.get('image')
             print(image)
             if image:
@@ -283,6 +424,7 @@ def update_manager(request,manager_id):
 
             user.get_notifications = form.cleaned_data['get_notifications']
             user.username = form.cleaned_data['username']
+            user.email = form.cleaned_data['email']
             user.save()
             return redirect('managers')
 
@@ -294,6 +436,7 @@ def update_manager(request,manager_id):
         'form': form,
         'user_image': user_image,
         'manager_image': manager_image,
+        'user_id': user.id,
         'username': username,
     }
     return render(request, 'update_manager.html', context)
@@ -303,8 +446,10 @@ def update_manager(request,manager_id):
 
 @login_required(login_url='login')
 def delete_manager(request,manager_id):
-    Management.objects.get(id=manager_id).delete()
-    return HttpResponse("greate")
+    manager = Management.objects.get(id=manager_id)
+    user = CustomUser.objects.get(id=manager.user.id)
+    user.delete()
+    return redirect("managers")
 
 
 
@@ -390,7 +535,87 @@ def update_task(request,task_id):
 def delete_task(request,task_id):
     Task.objects.get(id=task_id).delete()
 
-    return redirect('task-list')
+    return redirect('tasks')
+
+
+
+
+
+
+
+@login_required(login_url='login')
+def notes_list(request):
+    q = request.GET.get('q') or ''
+    notes = Note.objects.filter(pilgrim__user__username__startswith = q).order_by('-id')
+    user_image = request.user.image.url
+    username = request.user.username
+    context = {
+        'notes':notes,
+        'user_image' : user_image,
+        'username' : username
+ }
+    return render(request , 'notes.html' , context)
+
+
+
+
+
+@login_required(login_url='login')
+def add_note(request):
+    form = NewNote()
+    user_image = request.user.image.url
+    username = request.user.username
+
+    if request.method == 'POST':
+        form = NewNote(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('notes')
+
+    context = {
+        'form': form,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request, 'add_note.html', context)
+
+
+
+
+
+
+
+@login_required(login_url='login')
+def update_note(request,note_id):
+    note = Note.objects.get(id=note_id)
+    form = NewNote(instance=note)
+    user_image = request.user.image.url
+    username = request.user.username
+
+    if request.method == 'POST':
+        form = NewNote(request.POST, instance=note)
+        if form.is_valid():
+            form.save()
+            return redirect('notes')
+
+    context = {
+        'form': form,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request, 'add_note.html', context)
+
+
+
+
+
+
+
+@login_required(login_url='login')
+def delete_note(request,note_id):
+    Note.objects.get(id=note_id).delete()
+
+    return redirect('notes')
 
 
 
@@ -432,12 +657,15 @@ def add_employee(request):
             user = CustomUser.objects.create(
                 username=form.cleaned_data['username'],
                 phonenumber=form.cleaned_data['phonenumber'],
-                # email=form.cleaned_data['email'],
+                email=form.cleaned_data['email'],
                 password=form.cleaned_data['password1'],
                 get_notifications=form.cleaned_data['get_notifications'],
-                image=form.cleaned_data['image'],
+                user_type = 'موظف'
             )
             
+            if form.cleaned_data['image']:
+                user.image = form.cleaned_data['image']
+
             Employee.objects.create(user=user)
             return redirect('employees')
     context = {
@@ -463,20 +691,17 @@ def update_employee(request,employee_id):
             user = CustomUser.objects.get(
                 phonenumber=form.cleaned_data['phonenumber'],
             )
-            password1=form.cleaned_data['password1']
-            password2=form.cleaned_data['password2']
             image=request.FILES.get('image')
             print(image)
             if image:
                 user.image = request.FILES.get('image')
             else:
                 user.image = employee.user.image
-            # if password1:
-            #     user.set_password(password1)
 
 
             user.get_notifications = form.cleaned_data['get_notifications']
             user.username = form.cleaned_data['username']
+            user.email = form.cleaned_data['email']
             user.save()
             return redirect('employees')
 
@@ -487,6 +712,7 @@ def update_employee(request,employee_id):
     context = {
         'form': form,
         'user_image': user_image,
+        'user_id': user.id,
         'employee_image': employee_image,
         'username': username,
     }
@@ -501,7 +727,9 @@ def update_employee(request,employee_id):
 
 @login_required(login_url='login')
 def delete_employee(request,employee_id):
-    Employee.objects.get(id=employee_id).delete()
+    employee = Employee.objects.get(id=employee_id)
+    user = CustomUser.objects.get(id=employee.user.id)
+    user.delete()
     return redirect('employees')
 
 
@@ -514,7 +742,7 @@ def guides_list(request):
     q = request.GET.get('q') or ''
     user_image = request.user.image.url
     username = request.user.username
-    guides = Employee.objects.filter(user__username__startswith=q).order_by('-id')
+    guides = Guide.objects.filter(user__username__startswith=q).order_by('-id')
     context = {
         'guides':guides,
         'user_image': user_image,
@@ -535,13 +763,16 @@ def add_guide(request):
             user = CustomUser.objects.create(
                 username=form.cleaned_data['username'],
                 phonenumber=form.cleaned_data['phonenumber'],
-                # email=form.cleaned_data['email'],
+                email=form.cleaned_data['email'],
                 password=form.cleaned_data['password1'],
                 get_notifications=form.cleaned_data['get_notifications'],
-                image=form.cleaned_data['image'],
+                user_type = 'مرشد'
             )
-            
-            Employee.objects.create(user=user)
+
+            if form.cleaned_data['image']:
+                user.image = form.cleaned_data['image']    
+
+            Guide.objects.create(user=user)
             return redirect('guides')
     context = {
         'form' : form,
@@ -565,20 +796,16 @@ def update_guide(request,guide_id):
             user = CustomUser.objects.get(
                 phonenumber=form.cleaned_data['phonenumber'],
             )
-            password1=form.cleaned_data['password1']
-            password2=form.cleaned_data['password2']
             image=request.FILES.get('image')
-            print(image)
             if image:
                 user.image = request.FILES.get('image')
             else:
                 user.image = guide.user.image
-            # if password1:
-            #     user.set_password(password1)
 
 
             user.get_notifications = form.cleaned_data['get_notifications']
             user.username = form.cleaned_data['username']
+            user.email = form.cleaned_data['email']
             user.save()
             return redirect('guides')
 
@@ -590,6 +817,7 @@ def update_guide(request,guide_id):
         'form': form,
         'user_image': user_image,
         'guide_image': guide_image,
+        'user_id': user.id,
         'username': username,
     }
     return render(request, 'update_guide.html', context)
@@ -598,7 +826,9 @@ def update_guide(request,guide_id):
     
 
 def delete_guide(request,guide_id):
-    Guide.objects.get(id=guide_id).delete()
+    guide = Guide.objects.get(id=guide_id)
+    user = CustomUser.objects.get(id=guide.user.id)
+    user.delete()
     return redirect('guides')
 
 
@@ -606,32 +836,6 @@ def delete_guide(request,guide_id):
 
 
 
-
-
-
-class StoreListView(TemplateView):
-    template_name = 'store_list.html'
-
-class CategoryListView(TemplateView):
-    template_name = 'category_list.html'
-
-class MainServiceListView(TemplateView):
-    template_name = 'main_service_list.html'
-
-class SubscriptionListView(TemplateView):
-    template_name = 'subscription_list.html'
-
-class PromotionSubscriptionListView(TemplateView):
-    template_name = 'promotion-subscription-list.html'
-
-class DashboardView(TemplateView):
-    template_name = 'base.html'
-
-class PromotionSubscriptionListView(TemplateView):
-    template_name = 'promotion-subscription-list.html'
-
-class PromotionSubscriptionListView(TemplateView):
-    template_name = 'promotion-subscription-list.html'
 
 
 def export_pilgram(request):
@@ -652,22 +856,83 @@ def export_forms(request):
 
 
 
-
+@transaction.atomic
 def import_pilgrim(request):
-    if request.method == 'POST':
-        form = PilgrimForm(request.POST, request.FILES)
-        if form.is_valid():
-            pilgrim_resource = PilgrimResource()
-            dataset = tablib.Dataset().load(request.FILES['file'].read(), format='xlsx')
-            result = pilgrim_resource.import_data(dataset, dry_run=True) # Test the data import
+        user_image = request.user.image.url
+        username = request.user.username
+        context = {
+            'user_image': user_image,
+            'username': username,
+        }
 
-            if not result.has_errors():
-                pilgrim_resource.import_data(dataset, dry_run=False) # Actually import now
-                return HttpResponseRedirect('/success/url/')
+        if request.method == 'POST':
+            excel_file = request.FILES['file']
+            df = pd.read_excel(excel_file)
+            for index, row in df.iterrows():
 
-    else:
-        form = PilgrimForm()
-    return render(request, 'import.html', {'form': form})
+                arrival_datetime = datetime.strptime(str(row['موعد الوصول']), '%H:%M:%S')
+                departure_datetime = datetime.strptime(str(row['موعد الرحيل']), '%H:%M:%S')
+
+                diff = departure_datetime - arrival_datetime
+
+                formatted_diff = str(timedelta(hours=diff.seconds//3600, minutes=diff.seconds//60%60))
+                pilgrim_phonenumber = PhoneNumber.from_string(str(row['رقم الجوال']) , region='SA')
+                pilgrim_username = str(row['الاسم الأول']) + ' ' + str(row['اسم الأب']) + ' ' + str(row['اسم الجد']) + ' ' + str(row['العائلة'])
+                user , created =CustomUser.objects.update_or_create(phonenumber=pilgrim_phonenumber ,
+                                                                    defaults={
+                                                                    'username':pilgrim_username,
+                                                                    'user_type':'حاج',
+                                                                    'first_name':str(row['الاسم الأول']) , 
+                                                                    'last_name':str(row['العائلة'])   
+                                                                    })
+                if created:                
+                    my_password = generate_password()
+                    user.set_password(my_password)
+                    user.save()
+                    chat1 = Chat.objects.create(user=user , chat_type='guide')
+                    chat2 = Chat.objects.create(user=user , chat_type='manager')
+                    UserPassword.objects.create(password=my_password , username=user.username , phonenumber=str(user.phonenumber))
+                else:
+                    user.first_name = row['الاسم الأول']
+                    user.last_name = row['العائلة']
+
+                pilgrim , created = Pilgrim.objects.update_or_create(
+                    user=user,
+                    phonenumber=pilgrim_phonenumber,
+                    defaults={
+                    'registeration_id':row['رقم الهوية'],
+                    'first_name':row['الاسم الأول'],
+                    'father_name':row['اسم الأب'],
+                    'grand_father':row['اسم الجد'],
+                    'last_name':row['العائلة'],
+                    'birthday':row['تاريخ الميلاد - الميلادي فقط'],
+                    'flight_num':row['رقم الرحلة'],
+                    'flight_date':row['تاريخ الرحلة'],
+                    'arrival':row['موعد الوصول'],
+                    'departure':row['موعد الرحيل'],
+                    'from_city':row['من المدينة'],
+                    'to_city':row['إلى المدينة'],
+                    'duration':str(formatted_diff),
+                    'boarding_time':row['وقت الصعود'],
+                    'gate_num':row['رقم البوابة'],
+                    'flight_company':row['شركة الطيران'],
+                    'status':True,
+                    'hotel':row['الفندق'],
+                    'hotel_address':row['عنوان الفندق'],
+                    'room_num':33
+                    }
+                )
+                pilgrim.save()
+
+            passwords = UserPasswordResource()
+            dataset = passwords.export()
+            response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
+            response['Content-Disposition'] = 'attachment; filename="passwords.xlsx"'
+            return response
+
+            # return redirect('pilgrims')
+        return render(request, 'import_pilgrims.html' , context=context)
+
 
 
 
@@ -699,6 +964,9 @@ def add_notification(request):
     if request.method == 'POST':
         form = NotificationForm(request.POST, request.FILES)
         if form.is_valid():
+            title = form.cleaned_data['title']
+            content = form.cleaned_data['content']
+            send_event_notification(title=title,content=content)
             form.save()
             return redirect('notifications')
     context = {
@@ -776,9 +1044,10 @@ def update_guidance_post(request,post_id):
     context = {
         'form': form,
         'user_image': user_image,
-        'username': username
+        'username': username,
+        'post_image':post.cover.url
     }
-    return render(request, 'add_guidance_post.html', context)
+    return render(request, 'update_guidance_post.html', context)
 
 
 
@@ -787,7 +1056,269 @@ def update_guidance_post(request,post_id):
 @login_required(login_url='login')
 def delete_guidance_post(request,post_id):
     GuidancePost.objects.get(id=post_id).delete()
-    return redirect('guideance_posts')
+    return redirect('guidance_posts')
+
+
+
+
+
+
+def guidance_categories(request): 
+    q = request.GET.get('q') or ''
+    user_image = request.user.image.url
+    username = request.user.username
+    categories = GuidanceCategory.objects.filter(name__startswith=q).order_by('-id')
+    context = {
+        'categories':categories,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request , 'guidance_categories.html' , context)
+
+
+
+
+@login_required(login_url='login')
+def add_guidance_category(request):
+    form = GuidanceCategoryForm()
+    user_image = request.user.image.url
+    username = request.user.username
+    if request.method == 'POST':
+        form = GuidanceCategoryForm(request.POST)
+        print(form.errors)
+        if form.is_valid():
+            form.save()
+            return redirect('guidance_categories')
+    context = {
+        'form' : form,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request , 'add_guidance_category.html' , context)
+
+
+
+
+
+
+
+
+@login_required(login_url='login')
+def update_guidance_category(request,category_id):
+    category = GuidanceCategory.objects.get(id=category_id)
+    form = GuidanceCategoryForm(instance=category)
+    user_image = request.user.image.url
+    username = request.user.username
+
+    if request.method == 'POST':
+        form = GuidanceCategoryForm(request.POST, instance=category)
+        if form.is_valid():
+            form.save()
+            return redirect('guidance_categories')
+
+    context = {
+        'form': form,
+        'user_image': user_image,
+        'username': username,
+    }
+    return render(request, 'add_guidance_category.html', context)
+
+
+
+
+
+@login_required(login_url='login')
+def delete_guidance_category(request,category_id):
+    GuidanceCategory.objects.get(id=category_id).delete()
+    return redirect('guidance_categories')
+
+
+
+
+
+
+
+
+def religious_posts(request):
+    q = request.GET.get('q') or ''
+    user_image = request.user.image.url
+    username = request.user.username
+    posts = ReligiousPost.objects.filter(title__startswith=q).order_by('-id')
+    context = {
+        'posts':posts,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request , 'religious_posts.html' , context)
+
+
+
+
+
+
+@login_required(login_url='login')
+def add_religious_post(request):
+    form = ReligiousPostForm()
+    user_image = request.user.image.url
+    username = request.user.username
+    if request.method == 'POST':
+        form = ReligiousPostForm(request.POST, request.FILES)
+        print(form.errors)
+        if form.is_valid():
+            form.save()
+            return redirect('religious_posts')
+    context = {
+        'form' : form,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request , 'add_religious_post.html' , context)
+
+
+
+
+
+
+
+
+
+@login_required(login_url='login')
+def update_religious_post(request,post_id):
+    post = ReligiousPost.objects.get(id=post_id)
+    form = ReligiousPostForm(instance=post)
+    user_image = request.user.image.url
+    username = request.user.username
+
+    if request.method == 'POST':
+        form = ReligiousPostForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('religious_posts')
+
+    context = {
+        'form': form,
+        'user_image': user_image,
+        'username': username,
+        'post_image':post.cover.url
+    }
+    return render(request, 'update_religious_post.html', context)
+
+
+
+
+
+@login_required(login_url='login')
+def delete_religious_post(request,post_id):
+    ReligiousPost.objects.get(id=post_id).delete()
+    return redirect('religious_posts')
+
+
+
+
+
+
+
+def religious_categories(request): 
+    q = request.GET.get('q') or ''
+    user_image = request.user.image.url
+    username = request.user.username
+    categories = ReligiousCategory.objects.filter(name__startswith=q).order_by('-id')
+    context = {
+        'categories':categories,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request , 'religious_categories.html' , context)
+
+
+
+
+
+
+@login_required(login_url='login')
+def add_religious_category(request):
+    form = ReligiousCategoryForm()
+    user_image = request.user.image.url
+    username = request.user.username
+    if request.method == 'POST':
+        form = ReligiousCategoryForm(request.POST)
+        print(form.errors)
+        if form.is_valid():
+            form.save()
+            return redirect('religious_categories')
+    context = {
+        'form' : form,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request , 'add_religious_category.html' , context)
+
+
+
+
+
+@login_required(login_url='login')
+def update_religious_category(request,category_id):
+    category = ReligiousCategory.objects.get(id=category_id)
+    form = ReligiousCategoryForm(instance=category)
+    user_image = request.user.image.url
+    username = request.user.username
+
+    if request.method == 'POST':
+        form = ReligiousCategoryForm(request.POST, instance=category)
+        if form.is_valid():
+            form.save()
+            return redirect('religious_categories')
+
+    context = {
+        'form': form,
+        'user_image': user_image,
+        'username': username,
+    }
+    return render(request, 'add_religious_category.html', context)
+
+
+
+
+
+@login_required(login_url='login')
+def delete_religious_category(request,category_id):
+    ReligiousCategory.objects.get(id=category_id).delete()
+    return redirect('religious_categories')
+
+
+
+
+
+@login_required(login_url='login')
+def update_religious_post(request,post_id):
+    post = ReligiousPost.objects.get(id=post_id)
+    form = ReligiousPostForm(instance=post)
+    user_image = request.user.image.url
+    username = request.user.username
+
+    if request.method == 'POST':
+        form = ReligiousPostForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('religious_posts')
+
+    context = {
+        'form': form,
+        'user_image': user_image,
+        'username': username,
+        'post_image':post.cover.url
+    }
+    return render(request, 'update_religious_post.html', context)
+
+
+
+
+
+@login_required(login_url='login')
+def delete_religious_post(request,post_id):
+    ReligiousPost.objects.get(id=post_id).delete()
+    return redirect('religious_posts')
 
 
 
@@ -861,4 +1392,166 @@ def update_step(request,step_id):
 def delete_step(request,step_id):
     HajSteps.objects.get(id=step_id).delete()
     return redirect('steps')
+
+
+
+
+
+
+
+
+
+@login_required(login_url='login')
+def secondary_steps_list(request):
+    q = request.GET.get('q') or ''
+    user_image = request.user.image.url
+    username = request.user.username
+    steps = SecondarySteps.objects.filter(name__startswith=q).order_by('-id')
+    context = {
+        'steps':steps,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request , 'secondary_steps.html' , context)
+
+
+
+
+
+
+
+
+
+
+
+@login_required(login_url='login')
+def add_secondary_step(request):
+    form = SecondaryStepForm()
+    user_image = request.user.image.url
+    username = request.user.username
+    if request.method == 'POST':
+        form = SecondaryStepForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('secondary_steps')
+    context = {
+        'form' : form,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request , 'add_secondary_step.html' , context)
+
+
+
+
+
+
+
+@login_required(login_url='login')
+def update_secondary_step(request,step_id):
+    step = SecondarySteps.objects.get(id=step_id)
+    form = SecondaryStepForm(instance=step)
+    user_image = request.user.image.url
+    username = request.user.username
+
+    if request.method == 'POST':
+        form = StepForm(request.POST, instance=step)
+        if form.is_valid():
+            form.save()
+            return redirect('secondary_steps')
+
+    context = {
+        'form': form,
+        'user_image': user_image,
+        'username': username
+    }
+    return render(request, 'add_secondary_step.html', context)
+
+
+
+
+
+
+
+
+@login_required(login_url='login')
+def delete_secondary_step(request,step_id):
+    SecondarySteps.objects.get(id=step_id).delete()
+    return redirect('secondary_steps')
+
+
+
+
+
+def my_account(request):
+    user = request.user
+    form = UpdateUser(instance=user)
+
+    if request.method == 'POST':
+        form = UpdateUser(request.POST,request.FILES,instance=user)
+        if form.is_valid():
+            user = CustomUser.objects.get(
+                phonenumber=form.cleaned_data['phonenumber'],
+            )
+            image=request.FILES.get('image')
+            if image:
+                user.image = request.FILES.get('image')
+            else:
+                user.image = user.image
+
+
+            user.get_notifications = form.cleaned_data['get_notifications']
+            user.username = form.cleaned_data['username']
+            user.email = form.cleaned_data['email']
+            user.save()
+            return redirect('employees')
+
+    user_image = request.user.image.url
+    username = request.user.username
+    
+    context = {
+        'form': form,
+        'user_image': user_image,
+        'user_id': user.id,
+        'username': username,
+    }
+    
+    return render(request , 'my_account.html' , context=context)
+
+
+
+
+
+
+
+@login_required(login_url='login')
+def add_admin(request):
+    form = NewAdmin()
+    user_image = request.user.image.url
+    username = request.user.username
+    if request.method == 'POST':
+        form = NewAdmin(request.POST, request.FILES)
+        print(form.errors)
+        if form.is_valid():
+            user = CustomUser.objects.create(
+                username=form.cleaned_data['username'],
+                phonenumber=form.cleaned_data['phonenumber'],
+                email=form.cleaned_data['email'],
+                password=form.cleaned_data['password1'],
+                get_notifications=form.cleaned_data['get_notifications'],
+                user_type = 'اداري',
+                is_superuser = True,
+                is_staff = True
+            )
+            if form.cleaned_data['image']:
+                user.image = form.cleaned_data['image']
+            
+            return redirect('main_dashboard')
+    context = {
+        'form' : form,
+        'user_image': user_image,
+        'username': username,
+    }
+    return render(request , 'add_admin.html' , context)
+
 

@@ -2,6 +2,62 @@
 
 
 
+
+:root {
+    --bg-color: rgb(20,20,20);
+}
+
+
+
+@media (min-width: 992px) {
+    .main-panel {
+       margin-right: 230px; /* Adjust the value as needed */
+     }
+   }
+
+
+
+
+/* Apply a gap between the flex items for larger screens */
+@media (max-width: 992px) {
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Sets the gap between the flex items */
+    }
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+    .container {
+       display: flex;
+       flex-direction: row; /* Sets the flex direction to row */
+       gap: 20px; /* Sets the gap between the flex items */
+     }
+   }
+   
+   
+@media (max-width: 768px) {
+    .form-input-check {
+        gap: 10px;
+    }
+}
+
+
+
+
+.bread-crumbs-size {
+    font-size: 9px;
+}
+
+
+
+
+.form-input-check {
+    display: flex;
+    flex-direction: row;
+    gap: 60px;
+}
+
 .custom-input::placeholder {
     font-size: 16px;
     color: white;
@@ -18,13 +74,255 @@
 
 
 
+
+
+.import-button {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: gray;
+    text-wrap: nowrap;
+    width: 140px;
+    border-radius: 20px;
+    color: white;
+}
+
+
+.import-button2 {
+    background: #D7A401;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-wrap: nowrap;
+    width: 170px;
+    border-radius: 20px;
+    color: white;
+}
+
+
+
+.add-button {
+    background-color: #D7A401;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-wrap: nowrap;
+    width: 140px;
+    border-radius: 20px;
+    color: white;
+}
+
+
+
+.current-image {
+    width: 50px;
+    height: 50px;
+}
+
+
+.my-img {
+    font-size: x-small;
+    text-wrap: wrap;
+}
+
+
+.current-image-wrapper {
+    display: flex; 
+    flex-direction: row; 
+    justify-content: right; 
+    margin-top: 7px; 
+    align-items: center; 
+    gap: 20px; 
+    text-wrap: wrap;
+}
+
+
+
+.time-field {
+    width: 80%;
+    outline: none;
+    border: rgb(58, 57, 57);
+    border-radius: 20px;
+    color: white;
+    font-size: larger;
+    background-color: rgb(126, 126, 126);
+    height: 45px;
+}
+
+
+.date-field {
+    width: 80%;
+    outline: none;
+    border: rgb(58, 57, 57);
+    border-radius: 20px;
+    color: white;
+    font-size: larger;
+    background-color: rgb(126, 126, 126);
+    height: 45px;
+}
+
+
 .form-control {
+    width: 100%;
     outline: none;
     border: rgb(58, 57, 57);
     color: white;
     font-size: larger;
     background-color: rgb(126, 126, 126);
     height: 45px;
+}
+
+
+
+.my-table {
+    width: 100%;
+}
+
+
+.header-wrapper {
+    background-color: rgb(88, 88, 88);
+    text-align: center;
+}
+
+.body-wrapper {
+    color: white; 
+    /* font-size: medium; */
+}
+
+.body-fields {
+    font-size: large;
+    text-wrap: nowrap;
+    text-align: center;
+} 
+
+@media (max-width:768px) {
+
+    .header-wrapper {
+        font-size: x-small ; 
+        background-color: rgb(88, 88, 88)
+    }
+
+    .body-fields {
+        font-size: medium;
+    } 
+
+    .form-control {
+        width: 100%;
+        outline: none;
+        border: rgb(58, 57, 57);
+        color: white;
+        font-size: x-small;
+        background-color: rgb(126, 126, 126);
+        height: 25px;
+    }
+
+    .date-field {
+        width: 100%;
+        text-align: right;
+        outline: none;
+        border: rgb(58, 57, 57);
+        border-radius: 20px;
+        color: white;
+        font-size: x-small;
+        background-color: rgb(126, 126, 126);
+        height: 25px;
+    }
+
+    .time-field {
+        width: 100%;
+        text-align: right;
+        outline: none;
+        border: rgb(58, 57, 57);
+        border-radius: 20px;
+        color: white;
+        font-size: x-small;
+        background-color: rgb(126, 126, 126);
+        height: 25px;
+    }
+    
+    .current-image-wrapper {
+        display: flex; 
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 7px;
+        gap: 10px;
+    }
+
+    .current-image {
+        align-self: right;
+        width: 50px;
+        height: 50px;
+    }
+
+    .bread-crumbs-size {
+        font-size: 7px;
+    }
+
+        
+    .add-button {
+        background: #D7A401;
+        font-size:inherit;
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        text-wrap: nowrap;
+        width: 50px;
+        border-radius: 20px;
+        color: white;
+    }
+
+    .import-button {
+        background: gray;
+        font-size:inherit;
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        text-wrap: nowrap;
+        width: 90px;
+        border-radius: 20px;
+        color: white;
+    }    
+
+    .import-button2 {
+        background: #D7A401;
+        font-size:inherit;
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        text-wrap: nowrap;
+        width: 110px;
+        border-radius: 20px;
+        color: white;
+    }    
+
+}
+
+
+
+
+
+
+.form-control-text {
+    width: 100%;
+    outline: none;
+    border: rgb(58, 57, 57);
+    border-radius: 20px;
+    color: white;
+    font-size: larger;
+    background-color: rgb(126, 126, 126);
+    height: 80px;
 }
 
 
@@ -42,6 +340,37 @@
     text-align: right;
 }
 
+.form-block {
+    padding-top: 20px;
+    width: 40%;
+}
+
+.form-input {
+    width: 100%;
+}
+
+.form-input-datetime {
+    width: 100%;
+    text-align: right;
+}
+
+.form-body {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+
+
+.form-group {
+    background-color: rgb(57, 58, 58); 
+    width: 100%; 
+    height: 300px;
+    display: flex;
+    gap: 10px;
+    justify-content: space-evenly;
+    border-radius: 30px;
+}
 
 
 
@@ -55,18 +384,22 @@
 }
 
 
-.form-block {
-    padding-top: 20px;
-}
 
 
-.import-button {
+
+.change-button {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
     background: gray;
-    width: 60px;padding: 4px;
-    padding-bottom: 0;
+    text-wrap: nowrap;
+    width: 170px;
     border-radius: 20px;
     color: white;
 }
+
 
 
 
@@ -89,10 +422,6 @@ body {
     background: #555; /* Darker color for the scrollbar handle on hover */
 }
 
-
-:root {
-    --bg-color: rgb(20,20,20);
-}
 
 
 .login-wrapper{
@@ -127,23 +456,83 @@ body {
 }
 
 
-.form-body {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+
+.login-btn:hover {
+    background: #D7A401;
 }
 
+
+
 .login-btn {
-    background: #a30188;
+    background: #D7A401;
     color: white;
     border-radius: 30px;
     border: none;
     height: 40px;
+    margin-top: 30px;
+    /* box-shadow: -1px 1px 2px 2px #ccc, 1px 1px 1px 1px #272727; */
 }
-
 
 .login-title {
     color: white;
     font-family: Cairo;
     text-align: center;
 }
+
+
+
+.bread-crumbs-arrow {
+    color: #D7A401;
+}
+
+
+.mydropdown {
+    /* margin-left: auto;
+    margin-right: 0; */
+    margin-right: 240px;
+}
+
+@media (max-width:1019px) {
+    .mydropdown{
+        margin-left: auto;
+        margin-right: 0;
+    }
+  }
+  
+    .mydropdown-content {
+    display: none;
+    padding: 5px;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 100px;
+    border-radius: 10px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    /* padding: 6px 8px; */
+    z-index: 1;
+  }
+  
+  .mydropdown:hover .mydropdown-content {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+
+
+  .mydropdown-content p {
+    padding: 5px;
+    border-radius: 10px;
+  }
+
+
+  .mydropdown-content p:hover {
+    padding: 5px;
+    background: #D7A401;
+  }
+
+  .mydropdown-content a:hover {
+    background: #D7A401;
+    border-radius: 10px;
+  }
+
+

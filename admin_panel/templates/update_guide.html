@@ -4,60 +4,58 @@
 
 {% block content %}
 
-<div class="main-panel" id="main-panel" style="margin-right: 210px; background-color: rgb(77, 76, 76);">
-    <div class="content" dir="rtl" style="margin-top: 50px; margin-right: 10px;">
+<div class="main-panel" id="main-panel" style="background-color: rgb(77, 76, 76);">
+    <div class="content" dir="rtl" style="margin-top: 10px;">
   
-        <div style="display: flex; gap: 0; font-size: 10px;">
+        <div class="bread-crumbs-size" style="display: flex; gap: 0;">
           <div style="height: 70px; margin-left: 1300px; display: flex; gap: 10px;">
-            <h5 style="color: white;">الرئيسية</h5>
-            <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: rgb(189, 9, 189);"></i></h5>
-            <h5 style="color: white;">المرشدين</h5>
-            <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: rgb(189, 9, 189);"></i></h5>
+            <a href="{% url 'main_dashboard' %}" style="text-decoration: none;"><h5 style="color: white;">الرئيسية</h5></a>
+            <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
+            <a href="{% url 'guides' %}" style="text-decoration: none;"><h5 style="color: white;">المرشدين</h5></a>
+            <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
             <h5 style="color: white;">تعديل</h5>
-            <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: rgb(189, 9, 189);"></i></h5>
-          </div>
-          <div style="display: flex; gap: 10px;  margin-right: 100px; color: white;">
-            <h5><i class=" now-ui-icons arrows-1_cloud-download-93" style="margin-left: 5px;"></i>تصدير </h5>
-            <h5><i class=" now-ui-icons arrows-1_cloud-upload-94" style="margin-left: 5px;"></i>استيراد </h5>
+            <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
           </div>
         </div>
 
-        <div style="margin-right: 100px;">
+
+        <div style="display: flex; gap: 5px; color: white; font-size: smaller;" dir="ltr">
+          <a href="{% url 'change_password' user_id %}" style="text-decoration: none;"><h5 class="change-button" style="background-color: #969696;">تعديل كلمة المرور</h5></a>
+        </div>
+        
+
+        <div>
             <form action="" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 30px; color: white;">
                 {% csrf_token %}
-                <div style="background-color: rgb(57, 58, 58); width: 800px; height: 330px;display: flex; justify-content: space-evenly; border-radius: 30px;" dir="rtl">
+                <div style="background-color: rgb(57, 58, 58); width: 100%;display: flex;gap: 10px;justify-content: space-evenly;border-radius: 30px;" dir="rtl">
                   
                   <div class="form-block">
-                    <div style="width: 300px;">
+                    <div class="form-input">
                       <div class="form-label">{{ form.username.label_tag }}</div>
-                      <div class="form-input">{{ form.username|add_class:"form-control" }}</div>
+                      <div>{{ form.username|add_class:"form-control" }}</div>
                     </div>
-                    <div style="width: 300px;">
-                      <div class="form-label">{{ form.password1.label_tag }}</div>
-                      <div class="form-input">{{ form.password1|add_class:"form-control" }}</div>
+                    <div class="form-input">
+                      <div class="form-label">{{ form.email.label_tag }}</div>
+                      <div>{{ form.email|add_class:"form-control" }}</div> 
                     </div>
-                    <div style="width: 300px;">
-                      <div class="form-label">{{ form.password2.label_tag }}</div>
-                      <div class="form-input">{{ form.password2|add_class:"form-control" }}</div> 
-                    </div>
-                    <div style="width: 300px; display: flex; align-items: center; justify-content: right; gap: 40px;">
+                    <div class="form-input" style="display: flex; align-items: center; justify-content: right; gap: 40px;">
                       <div class="form-label">{{ form.get_notifications.label_tag }}</div>
-                      <div class="form-input" style="padding-top: 27px;">{{ form.get_notifications|add_class:"form-control-check" }}</div> 
+                      <div style="padding-top: 27px;">{{ form.get_notifications|add_class:"form-control-check" }}</div> 
                     </div>
                 </div>
                 
                 
                 <div class="form-block">
-                    <div style="width: 300px;">
+                    <div class="form-input">
                         <div class="form-label">{{ form.phonenumber.label_tag }}</div>
-                        <div class="form-input">{{ form.phonenumber|add_class:"form-control" }}</div> 
-                    </div>    
-                    <div style="width: 300px; text-align: right;">
-                    <div class="form-label">الصورة الشخصية:</div>
-                    <div style="display: flex; flex-direction: row; justify-content: right; margin-top: 7px; align-items: center; gap: 20px;">
-                        <img src="{{ guide_image }}" alt="Current Image" width="50px" height="50px">
-                        <div class="form-input"><input type="file" name="image" id="image_id"></div>
-                    </div>
+                        <div>{{ form.phonenumber|add_class:"form-control" }}</div> 
+                    </div>      
+                    <div class="form-input" style="text-align: right;">
+                      <div class="form-label">الصورة الشخصية:</div>
+                      <div class="current-image-wrapper">
+                          <img src="{{ guide_image }}" alt="Current Image" class="current-image">
+                          <div class="form-input"><input type="file" name="image" id="image_id" class="my-img"></div>
+                      </div>
                     </div>
                   </div>
 
