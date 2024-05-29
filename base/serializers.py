@@ -466,7 +466,7 @@ class ReligiousCategorySerializer(serializers.ModelSerializer):
 class SecondaryStepsSerializer(serializers.ModelSerializer):
     class Meta:
         model = SecondarySteps
-        fields = ['name']
+        fields = ['name', 'note']
 
 
 

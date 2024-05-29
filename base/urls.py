@@ -51,4 +51,6 @@ urlpatterns = [
     path('chart/line-chart/', LineChart.as_view() , name="line-chart"),
     path('chart/pie-chart/' , PieChart.as_view() , name="pie-chart"),
 
+
+    path('get-secondary-step/<str:pk>/', getSecondaryStep.as_view(), name='get-secondary-step'),
 ]

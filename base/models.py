@@ -320,6 +320,7 @@ class ReligiousPost(models.Model):
 
 class SecondarySteps(models.Model):
     name = models.CharField(max_length=50,verbose_name="الاسم")
+    note = models.CharField(max_length=500, blank=True, null=True, verbose_name='ملاحظة')
     created = models.DateTimeField(auto_now_add=True,verbose_name="تاريخ الانشاء")
 
     def __str__(self) -> str:
@@ -335,7 +336,7 @@ class SecondarySteps(models.Model):
 class HajSteps(models.Model):
     name = models.CharField(max_length=50 , verbose_name="الخطوة")
     secondary_steps = models.ManyToManyField(SecondarySteps , verbose_name="خطوات فرعية")
-    note = models.CharField(max_length=500,default='note',verbose_name="ملاحظة")
+    # note = models.CharField(max_length=500,default='note',verbose_name="ملاحظة")
 
 
     def __str__(self) -> str:

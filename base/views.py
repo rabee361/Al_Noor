@@ -407,7 +407,9 @@ class ListHajSteps(ListAPIView):
     # permission_classes = [IsAuthenticated]
 
 
-
+class getSecondaryStep(RetrieveAPIView):
+    queryset = SecondarySteps.objects.all()
+    serializer_class = SecondaryStepsSerializer
 
 
 class SendNotification(APIView):
