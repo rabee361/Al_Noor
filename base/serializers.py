@@ -100,7 +100,7 @@ class HajStepsPilgrimSerializer(serializers.ModelSerializer):
 class SecondaryStepsSerializer(serializers.ModelSerializer):
     class Meta:
         model = SecondarySteps
-        fields = ['name']
+        fields = ['name','note']
 
 
 
@@ -108,7 +108,7 @@ class SecondaryStepsSerializer(serializers.ModelSerializer):
 class HajStepSerializer(serializers.ModelSerializer):
     secondary_steps = SecondaryStepsSerializer(many=True)
 
-    class Meta: 
+    class Meta:
         model = HajSteps
         fields = '__all__'
 

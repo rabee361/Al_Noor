@@ -324,6 +324,7 @@ class ReligiousPost(models.Model):
 class SecondarySteps(models.Model):
     name = models.CharField(max_length=50,verbose_name="الاسم")
     created = models.DateTimeField(auto_now_add=True,verbose_name="تاريخ الانشاء")
+    note = models.CharField(max_length=500,default='note',verbose_name="ملاحظة")
 
     def __str__(self) -> str:
         return self.name
