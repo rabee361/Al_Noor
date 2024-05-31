@@ -342,7 +342,7 @@ class SecondarySteps(models.Model):
 
 class HajSteps(models.Model):
     name = models.CharField(max_length=50 , verbose_name="الخطوة")
-    rank = models.IntegerField(unique=True , blank=True , null=True , validators=[MinValueValidator(1),MaxValueValidator(1000)])
+    rank = models.IntegerField(unique=True , blank=True , null=True , validators=[MinValueValidator(1),MaxValueValidator(1000)],verbose_name="الترتيب")
     secondary_steps = models.ManyToManyField(SecondarySteps , verbose_name="خطوات فرعية")
     note = models.CharField(max_length=500,default='note',verbose_name="ملاحظة")
 
