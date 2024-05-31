@@ -113,24 +113,49 @@ class SendCodePassword(GenericAPIView):
 
 
 
-######### needs modification to adapt to sms
-class VerifyCode(GenericAPIView):
-    # permission_classes = [IsAuthenticated]
+# ######### needs modification to adapt to sms
+# class VerifyCode(GenericAPIView):
+#     # permission_classes = [IsAuthenticated]
 
-    def post(self, request, pk):
-        code = request.data['code']
-        user = CustomUser.objects.get(id=pk)
-        code_ver = VerificationCode.objects.filter(user=user.id).first()
-        if code_ver:
-            if str(code) == str(code_ver.code):
-                if timezone.now() > code_ver.expires_at:
-                    return Response({"message":["انتهت صلاحية رمز التحقق"]}, status=status.HTTP_400_BAD_REQUEST)
-                code_ver.is_verified = True
-                code_ver.save()
-                return Response({"message":"تم التحقق من الرمز", 'user_id':code_ver.user.id},status=status.HTTP_200_OK)
-            else:
-                return Response({'message':['الرمز خاطئ, يرجى إعادة إدخال الرمز بشكل صحيح']})
+#     def post(self, request, pk):
+#         code = request.data['code']
+#         user = CustomUser.objects.get(id=pk)
+#         code_ver = VerificationCode.objects.filter(user=user.id).first()
+#         if code_ver:
+#             if str(code) == str(code_ver.code):
+#                 if timezone.now() > code_ver.expires_at:
+#                     return Response({"message":["انتهت صلاحية رمز التحقق"]}, status=status.HTTP_400_BAD_REQUEST)
+#                 code_ver.is_verified = True
+#                 code_ver.save()
+#                 return Response({"message":"تم التحقق من الرمز", 'user_id':code_ver.user.id},status=status.HTTP_200_OK)
+#             else:
+#                 return Response({'message':['الرمز خاطئ, يرجى إعادة إدخال الرمز بشكل صحيح']})
         
+
+
+
+
+
+class VerifyUser(APIView):
+    def post(self,request):
+        registration_id = request.data['registration_id'] or None
+        phonenumber = request.data['phonenumber'] or None
+
+        if registration_id and phonenumber:
+            try:
+                Pilgrim.objects.get(registration_id=registration_id , phonenumber=phonenumber)
+                return Response({"success":"تم التحقق من هوية المستخدم"} , status=status.HTTP_200_OK)
+            except Pilgrim.DoesNotExist:
+                return Response({"error":"لا يوجد حاج بهذه المعلومات"}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({"error":"الرجاء إدخال رقم الهاتف و رقم الهوية"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
+
+
 
 
 class UpdateImage(GenericAPIView):

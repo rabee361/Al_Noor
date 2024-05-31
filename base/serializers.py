@@ -251,6 +251,8 @@ class PilgrimSerializer(serializers.ModelSerializer):
     active = serializers.BooleanField(source='user.is_active',read_only=True)
     guide = SimpleGuideSerializer(many=False)
     haj_steps = serializers.SerializerMethodField(read_only=True)
+    last_step = serializers.SerializerMethodField(read_only=True)
+    
 
     class Meta:
         model = Pilgrim
@@ -272,6 +274,11 @@ class PilgrimSerializer(serializers.ModelSerializer):
                 'completed': is_completed,
             })
         return haj_steps_data
+    
+
+    def get_last_step(self,obj):
+        
+        return obj.last_step.name
 
 
     def get_phonenumber(self,obj):

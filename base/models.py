@@ -134,6 +134,10 @@ class Pilgrim(models.Model):
     def __str__(self) -> str:
         return f'{self.user.username}'
 
+    @property
+    def last_step(self):
+        return self.haj_steps.all().last()
+
     class Meta:
         verbose_name = ("حاج")
         verbose_name_plural = ("الحجاج")
@@ -338,9 +342,9 @@ class SecondarySteps(models.Model):
 
 class HajSteps(models.Model):
     name = models.CharField(max_length=50 , verbose_name="الخطوة")
+    rank = models.IntegerField(unique=True , blank=True , null=True , validators=[MinValueValidator(1),MaxValueValidator(1000)])
     secondary_steps = models.ManyToManyField(SecondarySteps , verbose_name="خطوات فرعية")
     note = models.CharField(max_length=500,default='note',verbose_name="ملاحظة")
-
 
     def __str__(self) -> str:
         return self.name
@@ -348,6 +352,7 @@ class HajSteps(models.Model):
     class Meta:
         verbose_name = ("خطوة")
         verbose_name_plural = ("خطوات الأعمال الديني")
+        ordering = ['rank']
 
 
 
