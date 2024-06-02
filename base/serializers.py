@@ -199,10 +199,10 @@ class UpdateEmployeeSerializer(serializers.ModelSerializer):
         user.username = username
         user.email = email
         if user.phonenumber != phonenumber:
-            try:
-                user.phonenumber = phonenumber
-            except:
+            if Employee.objects.filter(user__phonenumber=phonenumber).exists():
                 raise serializers.ValidationError({"error": "هذا الرقم موجود مسبقا"})
+            else:
+                user.phonenumber = phonenumber
         try:
             password = validated_data.get('password')
             user.set_password(password)
