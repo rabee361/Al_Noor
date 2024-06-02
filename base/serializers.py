@@ -134,6 +134,7 @@ class NoteSerializer(serializers.ModelSerializer):
         return note
 
 
+
 class EmployeeSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField(read_only=True)
     phonenumber = serializers.SerializerMethodField(read_only=True)
@@ -197,7 +198,11 @@ class UpdateEmployeeSerializer(serializers.ModelSerializer):
         user = instance.user
         user.username = username
         user.email = email
-        user.phonenumber = phonenumber
+        if user.phonenumber != phonenumber:
+            try:
+                user.phonenumber = phonenumber
+            except:
+                raise serializers.ValidationError({"error": "هذا الرقم موجود مسبقا"})
         try:
             password = validated_data.get('password')
             user.set_password(password)
