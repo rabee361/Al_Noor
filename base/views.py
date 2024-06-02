@@ -159,7 +159,7 @@ class VerifyUser(APIView):
 
 
 class UpdateImage(GenericAPIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def post(self,request):
         new_image = request.data['image'] or None
@@ -283,6 +283,7 @@ class ListNote(ListAPIView):
 
 
 class CreateNote(APIView):
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         serializer = NoteSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
@@ -402,7 +403,7 @@ class SendTask(GenericAPIView):
 
 
 class CompleteStep(GenericAPIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def post(self,request,step_id):
         try:
