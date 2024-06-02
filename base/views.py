@@ -407,50 +407,74 @@ class CompleteStep(GenericAPIView):
 
     def post(self,request,step_id):
         try:
+            completed = False
             step = HajSteps.objects.get(id=step_id)
             pilgrim = Pilgrim.objects.get(user=request.user)
             if not pilgrim.haj_steps.filter(id=step.id).exists():
                 pilgrim.haj_steps.add(step)
+                completed = True
             else:
                 pilgrim.haj_steps.remove(step)
 
             serializer = HajStepSerializer(step , many=False)
-            return Response(serializer.data)
-        except:
-            return Response({"error":["لا يوجد خطوة بهذا الاسم"]})
+            return Response({
+                'id':serializer.data['id'],
+                'scondary_steps':serializer.data['secondary_steps'],
+                'name':serializer.data['name'],
+                'rank':serializer.data['rank'],
+                'note':serializer.data['note'],
+                'completed':completed,
+
+            } , status=status.HTTP_200_OK)
+        
+        except HajSteps.DoesNotExist:
+            return Response({"error":"لا يوجد خطوة بهذا الاسم"} , status=status.HTTP_404_DOES_NOT_EXIST)
 
 
 
 
 
-class ListHajSteps(ListAPIView):
-    permission_classes = [IsAuthenticated]
-    queryset = HajSteps.objects.all()
-    serializer_class = HajStepSerializer
-
-
-
-
-# class ListHajSteps(APIView):
+# class ListHajSteps(ListAPIView):
 #     permission_classes = [IsAuthenticated]
-
-#     def get(self,request):
-#         response_data = []
-#         pilgrim = Pilgrim.objects.get(user=request.user)
-#         steps = HaJStepsPilgrim.objects.filter(pilgrim=pilgrim)
-#         serializer = HajStepsPilgrimSerializer(steps , many=True)
-
-#         total_steps = HajSteps.objects.all()
-#         total_serializer = HajStepSerializer(total_steps,many=True)
-
-#         for step in total_steps:
-#             if steps.objects.exists(step)
-#             response_data.append({
-
-#             })
+#     queryset = HajSteps.objects.all()
+#     serializer_class = HajStepSerializer
 
 
-#         return Response(serializer.data , status=status.HTTP_200_OK)
+
+
+class ListHajSteps(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self,request):
+        response_data = []
+        pilgrim = Pilgrim.objects.get(user=request.user)
+        steps = HaJStepsPilgrim.objects.filter(pilgrim=pilgrim).values('haj_step__name')
+        serializer = HajStepsPilgrimSerializer(steps , many=True)
+
+        total_steps = HajSteps.objects.all()
+        total_serializer = HajStepSerializer(total_steps,many=True)
+
+        for step in total_serializer.data:
+            if HaJStepsPilgrim.objects.filter(Q(pilgrim=pilgrim) & Q(haj_step=step['id'])).exists():
+                response_data.append({
+                    'id':step['id'],
+                    'scondary_steps':step['secondary_steps'],
+                    'name':step['name'],
+                    'rank':step['rank'],
+                    'note':step['note'],
+                    'completed':True,
+                })
+            else:
+                response_data.append({
+                    'id':step['id'],
+                    'secondary_steps':step['secondary_steps'],
+                    'name':step['name'],
+                    'rank':step['rank'],
+                    'note':step['note'],
+                    'completed':False,
+                })
+
+        return Response(response_data , status=status.HTTP_200_OK)
 
 
 
