@@ -246,6 +246,8 @@ def add_pilgrim(request):
                 image=form.cleaned_data['image'],
                 user_type = 'حاج'
             )
+            Chat.objects.create(user=user , chat_type='guide')
+            Chat.objects.create(user=user , chat_type='manager')
 
             pilgrim = Pilgrim.objects.create(
                 user=user,

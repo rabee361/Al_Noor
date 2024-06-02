@@ -290,8 +290,7 @@ class PilgrimSerializer(serializers.ModelSerializer):
     
 
     def get_last_step(self,obj):
-        
-        return obj.last_step.name
+        return obj.last_step.name or None
 
 
     def get_phonenumber(self,obj):
