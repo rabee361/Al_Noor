@@ -22,7 +22,7 @@ weekday_mapping = {
 
 
 def get_response(longitude,latitude,day,month,year):
-    Url = 'http://api.aladhan.com/v1/timings/'
+    Url = 'http://api.aladhan.com/v1/timings?tune=0,7,0,0,0,0,0,0,0'
     formatted_date = ''
     if day and month and year:
         date = datetime(int(year), int(month), int(day))
@@ -33,7 +33,8 @@ def get_response(longitude,latitude,day,month,year):
     
     p = {
         'longitude' : longitude,
-        'latitude' : latitude
+        'latitude' : latitude,
+        'method' : 8,
     }
     response = requests.get(Url+formatted_date,params=p)
     return response.json()
