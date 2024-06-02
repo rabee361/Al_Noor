@@ -424,9 +424,34 @@ class CompleteStep(GenericAPIView):
 
 
 class ListHajSteps(ListAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = HajSteps.objects.all()
     serializer_class = HajStepSerializer
-    # permission_classes = [IsAuthenticated]
+
+
+
+
+# class ListHajSteps(APIView):
+#     permission_classes = [IsAuthenticated]
+
+#     def get(self,request):
+#         response_data = []
+#         pilgrim = Pilgrim.objects.get(user=request.user)
+#         steps = HaJStepsPilgrim.objects.filter(pilgrim=pilgrim)
+#         serializer = HajStepsPilgrimSerializer(steps , many=True)
+
+#         total_steps = HajSteps.objects.all()
+#         total_serializer = HajStepSerializer(total_steps,many=True)
+
+#         for step in total_steps:
+#             if steps.objects.exists(step)
+#             response_data.append({
+
+#             })
+
+
+#         return Response(serializer.data , status=status.HTTP_200_OK)
+
 
 
 

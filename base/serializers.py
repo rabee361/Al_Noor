@@ -257,11 +257,19 @@ class PilgrimSerializer(serializers.ModelSerializer):
     guide = SimpleGuideSerializer(many=False)
     haj_steps = serializers.SerializerMethodField(read_only=True)
     last_step = serializers.SerializerMethodField(read_only=True)
-    
+    notes = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Pilgrim
         fields = '__all__'
+
+
+    def get_notes(self,obj):
+        pilgrim_notes = Note.objects.filter(pilgrim=obj)
+        serializer = NoteSerializer(pilgrim_notes , many=True)
+        return serializer.data
+    
+
 
     def get_haj_steps(self, obj):
         haj_steps_data = []
@@ -307,6 +315,22 @@ class PilgrimSerializer(serializers.ModelSerializer):
         duration = obj.duration
         formatted_duration = str(duration).split('.')[0]  # Remove microseconds
         return formatted_duration        
+
+
+
+
+
+
+
+class HajStepsPilgrimSerializer(serializers.ModelSerializer):
+    haj_step = HajStepSerializer(many=False , read_only=True)
+
+    class Meta:
+        model = HaJStepsPilgrim
+        fields = ['haj_step','completed']
+
+
+
 
 
 
