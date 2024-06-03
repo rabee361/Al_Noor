@@ -1,5 +1,5 @@
 from typing import Any
-from django.shortcuts import render , HttpResponse , redirect
+from django.shortcuts import render , HttpResponse , redirect , HttpResponseRedirect
 from django.views.generic import TemplateView
 from base.models import *
 from base.resources import PilgrimResource , RegistrationResource , UserPasswordResource
@@ -49,7 +49,7 @@ def change_password(request,user_id):
                 user = CustomUser.objects.get(id=user_id)
                 user.set_password(password1)
                 user.save()
-            return redirect('pilgrims')
+                return redirect('main_dashboard') 
         
     return render(request, 'change_password.html')
 
