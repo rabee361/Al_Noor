@@ -390,10 +390,10 @@ def add_manager(request):
                 username=form.cleaned_data['username'],
                 phonenumber=form.cleaned_data['phonenumber'],
                 email=form.cleaned_data['email'],
-                password=form.cleaned_data['password1'],
                 get_notifications=form.cleaned_data['get_notifications'],
                 user_type = 'اداري'
             )
+            user.set_password(form.cleaned_data['password1'])
             if form.cleaned_data['image']:
                 user.image = form.cleaned_data['image']
             
@@ -670,11 +670,11 @@ def add_employee(request):
                 username=form.cleaned_data['username'],
                 phonenumber=form.cleaned_data['phonenumber'],
                 email=form.cleaned_data['email'],
-                password=form.cleaned_data['password1'],
                 get_notifications=form.cleaned_data['get_notifications'],
                 user_type = 'موظف'
             )
-            
+            user.set_password(form.cleaned_data['password1'])
+
             if form.cleaned_data['image']:
                 user.image = form.cleaned_data['image']
 
@@ -777,10 +777,10 @@ def add_guide(request):
                 username=form.cleaned_data['username'],
                 phonenumber=form.cleaned_data['phonenumber'],
                 email=form.cleaned_data['email'],
-                password=form.cleaned_data['password1'],
                 get_notifications=form.cleaned_data['get_notifications'],
                 user_type = 'مرشد'
             )
+            user.set_password(form.cleaned_data['password1'])
 
             if form.cleaned_data['image']:
                 user.image = form.cleaned_data['image'] 

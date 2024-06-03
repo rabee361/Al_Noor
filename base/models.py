@@ -17,8 +17,6 @@ class CustomUser(AbstractUser):
         
     image = models.ImageField(upload_to='images/users',default='images/account.jpg' , verbose_name="الصورة الشخصية")
     phonenumber = models.CharField(unique=True,
-                                   null=True,
-                                   blank=True,
                                    verbose_name="رقم الهاتف",
                                             validators=[RegexValidator(
                                             regex=r'^\d{5,15}$'
@@ -78,8 +76,6 @@ class Management(models.Model):
 
 class Registration(models.Model):
     phonenumber = models.CharField(unique=True,
-                                   null=True,
-                                   blank=True,
                                    verbose_name="رقم الهاتف",
                                         validators=[RegexValidator(
                                         regex=r'^\d{5,15}$'
@@ -117,8 +113,6 @@ class Registration(models.Model):
 class Pilgrim(models.Model):
     user = models.ForeignKey(CustomUser , on_delete=models.CASCADE , verbose_name="المستخدم")
     phonenumber = models.CharField(unique=True,
-                                   null=True,
-                                   blank=True,
                                    verbose_name="رقم الهاتف",
                                             validators=[RegexValidator(
                                             regex=r'^\d{5,15}$'
