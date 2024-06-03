@@ -21,7 +21,7 @@ class CustomUser(AbstractUser):
                                    blank=True,
                                    verbose_name="رقم الهاتف",
                                             validators=[RegexValidator(
-                                            regex=r"^\d{8}$"
+                                            regex=r'^\d{5,15}$'
                                         )])
     is_verified = models.BooleanField(default=False , verbose_name="تم التوثيق")
     get_notifications = models.BooleanField(default=True , verbose_name="تلقي اشعارات")
@@ -82,7 +82,7 @@ class Registration(models.Model):
                                    blank=True,
                                    verbose_name="رقم الهاتف",
                                         validators=[RegexValidator(
-                                        regex=r"^\d{8}$"
+                                        regex=r'^\d{5,15}$'
                                     )])
     first_name = models.CharField(max_length=50 , verbose_name="الاسم الأول")
     father_name = models.CharField(max_length=50 , verbose_name="اسم الأب")
