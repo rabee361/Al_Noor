@@ -238,8 +238,6 @@ def add_pilgrim(request):
 
     if request.method == 'POST':
         form = NewPilgrim(request.POST, request.FILES)
-        print(form.errors)
-        print(request.POST['guide'])
         if form.is_valid():
             user = CustomUser.objects.create(
                 username=form.cleaned_data['first_name'],
@@ -386,6 +384,7 @@ def add_manager(request):
     if request.method == 'POST':
         form = NewManager(request.POST, request.FILES)
         if form.is_valid():
+            print(form.cleaned_data['password1'])
             user = CustomUser.objects.create(
                 username=form.cleaned_data['username'],
                 phonenumber=form.cleaned_data['phonenumber'],
@@ -394,6 +393,7 @@ def add_manager(request):
                 user_type = 'اداري'
             )
             user.set_password(form.cleaned_data['password1'])
+            user.save()
             if form.cleaned_data['image']:
                 user.image = form.cleaned_data['image']
             
@@ -674,7 +674,7 @@ def add_employee(request):
                 user_type = 'موظف'
             )
             user.set_password(form.cleaned_data['password1'])
-
+            user.save()
             if form.cleaned_data['image']:
                 user.image = form.cleaned_data['image']
 
@@ -781,7 +781,7 @@ def add_guide(request):
                 user_type = 'مرشد'
             )
             user.set_password(form.cleaned_data['password1'])
-
+            user.save()
             if form.cleaned_data['image']:
                 user.image = form.cleaned_data['image'] 
 
