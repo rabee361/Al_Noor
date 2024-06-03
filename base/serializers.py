@@ -248,7 +248,6 @@ class SimpleGuideSerializer(serializers.ModelSerializer):
  
 
 class PilgrimSerializer(serializers.ModelSerializer):
-    phonenumber = serializers.SerializerMethodField(read_only=True)
     guide_chat = serializers.SerializerMethodField(read_only=True)
     manager_chat = serializers.SerializerMethodField(read_only=True)
     duration = serializers.SerializerMethodField()
@@ -295,8 +294,6 @@ class PilgrimSerializer(serializers.ModelSerializer):
         else:
             return None
 
-    def get_phonenumber(self,obj):
-        return obj.phonenumber.as_international
         
     def get_guide_chat(self, obj):
         try:
