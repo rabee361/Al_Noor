@@ -121,7 +121,7 @@ class Pilgrim(models.Model):
                                    blank=True,
                                    verbose_name="رقم الهاتف",
                                             validators=[RegexValidator(
-                                            regex=r"^\d{8}$"
+                                            regex=r'^\d{5,15}$'
                                         )])
     registeration_id = models.CharField(max_length=50 , verbose_name="رقم الهوية")
     first_name = models.CharField(max_length=50 , verbose_name="الاسم الأول")

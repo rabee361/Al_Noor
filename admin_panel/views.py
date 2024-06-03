@@ -238,6 +238,8 @@ def add_pilgrim(request):
 
     if request.method == 'POST':
         form = NewPilgrim(request.POST, request.FILES)
+        print(form.errors)
+        print(request.POST['guide'])
         if form.is_valid():
             user = CustomUser.objects.create(
                 username=form.cleaned_data['first_name'],
@@ -277,8 +279,8 @@ def add_pilgrim(request):
             )
             if request.POST['guide']:
                 guide = Guide.objects.get(id=request.POST['guide'])
-                user.guide = guide
-                user.save()
+                pilgrim.guide = guide
+                pilgrim.save()
 
             return redirect('pilgrims')
         
