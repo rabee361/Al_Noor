@@ -241,10 +241,10 @@ def add_pilgrim(request):
                 username=form.cleaned_data['first_name'],
                 phonenumber=form.cleaned_data['phonenumber'],
                 # email=form.cleaned_data['email'],
-                password=form.cleaned_data['password'],
                 get_notifications=form.cleaned_data['get_notifications'],
                 user_type = 'حاج'
             )
+            user.set_password(form.cleaned_data['password'])
             if request.POST['image']:
                 user.image = request.POST['image']
                 user.save()
