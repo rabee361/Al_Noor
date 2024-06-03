@@ -1,7 +1,7 @@
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import AbstractUser
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator , RegexValidator
 from .utils import *
 from .options import *
 from django.utils.translation import gettext_lazy as _
@@ -16,7 +16,13 @@ class CustomUser(AbstractUser):
     )
         
     image = models.ImageField(upload_to='images/users',default='images/account.jpg' , verbose_name="الصورة الشخصية")
-    phonenumber = models.IntegerField(unique=True, verbose_name="رقم الهاتف")
+    phonenumber = models.CharField(unique=True,
+                                   null=True,
+                                   blank=True,
+                                   verbose_name="رقم الهاتف",
+                                            validators=[RegexValidator(
+                                            regex=r"^\d{8}$"
+                                        )])
     is_verified = models.BooleanField(default=False , verbose_name="تم التوثيق")
     get_notifications = models.BooleanField(default=True , verbose_name="تلقي اشعارات")
     username = models.CharField(max_length=255, verbose_name="الاسم الكامل")
@@ -71,7 +77,13 @@ class Management(models.Model):
 
 
 class Registration(models.Model):
-    phonenumber = models.IntegerField(unique=True,verbose_name="رقم الهاتف")
+    phonenumber = models.CharField(unique=True,
+                                   null=True,
+                                   blank=True,
+                                   verbose_name="رقم الهاتف",
+                                        validators=[RegexValidator(
+                                        regex=r"^\d{8}$"
+                                    )])
     first_name = models.CharField(max_length=50 , verbose_name="الاسم الأول")
     father_name = models.CharField(max_length=50 , verbose_name="اسم الأب")
     grand_father = models.CharField(max_length=50 , verbose_name="اسم الجد")
@@ -104,7 +116,13 @@ class Registration(models.Model):
 
 class Pilgrim(models.Model):
     user = models.ForeignKey(CustomUser , on_delete=models.CASCADE , verbose_name="المستخدم")
-    phonenumber = models.IntegerField(unique=True,verbose_name="رقم الهاتف")
+    phonenumber = models.CharField(unique=True,
+                                   null=True,
+                                   blank=True,
+                                   verbose_name="رقم الهاتف",
+                                            validators=[RegexValidator(
+                                            regex=r"^\d{8}$"
+                                        )])
     registeration_id = models.CharField(max_length=50 , verbose_name="رقم الهوية")
     first_name = models.CharField(max_length=50 , verbose_name="الاسم الأول")
     father_name = models.CharField(max_length=50 , verbose_name="اسم الأب")
