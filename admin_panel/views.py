@@ -243,9 +243,12 @@ def add_pilgrim(request):
                 # email=form.cleaned_data['email'],
                 password=form.cleaned_data['password'],
                 get_notifications=form.cleaned_data['get_notifications'],
-                image=form.cleaned_data['image'],
                 user_type = 'حاج'
             )
+            if request.POST['image']:
+                user.image = request.POST['image']
+                user.save()
+
             Chat.objects.create(user=user , chat_type='guide')
             Chat.objects.create(user=user , chat_type='manager')
 
@@ -269,8 +272,11 @@ def add_pilgrim(request):
                 boarding_time=request.POST['boarding_time'],
                 arrival=request.POST['arrival'],
                 departure=request.POST['departure'],
-                guide=form.cleaned_data['guide'],
             )
+            if request.POST['guide']:
+                guide = Guide.objects.get(id=request.POST['guide'])
+                user.guide = guide
+                user.save()
 
             return redirect('pilgrims')
         
@@ -762,6 +768,7 @@ def add_guide(request):
     if request.method == 'POST':
         form = NewGuide(request.POST, request.FILES)
         if form.is_valid():
+            print(form.cleaned_data['image'])
             user = CustomUser.objects.create(
                 username=form.cleaned_data['username'],
                 phonenumber=form.cleaned_data['phonenumber'],
@@ -772,7 +779,7 @@ def add_guide(request):
             )
 
             if form.cleaned_data['image']:
-                user.image = form.cleaned_data['image']    
+                user.image = form.cleaned_data['image'] 
 
             Guide.objects.create(user=user)
             return redirect('guides')

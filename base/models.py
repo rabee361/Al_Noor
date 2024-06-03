@@ -16,7 +16,7 @@ class CustomUser(AbstractUser):
     )
         
     image = models.ImageField(upload_to='images/users',default='images/account.jpg' , verbose_name="الصورة الشخصية")
-    phonenumber = PhoneNumberField(region='SA',unique=True , verbose_name="رقم الهاتف")
+    phonenumber = models.IntegerField(unique=True, verbose_name="رقم الهاتف")
     is_verified = models.BooleanField(default=False , verbose_name="تم التوثيق")
     get_notifications = models.BooleanField(default=True , verbose_name="تلقي اشعارات")
     username = models.CharField(max_length=255, verbose_name="الاسم الكامل")
@@ -71,7 +71,7 @@ class Management(models.Model):
 
 
 class Registration(models.Model):
-    phonenumber = PhoneNumberField(region='SA',unique=True , verbose_name="رقم الهاتف")
+    phonenumber = models.IntegerField(unique=True,verbose_name="رقم الهاتف")
     first_name = models.CharField(max_length=50 , verbose_name="الاسم الأول")
     father_name = models.CharField(max_length=50 , verbose_name="اسم الأب")
     grand_father = models.CharField(max_length=50 , verbose_name="اسم الجد")
@@ -104,13 +104,13 @@ class Registration(models.Model):
 
 class Pilgrim(models.Model):
     user = models.ForeignKey(CustomUser , on_delete=models.CASCADE , verbose_name="المستخدم")
+    phonenumber = models.IntegerField(unique=True,verbose_name="رقم الهاتف")
     registeration_id = models.CharField(max_length=50 , verbose_name="رقم الهوية")
     first_name = models.CharField(max_length=50 , verbose_name="الاسم الأول")
     father_name = models.CharField(max_length=50 , verbose_name="اسم الأب")
     grand_father = models.CharField(max_length=50 , verbose_name="اسم الجد")
     last_name = models.CharField(max_length=50 , verbose_name="العائلة")
     birthday = models.DateField(verbose_name="الميلاد", null=True , blank=True)
-    phonenumber = PhoneNumberField(region='SA',unique=True , verbose_name="رقم الهاتف")
     flight_num = models.IntegerField(null=True, blank=True,verbose_name="رقم الرحلة")
     flight_date = models.DateField(null=True, blank=True,verbose_name="تاريخ الرحلة")
     arrival = models.TimeField(verbose_name="موعد الوصول", null=True , blank=True)
