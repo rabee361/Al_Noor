@@ -137,7 +137,6 @@ class NoteSerializer(serializers.ModelSerializer):
 
 class EmployeeSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField(read_only=True)
-    phonenumber = serializers.SerializerMethodField(read_only=True)
     username = serializers.CharField(source='user.username')
     email = serializers.CharField(source='user.email')
     image = serializers.ImageField(source='user.image',read_only=True)
@@ -146,9 +145,6 @@ class EmployeeSerializer(serializers.ModelSerializer):
         model = Employee
         fields = '__all__'
 
-    def get_phonenumber(self,obj):
-        return obj.user.phonenumber.as_international
-        
     def get_user(self,obj):
         return obj.user.id
 
