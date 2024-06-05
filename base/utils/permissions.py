@@ -1,5 +1,5 @@
 from rest_framework.permissions import BasePermission
-from .models import *
+from ..models import *
 
 
 class IsGuide(BasePermission):

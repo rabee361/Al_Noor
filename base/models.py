@@ -5,7 +5,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator , RegexV
 from .utils import *
 from .options import *
 from django.utils.translation import gettext_lazy as _
-from .managers import ManagerChats , GuideChats
+from .utils.managers import ManagerChats , GuideChats
 
 
 

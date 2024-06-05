@@ -1,6 +1,6 @@
 from fcm_django.models import FCMDevice
 from firebase_admin.messaging import Message, Notification
-from .models import UserNotification , CustomUser , Pilgrim
+from ..models import UserNotification , CustomUser , Pilgrim
 from django.db.models import Q
 
 

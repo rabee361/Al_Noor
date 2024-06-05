@@ -1,14 +1,12 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
-import requests
 from rest_framework.permissions import IsAuthenticated
-from django.http import HttpResponse
 from .serializers import *
 from .models import *
 from .filters import *
 from .resources import *
-from .permissions import *
-from .notifications import *
+from .utils.permissions import *
+from .utils.notifications import *
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
@@ -21,7 +19,7 @@ from fcm_django.models import FCMDevice
 from django.shortcuts import get_object_or_404
 from fcm_django.models import FCMDevice
 from firebase_admin.messaging import Message, Notification
-from django.db.models import Max , Count
+from django.db.models import Count
 from django.db.models.functions import ExtractMonth
 
 

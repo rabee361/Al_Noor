@@ -12,7 +12,7 @@ from django.core.files.storage import default_storage
 from django.db import transaction
 from django.views import View
 from django.contrib.auth.forms import PasswordChangeForm
-from base.notifications import send_event_notification
+from base.utils.notifications import send_event_notification
 from phonenumber_field.phonenumber import PhoneNumber
 from django.core.validators import MinValueValidator, MaxValueValidator , RegexValidator
 
