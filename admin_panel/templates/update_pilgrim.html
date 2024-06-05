@@ -102,16 +102,18 @@
                         <div><input type="time" class="time-field" name="arrival" value="{{form.arrival.value|time:'h:i:s'}}"></div> 
                       </div>
                       <div class="form-input-datetime">
-                        <div class="form-label">{{ form.boarding_time.label_tag }}</div>
-                        <div><input type="time" class="time-field" name="boarding_time" value="{{ form.boarding_time.value|time:'h:i:s' }}"></div> 
+                        <div class="form-label">{{ form.departure.label_tag }}</div>
+                        <div><input type="time" class="time-field" name="departure" value="{{form.departure.value|time:'h:i:s'}}"></div>
                       </div>
-                      <div class="form-input">
-                        <div class="form-label">{{ form.gate_num.label_tag }}</div>
-                        <div>{{ form.gate_num|add_class:"form-control" }}</div> 
-                      </div>
+
                       <div class="form-input">
                         <div class="form-label">{{ form.from_city.label_tag }}</div>
                         <div>{{ form.from_city|add_class:"form-control" }}</div> 
+                      </div>
+
+                      <div class="form-input">
+                        <div class="form-label">{{ form.to_city.label_tag }}</div>
+                        <div>{{ form.to_city|add_class:"form-control" }}</div> 
                       </div>
                     </div>
                     
@@ -121,17 +123,29 @@
                         <div class="form-label">{{ form.flight_company.label_tag }}</div>
                         <div>{{ form.flight_company|add_class:"form-control" }}</div>
                       </div>
+
+                      <div class="form-input-datetime">
+                        <div class="form-label">{{ form.flight_date.label_tag }}</div>
+                        <div><input type="date" class="date-field" name="flight_date" value="{{form.flight_date.value|date:'Y-m-d'}}"></div>
+                      </div>
+
                       <div class="form-input">
                         <div class="form-label">{{ form.duration.label_tag }}</div>
                         <div>{{ form.duration|add_class:"form-control" }}</div>
                       </div>
+
+
                       <div class="form-input-datetime">
-                        <div class="form-label">{{ form.departure.label_tag }}</div>
-                        <div><input type="time" class="time-field" name="departure" value="{{form.departure.value|time:'h:i:s'}}"></div>
+                        <div class="form-label">{{ form.boarding_time.label_tag }}</div>
+                        <div><input type="time" class="time-field" name="boarding_time" value="{{ form.boarding_time.value|time:'h:i:s' }}"></div> 
                       </div>
+
+
+
+
                       <div class="form-input">
-                        <div class="form-label">{{ form.to_city.label_tag }}</div>
-                        <div>{{ form.to_city|add_class:"form-control" }}</div> 
+                        <div class="form-label">{{ form.gate_num.label_tag }}</div>
+                        <div>{{ form.gate_num|add_class:"form-control" }}</div> 
                       </div>
                       <div class="form-input" style="text-align: right; margin-top: 5px;">
                         <div class="form-label">شعار الشركة:</div>
