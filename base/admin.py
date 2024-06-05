@@ -8,7 +8,7 @@ from rest_framework_simplejwt.token_blacklist.models import OutstandingToken, Bl
 from rest_framework_simplejwt.token_blacklist.admin import OutstandingTokenAdmin as DefaultOutstandingTokenAdmin
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin
-from .forms import *
+from .utils.forms import *
 
 
 admin.site.site_header = "Dashboard"

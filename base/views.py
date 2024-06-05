@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from .serializers import *
 from .models import *
-from .filters import *
+from .utils.filters import *
 from .resources import *
 from .utils.permissions import *
 from .utils.notifications import *
