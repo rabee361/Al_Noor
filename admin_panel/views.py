@@ -97,7 +97,6 @@ def steps(request):
 @login_required(login_url='login')
 def registration_forms(request):
     q = request.GET.get('q') or ''
-    print(q)
     forms = Registration.objects.filter(first_name__startswith = q).order_by('-id')
     user_image = request.user.image.url
     username = request.user.username
@@ -121,8 +120,6 @@ def add_register_form(request):
 
     if request.method == 'POST':
         form = NewRegisterForm(request.POST)
-        print(form.errors)
-        print(form.is_valid())
         if form.is_valid():
             form.save()
             return redirect('registration_forms')
@@ -199,14 +196,16 @@ def update_pilgrim(request,pilgrim_id):
         form = PilgrimForm(instance=pilgrim)
 
         if request.method == 'POST':
-
-            pilgrim_form = PilgrimForm(instance=pilgrim,data=request.POST, files=request.FILES)
+            
+            pilgrim_form = PilgrimForm(request.POST,request.FILES,instance=pilgrim)
 
             if pilgrim_form.is_valid():
+                print(pilgrim_form.cleaned_data['get_notifications'])
+                print(request.POST['get_notifications'])
                 pilgrim = pilgrim_form.save(commit=False)
-                pilgrim.user = user
-                pilgrim.user.get_notifications = request.POST['get_notifications']
-                pilgrim.user.username = request.POST['first_name'] + request.POST['father_name'] + request.POST['grand_father'] + request.POST['last_name']
+                user.get_notifications = pilgrim_form.cleaned_data['get_notifications']
+                user.username = request.POST['first_name'] + request.POST['father_name'] + request.POST['grand_father'] + request.POST['last_name']
+                user.save()
                 pilgrim.haj_steps.set(request.POST.getlist('haj_steps'))
                 pilgrim.save()
 
