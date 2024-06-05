@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import * 
-from .utils import *
+from .utils.utils import *
 from datetime import datetime
 from django.contrib.auth import  authenticate
 from django.contrib.auth.password_validation import validate_password

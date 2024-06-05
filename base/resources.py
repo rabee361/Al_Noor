@@ -2,7 +2,7 @@ from import_export import resources
 from .models import *
 from import_export.fields import Field
 from import_export.widgets import ForeignKeyWidget  , BooleanWidget
-from .utils import generate_password
+from .utils.utils import generate_password
 from .utils.notifications import send_password
 
 # class PilgrimResource(resources.ModelResource):
