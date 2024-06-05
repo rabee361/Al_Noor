@@ -135,6 +135,7 @@ class NoteSerializer(serializers.ModelSerializer):
 
 
 
+
 class EmployeeSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField(read_only=True)
     username = serializers.CharField(source='user.username')

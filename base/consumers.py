@@ -183,10 +183,6 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 
 
 
-
-
-
-
 class CreateGuideMessage(AsyncWebsocketConsumer):
 	async def connect(self):
 		self.chat_id = self.scope['url_route']['kwargs']['chat_id']
