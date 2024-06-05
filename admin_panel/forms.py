@@ -203,7 +203,7 @@ class PilgrimForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['get_notifications'] = forms.BooleanField(label='تلقي اشعارات', required=False)
+        self.fields['get_notifications'] = forms.BooleanField(label='تلقي اشعارات', required=False,initial=self.instance.user.get_notifications)
 
 
 

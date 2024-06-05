@@ -200,11 +200,10 @@ def update_pilgrim(request,pilgrim_id):
             pilgrim_form = PilgrimForm(request.POST,request.FILES,instance=pilgrim)
 
             if pilgrim_form.is_valid():
-                print(pilgrim_form.cleaned_data['get_notifications'])
-                print(request.POST['get_notifications'])
                 pilgrim = pilgrim_form.save(commit=False)
                 user.get_notifications = pilgrim_form.cleaned_data['get_notifications']
-                user.username = request.POST['first_name'] + request.POST['father_name'] + request.POST['grand_father'] + request.POST['last_name']
+                user.phonenumber = pilgrim_form.cleaned_data['phonenumber']
+                user.username = request.POST['first_name'] + ' ' + request.POST['father_name'] + ' ' + request.POST['grand_father'] + ' ' + request.POST['last_name']
                 user.save()
                 pilgrim.haj_steps.set(request.POST.getlist('haj_steps'))
                 pilgrim.save()
