@@ -447,7 +447,7 @@ class ChatSerializer(serializers.ModelSerializer):
             msg = ChatMessage.objects.filter(chat=obj).order_by('-timestamp').first()
             return msg.content
         except:
-            return '_'
+            return ' '
 
 
 class MessageSerializer(serializers.ModelSerializer):

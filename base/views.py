@@ -157,7 +157,7 @@ class VerifyUser(APIView):
 
 
 
-
+###### can be added to the models as a method
 class UpdateImage(GenericAPIView):
     permission_classes = [IsAuthenticated]
 
@@ -174,7 +174,7 @@ class UpdateImage(GenericAPIView):
 
 
 
-
+### can be addes to the models as  a method
 ######### needs modification to adapt to sms
 class ResetPassword(UpdateAPIView):
     # permission_classes = [IsAuthenticated]
@@ -306,6 +306,7 @@ class ListNotifications(ListAPIView):
     queryset =  UserNotification.objects.all()
     serializer_class = NotificationSerializer
 
+    #### get notifications for the logged in user
     def get_queryset(self):
         user = self.request.user
         notifications = UserNotification.objects.filter(user__id=user.id)
@@ -321,6 +322,7 @@ class ListTask(ListAPIView):
     filter_backends = [DjangoFilterBackend]
     filterset_class = TaskFilter
 
+    #### needs modifications
     def get_queryset(self):
         user = self.request.user
         if not user:
@@ -361,6 +363,7 @@ class AcceptTask(GenericAPIView):
     queryset =  Task.objects.all()
     serializer_class = TaskSerializer
 
+    #### put the accept task in the model
     def post(self,request,task_id):
         try:
             task = Task.objects.get(id=task_id)
@@ -542,10 +545,7 @@ class ListChats(ListCreateAPIView):
     # permission_clasess = [IsGuide , IsAuthenticated]
 
     def get_queryset(self):
-        chats = Chat.objects.filter(chat_type='guide').annotate(latest_message_timestamp=Max('chatmessage__timestamp'))
-        chats = chats.order_by('-latest_message_timestamp')
-        return chats
-
+        return Chat.guide_chats
 
 
 
@@ -555,9 +555,7 @@ class ListManagerChats(ListCreateAPIView):
     # permission_clasess = [IsGuide , IsAuthenticated]
 
     def get_queryset(self):
-        chats = Chat.objects.filter(chat_type='manager').annotate(latest_message_timestamp=Max('chatmessage__timestamp'))
-        chats = chats.order_by('-latest_message_timestamp')
-        return chats
+        return Chat.manager_chats
 
 
 
@@ -704,7 +702,7 @@ class RetUpdDesReligiousCategory(RetrieveUpdateDestroyAPIView):
 
 
 
-
+########## needs modifications and maybe put them in the admin panel app
 class LineChart(APIView):
     def get(self,request):
         year = datetime.now().year

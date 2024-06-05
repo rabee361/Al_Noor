@@ -5,6 +5,8 @@ from django.core.validators import MinValueValidator, MaxValueValidator , RegexV
 from .utils import *
 from .options import *
 from django.utils.translation import gettext_lazy as _
+from .managers import ManagerChats , GuideChats
+
 
 
 class CustomUser(AbstractUser):
@@ -247,6 +249,10 @@ class Chat(models.Model):
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE , verbose_name="المستخدم")
     created = models.DateTimeField(auto_now_add=True , verbose_name="تاريخ الانشاء")
     chat_type = models.CharField(choices=CHAT_CHOICES, max_length=20 , default='guide')
+
+    objects = models.Manager()
+    guide_chats = GuideChats()
+    manager_chats = ManagerChats()
 
     def __str__(self) -> str:
         return f'{self.user.username} chat'

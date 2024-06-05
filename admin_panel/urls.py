@@ -83,8 +83,6 @@ urlpatterns = [
     path('update-secondary-step/<str:step_id>' , update_secondary_step , name="update_secondary_step"),
     path('delete-secondary-step/<str:step_id>' , delete_secondary_step , name="delete_secondary_step"),
 
-    path('add-secondary/' , add_secondary_step , name="add_secondary"),
-
     path('pilgrim/import', import_pilgrim, name='import_pilgrim'),
     path('pilgrim/export', export_pilgram, name='export_pilgrim'),
     path('forms/export', export_forms, name='export_forms'),
