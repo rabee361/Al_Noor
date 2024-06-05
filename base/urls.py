@@ -51,7 +51,10 @@ ManagerPattern = [
     path('get-note/<str:pk>/' , RetUpdDesNote.as_view() , name="get-note"),
     path('delete-note/<str:pk>/' , RetUpdDesNote.as_view() , name="delete-note"),
     path('update-note/<str:pk>/' , RetUpdDesNote.as_view() , name="update-note"),
-    path('list-guides/' , ListGuides.as_view() , name="list-guides")
+    path('list-guides/' , ListGuides.as_view() , name="list-guides"),
+    path('create-pilgrim/' , CreatePilgrim.as_view() , name="create-pilgrim"),
+    path('update-pilgrim/<str:pk>/' , UpdatePilgrim.as_view() , name="update-pilgrim")
+    
 ]
 
 
@@ -61,8 +64,7 @@ EmployeePattern = [
     path('accept-task/<str:task_id>/' , AcceptTask.as_view() , name="accept-task"),
     path('list-tasks/' , ListTask.as_view() , name="list-tasks"),
     path('get-task/<str:pk>/' , RetUpdDesTask.as_view() , name="get-task"),
-    path('create-pilgrim/' , CreatePilgrim.as_view() , name="create-pilgrim"),
-    path('update-pilgrim/<str:pk>/' , UpdatePilgrim.as_view() , name="update-pilgrim")
+
 ]
 
 

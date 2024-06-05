@@ -238,6 +238,7 @@ def add_pilgrim(request):
     if request.method == 'POST':
         form = NewPilgrim(request.POST, request.FILES)
         if form.is_valid():
+            print(form.error_class)
             user = CustomUser.objects.create(
                 username=form.cleaned_data['first_name'],
                 phonenumber=form.cleaned_data['phonenumber'],
@@ -266,6 +267,7 @@ def add_pilgrim(request):
                 room_num=form.cleaned_data['room_num'],
                 gate_num=form.cleaned_data['gate_num'],
                 flight_num=form.cleaned_data['flight_num'],
+                flight_date=request.POST['flight_date'],
                 flight_company = form.cleaned_data['flight_company'],
                 from_city=form.cleaned_data['from_city'],
                 to_city=form.cleaned_data['to_city'],
