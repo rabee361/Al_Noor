@@ -435,13 +435,6 @@ class CompleteStep(GenericAPIView):
 
 
 
-# class ListHajSteps(ListAPIView):
-#     permission_classes = [IsAuthenticated]
-#     queryset = HajSteps.objects.all()
-#     serializer_class = HajStepSerializer
-
-
-
 
 class ListHajSteps(APIView):
     permission_classes = [IsAuthenticated]
@@ -497,6 +490,7 @@ class SendNotification(APIView):
                 return Response({"error":["العنوان أو المحتوى فارغ"]})
         else:
             return Response({"error":["لا يوجد حجاج"]})
+
 
 
 

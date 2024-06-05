@@ -205,6 +205,7 @@ def update_pilgrim(request,pilgrim_id):
             if pilgrim_form.is_valid():
                 pilgrim = pilgrim_form.save(commit=False)
                 pilgrim.user = user
+                pilgrim.user.get_notifications = request.POST['get_noifications']
                 pilgrim.user.username = request.POST['first_name'] + request.POST['father_name'] + request.POST['grand_father'] + request.POST['last_name']
                 pilgrim.haj_steps.set(request.POST.getlist('haj_steps'))
                 pilgrim.save()
@@ -267,6 +268,7 @@ def add_pilgrim(request):
                 room_num=form.cleaned_data['room_num'],
                 gate_num=form.cleaned_data['gate_num'],
                 flight_num=form.cleaned_data['flight_num'],
+                flight_company = form.cleaned_data['flight_company'],
                 from_city=form.cleaned_data['from_city'],
                 to_city=form.cleaned_data['to_city'],
                 birthday=request.POST['birthday'],
