@@ -21,8 +21,8 @@ def send_task_notification(employee,title,content):
 
 
 def send_event_notification(title,content):
-    pilgrims = Pilgrim.objects.values_list('user')
-    users = CustomUser.objects.filter(Q(id__in=pilgrims) & Q(get_notifications=True))
+    # pilgrims = Pilgrim.objects.values_list('user')
+    users = CustomUser.objects.filter(Q(user_type='حاج') & Q(get_notifications=True))
     for user in users:
         devices = FCMDevice.objects.filter(user=user.id)
         devices.send_message(

@@ -3,7 +3,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator, MaxValueValidator , RegexValidator
 from .utils.utils import *
-from .options import *
+from .utils.options import *
 from django.utils.translation import gettext_lazy as _
 from .utils.managers import GuideChats , ManagerChats
 
