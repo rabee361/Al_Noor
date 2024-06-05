@@ -7,8 +7,7 @@ urlpatterns = [
     path('test/admin/', admin.site.urls),
     path('test/api/' , include('base.urls')),
     path('test/myadmin/' , include('admin_panel.urls')),
-    # path('test/', include('django_prometheus.urls')),
-    # path('al-noor/i18n/', include('django.conf.urls.i18n')),
+    path('test/myapi/' , include('admin_panel.api.urls')),
 
 ]+ static(settings.MEDIA_URL , document_root=settings.MEDIA_ROOT)
 
