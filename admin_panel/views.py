@@ -62,16 +62,13 @@ def main_dashboard(request):
     total_managers = Management.objects.count()
     total_guides = Guide.objects.count()
     total_forms = Registration.objects.count()
-    user_image = request.user.image.url
-    username = request.user.username
+
     context = {
     'total_pilgrims' : total_pilgrims,
     'total_employees' : total_employees,
     'total_managers' : total_managers,
     'total_guides' : total_guides,
     'total_forms' : total_forms,
-    'user_image' : user_image,
-    'username' : username
     }
     return render(request , 'dashboard.html' , context)
 
@@ -98,13 +95,9 @@ def steps(request):
 def registration_forms(request):
     q = request.GET.get('q') or ''
     forms = Registration.objects.filter(first_name__startswith = q).order_by('-id')
-    user_image = request.user.image.url
-    username = request.user.username
 
     context = {
         'forms':forms,
-        'user_image' : user_image,
-        'username' : username
  }
     return render(request , 'registration_forms.html' , context)
 
@@ -115,8 +108,7 @@ def registration_forms(request):
 @login_required(login_url='login')
 def add_register_form(request):
     form = NewRegisterForm()
-    user_image = request.user.image.url
-    username = request.user.username
+
 
     if request.method == 'POST':
         form = NewRegisterForm(request.POST)
@@ -126,8 +118,6 @@ def add_register_form(request):
 
     context = {
         'form': form,
-        'user_image': user_image,
-        'username': username
     }
     return render(request, 'add_form.html', context)
 
@@ -139,8 +129,6 @@ def add_register_form(request):
 def update_register_form(request,form_id):
     register_form = Registration.objects.get(id=form_id)
     form = NewRegisterForm(instance=register_form)
-    user_image = request.user.image.url
-    username = request.user.username
 
     if request.method == 'POST':
         form = NewRegisterForm(request.POST,instance=register_form)
@@ -150,8 +138,6 @@ def update_register_form(request,form_id):
 
     context = {
         'form': form,
-        'user_image': user_image,
-        'username': username
     }
     return render(request, 'add_form.html', context)
 
@@ -175,15 +161,11 @@ def delete_register_form(request,form_id):
 @login_required(login_url='login')
 def pilgrims_list(request):
     q = request.GET.get('q') or ''
-    print(q)
     pilgrims = Pilgrim.objects.filter(first_name__startswith = q).order_by('-id')
-    user_image = request.user.image.url
-    username = request.user.username
+
     context = {
         'pilgrims':pilgrims,
-        'user_image' : user_image,
-        'username' : username
- }
+    }
     return render(request , 'pilgrims_list.html' , context)
 
 
@@ -217,8 +199,7 @@ def update_pilgrim(request,pilgrim_id):
 
         context = { 'form': form,
                     'pilgrim_image':pilgrim_image,
-                    'user_id': user.id,
-                    'user_image':request.user.image.url,
+                    'user_id': user.id, 
                     'company_logo':pilgrim.company_logo.url
                     }
 
@@ -232,8 +213,6 @@ def update_pilgrim(request,pilgrim_id):
 @login_required(login_url='login')
 def add_pilgrim(request):
     form = NewPilgrim()
-    user_image = request.user.image.url
-    username = request.user.username
 
     if request.method == 'POST':
         form = NewPilgrim(request.POST, request.FILES)
@@ -290,8 +269,6 @@ def add_pilgrim(request):
 
     context = {
         'form': form,
-        'user_image': user_image,
-        'username': username,
     }
     return render(request, 'add_pilgrim.html', context)
 
@@ -361,13 +338,9 @@ def delete_pilgrim(request,pilgrim_id):
 @login_required(login_url='login')
 def managers_list(request):
     q = request.GET.get('q') or ''
-    user_image = request.user.image.url
-    username = request.user.username
     managers = Management.objects.filter(user__first_name__startswith = q).order_by('-id')
     context = {
         'managers':managers,
-        'user_image': user_image,
-        'username': username
     }
     return render(request , 'managers_list.html' , context)
 
@@ -381,8 +354,7 @@ def managers_list(request):
 @login_required(login_url='login')
 def add_manager(request):
     form = NewManager()
-    user_image = request.user.image.url
-    username = request.user.username
+
     if request.method == 'POST':
         form = NewManager(request.POST, request.FILES)
         if form.is_valid():
@@ -403,8 +375,6 @@ def add_manager(request):
             return redirect('managers')
     context = {
         'form' : form,
-        'user_image': user_image,
-        'username': username,
     }
     return render(request , 'add_manager.html' , context)
 
@@ -448,10 +418,8 @@ def update_manager(request,manager_id):
     
     context = {
         'form': form,
-        'user_image': user_image,
         'manager_image': manager_image,
         'user_id': user.id,
-        'username': username,
     }
     return render(request, 'update_manager.html', context)
 
@@ -478,12 +446,9 @@ def delete_manager(request,manager_id):
 def task_list(request):
     q = request.GET.get('q') or ''
     tasks = Task.objects.filter(title__startswith = q).order_by('-id')
-    user_image = request.user.image.url
-    username = request.user.username
+
     context = {
         'tasks':tasks,
-        'user_image' : user_image,
-        'username' : username
  }
     return render(request , 'tasks.html' , context)
 
@@ -497,8 +462,6 @@ def task_list(request):
 @login_required(login_url='login')
 def add_task(request):
     form = NewTask()
-    user_image = request.user.image.url
-    username = request.user.username
 
     if request.method == 'POST':
         form = NewTask(request.POST)
@@ -508,8 +471,6 @@ def add_task(request):
 
     context = {
         'form': form,
-        'user_image': user_image,
-        'username': username
     }
     return render(request, 'add_task.html', context)
 
@@ -523,8 +484,6 @@ def add_task(request):
 def update_task(request,task_id):
     task = Task.objects.get(id=task_id)
     form = NewTask(instance=task)
-    user_image = request.user.image.url
-    username = request.user.username
 
     if request.method == 'POST':
         form = NewTask(request.POST, instance=task)
@@ -534,8 +493,6 @@ def update_task(request,task_id):
 
     context = {
         'form': form,
-        'user_image': user_image,
-        'username': username
     }
     return render(request, 'add_task.html', context)
 
@@ -561,12 +518,9 @@ def delete_task(request,task_id):
 def notes_list(request):
     q = request.GET.get('q') or ''
     notes = Note.objects.filter(pilgrim__user__username__startswith = q).order_by('-id')
-    user_image = request.user.image.url
-    username = request.user.username
+
     context = {
         'notes':notes,
-        'user_image' : user_image,
-        'username' : username
  }
     return render(request , 'notes.html' , context)
 
@@ -577,8 +531,6 @@ def notes_list(request):
 @login_required(login_url='login')
 def add_note(request):
     form = NewNote()
-    user_image = request.user.image.url
-    username = request.user.username
 
     if request.method == 'POST':
         form = NewNote(request.POST)
@@ -588,8 +540,6 @@ def add_note(request):
 
     context = {
         'form': form,
-        'user_image': user_image,
-        'username': username
     }
     return render(request, 'add_note.html', context)
 
@@ -603,8 +553,6 @@ def add_note(request):
 def update_note(request,note_id):
     note = Note.objects.get(id=note_id)
     form = NewNote(instance=note)
-    user_image = request.user.image.url
-    username = request.user.username
 
     if request.method == 'POST':
         form = NewNote(request.POST, instance=note)
@@ -614,8 +562,6 @@ def update_note(request,note_id):
 
     context = {
         'form': form,
-        'user_image': user_image,
-        'username': username
     }
     return render(request, 'add_note.html', context)
 
@@ -648,13 +594,10 @@ def delete_note(request,note_id):
 @login_required(login_url='login')
 def employees_list(request):
     q = request.GET.get('q') or ''
-    user_image = request.user.image.url
-    username = request.user.username
+
     employees = Employee.objects.filter(user__username__startswith=q).order_by('-id')
     context = {
         'employees':employees,
-        'user_image': user_image,
-        'username': username
     }
     return render(request , 'employees_list.html' , context)
 
@@ -663,8 +606,7 @@ def employees_list(request):
 @login_required(login_url='login')
 def add_employee(request):
     form = NewEmployee()
-    user_image = request.user.image.url
-    username = request.user.username
+
     if request.method == 'POST':
         form = NewEmployee(request.POST, request.FILES)
         if form.is_valid():
@@ -684,8 +626,6 @@ def add_employee(request):
             return redirect('employees')
     context = {
         'form' : form,
-        'user_image': user_image,
-        'username': username
     }
     return render(request , 'add_employee.html' , context)
 
@@ -719,16 +659,12 @@ def update_employee(request,employee_id):
             user.save()
             return redirect('employees')
 
-    user_image = request.user.image.url
     employee_image = employee.user.image.url
-    username = request.user.username
     
     context = {
         'form': form,
-        'user_image': user_image,
         'user_id': user.id,
         'employee_image': employee_image,
-        'username': username,
     }
     return render(request, 'update_employee.html', context)
 
@@ -754,13 +690,10 @@ def delete_employee(request,employee_id):
 @login_required(login_url='login')
 def guides_list(request):
     q = request.GET.get('q') or ''
-    user_image = request.user.image.url
-    username = request.user.username
+
     guides = Guide.objects.filter(user__username__startswith=q).order_by('-id')
     context = {
         'guides':guides,
-        'user_image': user_image,
-        'username': username
     }
     return render(request , 'guides_list.html' , context)
 
@@ -769,8 +702,7 @@ def guides_list(request):
 @login_required(login_url='login')
 def add_guide(request):
     form = NewGuide()
-    user_image = request.user.image.url
-    username = request.user.username
+
     if request.method == 'POST':
         form = NewGuide(request.POST, request.FILES)
         if form.is_valid():
@@ -791,8 +723,7 @@ def add_guide(request):
             return redirect('guides')
     context = {
         'form' : form,
-        'user_image': user_image,
-        'username': username
+
     }
     return render(request , 'add_guide.html' , context)
 
@@ -824,16 +755,12 @@ def update_guide(request,guide_id):
             user.save()
             return redirect('guides')
 
-    user_image = request.user.image.url
     guide_image = guide.user.image.url
-    username = request.user.username
     
     context = {
         'form': form,
-        'user_image': user_image,
         'guide_image': guide_image,
         'user_id': user.id,
-        'username': username,
     }
     return render(request, 'update_guide.html', context)
 
@@ -873,13 +800,7 @@ def export_forms(request):
 
 @transaction.atomic
 def import_pilgrim(request):
-        user_image = request.user.image.url
-        username = request.user.username
-        context = {
-            'user_image': user_image,
-            'username': username,
-        }
-
+        
         if request.method == 'POST':
             excel_file = request.FILES['file']
             df = pd.read_excel(excel_file)
@@ -946,7 +867,7 @@ def import_pilgrim(request):
             return response
 
             # return redirect('pilgrims')
-        return render(request, 'import_pilgrims.html' , context=context)
+        return render(request, 'import_pilgrims.html')
 
 
 
@@ -955,13 +876,9 @@ def import_pilgrim(request):
 
 def notifications_list(request):
     q = request.GET.get('q') or ''
-    user_image = request.user.image.url
-    username = request.user.username
     notifications = BaseNotification.objects.filter(title__startswith=q).order_by('-id')
     context = {
         'notifications':notifications,
-        'user_image': user_image,
-        'username': username
     }
     return render(request , 'notifications_list.html' , context)
 
@@ -974,8 +891,6 @@ def notifications_list(request):
 @login_required(login_url='login')
 def add_notification(request):
     form = NotificationForm()
-    user_image = request.user.image.url
-    username = request.user.username
     if request.method == 'POST':
         form = NotificationForm(request.POST, request.FILES)
         if form.is_valid():
@@ -986,8 +901,6 @@ def add_notification(request):
             return redirect('notifications')
     context = {
         'form' : form,
-        'user_image': user_image,
-        'username': username
     }
     return render(request , 'add_notification.html' , context)
 
@@ -1006,13 +919,9 @@ def delete_notifications(request,notification_id):
 
 def guidance_posts(request):
     q = request.GET.get('q') or ''
-    user_image = request.user.image.url
-    username = request.user.username
     posts = GuidancePost.objects.filter(title__startswith=q).order_by('-id')
     context = {
         'posts':posts,
-        'user_image': user_image,
-        'username': username
     }
     return render(request , 'guidance_posts.html' , context)
 
@@ -1024,18 +933,13 @@ def guidance_posts(request):
 @login_required(login_url='login')
 def add_guidance_post(request):
     form = GuidancePostForm()
-    user_image = request.user.image.url
-    username = request.user.username
     if request.method == 'POST':
         form = GuidancePostForm(request.POST, request.FILES)
-        print(form.errors)
         if form.is_valid():
             form.save()
             return redirect('guidance_posts')
     context = {
         'form' : form,
-        'user_image': user_image,
-        'username': username
     }
     return render(request , 'add_guidance_post.html' , context)
 
@@ -1047,8 +951,6 @@ def add_guidance_post(request):
 def update_guidance_post(request,post_id):
     post = GuidancePost.objects.get(id=post_id)
     form = GuidancePostForm(instance=post)
-    user_image = request.user.image.url
-    username = request.user.username
 
     if request.method == 'POST':
         form = GuidancePostForm(request.POST, instance=post)
@@ -1058,8 +960,6 @@ def update_guidance_post(request,post_id):
 
     context = {
         'form': form,
-        'user_image': user_image,
-        'username': username,
         'post_image':post.cover.url
     }
     return render(request, 'update_guidance_post.html', context)
@@ -1080,13 +980,9 @@ def delete_guidance_post(request,post_id):
 
 def guidance_categories(request): 
     q = request.GET.get('q') or ''
-    user_image = request.user.image.url
-    username = request.user.username
     categories = GuidanceCategory.objects.filter(name__startswith=q).order_by('-id')
     context = {
         'categories':categories,
-        'user_image': user_image,
-        'username': username
     }
     return render(request , 'guidance_categories.html' , context)
 
@@ -1096,8 +992,6 @@ def guidance_categories(request):
 @login_required(login_url='login')
 def add_guidance_category(request):
     form = GuidanceCategoryForm()
-    user_image = request.user.image.url
-    username = request.user.username
     if request.method == 'POST':
         form = GuidanceCategoryForm(request.POST)
         print(form.errors)
@@ -1106,8 +1000,6 @@ def add_guidance_category(request):
             return redirect('guidance_categories')
     context = {
         'form' : form,
-        'user_image': user_image,
-        'username': username
     }
     return render(request , 'add_guidance_category.html' , context)
 
@@ -1122,8 +1014,6 @@ def add_guidance_category(request):
 def update_guidance_category(request,category_id):
     category = GuidanceCategory.objects.get(id=category_id)
     form = GuidanceCategoryForm(instance=category)
-    user_image = request.user.image.url
-    username = request.user.username
 
     if request.method == 'POST':
         form = GuidanceCategoryForm(request.POST, instance=category)
@@ -1133,8 +1023,6 @@ def update_guidance_category(request,category_id):
 
     context = {
         'form': form,
-        'user_image': user_image,
-        'username': username,
     }
     return render(request, 'add_guidance_category.html', context)
 
@@ -1156,13 +1044,9 @@ def delete_guidance_category(request,category_id):
 
 def religious_posts(request):
     q = request.GET.get('q') or ''
-    user_image = request.user.image.url
-    username = request.user.username
     posts = ReligiousPost.objects.filter(title__startswith=q).order_by('-id')
     context = {
         'posts':posts,
-        'user_image': user_image,
-        'username': username
     }
     return render(request , 'religious_posts.html' , context)
 
@@ -1174,8 +1058,6 @@ def religious_posts(request):
 @login_required(login_url='login')
 def add_religious_post(request):
     form = ReligiousPostForm()
-    user_image = request.user.image.url
-    username = request.user.username
     if request.method == 'POST':
         form = ReligiousPostForm(request.POST, request.FILES)
         print(form.errors)
@@ -1184,8 +1066,6 @@ def add_religious_post(request):
             return redirect('religious_posts')
     context = {
         'form' : form,
-        'user_image': user_image,
-        'username': username
     }
     return render(request , 'add_religious_post.html' , context)
 
@@ -1201,8 +1081,6 @@ def add_religious_post(request):
 def update_religious_post(request,post_id):
     post = ReligiousPost.objects.get(id=post_id)
     form = ReligiousPostForm(instance=post)
-    user_image = request.user.image.url
-    username = request.user.username
 
     if request.method == 'POST':
         form = ReligiousPostForm(request.POST, instance=post)
@@ -1212,8 +1090,6 @@ def update_religious_post(request,post_id):
 
     context = {
         'form': form,
-        'user_image': user_image,
-        'username': username,
         'post_image':post.cover.url
     }
     return render(request, 'update_religious_post.html', context)
@@ -1235,13 +1111,9 @@ def delete_religious_post(request,post_id):
 
 def religious_categories(request): 
     q = request.GET.get('q') or ''
-    user_image = request.user.image.url
-    username = request.user.username
     categories = ReligiousCategory.objects.filter(name__startswith=q).order_by('-id')
     context = {
         'categories':categories,
-        'user_image': user_image,
-        'username': username
     }
     return render(request , 'religious_categories.html' , context)
 
@@ -1253,18 +1125,14 @@ def religious_categories(request):
 @login_required(login_url='login')
 def add_religious_category(request):
     form = ReligiousCategoryForm()
-    user_image = request.user.image.url
-    username = request.user.username
+
     if request.method == 'POST':
         form = ReligiousCategoryForm(request.POST)
-        print(form.errors)
         if form.is_valid():
             form.save()
             return redirect('religious_categories')
     context = {
         'form' : form,
-        'user_image': user_image,
-        'username': username
     }
     return render(request , 'add_religious_category.html' , context)
 
@@ -1276,8 +1144,6 @@ def add_religious_category(request):
 def update_religious_category(request,category_id):
     category = ReligiousCategory.objects.get(id=category_id)
     form = ReligiousCategoryForm(instance=category)
-    user_image = request.user.image.url
-    username = request.user.username
 
     if request.method == 'POST':
         form = ReligiousCategoryForm(request.POST, instance=category)
@@ -1287,8 +1153,6 @@ def update_religious_category(request,category_id):
 
     context = {
         'form': form,
-        'user_image': user_image,
-        'username': username,
     }
     return render(request, 'add_religious_category.html', context)
 
@@ -1309,8 +1173,6 @@ def delete_religious_category(request,category_id):
 def update_religious_post(request,post_id):
     post = ReligiousPost.objects.get(id=post_id)
     form = ReligiousPostForm(instance=post)
-    user_image = request.user.image.url
-    username = request.user.username
 
     if request.method == 'POST':
         form = ReligiousPostForm(request.POST, instance=post)
@@ -1320,8 +1182,6 @@ def update_religious_post(request,post_id):
 
     context = {
         'form': form,
-        'user_image': user_image,
-        'username': username,
         'post_image':post.cover.url
     }
     return render(request, 'update_religious_post.html', context)
@@ -1342,13 +1202,9 @@ def delete_religious_post(request,post_id):
 @login_required(login_url='login')
 def steps_list(request):
     q = request.GET.get('q') or ''
-    user_image = request.user.image.url
-    username = request.user.username
     steps = HajSteps.objects.filter(name__startswith=q).order_by('-id')
     context = {
         'steps':steps,
-        'user_image': user_image,
-        'username': username
     }
     return render(request , 'steps.html' , context)
 
@@ -1360,18 +1216,14 @@ def steps_list(request):
 @login_required(login_url='login')
 def add_step(request):
     form = StepForm()
-    user_image = request.user.image.url
-    username = request.user.username
+
     if request.method == 'POST':
         form = StepForm(request.POST)
-        print(form.errors)
         if form.is_valid():
             form.save()
             return redirect('steps')
     context = {
         'form' : form,
-        'user_image': user_image,
-        'username': username
     }
     return render(request , 'add_step.html' , context)
 
@@ -1383,8 +1235,6 @@ def add_step(request):
 def update_step(request,step_id):
     step = HajSteps.objects.get(id=step_id)
     form = StepForm(instance=step)
-    user_image = request.user.image.url
-    username = request.user.username
 
     if request.method == 'POST':
         form = StepForm(request.POST, instance=step)
@@ -1394,8 +1244,6 @@ def update_step(request,step_id):
 
     context = {
         'form': form,
-        'user_image': user_image,
-        'username': username
     }
     return render(request, 'add_step.html', context)
 
@@ -1419,13 +1267,9 @@ def delete_step(request,step_id):
 @login_required(login_url='login')
 def secondary_steps_list(request):
     q = request.GET.get('q') or ''
-    user_image = request.user.image.url
-    username = request.user.username
     steps = SecondarySteps.objects.filter(name__startswith=q).order_by('-id')
     context = {
         'steps':steps,
-        'user_image': user_image,
-        'username': username
     }
     return render(request , 'secondary_steps.html' , context)
 
@@ -1442,8 +1286,7 @@ def secondary_steps_list(request):
 @login_required(login_url='login')
 def add_secondary_step(request):
     form = SecondaryStepForm()
-    user_image = request.user.image.url
-    username = request.user.username
+
     if request.method == 'POST':
         form = SecondaryStepForm(request.POST)
         if form.is_valid():
@@ -1451,8 +1294,6 @@ def add_secondary_step(request):
             return redirect('secondary_steps')
     context = {
         'form' : form,
-        'user_image': user_image,
-        'username': username
     }
     return render(request , 'add_secondary_step.html' , context)
 
@@ -1466,8 +1307,6 @@ def add_secondary_step(request):
 def update_secondary_step(request,step_id):
     step = SecondarySteps.objects.get(id=step_id)
     form = SecondaryStepForm(instance=step)
-    user_image = request.user.image.url
-    username = request.user.username
 
     if request.method == 'POST':
         form = StepForm(request.POST, instance=step)
@@ -1477,8 +1316,6 @@ def update_secondary_step(request,step_id):
 
     context = {
         'form': form,
-        'user_image': user_image,
-        'username': username
     }
     return render(request, 'add_secondary_step.html', context)
 
@@ -1521,14 +1358,10 @@ def my_account(request):
             user.save()
             return redirect('employees')
 
-    user_image = request.user.image.url
-    username = request.user.username
     
     context = {
         'form': form,
-        'user_image': user_image,
         'user_id': user.id,
-        'username': username,
     }
     
     return render(request , 'my_account.html' , context=context)
@@ -1542,8 +1375,7 @@ def my_account(request):
 @login_required(login_url='login')
 def add_admin(request):
     form = NewAdmin()
-    user_image = request.user.image.url
-    username = request.user.username
+
     if request.method == 'POST':
         form = NewAdmin(request.POST, request.FILES)
         print(form.errors)
@@ -1564,8 +1396,6 @@ def add_admin(request):
             return redirect('main_dashboard')
     context = {
         'form' : form,
-        'user_image': user_image,
-        'username': username,
     }
     return render(request , 'add_admin.html' , context)
 
