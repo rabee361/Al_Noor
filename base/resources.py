@@ -110,7 +110,7 @@ class PilgrimResource(resources.ModelResource):
 
     class Meta:
         model = Pilgrim
-        exclude = ['user','id']
+        exclude = ['user','id','created','duration','haj_steps','guide']
         import_id_fields = ['phonenumber']
 
     def before_import_row(self, row, **kwargs):
