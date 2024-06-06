@@ -39,7 +39,7 @@
                 <table class="table my-table">
                   <thead class="text-primary header-wrapper">
                     <th style="color: white;">
-                      ID
+                      الترتيب
                     </th>
                     <th style="color: white;">
                     العنوان
@@ -61,7 +61,7 @@
                   {% for post in posts %}
                     <tr class="body-fields">
                       <td>
-                        {{post.id}}
+                        {{post.rank}}
                       </td>
                       <td>
                         <a href="{% url 'update_religious_post' post.id %}" style="text-decoration: none; color: white;">

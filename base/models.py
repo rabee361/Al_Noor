@@ -300,6 +300,7 @@ class GuidancePost(models.Model):
     title = models.CharField(max_length=100, verbose_name="العنوان")
     content = models.TextField(verbose_name="المحتوى")
     cover = models.ImageField(upload_to='cover', verbose_name="صورة الغلاف")
+    rank = models.IntegerField(unique=True , blank=True , null=True , validators=[MinValueValidator(1),MaxValueValidator(1000)],verbose_name="الترتيب")
     created = models.DateField(auto_now_add=True, verbose_name="تاريخ الانشاء") ##datetime ??
 
     def __str__(self) -> str:
@@ -330,6 +331,7 @@ class ReligiousPost(models.Model):
     title = models.CharField(max_length=100 , verbose_name="العنوان")
     content = models.TextField(verbose_name="المحتوى")
     cover = models.ImageField(upload_to='cover' , verbose_name="صورة الغلاف")
+    rank = models.IntegerField(unique=True , blank=True , null=True , validators=[MinValueValidator(1),MaxValueValidator(1000)],verbose_name="الترتيب")
     created = models.DateField(auto_now_add=True , verbose_name="تاريخ الانشاء")## datetime ?
 
     def __str__(self) -> str:

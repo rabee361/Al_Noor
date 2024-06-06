@@ -919,7 +919,7 @@ def delete_notifications(request,notification_id):
 
 def guidance_posts(request):
     q = request.GET.get('q') or ''
-    posts = GuidancePost.objects.filter(title__startswith=q).order_by('-id')
+    posts = GuidancePost.objects.filter(title__startswith=q).order_by('rank')
     context = {
         'posts':posts,
     }
@@ -1044,7 +1044,7 @@ def delete_guidance_category(request,category_id):
 
 def religious_posts(request):
     q = request.GET.get('q') or ''
-    posts = ReligiousPost.objects.filter(title__startswith=q).order_by('-id')
+    posts = ReligiousPost.objects.filter(title__startswith=q).order_by('rank')
     context = {
         'posts':posts,
     }
