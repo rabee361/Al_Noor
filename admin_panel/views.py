@@ -1305,7 +1305,7 @@ def update_secondary_step(request,step_id):
     form = SecondaryStepForm(instance=step)
 
     if request.method == 'POST':
-        form = StepForm(request.POST, instance=step)
+        form = SecondaryStepForm(request.POST, instance=step)
         if form.is_valid():
             form.save()
             return redirect('secondary_steps')
