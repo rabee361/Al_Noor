@@ -1279,10 +1279,6 @@ def secondary_steps_list(request):
 
 
 
-
-
-
-
 @login_required(login_url='login')
 def add_secondary_step(request):
     form = SecondaryStepForm()
