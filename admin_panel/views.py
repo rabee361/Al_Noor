@@ -864,9 +864,9 @@ def import_pilgrim(request):
             dataset = passwords.export()
             response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
             response['Content-Disposition'] = 'attachment; filename="passwords.xlsx"'
+            UserPassword.objects.all().delete()
             return response
 
-            # return redirect('pilgrims')
         return render(request, 'import_pilgrims.html')
 
 
