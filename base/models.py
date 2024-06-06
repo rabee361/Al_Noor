@@ -307,7 +307,7 @@ class GuidancePost(models.Model):
         return self.title
     
     class Meta:
-        ordering = ['-created']
+        ordering = ['rank']
         verbose_name = ("إرشاد ديني")
         verbose_name_plural = ("إرشادات دينية")
 
@@ -338,7 +338,7 @@ class ReligiousPost(models.Model):
         return self.title
 
     class Meta:
-        ordering = ['-created']
+        ordering = ['rank']
         verbose_name = ("عمل ديني")
         verbose_name_plural = ("أعمال دينية")
 
