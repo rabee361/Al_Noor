@@ -220,8 +220,7 @@ class ListGuidePilgrims(ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        guide = Guide.objects.filter(user=user).first()
-        pilgrims = Pilgrim.objects.filter(guide=guide.id)
+        pilgrims = Pilgrim.objects.filter(guide__user=user)
         return pilgrims
 
 
