@@ -23,6 +23,8 @@ from django.db.models import Count
 from django.db.models.functions import ExtractMonth
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
+from .utils.mixins import CachePageMixin
+
 
 
 class LoginUser(GenericAPIView):
@@ -197,8 +199,7 @@ class RegisterPilgrim(ListCreateAPIView):
     serializer_class = RegistrationSerializer
 
 
-@method_decorator(cache_page(60 * 15)) 
-class ListPilgrim(ListAPIView):
+class ListPilgrim(CachePageMixin,ListAPIView):
     # permission_classes = [IsAuthenticated]
     queryset = Pilgrim.objects.select_related('guide','user').prefetch_related('haj_steps').all()
     serializer_class = PilgrimSerializer
