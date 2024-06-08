@@ -399,7 +399,7 @@ class SendTask(GenericAPIView):
                     title = title,
                     content  = content,
                 )
-                send_task_notification(employee=employee,title=title,content=content)
+                send_task_notification(employee=employee,title="لديك مهمة جديدة",content=content)
                 serializer = TaskSerializer(task , many=False)
                 return Response(serializer.data , status=status.HTTP_200_OK)
         except Employee.DoesNotExist:
