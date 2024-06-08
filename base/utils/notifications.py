@@ -1,6 +1,6 @@
 from fcm_django.models import FCMDevice
 from firebase_admin.messaging import Message, Notification
-from ..models import UserNotification , CustomUser , BaseNotification
+from ..models import UserNotification , CustomUser
 from django.db.models import Q
 
 
@@ -10,7 +10,7 @@ def send_task_notification(employee,title,content):
         devices.send_message(
                 message =Message(
                     notification=Notification(
-                        title=title,
+                        title="لديك مهمة جديدة",
                         body=content
                     ),
                 ),
