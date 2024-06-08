@@ -386,22 +386,24 @@ class SendTask(GenericAPIView):
     serializer_class = TaskSerializer
 
     def post(self,request,pk):
-        employee = Employee.objects.get(id=pk)
-        title = request.data.get('title',None)
-        content = request.data.get('content',None)
-        if title is None or content is None:
-            return Response({"error" : ["العنوان أو المحتوى فارغ"]},status=status.HTTP_400_BAD_REQUEST)
-        
-        else:
-            task = Task.objects.create(
-                employee = employee,
-                title = title,
-                content  = content,
-            )
-            send_task_notification(employee=employee,title=title,content=content)
-            serializer = TaskSerializer(task , many=False)
-            return Response(serializer.data , status=status.HTTP_200_OK)
-
+        try:
+            employee = Employee.objects.get(id=pk)
+            title = request.data.get('title',None)
+            content = request.data.get('content',None)
+            if title is None or content is None:
+                return Response({"error" : ["العنوان أو المحتوى فارغ"]},status=status.HTTP_400_BAD_REQUEST)
+            
+            else:
+                task = Task.objects.create(
+                    employee = employee,
+                    title = title,
+                    content  = content,
+                )
+                send_task_notification(employee=employee,title=title,content=content)
+                serializer = TaskSerializer(task , many=False)
+                return Response(serializer.data , status=status.HTTP_200_OK)
+        except Employee.DoesNotExist:
+            return Response({"error":["لا يوجد موظف بهذا الرقم"]},status=status.HTTP_404_NOT_FOUND)
 
 
 

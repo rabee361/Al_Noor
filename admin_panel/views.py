@@ -12,7 +12,7 @@ from django.core.files.storage import default_storage
 from django.db import transaction
 from django.views import View
 from django.contrib.auth.forms import PasswordChangeForm
-from base.utils.notifications import send_event_notification
+from base.utils.notifications import send_event_notification , send_task_notification
 from phonenumber_field.phonenumber import PhoneNumber
 from django.core.validators import MinValueValidator, MaxValueValidator , RegexValidator
 
@@ -467,6 +467,10 @@ def add_task(request):
     if request.method == 'POST':
         form = NewTask(request.POST)
         if form.is_valid():
+            form.save(commit=False)
+            send_task_notification(employee=form.cleaned_data['employee'],
+                                   title=form.cleaned_data['title'],
+                                   content=form.cleaned_data['content'])
             form.save()
             return redirect('tasks')
 
