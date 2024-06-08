@@ -59,16 +59,16 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 
 
 
-		try:
-			manager = await self.get_manager(user)
-			title = f'{user}'
-			body = f'{message}'
-			await self.send_to_client(chat,title,body)
+		# try:
+		# 	manager = await self.get_manager(user)
+		# 	title = f'{user}'
+		# 	body = f'{message}'
+		# 	await self.send_to_client(chat,title,body)
 
-		except:
-			title = f'{user}'
-			body = f'{message}'
-			await self.send_to_all(title,body)
+		# except:
+		# 	title = f'{user}'
+		# 	body = f'{message}'
+		# 	await self.send_to_all(title,body)
 
 
 
@@ -242,16 +242,16 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 
 
 
-		try:
-			guide = await self.get_guide(user)
-			title = f'{user}'
-			body = f'{message}'
-			await self.send_to_client(chat,title,body)
+		# try:
+		# 	guide = await self.get_guide(user)
+		# 	title = f'{user}'
+		# 	body = f'{message}'
+		# 	await self.send_to_client(chat,title,body)
 
-		except:
-			title = f'{user}'
-			body = f'{message}'
-			await self.send_to_all(title,body)
+		# except:
+		# 	title = f'{user}'
+		# 	body = f'{message}'
+		# 	await self.send_to_all(title,body)
 
 
 

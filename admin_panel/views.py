@@ -249,6 +249,7 @@ def add_pilgrim(request):
                 flight_num=form.cleaned_data['flight_num'],
                 flight_date=form.cleaned_data['flight_date'],
                 flight_company = form.cleaned_data['flight_company'],
+                company_logo = form.cleaned_data['company_logo'],
                 from_city=form.cleaned_data['from_city'],
                 to_city=form.cleaned_data['to_city'],
                 birthday=request.POST['birthday'],
