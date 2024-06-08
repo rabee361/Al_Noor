@@ -828,7 +828,7 @@ def import_pilgrim(request):
                     user.save()
                     chat1 = Chat.objects.create(user=user , chat_type='guide')  
                     chat2 = Chat.objects.create(user=user , chat_type='manager')
-                    UserPassword.objects.create(password=my_password , username=user.username , phonenumber=str(user.phonenumber))
+                    UserPassword.objects.create(password=my_password , username=user.username , phonenumber=str(row['رقم الجوال']))
                 else:
                     user.first_name = row['الاسم الأول']
                     user.last_name = row['العائلة']
