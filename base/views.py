@@ -200,6 +200,7 @@ class RegisterPilgrim(ListCreateAPIView):
 
 
 @api_view(['GET'])
+@cache_page(60 * 5)
 def get_pilgrims(request):
     pilgrims = Pilgrim.objects.select_related('guide','user').prefetch_related('haj_steps').all()
     serializer = PilgrimSerializer(pilgrims , many=True)
