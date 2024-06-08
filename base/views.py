@@ -199,25 +199,25 @@ class RegisterPilgrim(ListCreateAPIView):
     serializer_class = RegistrationSerializer
 
 
-# @method_decorator(cache_page(60 * 5))
-# class ListPilgrim(GenericAPIView):
-#     # permission_classes = [IsAuthenticated]
-#     # serializer_class = PilgrimSerializer
-#     filter_backends = [DjangoFilterBackend]
-#     filterset_class = PilgrimFilter
-
-#     def get(self,request):
-#         pilgrims = Pilgrim.objects.select_related('guide','user').prefetch_related('haj_steps').all()
-#         serializer = PilgrimSerializer(pilgrims , many=True)
-#         return Response(serializer.data , status=status.HTTP_200_OK)
-
-
-class ListPilgrim(ListAPIView):
+@method_decorator(cache_page(60 * 5))
+class ListPilgrim(GenericAPIView):
     # permission_classes = [IsAuthenticated]
-    queryset = Pilgrim.objects.select_related('guide','user').prefetch_related('haj_steps').all()
-    serializer_class = PilgrimSerializer
+    # serializer_class = PilgrimSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = PilgrimFilter
+
+    def get(self,request):
+        pilgrims = Pilgrim.objects.select_related('guide','user').prefetch_related('haj_steps').all()
+        serializer = PilgrimSerializer(pilgrims , many=True)
+        return Response(serializer.data , status=status.HTTP_200_OK)
+
+
+# class ListPilgrim(ListAPIView):
+#     # permission_classes = [IsAuthenticated]
+#     queryset = Pilgrim.objects.select_related('guide','user').prefetch_related('haj_steps').all()
+#     serializer_class = PilgrimSerializer
+#     filter_backends = [DjangoFilterBackend]
+#     filterset_class = PilgrimFilter
 
 
 
