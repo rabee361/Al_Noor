@@ -212,7 +212,7 @@ class RegisterPilgrim(ListCreateAPIView):
 #         return Response(serializer.data , status=status.HTTP_200_OK)
 
 
-class ListListPilgrim(ListAPIView):
+class ListPilgrim(ListAPIView):
     # permission_classes = [IsAuthenticated]
     queryset = Pilgrim.objects.select_related('guide','user').prefetch_related('haj_steps').all()
     serializer_class = PilgrimSerializer
