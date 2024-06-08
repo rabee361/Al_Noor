@@ -10,7 +10,7 @@ def send_task_notification(employee,title,content):
         devices.send_message(
                 message =Message(
                     notification=Notification(
-                        title="لديك مهمة جديدة",
+                        title=title,
                         body=content
                     ),
                 ),
