@@ -116,6 +116,7 @@ class Registration(models.Model):
 class Pilgrim(models.Model):
     user = models.ForeignKey(CustomUser , on_delete=models.CASCADE , verbose_name="المستخدم")
     phonenumber = models.CharField(unique=True,
+                                    db_index=True,
                                    verbose_name="رقم الهاتف",
                                             validators=[RegexValidator(
                                             regex=r'^\d{5,15}$'

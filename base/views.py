@@ -21,6 +21,8 @@ from fcm_django.models import FCMDevice
 from firebase_admin.messaging import Message, Notification
 from django.db.models import Count
 from django.db.models.functions import ExtractMonth
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 
 
 class LoginUser(GenericAPIView):
@@ -195,7 +197,7 @@ class RegisterPilgrim(ListCreateAPIView):
     serializer_class = RegistrationSerializer
 
 
-
+@method_decorator(cache_page(60 * 15)) 
 class ListPilgrim(ListAPIView):
     # permission_classes = [IsAuthenticated]
     queryset = Pilgrim.objects.select_related('guide','user').prefetch_related('haj_steps').all()
