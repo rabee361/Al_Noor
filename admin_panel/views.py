@@ -211,6 +211,7 @@ def update_pilgrim(request,pilgrim_id):
 
 
 @login_required(login_url='login')
+@transaction.atomic
 def add_pilgrim(request):
     form = NewPilgrim()
 
@@ -246,7 +247,7 @@ def add_pilgrim(request):
                 room_num=form.cleaned_data['room_num'],
                 gate_num=form.cleaned_data['gate_num'],
                 flight_num=form.cleaned_data['flight_num'],
-                flight_date=request.POST['flight_date'],
+                flight_date=form.cleaned_data['flight_date'],
                 flight_company = form.cleaned_data['flight_company'],
                 from_city=form.cleaned_data['from_city'],
                 to_city=form.cleaned_data['to_city'],
