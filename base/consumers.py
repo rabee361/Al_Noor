@@ -228,7 +228,7 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 
 
 		try:
-			guide = await self.get_guide(user.phonenumber)
+			guide = await self.get_guide(user)
 			title = f'{user}'
 			body = f'{message}'
 			await self.send_to_client(chat,title,body)
