@@ -6,6 +6,7 @@ from django.db.models import Q
 
 def send_task_notification(employee,title,content):
     if employee.user.get_notifications:
+        title = "لديك مهمة جديدة"
         devices = FCMDevice.objects.filter(user=employee.user.id)
         devices.send_message(
                 message =Message(
