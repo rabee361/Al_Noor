@@ -58,6 +58,21 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 		await self.save_message(msg)
 
 
+
+		try:
+			manager = await self.get_manager(user)
+			title = f'{user}'
+			body = f'{message}'
+			await self.send_to_client(chat,title,body)
+
+		except:
+			title = f'{user}'
+			body = f'{message}'
+			await self.send_to_all(title,body)
+
+
+
+
 		await self.channel_layer.group_send(
 			self.room_group_name,
 			{
@@ -103,8 +118,8 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 
 	@database_sync_to_async
 	def send_to_all(self,title,body):
-		employees = Management.objects.values_list('phonenumber',flat=True)
-		users = CustomUser.objects.filter(phonenumber__in=employees).values_list('id',flat=True)
+		managers = Management.objects.values_list('user__phonenumber',flat=True)
+		users = CustomUser.objects.filter(phonenumber__in=managers).values_list('id',flat=True)
 		devices = FCMDevice.objects.filter(user__in=users)
 		for device in devices:
 			device.send_message(
