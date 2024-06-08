@@ -319,6 +319,7 @@ class ListPilgrimSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(source='user.image',read_only=True)
     active = serializers.BooleanField(source='user.is_active',read_only=True)
     notes = serializers.SerializerMethodField(read_only=True)
+    manager_chat = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Pilgrim
@@ -329,7 +330,14 @@ class ListPilgrimSerializer(serializers.ModelSerializer):
         pilgrim_notes = Note.objects.filter(pilgrim=obj)
         serializer = NoteSerializer(pilgrim_notes , many=True)
         return serializer.data
-
+    
+    def get_manager_chat(self, obj):
+        try:
+            manager_chat = Chat.objects.get(user=obj.user , chat_type='manager')
+            return manager_chat.id
+        except Chat.DoesNotExist:
+            return None 
+        
 
     def get_duration(self, obj):
         duration = obj.duration
