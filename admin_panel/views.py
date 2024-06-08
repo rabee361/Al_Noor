@@ -178,9 +178,8 @@ def update_pilgrim(request,pilgrim_id):
         form = PilgrimForm(instance=pilgrim)
 
         if request.method == 'POST':
-            
             pilgrim_form = PilgrimForm(request.POST,request.FILES,instance=pilgrim)
-
+            print(pilgrim_form.errors)
             if pilgrim_form.is_valid():
                 pilgrim = pilgrim_form.save(commit=False)
                 user.get_notifications = pilgrim_form.cleaned_data['get_notifications']
@@ -188,6 +187,7 @@ def update_pilgrim(request,pilgrim_id):
                 user.username = request.POST['first_name'] + ' ' + request.POST['father_name'] + ' ' + request.POST['grand_father'] + ' ' + request.POST['last_name']
                 user.save()
                 pilgrim.haj_steps.set(request.POST.getlist('haj_steps'))
+                # pilgrim.phonenumber = pilgrim_form.cleaned_data['phonenumber']
                 pilgrim.save()
 
             return redirect('pilgrims')
@@ -822,7 +822,7 @@ def import_pilgrim(request):
                                                                     'last_name':str(row['العائلة'])   
                                                                     })
                 if created:                
-                    my_password = row['رقم الهوية']
+                    my_password = str(row['رقم الهوية'])
                     user.set_password(my_password)
                     user.save()
                     chat1 = Chat.objects.create(user=user , chat_type='guide')
