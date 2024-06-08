@@ -226,6 +226,20 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 		await self.save_message(msg)
 
 
+
+		try:
+			guide = await self.get_guide(user.phonenumber)
+			title = f'{user}'
+			body = f'{message}'
+			await self.send_to_client(chat,title,body)
+
+		except:
+			title = f'{user}'
+			body = f'{message}'
+			await self.send_to_all(title,body)
+
+
+
 		await self.channel_layer.group_send(
 			self.room_group_name,
 			{

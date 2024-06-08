@@ -32,7 +32,6 @@ class LoginUser(GenericAPIView):
                 user = CustomUser.objects.get(phonenumber = request.data['username'])
                 token = RefreshToken.for_user(user)
 
-
                 device_token = request.data.get('device_token',None)
                 try:
                     device_tok = FCMDevice.objects.get(registration_id=device_token ,type='android')
@@ -49,9 +48,6 @@ class LoginUser(GenericAPIView):
                     data['manager_chat_id'] = manager_chat.id
                 except Chat.DoesNotExist:
                     None
-
-                
-
 
                 data['image'] = request.build_absolute_uri(user.image.url)
                 data['user_id'] = user.id
@@ -88,7 +84,7 @@ class LogoutUser(GenericAPIView):
 
 
 
-######### needs modification to adapt to sms
+
 class SendCodePassword(GenericAPIView):
     def post(self, request):
         try: 
@@ -155,7 +151,6 @@ class VerifyUser(APIView):
 
 
 
-###### can be added to the models as a method
 class UpdateImage(GenericAPIView):
     permission_classes = [IsAuthenticated]
 
@@ -173,7 +168,6 @@ class UpdateImage(GenericAPIView):
 
 
 ### can be addes to the models as  a method
-######### needs modification to adapt to sms
 class ResetPassword(UpdateAPIView):
     # permission_classes = [IsAuthenticated]
     serializer_class = ResetPasswordSerializer
@@ -281,7 +275,6 @@ class RefreshFirebaseToken(GenericAPIView):
 
 
 
-###### might meed modification to send the pilgrim id in the header
 class ListNote(ListAPIView):
     # permission_classes = [IsAuthenticated]
     queryset =  Note.objects.all()
