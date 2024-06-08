@@ -200,7 +200,7 @@ class RegisterPilgrim(ListCreateAPIView):
 
 
 
-def get_pilgrims(self,request):
+def get_pilgrims(request):
     pilgrims = Pilgrim.objects.select_related('guide','user').prefetch_related('haj_steps').all()
     serializer = PilgrimSerializer(pilgrims , many=True)
     return Response(serializer.data , status=status.HTTP_200_OK)
