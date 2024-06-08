@@ -198,7 +198,7 @@ class RegisterPilgrim(ListCreateAPIView):
 
 class ListPilgrim(ListAPIView):
     # permission_classes = [IsAuthenticated]
-    queryset = Pilgrim.objects.all()
+    queryset = Pilgrim.objects.select_related('guide','user').prefetch_related('haj_steps').all()
     serializer_class = PilgrimSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = PilgrimFilter
