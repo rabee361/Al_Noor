@@ -285,8 +285,8 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 
 	@database_sync_to_async
 	def send_to_all(self,title,body):
-		managers = Guide.objects.values_list('phonenumber',flat=True)
-		users = CustomUser.objects.filter(phonenumber__in=managers).values_list('id',flat=True)
+		guides = Guide.objects.values_list('user__phonenumber',flat=True)
+		users = CustomUser.objects.filter(phonenumber__in=guides).values_list('id',flat=True)
 		devices = FCMDevice.objects.filter(user__in=users)
 		for device in devices:
 			device.send_message(
