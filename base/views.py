@@ -210,7 +210,7 @@ def get_pilgrims(request):
 class ListPilgrim(ListAPIView):
     # permission_classes = [IsAuthenticated]
     queryset = Pilgrim.objects.select_related('guide','user').prefetch_related('haj_steps').all()
-    serializer_class = PilgrimSerializer
+    serializer_class = ListPilgrimSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = PilgrimFilter
 

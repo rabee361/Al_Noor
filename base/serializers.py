@@ -269,7 +269,7 @@ class PilgrimSerializer(serializers.ModelSerializer):
     def get_haj_steps(self, obj):
         haj_steps_data = []
         steps = HaJStepsPilgrim.objects.only('haj_step').filter(pilgrim=obj).values('haj_step')
-        total_steps = HajSteps.objects.values('name')
+        total_steps = HajSteps.objects.only('name').values('name')
 
         for haj_step_pilgrim in total_steps:
             if steps.filter(haj_step__name=haj_step_pilgrim['name']).exists():
@@ -305,6 +305,32 @@ class PilgrimSerializer(serializers.ModelSerializer):
         except Chat.DoesNotExist:
             return None 
         
+    def get_duration(self, obj):
+        duration = obj.duration
+        formatted_duration = str(duration).split('.')[0]  # Remove microseconds
+        return formatted_duration        
+
+
+
+
+
+class ListPilgrimSerializer(serializers.ModelSerializer):
+    duration = serializers.SerializerMethodField()
+    image = serializers.ImageField(source='user.image',read_only=True)
+    active = serializers.BooleanField(source='user.is_active',read_only=True)
+    notes = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = Pilgrim
+        exclude = ['guide','haj_steps']
+
+
+    def get_notes(self,obj):
+        pilgrim_notes = Note.objects.filter(pilgrim=obj)
+        serializer = NoteSerializer(pilgrim_notes , many=True)
+        return serializer.data
+
+
     def get_duration(self, obj):
         duration = obj.duration
         formatted_duration = str(duration).split('.')[0]  # Remove microseconds

@@ -169,7 +169,7 @@ class Guide(models.Model):
         return self.user.username
 
     class Meta:
-        verbose_name = ("المرشد")
+        verbose_name = ("المرشد")   
         verbose_name_plural = ("المرشدين")
 
 
