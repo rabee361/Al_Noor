@@ -253,8 +253,8 @@ class CustomFirebaseCredentials(credentials.ApplicationDefault):
                                                                               scopes=credentials._scopes)
 
 
-custom_credentials = CustomFirebaseCredentials('C:/Users/eng.Rabee/Al_Noor/al-noor-6d972-firebase-adminsdk-lax5i-a484f77017.json')
-FIREBASE_MESSAGING_APP = initialize_app(custom_credentials, options={'projectId': 'al-noor-6d972'}, name='messaging')
+custom_credentials = CustomFirebaseCredentials('nouralhj-2fb2e-firebase-adminsdk-u62ua-ac6ae82050.json.json')
+FIREBASE_MESSAGING_APP = initialize_app(custom_credentials, options={'projectId': 'nouralhj-2fb2e'}, name='messaging')
 
 
 

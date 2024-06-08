@@ -495,6 +495,7 @@ class SendNotification(APIView):
         if pilgrims is not None:
             if title and content :
                 send_event_notification(title=title,content=content)
+                BaseNotification.objects.create(title=title,content=content,info="لا يوجد")
                 return Response({
                     "message":"تم ارسال الاشعار"
                 })
