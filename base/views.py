@@ -211,6 +211,19 @@ class ListPilgrim(ListAPIView):
 
 
 
+class ListGuidePilgrims(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Pilgrim.objects.all()
+    serializer_class = PilgrimSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = PilgrimFilter
+
+    def get_queryset(self):
+        user = self.request.user
+        guide = Guide.objects.filter(user=user).first()
+        pilgrims = Pilgrim.objects.filter(guide=guide.id)
+        return pilgrims
+
 
 
 class CreatePilgrim(CreateAPIView):
