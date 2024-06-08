@@ -199,13 +199,14 @@ class RegisterPilgrim(ListCreateAPIView):
     serializer_class = RegistrationSerializer
 
 
-@method_decorator(cache_page(60 * 5))
+
 class ListPilgrim(GenericAPIView):
     # permission_classes = [IsAuthenticated]
     # serializer_class = PilgrimSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = PilgrimFilter
-
+    
+    @method_decorator(cache_page(60 * 5))
     def get(self,request):
         pilgrims = Pilgrim.objects.select_related('guide','user').prefetch_related('haj_steps').all()
         serializer = PilgrimSerializer(pilgrims , many=True)
