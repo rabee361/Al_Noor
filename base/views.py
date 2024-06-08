@@ -23,7 +23,7 @@ from django.db.models import Count
 from django.db.models.functions import ExtractMonth
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
-
+from rest_framework.decorators import api_view
 
 
 class LoginUser(GenericAPIView):
@@ -199,7 +199,7 @@ class RegisterPilgrim(ListCreateAPIView):
 
 
 
-
+@api_view(['GET'])
 def get_pilgrims(request):
     pilgrims = Pilgrim.objects.select_related('guide','user').prefetch_related('haj_steps').all()
     serializer = PilgrimSerializer(pilgrims , many=True)
