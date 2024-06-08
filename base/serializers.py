@@ -268,7 +268,7 @@ class PilgrimSerializer(serializers.ModelSerializer):
 
     def get_haj_steps(self, obj):
         haj_steps_data = []
-        steps = HaJStepsPilgrim.objects.only('haj_step')/filter(pilgrim=obj).values('haj_step')
+        steps = HaJStepsPilgrim.objects.only('haj_step').filter(pilgrim=obj).values('haj_step')
         total_steps = HajSteps.objects.values('name')
 
         for haj_step_pilgrim in total_steps:

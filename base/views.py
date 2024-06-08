@@ -23,7 +23,6 @@ from django.db.models import Count
 from django.db.models.functions import ExtractMonth
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
-from .utils.mixins import CachePageMixin
 
 
 
