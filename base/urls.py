@@ -53,8 +53,8 @@ ManagerPattern = [
     path('update-note/<str:pk>/' , RetUpdDesNote.as_view() , name="update-note"),
     path('list-guides/' , ListGuides.as_view() , name="list-guides"),
     path('create-pilgrim/' , CreatePilgrim.as_view() , name="create-pilgrim"),
-    path('update-pilgrim/<str:pk>/' , UpdatePilgrim.as_view() , name="update-pilgrim")
-    
+    path('update-pilgrim/<str:pk>/' , UpdatePilgrim.as_view() , name="update-pilgrim"),
+    path('list-all-guides/' , get_pilgrims , name="get-all-pilgrims"),    
 ]
 
 
