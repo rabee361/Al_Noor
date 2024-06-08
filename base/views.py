@@ -545,7 +545,9 @@ class ListChats(ListCreateAPIView):
     # permission_clasess = [IsGuide , IsAuthenticated]
 
     def get_queryset(self):
-        return Chat.guide_chats
+        guide = Guide.objects.get(user=self.request.user.id)
+        users = Pilgrim.objects.filter(guide=guide).values_list('user',flat=True)
+        return Chat.guide_chats.filter(user__in=users)
 
 
 
