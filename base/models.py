@@ -19,6 +19,7 @@ class CustomUser(AbstractUser):
         
     image = models.ImageField(upload_to='images/users',default='images/account.jpg' , verbose_name="الصورة الشخصية")
     phonenumber = models.CharField(unique=True,
+                                   db_index=True,
                                    verbose_name="رقم الهاتف",
                                             validators=[RegexValidator(
                                             regex=r'^\d{5,15}$'

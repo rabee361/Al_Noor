@@ -822,7 +822,7 @@ def import_pilgrim(request):
                                                                     'last_name':str(row['العائلة'])   
                                                                     })
                 if created:                
-                    my_password = generate_password()
+                    my_password = row['رقم الهوية']
                     user.set_password(my_password)
                     user.save()
                     chat1 = Chat.objects.create(user=user , chat_type='guide')
@@ -855,7 +855,7 @@ def import_pilgrim(request):
                     'status':True,
                     'hotel':row['الفندق'],
                     'hotel_address':row['عنوان الفندق'],
-                    'room_num':33
+                    'room_num':row['رقم الغرفة']
                     }
                 )
                 pilgrim.save()
