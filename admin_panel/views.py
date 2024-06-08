@@ -813,7 +813,7 @@ def import_pilgrim(request):
                 diff = departure_datetime - arrival_datetime
 
                 formatted_diff = str(timedelta(hours=diff.seconds//3600, minutes=diff.seconds//60%60))
-                pilgrim_phonenumber = PhoneNumber.from_string(str(row['رقم الجوال']) , region='SA')
+                pilgrim_phonenumber = str(row['رقم الجوال'])
                 pilgrim_username = str(row['الاسم الأول']) + ' ' + str(row['اسم الأب']) + ' ' + str(row['اسم الجد']) + ' ' + str(row['العائلة'])
                 user , created =CustomUser.objects.update_or_create(phonenumber=pilgrim_phonenumber ,
                                                                     defaults={
@@ -826,7 +826,7 @@ def import_pilgrim(request):
                     my_password = str(row['رقم الهوية'])
                     user.set_password(my_password)
                     user.save()
-                    chat1 = Chat.objects.create(user=user , chat_type='guide')
+                    chat1 = Chat.objects.create(user=user , chat_type='guide')  
                     chat2 = Chat.objects.create(user=user , chat_type='manager')
                     UserPassword.objects.create(password=my_password , username=user.username , phonenumber=str(user.phonenumber))
                 else:
