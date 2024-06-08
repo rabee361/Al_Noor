@@ -34,8 +34,8 @@ class LoginUser(GenericAPIView):
 
                 device_token = request.data.get('device_token',None)
                 try:
-                    device_tok = FCMDevice.objects.get(registration_id=device_token ,type='android')
-                    device_tok.user = user
+                    device_tok = FCMDevice.objects.get(user=user ,type='android')
+                    device_tok.registration_id = device_token
                     device_tok.save()
                 except:
                     FCMDevice.objects.create(user=user , registration_id=device_token ,type='android')
