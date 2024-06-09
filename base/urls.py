@@ -3,8 +3,8 @@ from .views import *
 from rest_framework_simplejwt import views as jwt_views
 
 
-# General api's for each user type 
-AccountPattern = [
+# General endpoints for all users
+AccountPatterns = [
     path('auth/login/' , LoginUser.as_view() , name="login"),
     path('auth/logout/', LogoutUser.as_view(), name='logout'),
     path('list-notifications/' , ListNotifications.as_view() , name="list-notifications"),
@@ -18,8 +18,8 @@ AccountPattern = [
 ]
 
 
-# Pilgrim app api's
-PilgrimPattern = [
+# Pilgrim app endpoints
+PilgrimPatterns = [
     path('complete-step/<str:step_id>/' , CompleteStep.as_view() , name="complete-step"),
     path('prayers-timings/' , Calender.as_view() , name="prayers-timings"),
     path('register/' , RegisterPilgrim.as_view() , name="register-pilgrim"),
@@ -35,8 +35,8 @@ PilgrimPattern = [
 ]
 
 
-# Manager app api's
-ManagerPattern = [
+# Manager app endpoints
+ManagerPatterns = [
     path('list-manager-chats/' , ListManagerChats.as_view() , name="list-chats"),
     path('send-task/<str:pk>/' , SendTask.as_view() , name="send-task"),
     path('list-chats/' , ListChats.as_view() , name="list-chats"),
@@ -58,8 +58,8 @@ ManagerPattern = [
 ]
 
 
-# Employee app api's
-EmployeePattern = [
+# Employee app endpoints
+EmployeePatterns = [
     path('complete-task/<str:task_id>/' , CompleteTask.as_view() , name="complete-task"),
     path('accept-task/<str:task_id>/' , AcceptTask.as_view() , name="accept-task"),
     path('list-tasks/' , ListTask.as_view() , name="list-tasks"),
@@ -68,8 +68,8 @@ EmployeePattern = [
 ]
 
 
-# guide app api's
-GuidePattern = [
+# guide app endpoints
+GuidePatterns = [
     path('create-note/' , CreateNote.as_view() , name="create-note"),
     path('list-notes/' , ListNote.as_view() , name="list-notes"),
     path('list-chats/' , ListChats.as_view() , name="list-chats"),
@@ -84,9 +84,9 @@ GuidePattern = [
 
 
 urlpatterns = [
-    path('' , include(AccountPattern)),
-    path('' , include(PilgrimPattern)),
-    path('' , include(ManagerPattern)),
-    path('' , include(EmployeePattern)),
-    path('' , include(GuidePattern))
+    path('' , include(AccountPatterns)),
+    path('' , include(PilgrimPatterns)),
+    path('' , include(ManagerPatterns)),
+    path('' , include(EmployeePatterns)),
+    path('' , include(GuidePatterns))
 ]

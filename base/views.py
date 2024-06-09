@@ -251,17 +251,18 @@ class GetPilgrim(RetrieveUpdateDestroyAPIView):
     serializer_class = PilgrimSerializer
 
 
-class PilgrimInfo(GenericAPIView):
-    # permission_classes = [IsAuthenticated]
 
-    def get(self,request):
-        user = request.user
-        try:
-            pilgrim = Pilgrim.objects.get(user=user)
-            serializer = PilgrimSerializer(pilgrim , many=False)
-            return Response(serializer.data , status=status.HTTP_200_OK)
-        except Pilgrim.DoesNotExist:
-            return Response({"error":["لا يوجد حاج بهذا الاسم"]},status=status.HTTP_500_BAD_REQUEST)
+# class PilgrimInfo(GenericAPIView):
+#     # permission_classes = [IsAuthenticated]
+
+#     def get(self,request):
+#         user = request.user
+#         try:
+#             pilgrim = Pilgrim.objects.get(user=user)
+#             serializer = PilgrimSerializer(pilgrim , many=False)
+#             return Response(serializer.data , status=status.HTTP_200_OK)
+#         except Pilgrim.DoesNotExist:
+#             return Response({"error":["لا يوجد حاج بهذا الاسم"]},status=status.HTTP_500_BAD_REQUEST)
 
 
 

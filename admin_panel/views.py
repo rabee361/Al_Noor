@@ -185,8 +185,14 @@ def update_pilgrim(request,pilgrim_id):
                 user.get_notifications = pilgrim_form.cleaned_data['get_notifications']
                 user.phonenumber = pilgrim_form.cleaned_data['phonenumber']
                 user.username = request.POST['first_name'] + ' ' + request.POST['father_name'] + ' ' + request.POST['grand_father'] + ' ' + request.POST['last_name']
+                image = request.FILES.get('pilgrim_image')
+                if image:
+                    user.image = image
                 user.save()
                 pilgrim.haj_steps.set(request.POST.getlist('haj_steps'))
+                logo = request.FILES.get('image')
+                if logo:
+                    pilgrim.company_logo = logo
                 # pilgrim.phonenumber = pilgrim_form.cleaned_data['phonenumber']
                 pilgrim.save()
 
