@@ -1237,6 +1237,19 @@ def steps_list(request):
 
 
 
+@login_required(login_url='login')
+def pilgrim_steps(request):
+    q = request.GET.get('q') or ''
+    steps = HajSteps.objects.filter(name__startswith=q).order_by('-id')
+    context = {
+        'steps':steps,
+    }
+    return render(request , 'pilgirm_steps.html' , context)
+
+
+
+
+
 
 @login_required(login_url='login')
 def add_step(request):

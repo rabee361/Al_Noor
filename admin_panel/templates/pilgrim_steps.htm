@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+<div class="main-panel" id="main-panel" style="background-color: rgb(77, 76, 76);">
+  <div class="content" dir="rtl" style="margin-top: 10px;">
+
+      <div class="bread-crumbs-size" style="display: flex; gap: 0;">
+        <div style="height: 70px; margin-left: 1300px; display: flex; gap: 10px;">
+          <a href="{% url 'main_dashboard' %}" style="text-decoration: none;"><h5 style="color: white;">الرئيسية</h5></a>
+          <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
+          <h5 style="color: white;">الخطوات الرئيسية</h5>
+          <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
+        </div>
+      </div>
+
+      <div class="row">
+      <div class="col-md-12">
+        <div class="card" style="background-color: rgb(57, 58, 58);">
+
+          <div style="display: flex;">
+            <div class="card-header" style="margin-left: 520px;">
+              <form action="" method="get" style="color: rgb(54, 54, 54);">
+                  <input type="text" name="q" class="custom-input" placeholder="  بحث">
+              </form>
+            </div>
+
+          </div>
+
+          <div class="card-body">
+            <div class="table-responsive">
+              <div style="overflow-x: auto; width: 100%;">
+                <table class="table my-table">
+                  <thead class="text-primary header-wrapper">
+                    <th style="color: white;">
+                    الخطوة
+                    </th>
+                    <th style="color: white;">
+                    الحاج
+                    </th>
+                    <th style="color: white;">
+                    اكتملت
+                    </th>
+
+                  </thead>
+                  <tbody class="body-wrapper">
+                  {% for step in steps %}
+                    <tr class="body-fields">
+                      <td>
+                        {{step.name}}
+                      </td>
+                      <td>
+                        {{step.pilgrim}}
+                      </td>
+                      <td>
+                        {{step.completed}}
+                      </td>
+                    </tr>
+
+                  
+                  {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

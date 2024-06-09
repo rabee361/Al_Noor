@@ -73,6 +73,7 @@ urlpatterns = [
     
 
     path('steps/' , steps_list , name="steps"),
+    path('pilgrim-steps/' , pilgrim_steps , name="pilgrim-steps"),
     path('add-step/' , add_step , name="add_step"),
     path('update-step/<str:step_id>' , update_step , name="update_step"),
     path('delete-step/<str:step_id>' , delete_step , name="delete_step"),
