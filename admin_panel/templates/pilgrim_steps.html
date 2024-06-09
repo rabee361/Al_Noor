@@ -22,7 +22,7 @@
           <div style="display: flex;">
             <div class="card-header" style="margin-left: 520px;">
               <form action="" method="get" style="color: rgb(54, 54, 54);">
-                  <input type="text" name="q" class="custom-input" placeholder="  بحث">
+                  <input type="text" name="q" class="custom-input" style="font-family: Cairo; font-weight: 600;" placeholder="  بحث بالاسم ">
               </form>
             </div>
 
@@ -54,7 +54,11 @@
                         {{step.pilgrim}}
                       </td>
                       <td>
-                        {{step.completed}}
+                        {% if step.completed %}
+                        <i class="fas fa-check" style="color: rgb(140, 206, 41); font-size: 30px;"></i>
+                        {% else %}
+                        <i class="fas fa-circle-xmark" style="color: rgb(230, 73, 73); font-size: 30px;"></i>
+                        {% endif %}
                       </td>
                     </tr>
 

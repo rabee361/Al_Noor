@@ -1240,11 +1240,31 @@ def steps_list(request):
 @login_required(login_url='login')
 def pilgrim_steps(request):
     q = request.GET.get('q') or ''
-    steps = HajSteps.objects.filter(name__startswith=q).order_by('-id')
+
+    data = []
+
+    pilgrims = Pilgrim.objects.only('user').filter(user__username__startswith=q)
+    total_steps = HajSteps.objects.only('name').all()
+
+    for pilgrim in pilgrims:
+        for step in total_steps:
+            if HaJStepsPilgrim.objects.filter(Q(haj_step=step.id)).exists():
+                data.append({
+                    'name':step.name,
+                    'pilgrim':pilgrim.user.username,
+                    'completed':True,
+                })
+            else:
+                data.append({
+                    'name':step.name,
+                    'pilgrim':pilgrim.user.username,
+                    'completed':False,
+                })
+
     context = {
-        'steps':steps,
+        'steps':data,
     }
-    return render(request , 'pilgirm_steps.html' , context)
+    return render(request , 'pilgrim_steps.html' , context)
 
 
 
