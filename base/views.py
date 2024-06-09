@@ -495,12 +495,18 @@ class ListHajSteps(APIView):
 
 class SendNotification(APIView):
     def post(self,request):
+        user = self.request.user
         pilgrims = Pilgrim.objects.values_list('user',flat=True)
         title = request.data.get('title')
         content = request.data.get('content')
         if pilgrims is not None:
             if title and content :
-                send_event_notification(title=title,content=content)
+                print(user.user_type == 'مرشد')
+                print(user.user_type)
+                if user.user_type == 'مرشد':
+                    send_pilgrims_notification(title=title,content=content,user=user)
+                else:
+                    send_event_notification(title=title,content=content)
                 BaseNotification.objects.create(title=title,content=content,info="لا يوجد")
                 return Response({
                     "message":"تم ارسال الاشعار"
