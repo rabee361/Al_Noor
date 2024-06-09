@@ -494,15 +494,15 @@ class ListHajSteps(APIView):
 
 
 class SendNotification(APIView):
+    permission_classes = [IsAuthenticated]
+
     def post(self,request):
         user = self.request.user
-        pilgrims = Pilgrim.objects.values_list('user',flat=True)
+        pilgrims = Pilgrim.objects.all().exists()
         title = request.data.get('title')
         content = request.data.get('content')
-        if pilgrims is not None:
+        if pilgrims:
             if title and content :
-                print(user.user_type == 'مرشد')
-                print(user.user_type)
                 if user.user_type == 'مرشد':
                     send_pilgrims_notification(title=title,content=content,user=user)
                 else:
@@ -539,7 +539,6 @@ class Calender(GenericAPIView):
         gregorian = GregorianSerializer(gregorian_date)
         arabic_gregorian_date = gregorian.data
 
-
         if time is not None:
             next_prayer = get_next_prayer(response['data']['timings'] , time)
         else:
@@ -554,17 +553,21 @@ class Calender(GenericAPIView):
 
 
 
+
+
 class ListChats(ListCreateAPIView):
     querset = Chat.objects.all()
     serializer_class = ChatSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = ChatFilter
-    # permission_clasess = [IsGuide , IsAuthenticated]
+    permission_clasess = [IsAuthenticated]
 
     def get_queryset(self):
-        guide = Guide.objects.get(user=self.request.user.id)
+        guide = Guide.objects.get(user=self.request.user)
         users = Pilgrim.objects.filter(guide=guide).values_list('user',flat=True)
         return Chat.guide_chats.filter(user__in=users)
+
+
 
 
 
