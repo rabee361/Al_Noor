@@ -61,12 +61,12 @@
                   {% for task in tasks %}
                     <tr class="body-fields">
                       <td>
-                        {{task.id}}
-                      </td>
-                      <td>
                         <a href="{% url 'update_task' task.id %}" style="color: white; text-decoration: none;">
-                          {{task.employee}}
+                          {{task.id}}
                         </a>
+                      </td>
+                      <td>  
+                        {{task.employee}}
                       </td>
                       <td>
                         {{task.title}}

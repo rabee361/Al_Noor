@@ -199,7 +199,7 @@ class PilgrimForm(forms.ModelForm):
     class Meta:
         model = Pilgrim
         fields = '__all__'
-        exclude = ['user']
+        exclude = ['user','haj_steps']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

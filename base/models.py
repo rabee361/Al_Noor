@@ -101,7 +101,6 @@ class Registration(models.Model):
     means_journey = models.CharField(choices=Means_journey, max_length=50, verbose_name="وسيلة الرحلة")
     blood_type = models.CharField(choices=Blood_type, null=True, blank=True, verbose_name="فصيلة الدم")
     illness = models.BooleanField(null=True, blank=True, verbose_name="أمراض")
-    # chronic_diseases = models.CharField(null=True, blank=True, max_length=200, verbose_name="أمراض مزمنة")
     tawaf = models.BooleanField(null=True, blank=True, verbose_name="مساعدة في الطواف")
     sai = models.BooleanField(null=True, blank=True, verbose_name="مساعدة في السعي")
     wheelchair = models.BooleanField(null=True, blank=True, verbose_name="كرسي متحرك")

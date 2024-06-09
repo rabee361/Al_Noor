@@ -61,12 +61,12 @@
                   {% for employee in employees %}
                     <tr class="body-fields">
                       <td>
-                        {{employee.id}}
+                        <a href="{% url 'update_employee' employee.id %}" style="text-decoration: none; color: white;">
+                          {{employee.id}}
+                        </a>
                       </td>
                       <td>
-                        <a href="{% url 'update_employee' employee.id %}" style="text-decoration: none; color: white;">
-                          {{employee.user.username}}
-                        </a>
+                        {{employee.user.username}}
                       </td>
                       <td>
                         {{employee.user.phonenumber}}

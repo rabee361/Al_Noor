@@ -88,13 +88,13 @@
                   {% for pilgrim in pilgrims %}
                     <tr class="body-fields">
                       <td>
-                        {{pilgrim.id}}
+                        <a style="text-decoration: none; color: white;" href="{% url 'update_pilgrim' pilgrim.id %}">
+                          {{pilgrim.id}}
+                        </a>
                       </td>
-                      <a href="{% url 'update_pilgrim' pilgrim.id %}">
                       <td>
                         {{pilgrim.first_name}}
                       </td>
-                      </a>
                       <td>
                         {{pilgrim.grand_father}}
                       </td>

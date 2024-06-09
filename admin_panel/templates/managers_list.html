@@ -63,12 +63,12 @@
                   {% for manager in managers %}
                     <tr class="body-fields">
                       <td>
-                        {{manager.id}}
+                        <a href="{% url 'update_manager' manager.id %}" style="color: white; text-decoration: none;">
+                          {{manager.id}}
+                        </a>
                       </td>
                       <td>
-                        <a href="{% url 'update_manager' manager.id %}" style="color: white; text-decoration: none;">
                           {{manager.user.username}}
-                        </a>
                       </td>
                       <td>
                         {{manager.user.phonenumber}}

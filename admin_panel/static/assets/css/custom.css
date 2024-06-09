@@ -201,6 +201,28 @@
     text-align: center;
 } 
 
+
+.steps-container {
+    display: flex; 
+    flex-direction: row; 
+    justify-content: space-between; 
+    width: 200px; 
+    align-items: center;
+}
+
+.steps-container .fa-circle-xmark {
+        color: rgb(230, 73, 73); 
+        font-size: 25px; 
+        margin-bottom: 5px;
+}
+
+.steps-container .fa-check {
+    color: rgb(140, 206, 41); 
+    font-size: 25px; 
+    margin-bottom: 5px;
+}
+
+
 @media (max-width:768px) {
 
     .header-wrapper {

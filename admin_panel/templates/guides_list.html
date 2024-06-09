@@ -60,12 +60,12 @@
                   {% for guide in guides %}
                   <tr class="body-fields">
                       <td>
-                        {{guide.id}}
+                        <a href="{% url 'update_guide' guide.id %}" style="text-decoration: none; color: white;">
+                          {{guide.id}}
+                        </a>
                       </td>
                       <td>
-                        <a href="{% url 'update_guide' guide.id %}" style="text-decoration: none; color: white;">
                           {{guide.user.username}}
-                        </a>
                       </td>
                       <td>
                       {{guide.user.phonenumber}}

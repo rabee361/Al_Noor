@@ -49,6 +49,7 @@
                   {% for step in steps %}
                     <tr class="body-fields">
                       <td>
+                        <a href="{% url 'update_secondary_step' step.id %}" style="text-decoration: none; color: white;"></a>
                         {{step.name}}
                       </td>
                       <td>

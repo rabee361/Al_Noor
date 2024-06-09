@@ -122,7 +122,9 @@
                   {% for form in forms %}
                     <tr class="body-fields">
                       <td>
-                        {{form.id}}
+                        <a style="text-decoration: none; color: white;" href="{% url 'update_register_form' form.id %}">
+                          {{form.id}}
+                        </a>
                       </td>
                       <td>
                         {{form.phonenumber}}

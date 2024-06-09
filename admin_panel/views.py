@@ -1,6 +1,4 @@
-from typing import Any
-from django.shortcuts import render , HttpResponse , redirect , HttpResponseRedirect
-from django.views.generic import TemplateView
+from django.shortcuts import render , HttpResponse , redirect
 from base.models import *
 from base.resources import PilgrimResource , RegistrationResource , UserPasswordResource
 from .forms import *
@@ -8,14 +6,9 @@ from .forms import PilgrimForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate , login , logout
 import pandas as pd
-from django.core.files.storage import default_storage
 from django.db import transaction
-from django.views import View
-from django.contrib.auth.forms import PasswordChangeForm
 from base.utils.notifications import send_event_notification , send_task_notification
-from phonenumber_field.phonenumber import PhoneNumber
-from django.core.validators import MinValueValidator, MaxValueValidator , RegexValidator
-
+from django.db.models import Q
 
 
 
@@ -179,7 +172,7 @@ def update_pilgrim(request,pilgrim_id):
 
         if request.method == 'POST':
             pilgrim_form = PilgrimForm(request.POST,request.FILES,instance=pilgrim)
-            print(pilgrim_form.errors)
+
             if pilgrim_form.is_valid():
                 pilgrim = pilgrim_form.save(commit=False)
                 user.get_notifications = pilgrim_form.cleaned_data['get_notifications']
@@ -189,14 +182,33 @@ def update_pilgrim(request,pilgrim_id):
                 if image:
                     user.image = image
                 user.save()
-                pilgrim.haj_steps.set(request.POST.getlist('haj_steps'))
                 logo = request.FILES.get('image')
                 if logo:
                     pilgrim.company_logo = logo
-                # pilgrim.phonenumber = pilgrim_form.cleaned_data['phonenumber']
+
+
                 pilgrim.save()
 
             return redirect('pilgrims')
+        
+        data = []
+        steps = HaJStepsPilgrim.objects.filter(pilgrim=pilgrim).values('haj_step__name')
+
+        total_steps = HajSteps.objects.all()
+
+        for step in total_steps:
+            if HaJStepsPilgrim.objects.filter(Q(pilgrim=pilgrim) & Q(haj_step=step.id)).exists():
+                data.append({
+                    'name':step.name,
+                    'rank':step.rank,
+                    'completed':True,
+                })
+            else:
+                data.append({
+                    'name':step.name,
+                    'rank':step.rank,
+                    'completed':False,
+                })
 
         try:
             pilgrim_image = pilgrim.user.image.url
@@ -206,7 +218,8 @@ def update_pilgrim(request,pilgrim_id):
         context = { 'form': form,
                     'pilgrim_image':pilgrim_image,
                     'user_id': user.id, 
-                    'company_logo':pilgrim.company_logo.url
+                    'company_logo':pilgrim.company_logo.url,
+                    'pilgrim_steps':data
                     }
 
         return render(request, 'update_pilgrim.html', context=context)

@@ -192,13 +192,22 @@
                   <h4 style="text-align: center">خطوات الحملة </h4>
                   
                   <div  style="display: flex; justify-content: center">
-                    <div class="form-block">
-                      <div class="form-input">
-                        <div class="form-label">{{ form.haj_steps.label_tag }}</div>
-                        <div>{{ form.haj_steps|add_class:"form-control-text" }}</div>
-                        <div class="form-label">اضغط ctrl مع تحديد الخطوات</div>
+                    <div class="form-block" style="display: flex; flex-direction: column; align-items: center;">
+                      {% for step in pilgrim_steps %}
+                      <div class="steps-container">
+                        <h5>{{step.rank}}- {{step.name}}</h5>
+                        {% if step.completed %}
+                          <i class="fas fa-check"></i>
+                        {% else %}
+                          <i class="fas fa-circle-xmark"></i>
+                        {% endif %}
+                      </div>
+
+
+                      {% endfor %}
+
                     </div>  
-                    </div>
+                  </div>
 
                   </div>
                 </div>
