@@ -1248,7 +1248,7 @@ def pilgrim_steps(request):
 
     for pilgrim in pilgrims:
         for step in total_steps:
-            if HaJStepsPilgrim.objects.filter(Q(haj_step=step.id)).exists():
+            if HaJStepsPilgrim.objects.filter(Q(haj_step=step.id) & Q(pilgrim=pilgrim)).exists():
                 data.append({
                     'name':step.name,
                     'pilgrim':pilgrim.user.username,
