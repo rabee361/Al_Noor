@@ -153,6 +153,23 @@ class Pilgrim(models.Model):
     def last_step(self):
         return self.haj_steps.all().last()
 
+    @property
+    def guide_chat(self):
+        try:
+            guide_chat = Chat.objects.get(user=self.user , chat_type='guide')
+            return guide_chat.id
+        except Chat.DoesNotExist:
+            return None 
+
+    @property
+    def manager_chat(self):
+        try:
+            guide_chat = Chat.objects.get(user=self.user , chat_type='guide')
+            return guide_chat.id
+        except Chat.DoesNotExist:
+            return None 
+
+
     class Meta:
         verbose_name = ("حاج")
         verbose_name_plural = ("الحجاج")
