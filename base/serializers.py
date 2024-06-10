@@ -140,7 +140,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username')
     email = serializers.CharField(source='user.email')
     image = serializers.ImageField(source='user.image',read_only=True)
-    phonenumber = serializers.ImageField(source='user.phonenumber',read_only=True)
+    phonenumber = serializers.CharField(source='user.phonenumber',read_only=True)
      
     class Meta:
         model = Employee
@@ -205,6 +205,7 @@ class UpdateEmployeeSerializer(serializers.ModelSerializer):
             user.set_password(password)
         except:
             pass
+        # user.phonenumber = phonenumber
         user.save()
         employee = Employee.objects.get(user=user)
 
