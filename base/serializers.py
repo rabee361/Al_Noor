@@ -224,10 +224,12 @@ class ManagementSerializer(serializers.ModelSerializer):
 
 class GuideSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username',read_only=True)
-
+    image = serializers.ImageField(source='user.image' , read_only=True)
+    email = serializers.CharField(source='user.email' , read_only=True)
+    
     class Meta:
         model = Guide
-        fields = ['id','username']
+        fields = ['id','username','image','email']
 
 
 

@@ -36,8 +36,9 @@ class LoginUser(GenericAPIView):
                 token = RefreshToken.for_user(user)
 
                 device_token = request.data.get('device_token',None)
+                device_type = request.data.get('device_type','android')
                 try:
-                    device_tok = FCMDevice.objects.get(registration_id=device_token ,type='android')
+                    device_tok = FCMDevice.objects.get(registration_id=device_token ,type=device_type)
                     device_tok.user = user
                     device_tok.save()
                 except:
@@ -249,6 +250,7 @@ class GetPilgrim(RetrieveUpdateDestroyAPIView):
     # permission_classes = [IsAuthenticated]
     queryset = Pilgrim.objects.all()
     serializer_class = PilgrimSerializer
+
 
 
 
@@ -592,6 +594,15 @@ class GetChat(RetrieveAPIView):
 
 
 class ListGuides(ListAPIView):
+    # permission_clasess = [IsAuthenticated]
+    queryset = Guide.objects.all()
+    serializer_class = GuideSerializer
+
+
+
+
+class GetGuide(RetrieveAPIView):
+    # permission_clasess = [IsAuthenticated]
     queryset = Guide.objects.all()
     serializer_class = GuideSerializer
 
