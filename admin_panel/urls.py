@@ -87,5 +87,7 @@ urlpatterns = [
     path('pilgrim/import', import_pilgrim, name='import_pilgrim'),
     path('pilgrim/export', export_pilgram, name='export_pilgrim'),
     path('forms/export', export_forms, name='export_forms'),
+
+    path('terms_privacy/' , terms , name="terms"),
     
 ]

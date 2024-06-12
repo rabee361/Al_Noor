@@ -1454,3 +1454,8 @@ def add_admin(request):
     return render(request , 'add_admin.html' , context)
 
 
+
+
+
+def terms(request):
+    return render(request , 'terms_and_privacy.html')

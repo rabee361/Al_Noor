@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+<div class="main-panel" id="main-panel" style="background-color: rgb(77, 76, 76);">
+  <div class="content" dir="rtl" style="margin-top: 10px;">
+
+      <div class="bread-crumbs-size" style="display: flex; gap: 0;">
+        <div style="height: 70px; margin-left: 1300px; display: flex; gap: 10px;">
+          <a href="{% url 'main_dashboard' %}" style="text-decoration: none;"><h5 style="color: white;">الرئيسية</h5></a>
+          <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
+          <h5 style="color: white;">الأحكام و الخصوصية</h5>
+          <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
+        </div>
+      </div>
+
+      <div class="row">
+      <div class="col-md-12">
+        <div class="card" style="background-color: rgb(57, 58, 58);">
+
+          <div style="display: flex; flex-direction: column; align-items: start; color: white;">
+            <div style="display: flex; flex-direction: column; gap: 5px;">
+                <div style="align-self: flex-start; margin-right: 10px;">
+                    شروط الاستخدام:
+                </div>
+                <div>   
+                    <ul>
+                        <li>
+                            يجب أن يملك الحاج رقم هاتف حاص به مع رقم هوية لتسجيله ضمن الحملة و لكي يتمكن من استعمال التطبيق
+                        </li>
+                        <li>
+                            يجب أن يملك الحاج رقم هاتف حاص به مع رقم هوية لتسجيله ضمن الحملة و لكي يتمكن من استعمال التطبيق
+                        </li>
+                        <li>
+                            يجب أن يملك الحاج رقم هاتف حاص به مع رقم هوية لتسجيله ضمن الحملة و لكي يتمكن من استعمال التطبيق
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 5px;">
+                <div style="align-self: flex-start; margin-right: 10px;">
+                     الخصوصية:
+                </div>
+                <div>   
+                    <ul>
+                        <li>
+                            هذا الموقع لا يجمع بيانات عن المستخدمين و يتبع لسياسات الخصوصية المتفق عليها بالأحكام و الشروط الدولية
+                        </li>
+                        <li>
+                            هذا الموقع لا يجمع بيانات عن المستخدمين و يتبع لسياسات الخصوصية المتفق عليها بالأحكام و الشروط الدولية
+                        </li>
+                        <li>
+                            هذا الموقع لا يجمع بيانات عن المستخدمين و يتبع لسياسات الخصوصية المتفق عليها بالأحكام و الشروط الدولية
+                        </li>
+                    </ul>
+                </div>
+            </div>
+          </div>
+
+          <div class="card-body">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
