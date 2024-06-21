@@ -14,16 +14,13 @@ from rest_framework.views import APIView
 from rest_framework.generics import RetrieveUpdateDestroyAPIView , ListAPIView  , CreateAPIView, UpdateAPIView, RetrieveAPIView , ListCreateAPIView , GenericAPIView
 from .utils.utils import get_response
 from rest_framework import status
-from datetime import datetime
 from fcm_django.models import FCMDevice
 from django.shortcuts import get_object_or_404
 from fcm_django.models import FCMDevice
-from firebase_admin.messaging import Message, Notification
-from django.db.models import Count
-from django.db.models.functions import ExtractMonth
 from django.views.decorators.cache import cache_page
-from django.utils.decorators import method_decorator
 from rest_framework.decorators import api_view
+
+
 
 
 class LoginUser(GenericAPIView):
