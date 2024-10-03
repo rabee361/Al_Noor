@@ -5,7 +5,7 @@ from datetime import datetime
 from django.contrib.auth import  authenticate
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.tokens import TokenError, RefreshToken
-
+from rest_framework.exceptions import ValidationError
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -122,13 +122,18 @@ class NoteSerializer(serializers.ModelSerializer):
         model = Note
         fields = '__all__'
 
+    def validate(self, attrs):
+        if not attrs.get('audio') and not attrs.get('content'):
+            raise ValidationError("content and audio can't be empty together.")
+        return attrs
+            
+
     def create(self, validated_data):
         user = self.context['request'].user
         guide = Guide.objects.get(user=user)
         note = Note.objects.create(
-            pilgrim=validated_data['pilgrim'],
             guide=guide,
-            content=validated_data['content'],
+            **validated_data
         )
         return note
 

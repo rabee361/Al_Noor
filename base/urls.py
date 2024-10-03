@@ -32,7 +32,10 @@ PilgrimPatterns = [
     path('religious-post/<str:pk>/' , RetUpdDesReligiousPost.as_view() , name="get-religious-post"),
     path('guidance-posts/' , ListCreateGuidancePost.as_view() , name="list-guidance-posts"),
     path('guidance-post/<str:pk>/' , RetUpdDesGuidancePost.as_view() , name="get-guidance-post"),
-    path('get-guide/<str:pk>/' , GetGuide.as_view() , name="get-guide")
+    path('get-guide/<str:pk>/' , GetGuide.as_view() , name="get-guide"),
+
+    path('update-location/<str:pk>/' , UpdatePilgrimLocation.as_view() , name="update-location")
+
 ]
 
 
@@ -55,7 +58,9 @@ ManagerPatterns = [
     path('list-guides/' , ListGuides.as_view() , name="list-guides"),
     path('create-pilgrim/' , CreatePilgrim.as_view() , name="create-pilgrim"),
     path('update-pilgrim/<str:pk>/' , UpdatePilgrim.as_view() , name="update-pilgrim"),
-    path('list-all-guides/' , get_pilgrims , name="get-all-pilgrims"),    
+    path('list-all-guides/' , get_pilgrims , name="get-all-pilgrims"),   
+
+    path('delete-pilgrims' , DeletePilgrims.as_view() , name="delete-pilgrims"), # new
 ]
 
 

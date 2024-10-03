@@ -120,6 +120,8 @@ class Pilgrim(models.Model):
                                             validators=[RegexValidator(
                                             regex=r'^\d{5,15}$'
                                         )])
+    longitude = models.FloatField(max_length=100,default=24.3) 
+    latitude = models.FloatField(max_length=100,default=45.2)
     registeration_id = models.CharField(max_length=50 , verbose_name="رقم الهوية")
     first_name = models.CharField(max_length=50 , verbose_name="الاسم الأول")
     father_name = models.CharField(max_length=50 , verbose_name="اسم الأب")
@@ -250,11 +252,12 @@ class BaseNotification(models.Model):
 class Note(models.Model):
     pilgrim = models.ForeignKey(Pilgrim,on_delete=models.CASCADE , verbose_name="الحاج")
     guide = models.ForeignKey(Guide,on_delete=models.CASCADE , verbose_name="المرشد")
-    content = models.CharField(max_length=500 , verbose_name="المحتوى")
+    content = models.CharField(max_length=500 , verbose_name="المحتوى",null=True)
+    audio = models.FileField(upload_to='audio/pilgrims' , null=True)
     created = models.DateTimeField(auto_now_add=True , verbose_name="التاريخ")
 
     def __str__(self) -> str:
-        return f'{self.pilgrim.user.username} : {self.content}'
+        return f'{self.pilgrim.user.username} : note'
 
     class Meta:
         verbose_name = ("ملاحظة")
@@ -284,8 +287,10 @@ class Chat(models.Model):
 class ChatMessage(models.Model):
     sender = models.ForeignKey(CustomUser , on_delete=models.CASCADE , verbose_name="المرسل",blank=True,null=True)
     chat = models.ForeignKey(Chat , on_delete=models.CASCADE , verbose_name="المحادثة")
-    content = models.CharField(max_length=500 , verbose_name="المحتوى")
+    content = models.CharField(max_length=500 , verbose_name="المحتوى",null=True)
+    audio = models.FileField(upload_to='audio/chats',null=True) # to send audio record in chat
     timestamp = models.DateTimeField(auto_now_add=True , verbose_name="التاريخ والوقت")
+    seen = models.BooleanField(default=False) # to see if the user read the message or not
     sent_user = models.BooleanField(default=False , verbose_name="المستخدم")
 
     def __str__(self):
@@ -319,7 +324,7 @@ class GuidancePost(models.Model):
     content = models.TextField(verbose_name="المحتوى")
     cover = models.ImageField(upload_to='cover', verbose_name="صورة الغلاف")
     rank = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(1000)],verbose_name="الترتيب")
-    created = models.DateField(auto_now_add=True, verbose_name="تاريخ الانشاء") ##datetime ??
+    created = models.DateField(auto_now_add=True, verbose_name="تاريخ الانشاء") # datetime ?
 
     def __str__(self) -> str:
         return self.title
@@ -350,7 +355,7 @@ class ReligiousPost(models.Model):
     content = models.TextField(verbose_name="المحتوى")
     cover = models.ImageField(upload_to='cover' , verbose_name="صورة الغلاف")
     rank = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(1000)],verbose_name="الترتيب")
-    created = models.DateField(auto_now_add=True , verbose_name="تاريخ الانشاء")## datetime ?
+    created = models.DateField(auto_now_add=True , verbose_name="تاريخ الانشاء") # datetime ?
 
     def __str__(self) -> str:
         return self.title

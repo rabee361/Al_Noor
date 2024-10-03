@@ -80,6 +80,8 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 				'id' : serializer.data['id'],
 				'sender' : serializer.data['sender'],
 				'content': serializer.data['content'],
+				'seen': serializer.data['seen'],
+				# 'audio': serializer.data['audio'],
 				'timestamp': serializer.data['timestamp'],
 				'sent_user': serializer.data['sent_user'],				
 				'chat': serializer.data['chat']				
@@ -89,6 +91,8 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 	async def chat_message(self, event):
 		id = event['id']
 		content = event['content']
+		seen = event['seen']
+		# audio = event['audio']
 		sender = event['sender']
 		timestamp = event['timestamp']
 		sent_user = event['sent_user']
@@ -97,6 +101,8 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 			'id':id,
 			'sender': sender,
 			'content': content,
+			# 'audio': audio,
+			'seen': seen,
 			'timestamp': timestamp,
 			'sent_user': sent_user,
 			'chat': chat

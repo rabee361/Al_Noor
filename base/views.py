@@ -251,6 +251,16 @@ class GetPilgrim(RetrieveUpdateDestroyAPIView):
 
 
 
+##### all pilgrims with their forms ????
+class DeletePilgrims(GenericAPIView):
+    def delete(self,request):
+        pilgrims = Pilgrim.objects.all()
+        if pilgrims:
+            pilgrims.delete()
+            Registration.objects.all().delete()
+            return Response({"msg":"all pilgrim accounts deleted successfully"})
+        else:
+            return Response({"error":"there are no pilgrims registered"})
 
 # class PilgrimInfo(GenericAPIView):
 #     # permission_classes = [IsAuthenticated]
@@ -263,6 +273,28 @@ class GetPilgrim(RetrieveUpdateDestroyAPIView):
 #             return Response(serializer.data , status=status.HTTP_200_OK)
 #         except Pilgrim.DoesNotExist:
 #             return Response({"error":["لا يوجد حاج بهذا الاسم"]},status=status.HTTP_500_BAD_REQUEST)
+
+
+
+
+
+class UpdatePilgrimLocation(GenericAPIView):
+    def post(self,request,pk):
+        long = request.data.get('long',None)
+        lat = request.data.get('lat',None)
+        if long and lat:
+            try:
+                pilgrim = Pilgrim.objects.get(id=pk)
+                pilgrim.longitude = long
+                pilgrim.latitude = lat
+                pilgrim.save()
+                return Response({"msg":"location updated successflly."})
+            except Pilgrim.DoesNotExist:
+                return Response({"error":"pilgrim does not exist"})
+        else:
+            return Response({"error":"please provide correct values for longitude and latitude"})
+
+
 
 
 
