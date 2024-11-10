@@ -341,6 +341,24 @@ class CreateNote(APIView):
 
 
 
+
+
+
+class GetPilgrimNotes(APIView):
+    def get(self,reuquest,pk):
+        try:
+            pilgrim = Pilgrim.objects.get(id=pk)
+            notes = Note.objects.filter(pilgrim=pilgrim.id)
+            serializer = NoteSerializer(notes , many=True)
+            return Response(serializer.data , status=status.HTTP_200_OK)
+        
+        except Pilgrim.DoesNotExist:
+            return Response({"error":'Pilgrim does not exist'} , status=status.HTTP_404_NOT_FOUND)
+
+
+
+
+
 class RetUpdDesNote(RetrieveUpdateDestroyAPIView):
     # permission_classes = [IsAuthenticated]
     queryset =  Note.objects.all()

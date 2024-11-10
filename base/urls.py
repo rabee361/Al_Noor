@@ -83,7 +83,10 @@ GuidePatterns = [
     path('send-notification/' , SendNotification.as_view() , name="send-notification"),
     path('list-guide-pilgrims/' , ListGuidePilgrims.as_view() , name="list-guide-pilgrims"),
     path('get-pilgrim/<str:pk>/' , GetPilgrim.as_view() , name="get-pilgrim"),
-    path('get-note/<str:pk>/' , RetUpdDesNote.as_view() , name="get-note"),
+    
+    path('pilgrim-notes/<str:pk>/' ,  GetPilgrimNotes.as_view() , name="pilgrim-notes"),
+
+    path('get-note/<str:pk>/' ,  RetUpdDesNote.as_view() , name="get-note"),
     path('delete-note/<str:pk>/' , RetUpdDesNote.as_view() , name="delete-note"),
     path('update-note/<str:pk>/' , RetUpdDesNote.as_view() , name="update-note")
 ]
