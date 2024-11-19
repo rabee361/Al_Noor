@@ -222,7 +222,7 @@ class Task(models.Model):
 
 
 class UserNotification(models.Model):
-    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE , verbose_name="المستخدم",editable=False)
+    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE , verbose_name="المستخدم")
     title = models.CharField(max_length=50 , verbose_name="العنوان")
     content = models.CharField(max_length=200 , verbose_name="المحتوى")
     info = models.CharField(max_length=200 , null=True , blank=True , verbose_name="معلومات اضافية")
@@ -238,7 +238,7 @@ class UserNotification(models.Model):
 
 
 class BaseNotification(models.Model):
-    sentBy = models.ForeignKey(CustomUser,on_delete=models.CASCADE , verbose_name="المرسل",editable=False)
+    sentBy = models.ForeignKey(CustomUser,on_delete=models.CASCADE , verbose_name="المرسل")
     title = models.CharField(max_length=100 , verbose_name="العنوان")
     content = models.CharField(max_length=200 , verbose_name="المحتوى")
     info = models.CharField(max_length=200 , verbose_name="معلومات اضافية")
