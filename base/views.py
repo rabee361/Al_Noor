@@ -556,7 +556,7 @@ class SendNotification(APIView):
             if title and content :
                 if user.user_type == 'مرشد':
                     send_pilgrims_notification(title=title,content=content,user=user)
-                else:
+                elif user.user_type == 'اداري':
                     send_event_notification(title=title,content=content)
                 BaseNotification.objects.create(title=title,content=content,info="لا يوجد")
                 return Response({
