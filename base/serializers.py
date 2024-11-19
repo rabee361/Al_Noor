@@ -243,7 +243,6 @@ class GuideSerializer(serializers.ModelSerializer):
 
 
 class SimpleGuideSerializer(serializers.ModelSerializer):
-    id = serializers.CharField(source='user.id',read_only=True)
     username = serializers.CharField(source='user.username',read_only=True)
     image = serializers.ImageField(source='user.image',read_only=True)
 
@@ -255,6 +254,7 @@ class SimpleGuideSerializer(serializers.ModelSerializer):
 
 class PilgrimSerializer(serializers.ModelSerializer):
     guide_chat = serializers.SerializerMethodField(read_only=True)
+    guide_id = serializers.CharField(source='guide.user.id',read_only=True)
     manager_chat = serializers.SerializerMethodField(read_only=True)
     duration = serializers.SerializerMethodField()
     image = serializers.ImageField(source='user.image',read_only=True)
