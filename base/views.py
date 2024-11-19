@@ -380,11 +380,12 @@ class ListNotifications(ListAPIView):
 
 
 class ListBaseNotifications(ListAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = BaseNotification.objects.all()
     serializer_class = BaseNotificationSerializer
 
-    def get_queryset(self,request):
-        user = request.user
+    def get_queryset(self):
+        user = self.request.user
         notifications = BaseNotification.objects.filter(sentBy=user)
         return notifications
 
