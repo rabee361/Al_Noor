@@ -43,7 +43,7 @@ class HiddenModelAdmin(admin.ModelAdmin):
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
-    list_display = ['id','username','first_name','last_name','phonenumber','is_verified','get_notifications']
+    list_display = ['id','user_type','username','first_name','last_name','phonenumber','is_verified','get_notifications']
 
     fieldsets = (
         (None, 
@@ -132,6 +132,8 @@ class ManagementAdmin(admin.ModelAdmin):
 class UserNotificationAdmin(admin.ModelAdmin):
     list_display = ['user','title','content','created']
 
+class BaseNotificationAdmin(admin.ModelAdmin):
+    list_display = ['sentBy','title','content','created']
 
 class NoteAdmin(admin.ModelAdmin):
     list_display = ['id','pilgrim','guide','content','created']
@@ -180,6 +182,7 @@ class HajStepsAdmin(admin.ModelAdmin):
 
 admin.site.register(Note,NoteAdmin)
 admin.site.register(UserNotification,UserNotificationAdmin)
+admin.site.register(BaseNotification,BaseNotificationAdmin)
 admin.site.register(CustomUser,CustomUserAdmin)
 admin.site.register(Pilgrim,PilgrimAdmin)
 admin.site.register(Registration,RegistrationAdmin)
