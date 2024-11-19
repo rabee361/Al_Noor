@@ -243,12 +243,13 @@ class GuideSerializer(serializers.ModelSerializer):
 
 
 class SimpleGuideSerializer(serializers.ModelSerializer):
+    id = serializers.CharField(source='user.id',read_only=True)
     username = serializers.CharField(source='user.username',read_only=True)
     image = serializers.ImageField(source='user.image',read_only=True)
 
     class Meta:
         model = Guide
-        fields = ['username','image']
+        fields = ['id','username','image']
 
  
 

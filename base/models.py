@@ -238,6 +238,7 @@ class UserNotification(models.Model):
 
 
 class BaseNotification(models.Model):
+    # user
     title = models.CharField(max_length=100 , verbose_name="العنوان")
     content = models.CharField(max_length=200 , verbose_name="المحتوى")
     info = models.CharField(max_length=200 , verbose_name="معلومات اضافية")
