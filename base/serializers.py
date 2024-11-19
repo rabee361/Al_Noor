@@ -452,6 +452,13 @@ class NotificationSerializer(serializers.ModelSerializer):
 
 
 
+class BaseNotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BaseNotification
+        fields = '__all__'
+
+
+
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task

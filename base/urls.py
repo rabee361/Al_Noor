@@ -8,6 +8,7 @@ AccountPatterns = [
     path('auth/login/' , LoginUser.as_view() , name="login"),
     path('auth/logout/', LogoutUser.as_view(), name='logout'),
     path('list-notifications/' , ListNotifications.as_view() , name="list-notifications"),
+    path('sent-notifications/' , ListBaseNotifications.as_view() , name="list-sent-notifications"),
     path('update-image/' , UpdateImage.as_view() , name="update-image"),
     path('send-code/' , SendCodePassword.as_view() , name="send-code"),
     path('verify-user/' , VerifyUser.as_view() , name="verify-user"),

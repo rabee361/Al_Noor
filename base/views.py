@@ -379,6 +379,15 @@ class ListNotifications(ListAPIView):
         
 
 
+class ListBaseNotifications(ListAPIView):
+    queryset = BaseNotification.objects.all()
+    serializer_class = BaseNotificationSerializer
+
+    def get_queryset(self,request):
+        user = request.user
+        notifications = BaseNotification.objects.filter(sentBy=user)
+        return notifications
+
 
 class ListTask(ListAPIView):
     permission_classes = [IsAuthenticated]
@@ -557,8 +566,7 @@ class SendNotification(APIView):
                 if user.user_type == 'مرشد':
                     send_pilgrims_notification(title=title,content=content,user=user)
                 elif user.user_type == 'اداري':
-                    send_event_notification(title=title,content=content)
-                BaseNotification.objects.create(title=title,content=content,info="لا يوجد")
+                    send_event_notification(title=title,content=content,user=user)
                 return Response({
                     "message":"تم ارسال الاشعار"
                 })
