@@ -254,7 +254,7 @@ class SimpleGuideSerializer(serializers.ModelSerializer):
 
 class PilgrimSerializer(serializers.ModelSerializer):
     guide_chat = serializers.SerializerMethodField(read_only=True)
-    guide_id = serializers.CharField(source='guide.user.id',read_only=True)
+    guide_id = serializers.SerializerMethodField(read_only=True)
     manager_chat = serializers.SerializerMethodField(read_only=True)
     duration = serializers.SerializerMethodField()
     image = serializers.ImageField(source='user.image',read_only=True)
@@ -268,12 +268,13 @@ class PilgrimSerializer(serializers.ModelSerializer):
         model = Pilgrim
         fields = '__all__'
 
-
     def get_notes(self,obj):
         pilgrim_notes = Note.objects.filter(pilgrim=obj)
         serializer = NoteSerializer(pilgrim_notes , many=True)
         return serializer.data
-    
+
+    def get_guide_id(self, obj):
+        return obj.guide.user.id if obj.guide else 0
 
 
     def get_haj_steps(self, obj):
