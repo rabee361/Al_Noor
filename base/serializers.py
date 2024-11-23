@@ -521,15 +521,11 @@ class AudioSerializer(serializers.ModelSerializer):
 
 
 class MessageSerializer(serializers.ModelSerializer):
+    audio_url = serializers.CharField(source='audio.file' , read_only=True)
     class Meta:
         model = ChatMessage
         fields = '__all__'
 
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        if instance.audio:
-            representation['audio'] = instance.audio.file
-        return representation
 
 
 
