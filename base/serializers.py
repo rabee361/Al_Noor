@@ -513,7 +513,7 @@ class MessageSerializer(serializers.ModelSerializer):
 class AudioSerializer(serializers.ModelSerializer):
     class Meta:
         model = AudioAttach
-        fields = ['file']
+        fields = ['id','file']
 
     def to_representation(self, instance):
         request = self.context.get('request')
