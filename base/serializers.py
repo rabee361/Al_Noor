@@ -527,9 +527,9 @@ class MessageSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_audio_url(self,obj):
-        request = self.context.get('request')
+
         if obj.audio:
-            return request.build_absolute_uri(obj.audio.file.url)
+            return f"http://127.0.0.1:8000/{obj.audio.file.url}"
         return None
 
 

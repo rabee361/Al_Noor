@@ -16,7 +16,7 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 		self.chat_id = self.scope['url_route']['kwargs']['chat_id']
 		self.user_id = self.scope['url_route']['kwargs']['user_id']
 		self.room_group_name = str(self.chat_id)
-		messages = await self.get_chat_msgs(self.chat_id , request=self.scope['request'])
+		messages = await self.get_chat_msgs(self.chat_id)
 
 
 		await self.channel_layer.group_add(
@@ -155,9 +155,9 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 		return FCMDevice.objects.filter(user__in=user_ids).values_list('registration_id', flat=True)
 
 	@database_sync_to_async
-	def get_chat_msgs(self,chat_id, request=None):
+	def get_chat_msgs(self,chat_id):
 		messages = ChatMessage.objects.filter(chat=chat_id).order_by('timestamp')
-		serializer = MessageSerializer(messages,many=True,context={'request':request})
+		serializer = MessageSerializer(messages,many=True)
 		return serializer.data
 
 	@database_sync_to_async
@@ -210,7 +210,7 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 		self.chat_id = self.scope['url_route']['kwargs']['chat_id']
 		self.user_id = self.scope['url_route']['kwargs']['user_id']
 		self.room_group_name = str(self.chat_id)
-		messages = await self.get_chat_msgs(self.chat_id , request=self.scope['request'])
+		messages = await self.get_chat_msgs(self.chat_i)
 
 
 		await self.channel_layer.group_add(
@@ -347,9 +347,9 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 
 
 	@database_sync_to_async
-	def get_chat_msgs(self,chat_id,request=None):
+	def get_chat_msgs(self,chat_id):
 		messages = ChatMessage.objects.filter(chat=chat_id).order_by('timestamp')
-		serializer = MessageSerializer(messages,many=True,context={'request':request})
+		serializer = MessageSerializer(messages,many=True)
 		return serializer.data
 
 
