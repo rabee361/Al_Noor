@@ -43,7 +43,9 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 		audio_url = text_data_json['audio']
 
 		if audio_url:
-			audio = self.get_audio(audio_url)
+			audio = await self.get_audio(audio_url)
+		else:
+			audio = None
 
 
 		user = await self.get_user(self.user_id)
