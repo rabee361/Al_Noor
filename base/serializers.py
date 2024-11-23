@@ -526,10 +526,9 @@ class MessageSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def to_representation(self, instance):
-        request = self.context.get('request')
         representation = super().to_representation(instance)
         if instance.audio:
-            representation['audio'] = request.build_absolute_uri(instance.audio.file.url)
+            representation['audio'] = instance.audio.file
         return representation
 
 
