@@ -510,6 +510,19 @@ class MessageSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class AudioSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AudioAttach
+        fields = ['file']
+
+    def to_representation(self, instance):
+        request = self.context.get('request')
+        representation = super().to_representation(instance)
+        if instance.file:
+            representation['file'] = request.build_absolute_uri(instance.file.url)
+        return representation
+
+
 class SimpleGuidancePostSerializer(serializers.ModelSerializer):
     
     class Meta:

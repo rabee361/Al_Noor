@@ -285,11 +285,19 @@ class Chat(models.Model):
 
 
 
+
+
+class AudioAttach(models.Model):
+    file = models.FileField(upload_to='audio/chats') # to send audio record in chat
+
+
+
+
 class ChatMessage(models.Model):
     sender = models.ForeignKey(CustomUser , on_delete=models.CASCADE , verbose_name="المرسل",blank=True,null=True)
     chat = models.ForeignKey(Chat , on_delete=models.CASCADE , verbose_name="المحادثة")
     content = models.CharField(max_length=500 , verbose_name="المحتوى",null=True)
-    audio = models.FileField(upload_to='audio/chats',null=True) # to send audio record in chat
+    audio = models.ForeignKey(AudioAttach , on_delete=models.CASCADE , null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True , verbose_name="التاريخ والوقت")
     seen = models.BooleanField(default=False) # to see if the user read the message or not
     sent_user = models.BooleanField(default=False , verbose_name="المستخدم")

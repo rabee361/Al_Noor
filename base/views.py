@@ -386,8 +386,8 @@ class ListBaseNotifications(ListAPIView):
     queryset = BaseNotification.objects.all()
     serializer_class = BaseNotificationSerializer
 
-    def get_queryset(self):
-        user = self.request.user
+    def get_queryset(self,request):
+        user = request.user
         notifications = BaseNotification.objects.filter(sentBy=user)
         return notifications
 
@@ -560,7 +560,7 @@ class SendNotification(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self,request):
-        user = self.request.user
+        user = request.user
         pilgrims = Pilgrim.objects.all().exists()
         title = request.data.get('title')
         content = request.data.get('content')
@@ -665,6 +665,17 @@ class GetGuide(RetrieveAPIView):
     queryset = Guide.objects.all()
     serializer_class = GuideSerializer
 
+
+
+
+class UploadAudio(APIView):
+    def post(self,request):
+        serializer = AudioSerializer(data=request.data , context={'request':request})
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data , status=status.HTTP_200_OK)
+        else:
+            return Response({"error":["error uploading audio"]} , status=status.HTTP_400_BAD_REQUEST)
 
 
 
