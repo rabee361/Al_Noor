@@ -529,7 +529,7 @@ class MessageSerializer(serializers.ModelSerializer):
     def get_audio_url(self,obj):
 
         if obj.audio:
-            return f"http://127.0.0.1:8000/{obj.audio.file.url}"
+            return f"http://85.31.237.33/{obj.audio.file.url}"
         return None
 
 
