@@ -86,7 +86,7 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 				'sender' : serializer.data['sender'],
 				'content': serializer.data['content'],
 				'seen': serializer.data['seen'],
-				'audio': serializer.data['audio'],
+				'audio': serializer.data['audio_url'],
 				'timestamp': serializer.data['timestamp'],
 				'sent_user': serializer.data['sent_user'],				
 				'chat': serializer.data['chat']				
@@ -275,7 +275,7 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 				'id' : serializer.data['id'],
 				'sender' : serializer.data['sender'],
 				'content': serializer.data['content'],
-				'audio': serializer.data['audio'],
+				'audio': serializer.data['audio_url'],
 				'timestamp': serializer.data['timestamp'],
 				'sent_user': serializer.data['sent_user'],			
 				'chat': serializer.data['chat']
