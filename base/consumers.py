@@ -167,7 +167,7 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 
 	@database_sync_to_async
 	def get_audio(self,audio_url):
-		file = AudioAttach.objects.get(id=audio_url)
+		file = AudioAttach.objects.get(file=audio_url)
 		return file or None
 	
 	@database_sync_to_async
