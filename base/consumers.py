@@ -234,15 +234,21 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 	async def receive(self, text_data):
 		text_data_json = json.loads(text_data)
 		message = text_data_json['message']
+		audio_id = text_data_json['audio']
+
+		if audio_id:
+			audio = await self.get_audio(audio_id)
+		else:
+			audio = None
 
 		user = await self.get_user(self.user_id)
 		chat = await self.get_chat(self.chat_id)
 
 		try:
 			await self.get_guide(user.id)
-			msg = ChatMessage(sender=user,content=message, chat=chat, sent_user=False)
+			msg = ChatMessage(sender=user,content=message, chat=chat, audio=audio, sent_user=False)
 		except Guide.DoesNotExist:
-			msg = ChatMessage(sender=user,content=message, chat=chat, sent_user=True)
+			msg = ChatMessage(sender=user,content=message, chat=chat, audio=audio, sent_user=True)
 
 		serializer = MessageSerializer(msg,many=False)
 		await self.save_message(msg)
@@ -269,6 +275,7 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 				'id' : serializer.data['id'],
 				'sender' : serializer.data['sender'],
 				'content': serializer.data['content'],
+				'audio': serializer.data['audio'],
 				'timestamp': serializer.data['timestamp'],
 				'sent_user': serializer.data['sent_user'],			
 				'chat': serializer.data['chat']
@@ -279,6 +286,7 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 		id = event['id']
 		content = event['content']
 		sender = event['sender']
+		audio = event['audio']
 		timestamp = event['timestamp']
 		sent_user = event['sent_user']
 		chat = event['chat']
@@ -286,6 +294,7 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 			'id':id,
 			'sender': sender,
 			'content': content,
+			'audio': audio,
 			'timestamp': timestamp,
 			'sent_user': sent_user,
 			'chat': chat
@@ -349,6 +358,11 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 	def get_guide(self,user):
 		user = CustomUser.objects.get(id=user)
 		return Guide.objects.get(user=user) or None
+
+	@database_sync_to_async
+	def get_audio(self,id):
+		file = AudioAttach.objects.get(id=id)
+		return file or None
 
 
 	@database_sync_to_async

@@ -504,10 +504,6 @@ class ChatSerializer(serializers.ModelSerializer):
             return ' '
 
 
-class MessageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ChatMessage
-        fields = '__all__'
 
 
 class AudioSerializer(serializers.ModelSerializer):
@@ -521,6 +517,21 @@ class AudioSerializer(serializers.ModelSerializer):
         if instance.file:
             representation['file'] = request.build_absolute_uri(instance.file.url)
         return representation
+
+
+
+class MessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ChatMessage
+        fields = '__all__'
+
+    def to_representation(self, instance):
+        request = self.context.get('request')
+        representation = super().to_representation(instance)
+        if instance.audio:
+            representation['audio'] = request.build_absolute_uri(instance.audio.file.url)
+        return representation
+
 
 
 class SimpleGuidancePostSerializer(serializers.ModelSerializer):
