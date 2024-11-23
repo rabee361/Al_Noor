@@ -40,10 +40,10 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 	async def receive(self, text_data):
 		text_data_json = json.loads(text_data)
 		message = text_data_json['message']
-		audio_url = text_data_json['audio']
+		audio_id = text_data_json['audio']
 
-		if audio_url:
-			audio = await self.get_audio(audio_url)
+		if audio_id:
+			audio = await self.get_audio(audio_id)
 		else:
 			audio = None
 
@@ -166,8 +166,8 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 		return Management.objects.get(user=user) or None
 
 	@database_sync_to_async
-	def get_audio(self,audio_url):
-		file = AudioAttach.objects.get(file=audio_url)
+	def get_audio(self,id):
+		file = AudioAttach.objects.get(id=id)
 		return file or None
 	
 	@database_sync_to_async
