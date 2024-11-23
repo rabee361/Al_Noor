@@ -37,10 +37,13 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 		for message in messages:
 			await self.send(text_data=json.dumps(message))
 
-
 	async def receive(self, text_data):
 		text_data_json = json.loads(text_data)
 		message = text_data_json['message']
+		audio_url = text_data_json['audio']
+
+		if audio_url:
+			audio = self.get_audio(audio_url)
 
 
 		user = await self.get_user(self.user_id)
@@ -48,9 +51,9 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 
 		try:
 			await self.get_manager(user.id)
-			msg = ChatMessage(sender=user,content=message, chat=chat, sent_user=False)
+			msg = ChatMessage(sender=user,content=message, chat=chat, audio=audio, sent_user=False)
 		except Management.DoesNotExist:
-			msg = ChatMessage(sender=user,content=message, chat=chat, sent_user=True)
+			msg = ChatMessage(sender=user,content=message, chat=chat, audio=audio, sent_user=True)
 
 			
 
@@ -81,7 +84,7 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 				'sender' : serializer.data['sender'],
 				'content': serializer.data['content'],
 				'seen': serializer.data['seen'],
-				# 'audio': serializer.data['audio'],
+				'audio': serializer.data['audio'],
 				'timestamp': serializer.data['timestamp'],
 				'sent_user': serializer.data['sent_user'],				
 				'chat': serializer.data['chat']				
@@ -92,7 +95,7 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 		id = event['id']
 		content = event['content']
 		seen = event['seen']
-		# audio = event['audio']
+		audio = event['audio']
 		sender = event['sender']
 		timestamp = event['timestamp']
 		sent_user = event['sent_user']
@@ -101,12 +104,14 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 			'id':id,
 			'sender': sender,
 			'content': content,
-			# 'audio': audio,
+			'audio': audio,
 			'seen': seen,
 			'timestamp': timestamp,
 			'sent_user': sent_user,
 			'chat': chat
 		}))
+
+
 
 	@database_sync_to_async
 	def send_to_client(self,chat,title,body):
@@ -119,8 +124,6 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 				),
 			),
 		)
-
-
 
 	@database_sync_to_async
 	def send_to_all(self,title,body):
@@ -137,22 +140,17 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 				),
 			)
 
-
 	@database_sync_to_async
 	def get_user_ids(self):
 		return Management.objects.values_list('id',flat=True)
-
 
 	@database_sync_to_async
 	def get_device(chat):
 		return FCMDevice.objects.filter(user=chat.user)
 
-
 	@database_sync_to_async
 	def get_devices(self,user_ids):
 		return FCMDevice.objects.filter(user__in=user_ids).values_list('registration_id', flat=True)
-
-
 
 	@database_sync_to_async
 	def get_chat_msgs(self,chat_id):
@@ -160,14 +158,16 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 		serializer = MessageSerializer(messages,many=True)
 		return serializer.data
 
-
-
 	@database_sync_to_async
 	def get_manager(self,user):
 		user = CustomUser.objects.get(id=user)
 		return Management.objects.get(user=user) or None
 
-
+	@database_sync_to_async
+	def get_audio(self,audio_url):
+		file = AudioAttach.objects.get(id=audio_url)
+		return file or None
+	
 	@database_sync_to_async
 	def get_user(self, user_id):
 		return CustomUser.objects.get(id=user_id)
@@ -180,7 +180,6 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 	def get_chat_owner(self, chat_id):
 		chat = Chat.objects.get(id=chat_id)
 		return int(chat.user.id)
-
 
 	@database_sync_to_async
 	def is_manager(self, user_id):
