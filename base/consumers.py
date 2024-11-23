@@ -157,7 +157,7 @@ class CreateEmployeeMessage(AsyncWebsocketConsumer):
 	@database_sync_to_async
 	def get_chat_msgs(self,chat_id):
 		messages = ChatMessage.objects.filter(chat=chat_id).order_by('timestamp')
-		serializer = MessageSerializer(messages,many=True)
+		serializer = MessageSerializer(messages,many=True,context={'request':self.scope['request']})
 		return serializer.data
 
 	@database_sync_to_async
@@ -349,7 +349,7 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 	@database_sync_to_async
 	def get_chat_msgs(self,chat_id):
 		messages = ChatMessage.objects.filter(chat=chat_id).order_by('timestamp')
-		serializer = MessageSerializer(messages,many=True)
+		serializer = MessageSerializer(messages,many=True,context={'request':self.scope['request']})
 		return serializer.data
 
 

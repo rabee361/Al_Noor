@@ -521,10 +521,16 @@ class AudioSerializer(serializers.ModelSerializer):
 
 
 class MessageSerializer(serializers.ModelSerializer):
-    audio_url = serializers.CharField(source='audio.file' , read_only=True)
+    audio_url = serializers.SerializerMethodField()
     class Meta:
         model = ChatMessage
         fields = '__all__'
+
+    def get_audio_url(self,obj):
+        request = self.context.get('request')
+        if obj.audio:
+            return request.build_absolute_uri(obj.audio.file.url)
+        return None
 
 
 
