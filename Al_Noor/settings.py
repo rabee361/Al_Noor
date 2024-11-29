@@ -206,14 +206,6 @@ CACHES = {
 
 LANGUAGE_CODE = 'ar'
 
-LANGUAGES = [
-    ('ar', 'Arabic'),
-    # ('en', 'English'),
-]
-
-LOCALE_PATHS = (
-    os.path.join(BASE_DIR, 'locale'),
-)
 
 MAKEMESSAGES_IGNORE_PATTERNS = [
     r'^requirements\.txt$',

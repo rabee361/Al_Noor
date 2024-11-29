@@ -17,16 +17,15 @@ class CustomUser(AbstractUser):
         ('موظف' , 'موظف'),
     )
         
-    image = models.ImageField(upload_to='images/users',default='images/account.jpg' , verbose_name="الصورة الشخصية")
+    image = models.ImageField(upload_to='images/users',default='images/account.jpg')
     phonenumber = models.CharField(unique=True,
                                    db_index=True,
-                                   verbose_name="رقم الهاتف",
                                             validators=[RegexValidator(
                                             regex=r'^\d{5,15}$'
                                         )])
-    is_verified = models.BooleanField(default=False , verbose_name="تم التوثيق")
-    get_notifications = models.BooleanField(default=True , verbose_name="تلقي اشعارات")
-    username = models.CharField(max_length=255, verbose_name="الاسم الكامل")
+    is_verified = models.BooleanField(default=False)
+    get_notifications = models.BooleanField(default=True)
+    username = models.CharField(max_length=255)
     user_type = models.CharField(max_length=30 , choices=USER_TYPES , null=True , blank=True)
     active_now = models.BooleanField(default=False)
 
@@ -40,8 +39,7 @@ class CustomUser(AbstractUser):
 
     class Meta:
         ordering = ['-id']
-        verbose_name = ("مستخدم")
-        verbose_name_plural = ("مستخدمين")
+
    
 
 
@@ -60,11 +58,6 @@ class VerificationCode(models.Model):
     def __str__(self):
         return f'{self.user.username} code:{self.code}'
 
-    class Meta:
-        verbose_name = ("رمز التأكيد")
-        verbose_name_plural = ("رموز التأكيد")
-
-
 
 
 class Management(models.Model):
@@ -75,78 +68,71 @@ class Management(models.Model):
     
     class Meta:
         ordering = ['-id']
-        verbose_name = ("مدير")
-        verbose_name_plural = ("الادارة")
 
 
 class Registration(models.Model):
     phonenumber = models.CharField(unique=True,
-                                   verbose_name="رقم الهاتف",
                                         validators=[RegexValidator(
                                         regex=r'^\d{5,15}$'
                                     )])
-    first_name = models.CharField(max_length=50 , verbose_name="الاسم الأول")
-    father_name = models.CharField(max_length=50 , verbose_name="اسم الأب")
-    grand_father = models.CharField(max_length=50 , verbose_name="اسم الجد")
-    last_name = models.CharField(max_length=50 , verbose_name="العائلة")
-    id_number = models.IntegerField(verbose_name="رقم الهوية")
-    birthday = models.DateField(verbose_name="الميلاد")
-    job_position = models.CharField(choices=Job_position, max_length=50, null=True, blank=True, verbose_name="الوظيفة")
-    gender = models.CharField(choices=Gender, max_length=10, verbose_name="الجنس")
-    options_trip = models.CharField(choices=Options_trip, max_length=20, verbose_name="خيارات الرحلة")
-    marital_status = models.CharField(choices=Marital_status, max_length=10, verbose_name="الحالة الاجتماعية")
-    address = models.CharField(choices=Address, max_length=15, verbose_name="مكان السكن")
-    alhajj = models.CharField(choices=Type_alhajj, max_length=50, null=True, blank=True, verbose_name="نوع الحجة")
-    tradition_reference = models.CharField(verbose_name="مرجع التقليد")
-    count_hajjas = models.BigIntegerField(null=True, blank=True, verbose_name="عدد الحجات")
-    last_year = models.CharField(null=True, blank=True, verbose_name="اخر سنة حج")
-    means_journey = models.CharField(choices=Means_journey, max_length=50, verbose_name="وسيلة الرحلة")
-    blood_type = models.CharField(choices=Blood_type, null=True, blank=True, verbose_name="فصيلة الدم")
-    illness = models.BooleanField(null=True, blank=True, verbose_name="أمراض")
-    tawaf = models.BooleanField(null=True, blank=True, verbose_name="مساعدة في الطواف")
-    sai = models.BooleanField(null=True, blank=True, verbose_name="مساعدة في السعي")
-    wheelchair = models.BooleanField(null=True, blank=True, verbose_name="كرسي متحرك")
-    type_help = models.CharField(max_length=500,null=True, blank=True, verbose_name="نوع المساعدة")
+    first_name = models.CharField(max_length=50)
+    father_name = models.CharField(max_length=50)
+    grand_father = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    id_number = models.IntegerField()
+    birthday = models.DateField()
+    job_position = models.CharField(choices=Job_position, max_length=50, null=True, blank=True)
+    gender = models.CharField(choices=Gender, max_length=10)
+    options_trip = models.CharField(choices=Options_trip, max_length=20)
+    marital_status = models.CharField(choices=Marital_status, max_length=10)
+    address = models.CharField(choices=Address, max_length=15)
+    alhajj = models.CharField(choices=Type_alhajj, max_length=50, null=True, blank=True)
+    tradition_reference = models.CharField()
+    count_hajjas = models.BigIntegerField(null=True, blank=True)
+    last_year = models.CharField(null=True, blank=True)
+    means_journey = models.CharField(choices=Means_journey, max_length=50)
+    blood_type = models.CharField(choices=Blood_type, null=True, blank=True)
+    illness = models.BooleanField(null=True, blank=True)
+    tawaf = models.BooleanField(null=True, blank=True)
+    sai = models.BooleanField(null=True, blank=True)
+    wheelchair = models.BooleanField(null=True, blank=True)
+    type_help = models.CharField(max_length=500,null=True, blank=True)
 
-    class Meta:
-        verbose_name = ("استمارة تسجيل")
-        verbose_name_plural = ("استمارات التسجيل")
 
 
 
 class Pilgrim(models.Model):
-    user = models.ForeignKey(CustomUser , on_delete=models.CASCADE , verbose_name="المستخدم")
+    user = models.ForeignKey(CustomUser , on_delete=models.CASCADE)
     phonenumber = models.CharField(unique=True,
                                     db_index=True,
-                                   verbose_name="رقم الهاتف",
                                             validators=[RegexValidator(
                                             regex=r'^\d{5,15}$'
                                         )])
     longitude = models.FloatField(max_length=100,default=24.3) 
     latitude = models.FloatField(max_length=100,default=45.2)
-    registeration_id = models.CharField(max_length=50 , verbose_name="رقم الهوية")
-    first_name = models.CharField(max_length=50 , verbose_name="الاسم الأول")
-    father_name = models.CharField(max_length=50 , verbose_name="اسم الأب")
-    grand_father = models.CharField(max_length=50 , verbose_name="اسم الجد")
-    last_name = models.CharField(max_length=50 , verbose_name="العائلة")
-    birthday = models.DateField(verbose_name="الميلاد", null=True , blank=True)
-    flight_num = models.IntegerField(null=True, blank=True,verbose_name="رقم الرحلة")
-    flight_date = models.DateField(null=True, blank=True,verbose_name="تاريخ الرحلة")
-    arrival = models.TimeField(verbose_name="موعد الوصول", null=True , blank=True)
-    departure = models.TimeField(verbose_name="موعد الاقلاع" , null=True , blank=True)
-    from_city = models.CharField(max_length=40 , null=True , blank=True , verbose_name="من المدينة")
-    to_city = models.CharField(max_length=40 , null=True , blank=True , verbose_name="إلى المدينة")
-    duration = models.CharField(max_length=40,null=True,blank=True , verbose_name="مدة الرحلة")
-    boarding_time = models.TimeField(verbose_name="وقت الصعود", null=True , blank=True)
-    gate_num = models.IntegerField(null=True, blank=True , verbose_name="رقم البوابة")
-    flight_company = models.CharField(max_length=50 , verbose_name="اسم الشركة")
-    company_logo = models.ImageField(verbose_name="شعار الشركة" , null=True , blank=True,default='images/account.jpg')
-    status = models.BooleanField(null=True, blank=True , verbose_name="الحالة")
-    hotel = models.CharField(max_length=100, null=True, blank=True , verbose_name="الفندق")
-    hotel_address = models.CharField(max_length=100 , verbose_name="عنوان الفندق")
-    room_num = models.IntegerField(null=True, blank=True , verbose_name="رقم الغرفة")
-    haj_steps = models.ManyToManyField('HajSteps' , blank=True , verbose_name="خطوات الحملة", through='HaJStepsPilgrim')
-    guide = models.ForeignKey('Guide' , verbose_name="المرشد" , null=True , blank=True , on_delete=models.SET_NULL)
+    registeration_id = models.CharField(max_length=50)
+    first_name = models.CharField(max_length=50)
+    father_name = models.CharField(max_length=50)
+    grand_father = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    birthday = models.DateField(null=True , blank=True)
+    flight_num = models.IntegerField(null=True, blank=True)
+    flight_date = models.DateField(null=True, blank=True)
+    arrival = models.TimeField(null=True , blank=True)
+    departure = models.TimeField(null=True , blank=True)
+    from_city = models.CharField(max_length=40 , null=True , blank=True)
+    to_city = models.CharField(max_length=40 , null=True , blank=True)
+    duration = models.CharField(max_length=40,null=True,blank=True)
+    boarding_time = models.TimeField(null=True , blank=True)
+    gate_num = models.IntegerField(null=True, blank=True)
+    flight_company = models.CharField(max_length=50)
+    company_logo = models.ImageField(null=True , blank=True,default='images/account.jpg')
+    status = models.BooleanField(null=True, blank=True)
+    hotel = models.CharField(max_length=100, null=True, blank=True)
+    hotel_address = models.CharField(max_length=100)
+    room_num = models.IntegerField(null=True, blank=True)
+    haj_steps = models.ManyToManyField('HajSteps' , blank=True, through='HaJStepsPilgrim')
+    guide = models.ForeignKey('Guide' ,null=True , blank=True , on_delete=models.SET_NULL)
     created = models.DateTimeField(auto_now_add=True)
 
 
@@ -174,11 +160,6 @@ class Pilgrim(models.Model):
             return None 
 
 
-    class Meta:
-        verbose_name = ("حاج")
-        verbose_name_plural = ("الحجاج")
-
-
 
 
 
@@ -188,9 +169,6 @@ class Guide(models.Model):
     def __str__(self) -> str:
         return self.user.username
 
-    class Meta:
-        verbose_name = ("المرشد")   
-        verbose_name_plural = ("المرشدين")
 
 
 class Employee(models.Model):
@@ -201,50 +179,41 @@ class Employee(models.Model):
     
     class Meta:
         ordering = ['-id']
-        verbose_name = ("موظف")
-        verbose_name_plural = ("موظفين")
+
 
 
 
 class Task(models.Model):
-    employee = models.ForeignKey(Employee,on_delete=models.CASCADE,verbose_name="الموظف")
-    title = models.CharField(max_length=500,unique=True, verbose_name="اسم المهمة")
-    content = models.CharField(max_length=100, verbose_name="المحتوى")
-    created = models.DateTimeField(auto_now_add=True, verbose_name="التاريخ")
-    completed = models.BooleanField(default=False, verbose_name="اكتملت")
-    accepted = models.BooleanField(default=False, verbose_name="تم قبولها")
+    employee = models.ForeignKey(Employee,on_delete=models.CASCADE)
+    title = models.CharField(max_length=500,unique=True)
+    content = models.CharField(max_length=100)
+    created = models.DateTimeField(auto_now_add=True)
+    completed = models.BooleanField(default=False)
+    accepted = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return f'{self.employee.user.username} : {self.title}'
 
-    class Meta:
-        verbose_name = ("مهمة")
-        verbose_name_plural = ("مهام")
-
 
 
 class UserNotification(models.Model):
-    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE , verbose_name="المستخدم")
-    title = models.CharField(max_length=50 , verbose_name="العنوان")
-    content = models.CharField(max_length=200 , verbose_name="المحتوى")
-    info = models.CharField(max_length=200 , null=True , blank=True , verbose_name="معلومات اضافية")
-    created = models.DateTimeField(auto_now_add=True , verbose_name="التاريخ")
+    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+    title = models.CharField(max_length=50)
+    content = models.CharField(max_length=200)
+    info = models.CharField(max_length=200 , null=True , blank=True)
+    created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         return f'{self.user.username} : {self.content}'
     
-    class Meta:
-        verbose_name = ("اشعار")
-        verbose_name_plural = ("اشعارات")
-
 
 
 class BaseNotification(models.Model):
-    sentBy = models.ForeignKey(CustomUser,on_delete=models.CASCADE , verbose_name="المرسل")
-    title = models.CharField(max_length=100 , verbose_name="العنوان")
-    content = models.CharField(max_length=200 , verbose_name="المحتوى")
-    info = models.CharField(max_length=200 , verbose_name="معلومات اضافية")
-    created = models.DateTimeField(auto_now_add=True , verbose_name="تاريخ الانشاء")
+    sentBy = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    content = models.CharField(max_length=200)
+    info = models.CharField(max_length=200)
+    created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         return self.title
@@ -253,25 +222,23 @@ class BaseNotification(models.Model):
 
 
 class Note(models.Model):
-    pilgrim = models.ForeignKey(Pilgrim,on_delete=models.CASCADE , verbose_name="الحاج")
-    guide = models.ForeignKey(Guide,on_delete=models.CASCADE , verbose_name="المرشد")
-    content = models.CharField(max_length=500 , verbose_name="المحتوى",null=True)
-    audio = models.FileField(upload_to='audio/pilgrims' , null=True)
-    created = models.DateTimeField(auto_now_add=True , verbose_name="التاريخ")
+    pilgrim = models.ForeignKey(Pilgrim,on_delete=models.CASCADE)
+    guide = models.ForeignKey(Guide,on_delete=models.CASCADE)
+    content = models.CharField(max_length=500 ,null=True, blank=True)
+    audio = models.FileField(upload_to='audio/pilgrims' , null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         return f'{self.pilgrim.user.username} : note'
 
-    class Meta:
-        verbose_name = ("ملاحظة")
-        verbose_name_plural = ("ملاحظات")
+
 
 
 
 
 class Chat(models.Model):
-    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE , verbose_name="المستخدم")
-    created = models.DateTimeField(auto_now_add=True , verbose_name="تاريخ الانشاء")
+    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
     chat_type = models.CharField(choices=CHAT_CHOICES, max_length=20 , default='guide')
 
     objects = models.Manager()
@@ -280,11 +247,6 @@ class Chat(models.Model):
 
     def __str__(self) -> str:
         return f'{self.user.username} chat'
-
-    class Meta:
-        verbose_name = ("محادثة")
-        verbose_name_plural = ("محادثات")
-
 
 
 
@@ -296,116 +258,94 @@ class AudioAttach(models.Model):
 
 
 class ChatMessage(models.Model):
-    sender = models.ForeignKey(CustomUser , on_delete=models.CASCADE , verbose_name="المرسل",blank=True,null=True)
-    chat = models.ForeignKey(Chat , on_delete=models.CASCADE , verbose_name="المحادثة")
-    content = models.CharField(max_length=500 , verbose_name="المحتوى",null=True)
+    sender = models.ForeignKey(CustomUser , on_delete=models.CASCADE ,blank=True,null=True)
+    chat = models.ForeignKey(Chat , on_delete=models.CASCADE)
+    content = models.CharField(max_length=500 ,null=True)
     audio = models.ForeignKey(AudioAttach , on_delete=models.CASCADE , null=True, blank=True)
-    timestamp = models.DateTimeField(auto_now_add=True , verbose_name="التاريخ والوقت")
+    timestamp = models.DateTimeField(auto_now_add=True)
     seen = models.BooleanField(default=False) # to see if the user read the message or not
-    sent_user = models.BooleanField(default=False , verbose_name="المستخدم")
+    sent_user = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.sender} : "{self.content[0:20]}..."'
 
     class Meta:
         ordering=['-timestamp']
-        verbose_name = ("رسالة")
-        verbose_name_plural = ("رسائل")
-
 
 
 class GuidanceCategory(models.Model):
-    name = models.CharField(max_length=50 , verbose_name="اسم الفئة")
-    created = models.DateTimeField(auto_now_add=True,null=True , verbose_name="تاريخ الانشاء")
+    name = models.CharField(max_length=50)
+    created = models.DateTimeField(auto_now_add=True,null=True)
 
 
     def __str__(self) -> str:
         return self.name
-
-    class Meta:
-        verbose_name = ("نوع الارشاد")
-        verbose_name_plural = ("أنواع الارشاد الديني")
-
 
 
 
 class GuidancePost(models.Model):
-    category = models.ForeignKey(GuidanceCategory, on_delete=models.CASCADE, verbose_name="الفئة")
-    title = models.CharField(max_length=100, verbose_name="العنوان")
-    content = models.TextField(verbose_name="المحتوى")
-    cover = models.ImageField(upload_to='cover', verbose_name="صورة الغلاف")
-    rank = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(1000)],verbose_name="الترتيب")
-    created = models.DateField(auto_now_add=True, verbose_name="تاريخ الانشاء") # datetime ?
+    category = models.ForeignKey(GuidanceCategory, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    content = models.TextField()
+    cover = models.ImageField(upload_to='cover')
+    rank = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(1000)])
+    created = models.DateField(auto_now_add=True) # datetime ?
 
     def __str__(self) -> str:
         return self.title
     
     class Meta:
         ordering = ['rank']
-        verbose_name = ("إرشاد ديني")
-        verbose_name_plural = ("إرشادات دينية")
 
 
 
 class ReligiousCategory(models.Model):
-    name = models.CharField(max_length=50 , verbose_name="اسم الفئة")
-    created = models.DateTimeField(auto_now_add=True , verbose_name="تاريخ الانشاء")
+    name = models.CharField(max_length=50)
+    created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         return self.name
-    
-    class Meta:
-        verbose_name = ("نوع عمل ديني")
-        verbose_name_plural = ("أنواع العمل الديني")
 
 
 
 class ReligiousPost(models.Model):
-    category = models.ForeignKey(ReligiousCategory, on_delete=models.CASCADE , verbose_name="الفئة")
-    title = models.CharField(max_length=100 , verbose_name="العنوان")
-    content = models.TextField(verbose_name="المحتوى")
-    cover = models.ImageField(upload_to='cover' , verbose_name="صورة الغلاف")
-    rank = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(1000)],verbose_name="الترتيب")
-    created = models.DateField(auto_now_add=True , verbose_name="تاريخ الانشاء") # datetime ?
+    category = models.ForeignKey(ReligiousCategory, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    content = models.TextField()
+    cover = models.ImageField(upload_to='cover')
+    rank = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(1000)])
+    created = models.DateField(auto_now_add=True) # datetime ?
 
     def __str__(self) -> str:
         return self.title
 
     class Meta:
         ordering = ['rank']
-        verbose_name = ("عمل ديني")
-        verbose_name_plural = ("أعمال دينية")
 
- 
 
 
 class SecondarySteps(models.Model):
-    name = models.CharField(max_length=50,verbose_name="الاسم")
-    created = models.DateTimeField(auto_now_add=True,verbose_name="تاريخ الانشاء")
-    note = models.CharField(max_length=500,default='note',verbose_name="ملاحظة")
+    name = models.CharField(max_length=50)
+    created = models.DateTimeField(auto_now_add=True)
+    note = models.CharField(max_length=500,default='note')
 
     def __str__(self) -> str:
         return self.name
     
-    class Meta:
-        verbose_name = ("خطوة فرعية")
-        verbose_name_plural = ("خطوات فرعية")
 
 
 
 
 class HajSteps(models.Model):
-    name = models.CharField(max_length=50 , verbose_name="الخطوة")
-    rank = models.IntegerField(blank=True , null=True , validators=[MinValueValidator(1),MaxValueValidator(1000)],verbose_name="الترتيب")
-    secondary_steps = models.ManyToManyField(SecondarySteps , verbose_name="خطوات فرعية")
-    note = models.CharField(max_length=500,default='note',verbose_name="ملاحظة")
+    name = models.CharField(max_length=50)
+    rank = models.IntegerField(blank=True , null=True , validators=[MinValueValidator(1),MaxValueValidator(1000)])
+    secondary_steps = models.ManyToManyField(SecondarySteps)
+    note = models.CharField(max_length=500,default='note')
 
     def __str__(self) -> str:
         return self.name
 
     class Meta:
-        verbose_name = ("خطوة")
-        verbose_name_plural = ("خطوات الأعمال الديني")
         ordering = ['rank']
 
 
@@ -427,9 +367,8 @@ class HaJStepsPilgrim(models.Model):
 
 
 
-
 class UserPassword(models.Model):
-    username = models.CharField(max_length=100 , verbose_name="الاسم")
-    phonenumber = models.CharField(max_length=100 , verbose_name="رقم الهاتف")
-    password = models.CharField(max_length=100 , verbose_name="كلمة السر")
+    username = models.CharField(max_length=100)
+    phonenumber = models.CharField(max_length=100)
+    password = models.CharField(max_length=100)
 
