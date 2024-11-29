@@ -5,7 +5,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator , RegexV
 from .utils.utils import *
 from .utils.options import *
 from django.utils.translation import gettext_lazy as _
-from .utils.managers import GuideChats , ManagerChats
+from .utils.managers import GuideChats , ManagerChats , CustomManager
 
 
 
@@ -29,6 +29,8 @@ class CustomUser(AbstractUser):
     username = models.CharField(max_length=255, verbose_name="الاسم الكامل")
     user_type = models.CharField(max_length=30 , choices=USER_TYPES , null=True , blank=True)
     active_now = models.BooleanField(default=False)
+
+    # objects = CustomManager()
 
     USERNAME_FIELD = 'phonenumber'
     REQUIRED_FIELDS = ('username',)
