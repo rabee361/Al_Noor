@@ -57,7 +57,7 @@ class RegistrationAdmin(ImportExportModelAdmin):
 
 class AudioAttachmentAdmin(ImportExportModelAdmin):
     resource_class = RegistrationResource
-    list_display = ['id','first_name','last_name','phonenumber']
+    list_display = ['id','file']
 
 
 
