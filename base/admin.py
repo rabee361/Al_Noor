@@ -11,30 +11,11 @@ from django.contrib.auth.admin import UserAdmin
 from .utils.forms import *
 
 
-admin.site.site_header = "Dashboard"
-admin.site.index_title = "Admin Panel"
-
-
-# admin.site.unregister(FCMDevice)
-# admin.site.unregister(BlacklistedToken)
-# admin.site.unregister(OutstandingToken)
 admin.site.unregister(Group)
 
 class HiddenModelAdmin(admin.ModelAdmin):
     def get_model_perms(self, request):
         return {}
-    
-# @admin.register(FCMDevice)
-# class FCMDeviceAdmin(HiddenModelAdmin):
-#     pass
-
-# @admin.register(OutstandingToken)
-# class OutstandingTokenAdmin(HiddenModelAdmin):
-#     pass
-
-# @admin.register(BlacklistedToken)
-# class BlacklistedTokenAdmin(HiddenModelAdmin):
-#     pass
 
 
 
@@ -70,6 +51,11 @@ class CustomUserAdmin(UserAdmin):
 
 
 class RegistrationAdmin(ImportExportModelAdmin):
+    resource_class = RegistrationResource
+    list_display = ['id','first_name','last_name','phonenumber']
+
+
+class AudioAttachmentAdmin(ImportExportModelAdmin):
     resource_class = RegistrationResource
     list_display = ['id','first_name','last_name','phonenumber']
 
@@ -200,3 +186,4 @@ admin.site.register(HajSteps,HajStepsAdmin)
 admin.site.register(HaJStepsPilgrim)
 admin.site.register(SecondarySteps,SecondaryStepsAdmin)
 admin.site.register(VerificationCode)
+admin.site.register(AudioAttach,AudioAttachmentAdmin)
