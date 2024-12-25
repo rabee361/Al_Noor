@@ -445,68 +445,110 @@ body {
 }
 
 
+/* login code */
 
 .login-wrapper{
-    background-color: var(--bg-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 100vh;
+    background-color: var(--bg-color);
     overflow: hidden;
-    margin: 0px;
-    padding: 0px;
+}
+
+.login-body {
+    background-color: rgba(40, 40, 40, 0.9);
+    padding: 2rem;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    text-align: right;
+}
+
+.profile-image {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.profile-image img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.login-title {
+    color: white;
+    font-family: 'Cairo', sans-serif;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.login-form-group {
+    margin-bottom: 1rem;
+    text-align: right;
+}
+
+.login-form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: white;
+    font-family: 'Cairo', sans-serif;
+    text-align: right;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    margin: 1rem 0;
+}
+
+.remember-me input[type="checkbox"] {
+    margin: 0;
+}
+
+.remember-me label {
+    color: white;
+    margin: 0;
+}
+
+.login-field {
+    width: 100%;
+    height: 35px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 15px;
+    background-color: rgb(155, 155, 155);
+    color: white;
+    font-family: 'Cairo', sans-serif;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.login-btn {
+    width: 100%;
+    background-color: #b38700;
+    border: none;
+    border-radius: 15px;
+    color: white;
+    font-family: 'Cairo', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: 15px;
+    height: 35px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-
-.login-body {
-    background: rgb(70, 69, 69);
-    padding: 60px;
-    border-radius: 30px;
-}
-
-
-.login-field {
-    outline: none;
-    border: none;
-    box-shadow: 10px;
-    border-radius: 20px;
-    color: white;
-    background-color: rgb(155, 155, 155);
-    height: 35px;
-    width: 250px;
-    padding-right: 10px;
-}
-
-
-
 .login-btn:hover {
-    background: #D7A401;
+    background-color: #cc9900;
 }
-
-
-
-.login-btn {
-    background: #D7A401;
-    color: white;
-    border-radius: 30px;
-    border: none;
-    height: 40px;
-    margin-top: 30px;
-    /* box-shadow: -1px 1px 2px 2px #ccc, 1px 1px 1px 1px #272727; */
-}
-
-.login-title {
-    color: white;
-    font-family: Cairo;
-    text-align: center;
-}
-
-
-
-.bread-crumbs-arrow {
-    color: #D7A401;
-}
-
 
 .mydropdown {
     /* margin-left: auto;
@@ -521,7 +563,7 @@ body {
     }
   }
   
-    .mydropdown-content {
+.mydropdown-content {
     display: none;
     padding: 5px;
     position: absolute;
@@ -533,28 +575,77 @@ body {
     z-index: 1;
   }
   
-  .mydropdown:hover .mydropdown-content {
+.mydropdown:hover .mydropdown-content {
     display: flex;
     flex-direction: column;
     gap: 5px;
   }
 
-
-
-  .mydropdown-content p {
+.mydropdown-content p {
     padding: 5px;
     border-radius: 10px;
-  }
+}
 
-
-  .mydropdown-content p:hover {
+.mydropdown-content p:hover {
     padding: 5px;
     background: #D7A401;
-  }
+}
 
-  .mydropdown-content a:hover {
+.mydropdown-content a:hover {
     background: #D7A401;
     border-radius: 10px;
-  }
+}
 
 
+
+
+/* pagination   */
+
+
+.pagination-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+    margin-top: 1rem;
+}
+
+.pagination {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.page-link {
+    color: white;
+    background-color: rgba(40, 40, 40, 0.9);
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+    font-family: 'Cairo', sans-serif;
+}
+
+.page-link:hover {
+    background-color: #b38700;
+}
+
+.page-link.active {
+    background-color: #b38700;
+    cursor: default;
+}
+
+.save-button {
+    background-color: #D7A401;
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 20px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.save-button:hover {
+    background-color: #b88d01;
+}

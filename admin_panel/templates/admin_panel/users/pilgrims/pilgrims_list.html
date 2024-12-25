@@ -1,0 +1,223 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+<div class="main-panel" id="main-panel" style="background-color: rgb(77, 76, 76);">
+  <div class="content" dir="rtl" style="margin-top: 10px;">
+
+      <div class="bread-crumbs-size" style="display: flex; gap: 0;">
+        <div style="height: 70px; margin-left: 1300px; display: flex; gap: 10px;">
+          <a href="{% url 'main_dashboard' %}" style="text-decoration: none;"><h5 style="color: white;">الرئيسية</h5></a>
+          <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
+          <h5 style="color: white;">الحجاج</h5>
+          <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 5px; color: white; font-size: smaller;" dir="ltr">
+        <a href="{% url 'export_pilgrim' %}" style="text-decoration: none;"><h5 class="import-button"><i class=" now-ui-icons arrows-1_cloud-download-93"></i>تصدير ملف</h5></a>
+        <a href="{% url 'import_pilgrim' %}" style="text-decoration: none;"><h5 class="import-button"><i class=" now-ui-icons arrows-1_cloud-download-93"></i>استيراد ملف</h5></a>
+        <a href="{% url 'add_pilgrim' %}" style="text-decoration: none;"><h5 class="add-button">إضافة</h5></a>
+        <a href="#" data-toggle="modal" data-target="#deleteAllPilgrimsModal" style="text-decoration: none;"><h5 class="add-button">حذف الكل</h5></a>
+      </div>
+
+      <div class="row">
+      <div class="col-md-12">
+        <div class="card" style="background-color: rgb(57, 58, 58);">
+
+          <div style="display: flex;">
+            <div class="card-header">
+              <form action="" method="get" style="color: rgb(54, 54, 54);">
+                  <input type="text" name="q" class="custom-input" placeholder="  بحث بالاسم">
+              </form>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="table-responsive">
+              <div style="overflow-x: auto; width: 100%;">
+                <table class="table my-table">
+                  <thead class="text-primary header-wrapper">
+                    <th style="color: white;">
+                      ID
+                    </th>
+                    <th style="color: white;">
+                      الاسم
+                    </th>
+                    <th style="color: white;">
+                      اسم الأب
+                    </th>
+                    <th style="color: white;">
+                      العائلة
+                    </th>
+                    <th style="color: white;">
+                      رقم الهاتف
+                    </th>
+                    <th style="color: white;">
+                      المرشد
+                    </th>
+                    <th style="color: white;">
+                      رقم الرحلة
+                    </th>
+                    <th style="color: white;">
+                      موعد الاقلاع
+                    </th>
+                    <th style="color: white;">
+                      موعد الهبوط
+                    </th>
+                    <th style="color: white;">
+                      من 
+                    </th>
+                    <th style="color: white;">
+                      إلى 
+                    </th>
+                    <th style="color: white;">
+                      الفندق
+                    </th>
+                    <th style="color: white;">
+                      عنوان الفندق
+                    </th>
+                    <th style="color: white;">
+                      رقم الغرفة
+                    </th>
+                    <th style="color: white;">
+                      
+                    </th>
+                  </thead>
+                  <tbody class="body-wrapper">
+                  {% for pilgrim in pilgrims %}
+                    <tr class="body-fields">
+                      <td>
+                        <a style="text-decoration: none; color: white;" href="{% url 'update_pilgrim' pilgrim.id %}">
+                          {{pilgrim.id}}
+                        </a>
+                      </td>
+                      <td>
+                        {{pilgrim.first_name}}
+                      </td>
+                      <td>
+                        {{pilgrim.grand_father}}
+                      </td>
+                      <td>
+                        {{pilgrim.last_name}}
+                      </td>
+                      <td>
+                        {{pilgrim.phonenumber}}
+                      </td>
+                      <td>
+                        {{pilgrim.guide.user.username}}
+                      </td>
+                      <td>
+                        {{pilgrim.flight_num}}
+                      </td>
+                      <td>
+                        {{pilgrim.arrival}}
+                      </td>
+                      <td>
+                        {{pilgrim.departure}}
+                      </td>
+                      <td>
+                        {{pilgrim.from_city}}
+                      </td>
+                      <td>
+                        {{pilgrim.to_city}}
+                      </td>
+                      <td>
+                        {{pilgrim.hotel}}
+                      </td>
+                      <td>
+                        {{pilgrim.hotel_address}}
+                      </td>
+                      <td>
+                        {{pilgrim.room_num}}
+                      </td>
+                      <td>
+                          <a href="{% url 'update_pilgrim' pilgrim.id %}" class="btn btn-success btn-sm btn-icon">
+                            <i class="now-ui-icons ui-2_settings-90"></i>
+                          </a>
+                          <button type="button" rel="tooltip" class="btn btn-danger btn-simple btn-icon btn-sm" data-toggle="modal" data-target="#deleteadminModal{{ pilgrim.id }}">
+                            <i class="now-ui-icons ui-1_simple-remove"></i>
+                          </button>
+                      </td>
+                  </tr>
+
+
+                  <div class="modal fade" id="deleteadminModal{{ pilgrim.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteadminModalLabel{{ pilgrim.id }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="deleteadminModalLabel{{ pilgrim.id }}">حذف الحاج</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <p>"هل أنت واثق من أنك تريد حذف الحاج {{pilgrim.first_name}}?"</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
+                          <form action="{% url 'delete-pilgrim' pilgrim.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">حذف</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="pagination-wrapper">
+            <div class="pagination">
+              {% if pilgrims.has_previous %}
+                <a href="?page={{ pilgrims.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="page-link">&laquo;</a>
+              {% endif %}
+
+              {% for num in pilgrims.paginator.page_range %}
+                {% if num == pilgrims.number %}
+                  <a class="page-link active">{{ num }}</a>
+                {% elif num > pilgrims.number|add:'-3' and num < pilgrims.number|add:'3' %}
+                  <a href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="page-link">{{ num }}</a>
+                {% endif %}
+              {% endfor %}
+
+              {% if managers.has_next %}
+                <a href="?page={{ managers.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="page-link">&raquo;</a>
+              {% endif %}
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Modal for Delete All Confirmation -->
+<div class="modal fade" id="deleteAllPilgrimsModal" tabindex="-1" role="dialog" aria-labelledby="deleteAllPilgrimsModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteAllPilgrimsModalLabel">حذف الحجاج</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        هل أنت واثق من أنك تريد حذف جميع الحجاج؟
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
+        <a href="{% url 'delete_all_pilgrims' %}" class="btn btn-danger">حذف</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

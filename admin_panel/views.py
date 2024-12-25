@@ -9,19 +9,19 @@ import pandas as pd
 from django.db import transaction
 from base.utils.notifications import send_event_notification , send_task_notification
 from django.db.models import Q
-
+from django.core.paginator import Paginator
 
 
 def login_user(request):
     if request.method == 'POST':
-        phonenumber = request.POST['username']
+        phonenumber = request.POST['phonenumber']
         password = request.POST['password']
         user = authenticate(request,username=phonenumber, password=password)
         if user is not None:
             login(request,user)
             return redirect('main_dashboard')
 
-    return render(request , 'login.html')
+    return render(request , 'admin_panel/login.html')
 
 
 
@@ -44,7 +44,7 @@ def change_password(request,user_id):
                 user.save()
                 return redirect('main_dashboard') 
         
-    return render(request, 'change_password.html')
+    return render(request, 'admin_panel/change_password.html')
 
 
 
@@ -63,7 +63,7 @@ def main_dashboard(request):
     'total_guides' : total_guides,
     'total_forms' : total_forms,
     }
-    return render(request , 'dashboard.html' , context)
+    return render(request , 'admin_panel/dashboard.html' , context)
 
 
 
@@ -72,7 +72,7 @@ def registration_forms(request):
     context = {
 
     }
-    return render(request , 'registration_forms.html' , context=context)
+    return render(request , 'admin_panel/registration/registration_forms.html' , context=context)
 
 
 
@@ -81,7 +81,7 @@ def steps(request):
     context = {
 
     }
-    return render(request , 'steps.html' , context=context)
+    return render(request , 'admin_panel/steps/steps.html' , context=context)
 
 
 @login_required(login_url='login')
@@ -92,7 +92,7 @@ def registration_forms(request):
     context = {
         'forms':forms,
  }
-    return render(request , 'registration_forms.html' , context)
+    return render(request , 'admin_panel/registration/registration_forms.html' , context)
 
 
 
@@ -112,7 +112,7 @@ def add_register_form(request):
     context = {
         'form': form,
     }
-    return render(request, 'add_form.html', context)
+    return render(request, 'admin_panel/registration/add_form.html', context)
 
 
 
@@ -132,7 +132,7 @@ def update_register_form(request,form_id):
     context = {
         'form': form,
     }
-    return render(request, 'add_form.html', context)
+    return render(request, 'admin_panel/registration/add_form.html', context)
 
 
 
@@ -156,10 +156,14 @@ def pilgrims_list(request):
     q = request.GET.get('q') or ''
     pilgrims = Pilgrim.objects.filter(first_name__startswith = q).order_by('-id')
 
+    paginator = Paginator(pilgrims, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'pilgrims':pilgrims,
+        'pilgrims':page_obj,
     }
-    return render(request , 'pilgrims_list.html' , context)
+    return render(request , 'admin_panel/users/pilgrims/pilgrims_list.html' , context)
 
 
 
@@ -222,7 +226,7 @@ def update_pilgrim(request,pilgrim_id):
                     'pilgrim_steps':data
                     }
 
-        return render(request, 'update_pilgrim.html', context=context)
+        return render(request, 'admin_panel/users/pilgrims/update_pilgrim.html', context=context)
 
 
 
@@ -285,13 +289,13 @@ def add_pilgrim(request):
             return redirect('pilgrims')
         
         else:
-            return redirect('add_pilgrim')
+            return redirect('pilgrims')
     
 
     context = {
         'form': form,
     }
-    return render(request, 'add_pilgrim.html', context)
+    return render(request, 'admin_panel/users/pilgrims/add_pilgrim.html', context)
 
 
 
@@ -348,11 +352,14 @@ def delete_pilgrim(request,pilgrim_id):
     pilgrim = Pilgrim.objects.get(id=pilgrim_id)
     user = CustomUser.objects.get(id=pilgrim.user.id)
     user.delete()
-    
     return redirect('pilgrims')
 
 
-
+@login_required(login_url='login')
+def delete_all_pilgrims(request):
+    users = CustomUser.objects.filter(user_type='حاج')
+    users.delete()
+    return redirect('pilgrims')
 
 
 
@@ -360,11 +367,15 @@ def delete_pilgrim(request,pilgrim_id):
 def managers_list(request):
     q = request.GET.get('q') or ''
     managers = Management.objects.filter(user__first_name__startswith = q).order_by('-id')
-    context = {
-        'managers':managers,
-    }
-    return render(request , 'managers_list.html' , context)
 
+    paginator = Paginator(managers, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    context = {
+        'managers':page_obj,
+    }
+    return render(request , 'admin_panel/users/managers/managers_list.html' , context)
 
 
 
@@ -397,7 +408,7 @@ def add_manager(request):
     context = {
         'form' : form,
     }
-    return render(request , 'add_manager.html' , context)
+    return render(request , 'admin_panel/users/managers/manager_form.html' , context)
 
 
 
@@ -442,7 +453,7 @@ def update_manager(request,manager_id):
         'manager_image': manager_image,
         'user_id': user.id,
     }
-    return render(request, 'update_manager.html', context)
+    return render(request, 'admin_panel/users/managers/update_manager.html', context)
 
 
 
@@ -466,12 +477,16 @@ def delete_manager(request,manager_id):
 @login_required(login_url='login')
 def task_list(request):
     q = request.GET.get('q') or ''
-    tasks = Task.objects.filter(title__startswith = q).order_by('-id')
+    tasks = Task.objects.filter(employee__user__username__startswith = q).order_by('-id')
+
+    paginator = Paginator(tasks, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
 
     context = {
-        'tasks':tasks,
+        'tasks':page_obj,
  }
-    return render(request , 'tasks.html' , context)
+    return render(request , 'admin_panel/tasks/tasks.html' , context)
 
 
 
@@ -497,7 +512,7 @@ def add_task(request):
     context = {
         'form': form,
     }
-    return render(request, 'add_task.html', context)
+    return render(request, 'admin_panel/tasks/task_form.html', context)
 
 
 
@@ -519,7 +534,7 @@ def update_task(request,task_id):
     context = {
         'form': form,
     }
-    return render(request, 'add_task.html', context)
+    return render(request, 'admin_panel/tasks/task_form.html', context)
 
 
 
@@ -544,10 +559,14 @@ def notes_list(request):
     q = request.GET.get('q') or ''
     notes = Note.objects.filter(pilgrim__user__username__startswith = q).order_by('-id')
 
+    paginator = Paginator(notes, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'notes':notes,
+        'notes':page_obj,
  }
-    return render(request , 'notes.html' , context)
+    return render(request , 'admin_panel/notes/notes.html' , context)
 
 
 
@@ -566,7 +585,7 @@ def add_note(request):
     context = {
         'form': form,
     }
-    return render(request, 'add_note.html', context)
+    return render(request, 'admin_panel/notes/add_note.html', context)
 
 
 
@@ -620,11 +639,16 @@ def delete_note(request,note_id):
 def employees_list(request):
     q = request.GET.get('q') or ''
 
-    employees = Employee.objects.filter(user__username__startswith=q).order_by('-id')
+    employees = Employee.objects.filter(user__username__startswith=q)
+
+    paginator = Paginator(employees, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'employees':employees,
+        'employees': page_obj,
     }
-    return render(request , 'employees_list.html' , context)
+    return render(request , 'admin_panel/users/employees/employees_list.html' , context)
 
 
 
@@ -652,7 +676,7 @@ def add_employee(request):
     context = {
         'form' : form,
     }
-    return render(request , 'add_employee.html' , context)
+    return render(request , 'admin_panel/users/employees/add_employee.html' , context)
 
     
 
@@ -691,7 +715,7 @@ def update_employee(request,employee_id):
         'user_id': user.id,
         'employee_image': employee_image,
     }
-    return render(request, 'update_employee.html', context)
+    return render(request, 'admin_panel/users/employees/update_employee.html', context)
 
 
 
@@ -717,10 +741,16 @@ def guides_list(request):
     q = request.GET.get('q') or ''
 
     guides = Guide.objects.filter(user__username__startswith=q).order_by('-id')
+
+    paginator = Paginator(guides, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'guides':guides,
+        'guides':page_obj,
     }
-    return render(request , 'guides_list.html' , context)
+    return render(request , 'admin_panel/users/guides/guides_list.html' , context)
+
 
 
 
@@ -750,7 +780,7 @@ def add_guide(request):
         'form' : form,
 
     }
-    return render(request , 'add_guide.html' , context)
+    return render(request , 'admin_panel/users/guides/add_guide.html' , context)
 
 
 
@@ -787,7 +817,7 @@ def update_guide(request,guide_id):
         'guide_image': guide_image,
         'user_id': user.id,
     }
-    return render(request, 'update_guide.html', context)
+    return render(request, 'admin_panel/users/guides/update_guide.html', context)
 
 
     
@@ -821,7 +851,7 @@ def export_forms(request):
     response['Content-Disposition'] = 'attachment; filename="register_forms.xlsx"'
     return response
 
-
+ 
 
 @transaction.atomic
 def import_pilgrim(request):
@@ -892,7 +922,7 @@ def import_pilgrim(request):
             UserPassword.objects.all().delete()
             return response
 
-        return render(request, 'import_pilgrims.html')
+        return render(request, 'admin_panel/users/pilgrims/import_pilgrims.html')
 
 
 
@@ -902,10 +932,15 @@ def import_pilgrim(request):
 def notifications_list(request):
     q = request.GET.get('q') or ''
     notifications = BaseNotification.objects.filter(title__startswith=q).order_by('-id')
+
+    paginator = Paginator(notifications, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'notifications':notifications,
+        'notifications':page_obj,
     }
-    return render(request , 'notifications_list.html' , context)
+    return render(request , 'admin_panel/notifications/notifications_list.html' , context)
 
 
 
@@ -927,7 +962,7 @@ def add_notification(request):
     context = {
         'form' : form,
     }
-    return render(request , 'add_notification.html' , context)
+    return render(request , 'admin_panel/notifications/add_notification.html' , context)
 
     
 
@@ -948,7 +983,7 @@ def guidance_posts(request):
     context = {
         'posts':posts,
     }
-    return render(request , 'guidance_posts.html' , context)
+    return render(request , 'admin_panel/religious_work/guidance_posts.html' , context)
 
 
 
@@ -966,7 +1001,7 @@ def add_guidance_post(request):
     context = {
         'form' : form,
     }
-    return render(request , 'add_guidance_post.html' , context)
+    return render(request , 'admin_panel/religious_work/add_guidance_post.html' , context)
 
 
 
@@ -987,7 +1022,7 @@ def update_guidance_post(request,post_id):
         'form': form,
         'post_image':post.cover.url
     }
-    return render(request, 'update_guidance_post.html', context)
+    return render(request, 'admin_panel/religious_work/update_guidance_post.html', context)
 
 
 
@@ -1009,7 +1044,7 @@ def guidance_categories(request):
     context = {
         'categories':categories,
     }
-    return render(request , 'guidance_categories.html' , context)
+    return render(request , 'admin_panel/religious_work/guidance_categories.html' , context)
 
 
 
@@ -1026,7 +1061,7 @@ def add_guidance_category(request):
     context = {
         'form' : form,
     }
-    return render(request , 'add_guidance_category.html' , context)
+    return render(request , 'admin_panel/religious_work/add_guidance_category.html' , context)
 
 
 
@@ -1049,7 +1084,7 @@ def update_guidance_category(request,category_id):
     context = {
         'form': form,
     }
-    return render(request, 'add_guidance_category.html', context)
+    return render(request, 'admin_panel/religious_work/add_guidance_category.html', context)
 
 
 
@@ -1073,7 +1108,7 @@ def religious_posts(request):
     context = {
         'posts':posts,
     }
-    return render(request , 'religious_posts.html' , context)
+    return render(request , 'admin_panel/religious_work/religious_posts.html' , context)
 
 
 
@@ -1092,7 +1127,7 @@ def add_religious_post(request):
     context = {
         'form' : form,
     }
-    return render(request , 'add_religious_post.html' , context)
+    return render(request , 'admin_panel/religious_work/add_religious_post.html' , context)
 
 
 
@@ -1117,7 +1152,7 @@ def update_religious_post(request,post_id):
         'form': form,
         'post_image':post.cover.url
     }
-    return render(request, 'update_religious_post.html', context)
+    return render(request, 'admin_panel/religious_work/update_religious_post.html', context)
 
 
 
@@ -1140,7 +1175,7 @@ def religious_categories(request):
     context = {
         'categories':categories,
     }
-    return render(request , 'religious_categories.html' , context)
+    return render(request , 'admin_panel/religious_work/religious_categories.html' , context)
 
 
 
@@ -1159,7 +1194,7 @@ def add_religious_category(request):
     context = {
         'form' : form,
     }
-    return render(request , 'add_religious_category.html' , context)
+    return render(request , 'admin_panel/religious_work/add_religious_category.html' , context)
 
 
 
@@ -1179,7 +1214,7 @@ def update_religious_category(request,category_id):
     context = {
         'form': form,
     }
-    return render(request, 'add_religious_category.html', context)
+    return render(request, 'admin_panel/religious_work/add_religious_category.html', context)
 
 
 
@@ -1209,7 +1244,7 @@ def update_religious_post(request,post_id):
         'form': form,
         'post_image':post.cover.url
     }
-    return render(request, 'update_religious_post.html', context)
+    return render(request, 'admin_panel/religious_work/update_religious_post.html', context)
 
 
 
@@ -1231,7 +1266,7 @@ def steps_list(request):
     context = {
         'steps':steps,
     }
-    return render(request , 'steps.html' , context)
+    return render(request , 'admin_panel/steps/steps.html' , context)
 
 
 
@@ -1264,7 +1299,7 @@ def pilgrim_steps(request):
     context = {
         'steps':data,
     }
-    return render(request , 'pilgrim_steps.html' , context)
+    return render(request , 'admin_panel/steps/pilgrim_steps.html' , context)
 
 
 
@@ -1283,7 +1318,7 @@ def add_step(request):
     context = {
         'form' : form,
     }
-    return render(request , 'add_step.html' , context)
+    return render(request , 'admin_panel/steps/add_step.html' , context)
 
 
 
@@ -1303,7 +1338,7 @@ def update_step(request,step_id):
     context = {
         'form': form,
     }
-    return render(request, 'add_step.html', context)
+    return render(request, 'admin_panel/steps/add_step.html', context)
 
 
 
@@ -1329,7 +1364,7 @@ def secondary_steps_list(request):
     context = {
         'steps':steps,
     }
-    return render(request , 'secondary_steps.html' , context)
+    return render(request , 'admin_panel/steps/secondary_steps.html' , context)
 
 
 
@@ -1349,7 +1384,7 @@ def add_secondary_step(request):
     context = {
         'form' : form,
     }
-    return render(request , 'add_secondary_step.html' , context)
+    return render(request , 'admin_panel/steps/add_secondary_step.html' , context)
 
 
 
@@ -1371,7 +1406,7 @@ def update_secondary_step(request,step_id):
     context = {
         'form': form,
     }
-    return render(request, 'add_secondary_step.html', context)
+    return render(request, 'admin_panel/steps/add_secondary_step.html', context)
 
 
 
@@ -1451,11 +1486,11 @@ def add_admin(request):
     context = {
         'form' : form,
     }
-    return render(request , 'add_admin.html' , context)
+    return render(request , 'admin_panel/users/add_admin.html' , context)
 
 
 
 
 
 def terms(request):
-    return render(request , 'terms_and_privacy.html')
+    return render(request , 'admin_panel/about/terms_and_privacy.html')

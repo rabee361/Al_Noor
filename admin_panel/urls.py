@@ -26,6 +26,7 @@ urlpatterns = [
     path('add_pilgrim/' , add_pilgrim , name="add_pilgrim"),
     path('update_pilgrim/<str:pilgrim_id>/' , update_pilgrim, name="update_pilgrim"),
     path('delete-pilgrim/<str:pilgrim_id>/' , delete_pilgrim , name="delete-pilgrim"),
+    path('delete-all-pilgrims/' , delete_all_pilgrims , name="delete_all_pilgrims"),
 
     path('guides_list/' , guides_list , name="guides"),
     path('add_guide/' , add_guide , name="add_guide"),

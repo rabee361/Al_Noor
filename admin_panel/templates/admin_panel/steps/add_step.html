@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static  %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+<div class="main-panel" id="main-panel" style="background-color: rgb(77, 76, 76);">
+    <div class="content" dir="rtl" style="margin-top: 10px;">
+  
+        <div class="bread-crumbs-size" style="display: flex; gap: 0;">
+          <div style="height: 70px; margin-left: 1300px; display: flex; gap: 10px;">
+            <a href="{% url 'main_dashboard' %}" style="text-decoration: none;"><h5 style="color: white;">الرئيسية</h5></a>
+            <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: #D7A401;"></i></h5>
+            <a href="{% url 'steps' %}" style="text-decoration: none;"><h5 style="color: white;">الخطوات الرئيسية</h5></a>
+            <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: #D7A401;"></i></h5>
+            <h5 style="color: white;">إضافة</h5>
+            <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: #D7A401;"></i></h5>
+          </div>
+        </div>
+
+
+
+        <div>
+            <form action="" method="post" style="display: flex; flex-direction: column; gap: 30px; color: white;">
+                {% csrf_token %}
+                <div class="form-group" style="height: auto; padding-bottom: 20px;" dir="rtl">
+                  
+                <div class="form-block">
+                  <div class="form-input" style="display: flex; flex-direction: column;">
+                      <div class="form-label">{{ form.name.label_tag }}</div>
+                      <div>{{ form.name|add_class:"form-control" }}</div>
+                  </div>
+                  <div class="form-input" style="display: flex; flex-direction: column;">
+                      <div class="form-label">{{ form.note.label_tag }}</div>
+                      <div>{{ form.note|add_class:"form-control" }}</div>
+                  </div>
+                </div>
+                  
+                <div class="form-block">
+                    <div class="form-input" style="display: flex; flex-direction: column;">
+                      <div class="form-label">{{ form.rank.label_tag }}</div>
+                      <div>{{ form.rank|add_class:"form-control" }}</div>
+                    </div>
+                    <div class="form-input">
+                      <div class="form-label">{{ form.secondary_steps.label_tag }}</div>
+                      <div>{{ form.secondary_steps|add_class:"form-control-text" }}</div>
+                      <div class="form-label">اضغط ctrl مع تحديد الخطوات</div>
+                    </div>
+                </div>
+                
+                </div>
+
+
+                <div style="display: flex; gap: 10px; justify-content: left;">
+                  <input type="submit" value="حفظ" class="save-button">
+                </div>
+
+              </form>
+        </div>
+  
+    </div>
+  </div>
+
+{% endblock content %}
+
+
+<script>
+  $(document).ready(function() {
+      $('#id_my_datetime_field').datepicker({
+          format: "yyyy-mm-dd",
+          autoclose: true,
+          todayHighlight: true
+      });
+  });
+  </script>
