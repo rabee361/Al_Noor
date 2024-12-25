@@ -19,7 +19,7 @@
         <a href="{% url 'export_pilgrim' %}" style="text-decoration: none;"><h5 class="import-button"><i class=" now-ui-icons arrows-1_cloud-download-93"></i>تصدير ملف</h5></a>
         <a href="{% url 'import_pilgrim' %}" style="text-decoration: none;"><h5 class="import-button"><i class=" now-ui-icons arrows-1_cloud-download-93"></i>استيراد ملف</h5></a>
         <a href="{% url 'add_pilgrim' %}" style="text-decoration: none;"><h5 class="add-button">إضافة</h5></a>
-        <a href="#" data-toggle="modal" data-target="#deleteAllPilgrimsModal" style="text-decoration: none;"><h5 class="add-button">حذف الكل</h5></a>
+        <a href="#" data-toggle="modal" data-target="#deleteAllPilgrimsModal" style="text-decoration: none;"><h5 class="import-button">حذف الكل</h5></a>
       </div>
 
       <div class="row">
@@ -47,6 +47,9 @@
                     </th>
                     <th style="color: white;">
                       اسم الأب
+                    </th>
+                    <th style="color: white;">
+                      اسم الجد
                     </th>
                     <th style="color: white;">
                       العائلة
@@ -95,6 +98,9 @@
                       </td>
                       <td>
                         {{pilgrim.first_name}}
+                      </td>
+                      <td>
+                        {{pilgrim.father_name}}
                       </td>
                       <td>
                         {{pilgrim.grand_father}}
