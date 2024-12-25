@@ -17,7 +17,7 @@ class CustomUser(AbstractUser):
         ('موظف' , 'موظف'),
     )
         
-    image = models.ImageField(upload_to='images/users', default='images/account.jpg', verbose_name='الصورة')
+    image = models.ImageField(upload_to='images/users', default='images/users/account.jpg', verbose_name='الصورة')
     phonenumber = models.CharField(unique=True,
                                    db_index=True,
                                             validators=[RegexValidator(
