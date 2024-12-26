@@ -90,5 +90,6 @@ urlpatterns = [
     path('forms/export', export_forms, name='export_forms'),
 
     path('terms_privacy/' , terms , name="terms"),
+
     
 ]

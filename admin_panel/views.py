@@ -10,6 +10,7 @@ from django.db import transaction
 from base.utils.notifications import send_event_notification , send_task_notification
 from django.db.models import Q
 from django.core.paginator import Paginator
+from django.views import View
 
 
 def login_user(request):
@@ -1494,3 +1495,12 @@ def add_admin(request):
 
 def terms(request):
     return render(request , 'admin_panel/about/terms_and_privacy.html')
+
+
+
+class PilgrimForm(View):
+    def get(self , request):
+        return render(request , 'pilgrim_form/form.html')
+    
+    def post(self , request):
+        return render(request , 'pilgrim_form/form.html')
