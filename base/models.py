@@ -352,6 +352,13 @@ class HajSteps(models.Model):
 
 
 
+class FormSubmission(models.Model):
+    ip_address = models.CharField(max_length=45)
+    submitted_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-submitted_at']
+
 
 
 class HaJStepsPilgrim(models.Model):

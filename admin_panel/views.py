@@ -11,6 +11,10 @@ from base.utils.notifications import send_event_notification , send_task_notific
 from django.db.models import Q
 from django.core.paginator import Paginator
 from django.views import View
+from django.core.cache import cache
+from datetime import datetime, timedelta
+from django.utils import timezone
+from base.models import FormSubmission
 
 
 def login_user(request):
@@ -978,6 +982,9 @@ def delete_notifications(request,notification_id):
 
 
 
+
+
+
 def guidance_posts(request):
     q = request.GET.get('q') or ''
     posts = GuidancePost.objects.filter(title__startswith=q).order_by('rank')
@@ -1499,16 +1506,78 @@ def terms(request):
 
 
 class PilgrimForm(View):
-    def get(self , request):
-        return render(request , 'pilgrim_form/form.html')
+    MAX_SUBMISSIONS = 5
     
-    def post(self , request):
-        form = NewRegisterForm(self.request.POST)
+    def get_client_ip(self, request):
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0]
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+        return ip
+
+    def get_submission_count(self, ip):
+        # Get submissions from last 24 hours
+        time_threshold = timezone.now() - timedelta(hours=24)
+        return FormSubmission.objects.filter(
+            ip_address=ip,
+            submitted_at__gte=time_threshold
+        ).count()
+
+    def add_submission(self, ip):
+        FormSubmission.objects.create(ip_address=ip)
+
+    def get(self, request):
+        form = NewRegisterForm()
+        success = request.session.pop('form_success', False)
+        
+        # Check submission count
+        ip = self.get_client_ip(request)
+        submission_count = self.get_submission_count(ip)
+        
+        if submission_count >= self.MAX_SUBMISSIONS:
+            return render(request, 'pilgrim_form/form.html', {
+                'form': form,
+                'submission_limit_reached': True,
+                'max_submissions': self.MAX_SUBMISSIONS
+            })
+        
+        return render(request, 'pilgrim_form/form.html', {
+            'form': form, 
+            'success': success
+        })
+    
+    def post(self, request):
+        # Check submission limit
+        ip = self.get_client_ip(request)
+        submission_count = self.get_submission_count(ip)
+        
+        if submission_count >= self.MAX_SUBMISSIONS:
+            return render(request, 'pilgrim_form/form.html', {
+                'form': NewRegisterForm(),
+                'submission_limit_reached': True,
+                'max_submissions': self.MAX_SUBMISSIONS
+            })
+        
+        # Check if this is a duplicate submission
+        form_id = request.session.get('last_form_id')
+        current_form_id = request.POST.get('form_id', None)
+        
+        if form_id and form_id == current_form_id:
+            # This is a duplicate submission, redirect to fresh form
+            return redirect('form')
+            
+        form = NewRegisterForm(request.POST)
         if form.is_valid():
             form.save()
+            # Record the submission
+            self.add_submission(ip)
+            # Store the form ID in session
+            request.session['last_form_id'] = current_form_id
+            request.session['form_success'] = True
             return redirect('form')
-
-
+            
+        return render(request, 'pilgrim_form/form.html', {'form': form})
 
 class LandinPageView(View):
     def get(self, request):

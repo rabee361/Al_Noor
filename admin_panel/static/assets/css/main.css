@@ -110,6 +110,46 @@ select {
     background-color: white;
 }
 
+/* Form validation styles */
+.form-group .invalid-field {
+    border: 2px solid #ff0000;
+}
+
+.form-group .invalid-field:focus {
+    box-shadow: 0 0 3px #ff0000;
+}
+
+.form-group .error-message {
+    color: #ff0000;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+/* Success message styles */
+.success-message {
+    color: #28a745;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    font-weight: 500;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* Submission limit styles */
+.submissions-remaining {
+    color: #666;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+}
+
+.error-message {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    font-weight: 500;
+}
+
 /* Tabs Styling */
 .tabs-container {
     margin-top: 20px;
@@ -204,6 +244,17 @@ select {
 
 .submit-btn:hover {
     background-color: #b58901;
+}
+
+/* Disabled button styles */
+.disabled-btn {
+    opacity: 0.6;
+    cursor: not-allowed !important;
+    background-color: #cccccc !important;
+}
+
+.disabled-btn:hover {
+    background-color: #cccccc !important;
 }
 
 /* Responsive Design */

@@ -259,12 +259,81 @@ class NewNote(ModelForm):
         fields = '__all__'
 
 
+class NewRegisterForm(forms.ModelForm):
+    def clean_phonenumber(self):
+        phonenumber = self.cleaned_data.get('phonenumber')
+        if Registration.objects.filter(phonenumber=phonenumber).exists():
+            raise forms.ValidationError('رقم الهاتف مسجل مسبقاً')
+        return phonenumber
 
-class NewRegisterForm(ModelForm):
     class Meta:
         model = Registration
         fields = '__all__'
-
+        error_messages = {
+            'first_name': {
+                'required': 'يرجى إدخال الاسم الأول'
+            },
+            'father_name': {
+                'required': 'يرجى إدخال اسم الأب'
+            },
+            'grand_father': {
+                'required': 'يرجى إدخال اسم الجد'
+            },
+            'last_name': {
+                'required': 'يرجى إدخال اسم العائلة'
+            },
+            'id_number': {
+                'required': 'يرجى إدخال رقم الهوية',
+                'invalid': 'رقم الهوية يجب أن يكون أرقاماً فقط'
+            },
+            'phonenumber': {
+                'required': 'يرجى إدخال رقم الهاتف',
+                'invalid': 'رقم الهاتف غير صالح'
+            },
+            'job_position': {
+                'required': 'يرجى اختيار المسمى الوظيفي'
+            },
+            'birthday': {
+                'required': 'يرجى إدخال تاريخ الميلاد',
+                'invalid': 'صيغة التاريخ غير صحيحة'
+            },
+            'marital_status': {
+                'required': 'يرجى اختيار الحالة الاجتماعية'
+            },
+            'address': {
+                'required': 'يرجى اختيار العنوان'
+            },
+            'gender': {
+                'required': 'يرجى اختيار الجنس'
+            },
+            'options_trip': {
+                'required': 'يرجى اختيار خيارات الرحلة'
+            },
+            'means_journey': {
+                'required': 'يرجى اختيار وسيلة السفر'
+            },
+            'tawaf': {
+                'required': 'يرجى تحديد ما إذا كنت بحاجة لمساعدة في الطواف'
+            },
+            'sai': {
+                'required': 'يرجى تحديد ما إذا كنت بحاجة لمساعدة في السعي'
+            },
+            'alhajj': {
+                'required': 'يرجى اختيار نوع الحج'
+            },
+            'tradition_reference': {
+                'required': 'يرجى اختيار مرجع التقليد'
+            },
+            'blood_type': {
+                'required': 'يرجى اختيار فصيلة الدم'
+            },
+            'illness': {
+                'required': 'يرجى تحديد ما إذا كنت تعاني من أمراض مزمنة'
+            },
+            'wheelchair': {
+                'required': 'يرجى تحديد ما إذا كنت بحاجة لكرسي متحرك'
+            }
+        }
 
 
 class NotificationForm(ModelForm):
@@ -285,19 +354,16 @@ class GuidanceCategoryForm(ModelForm):
         fields = '__all__'
 
 
-
 class ReligiousPostForm(ModelForm):
     class Meta:
         model = ReligiousPost
         fields = '__all__'
 
 
-
 class ReligiousCategoryForm(ModelForm):
     class Meta:
         model = ReligiousCategory
         fields = '__all__'
-
 
 
 class StepForm(ModelForm):
