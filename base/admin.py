@@ -70,7 +70,7 @@ class AudioAttachmentAdmin(ImportExportModelAdmin):
 ### needs modification
 class PilgrimAdmin(ImportExportModelAdmin):
     resource_class = PilgrimResource
-    list_display = ['id','first_name','father_name','last_name','guide','phonenumber','flight_num','flight_company','arrival','departure','hotel','hotel_address','room_num']
+    list_display = ['id','first_name','father_name','last_name','guide','phonenumber','flight_num','flight_company','arrival','departure','hotel','hotel_address','room_num','longitude','latitude']
 
 
 class EmployeeAdmin(admin.ModelAdmin):

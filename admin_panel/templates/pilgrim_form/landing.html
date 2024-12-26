@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="techida | IT Solutions & Business Services HTML landing page template ">
+
+
+  <title>Alnoor-Hajj</title>
+  <!-- fav icon -->
+  <link rel="icon" type="image/png" href="{% static '/assets/img/kaaba.png' %}">
+
+  <!-- bootstarp css file -->
+  <link rel="stylesheet" href="{% static '/assets/css/bootstrap.min.css' %}">
+
+  <!-- bootstrap icons -->
+  <link rel="stylesheet" href="{% static '/assets/css/bootstrap-icons/bootstrap-icons.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+  <!-- Google font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&amp;display=swap">
+
+  <link rel="stylesheet" href="{% static '/assets/css/style.css' %}">
+</head>
+
+<body class="home-rtl">
+
+  <!-- ======= start Header ======= -->
+  <header class="header">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+      <div class="container">
+        <a class="navbar-brand " href="#">حملة النور</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="bi bi-list" id="menu"></i>
+        </button>
+        <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+          <ul class="navbar-nav d-flex flex-row-reverse ms-auto" id="navbar">
+          </ul>
+          <div class="d-flex ms-auto">
+            <a class="btn" href="">انضم الان</a>
+            <button id="mode-toggle" class="btn-light-mode switch-button"><i id="mode-icon"
+                class="bi bi-moon-fill"></i></button>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <!-- ======= end Header ======= -->
+
+  <!-- ============== Start Hero section ========== -->
+  <section class="hero  d-flex align-items-center justify-content-center" id="hero">
+    <div id="particles-js"></div>
+    <div class="container">
+      <div class="row flex-row-reverse align-items-center">
+        <div class="col-12 col-lg-5">
+          <div class="hero-text text-end">
+            <div class="row">
+              <div class="col-12 ">
+                <h1 class="title col-12 text-end" data-aos="fade-up" data-aos-delay="150">ابنِ النجاح بأحدث<span
+                    class="unique-text"> الحلول </span>التكنولوجية
+                  نحن هنا لدعم أعمالك </h1>
+              </div>
+              <div class="col-12 text-end">
+                <p class="text-end" data-aos="fade-up" data-aos-delay="200">نقدم خدمات متنوعة تشمل تطوير تطبيقات الويب
+                  والهاتف الذكي، تصميم وتحسين مواقع
+                  الويب، حلول الحماية والأمان، تطوير البرمجيات والتخصيص، والاستشارات التكنولوجية. نعمل على مساعدتك في
+                  تحقيق أهدافك العملية من خلال استخدام التكنولوجيا الحديثة بأفضل الطرق الممكنة.</p>
+              </div>
+              <div class="col-12 text-end" data-aos-delay="250">
+                <a href="{% url 'form' %}" class="btn">انضم الان</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-7 mx-md-auto text-center" data-aos="fade-right" data-aos-delay="100">
+          <div class="hero-image">
+            <div class="hero-img">
+              <img class="img-fluid " alt="hero-img"
+                src="{% static '/assets/img/hero/bodigmas_IT_solutions_company_illustrationvectorflat_designmini_942ad818-e3f4-47af-a5e8-78e030aff9c9-removebg.png' %}">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ============== End Hero section ========== -->

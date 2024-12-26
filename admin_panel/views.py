@@ -1503,4 +1503,13 @@ class PilgrimForm(View):
         return render(request , 'pilgrim_form/form.html')
     
     def post(self , request):
-        return render(request , 'pilgrim_form/form.html')
+        form = NewRegisterForm(self.request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('form')
+
+
+
+class LandinPageView(View):
+    def get(self, request):
+        return render(request , 'pilgrim_form/landing.html')
