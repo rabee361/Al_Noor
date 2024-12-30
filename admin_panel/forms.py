@@ -195,11 +195,11 @@ class CustomUserCreationForm(ModelForm):
 
 
 
-class PilgrimForm(forms.ModelForm):
+class UpdatePilgrimForm(forms.ModelForm):
     class Meta:
         model = Pilgrim
         fields = '__all__'
-        exclude = ['user','haj_steps']
+        exclude = ['user','haj_steps','longitude','latitude']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

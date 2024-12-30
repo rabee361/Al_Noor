@@ -254,6 +254,28 @@
               </div>
             </div>
           </div>
+
+
+          <div class="pagination-wrapper">
+            <div class="pagination">
+              {% if forms.has_previous %}
+                <a href="?page={{ forms.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="page-link">&laquo;</a>
+              {% endif %}
+
+              {% for num in forms.paginator.page_range %}
+                {% if num == forms.number %}
+                  <a class="page-link active">{{ num }}</a>
+                {% elif num > forms.number|add:'-3' and num < forms.number|add:'3' %}
+                  <a href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="page-link">{{ num }}</a>
+                {% endif %}
+              {% endfor %}
+
+              {% if forms.has_next %}
+                <a href="?page={{ forms.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="page-link">&raquo;</a>
+              {% endif %}
+            </div>
+          </div>
+
         </div>
       </div>
     </div>

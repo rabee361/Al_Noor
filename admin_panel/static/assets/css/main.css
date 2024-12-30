@@ -110,25 +110,27 @@ select {
     background-color: white;
 }
 
-/* Form validation styles */
-.form-group .invalid-field {
-    border: 2px solid #ff0000;
+/* Form field styles */
+.invalid-field {
+    border-color: var(--error-color) !important;
+    background-color: #fff8f8;
 }
 
-.form-group .invalid-field:focus {
-    box-shadow: 0 0 3px #ff0000;
+.invalid-field:focus {
+    border: 2px solid var(--error-color) !important;
+    box-shadow: 0 0 0 1px rgba(217, 48, 37, 0.2);
 }
 
-.form-group .error-message {
-    color: #ff0000;
+.error-message {
+    color: var(--error-color);
     font-size: 0.875rem;
-    margin-top: 0.25rem;
+    margin-top: 4px;
     display: block;
 }
 
 /* Success message styles */
 .success-message {
-    color: #28a745;
+    color: var(--success-color);
     font-size: 0.875rem;
     margin-top: 0.5rem;
     font-weight: 500;
@@ -136,18 +138,17 @@ select {
     transition: opacity 0.5s ease-in-out;
 }
 
+.info-message {
+    color: #1a73e8;
+    margin-top: 8px;
+    font-weight: 500;
+}
+
 /* Submission limit styles */
 .submissions-remaining {
     color: #666;
     font-size: 0.875rem;
     margin-top: 0.5rem;
-}
-
-.error-message {
-    color: #dc3545;
-    font-size: 0.875rem;
-    margin-top: 0.5rem;
-    font-weight: 500;
 }
 
 /* Tabs Styling */
@@ -185,6 +186,17 @@ select {
     font-weight: 500;
 }
 
+.tab-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #f0f0f0;
+}
+
+.tab-btn.disabled:hover {
+    background-color: #f0f0f0;
+    color: #666;
+}
+
 .tab-content {
     display: none;
 }
@@ -211,18 +223,9 @@ select {
     font-family: 'Cairo', sans-serif;
 }
 
-.next-btn {
-    background-color: var(--primary-color);
-    color: white;
-}
-
 .prev-btn {
     background-color: white;
     color: var(--primary-color);
-}
-
-.next-btn:hover {
-    background-color: #b58901;
 }
 
 .prev-btn:hover {
@@ -244,6 +247,30 @@ select {
 
 .submit-btn:hover {
     background-color: #b58901;
+}
+
+/* Navigation buttons */
+.form-navigation {
+    padding: 24px;
+    display: flex;
+    justify-content: flex-start;
+    direction: ltr;
+}
+
+.next-btn, .submit-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 4px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.next-btn:hover, .submit-btn:hover {
+    background-color: #b88e01;
 }
 
 /* Disabled button styles */

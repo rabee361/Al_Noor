@@ -2,7 +2,6 @@ from django.shortcuts import render , HttpResponse , redirect
 from base.models import *
 from base.resources import PilgrimResource , RegistrationResource , UserPasswordResource
 from .forms import *
-from .forms import PilgrimForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate , login , logout
 import pandas as pd
@@ -94,8 +93,12 @@ def registration_forms(request):
     q = request.GET.get('q') or ''
     forms = Registration.objects.filter(first_name__startswith = q).order_by('-id')
 
+    paginator = Paginator(forms, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'forms':forms,
+        'forms':page_obj,
  }
     return render(request , 'admin_panel/registration/registration_forms.html' , context)
 
@@ -177,11 +180,11 @@ def pilgrims_list(request):
 def update_pilgrim(request,pilgrim_id):
         pilgrim = Pilgrim.objects.get(id=pilgrim_id)
         user = CustomUser.objects.get(id=pilgrim.user.id)
-        form = PilgrimForm(instance=pilgrim)
+        form = UpdatePilgrimForm(instance=pilgrim)
 
         if request.method == 'POST':
-            pilgrim_form = PilgrimForm(request.POST,request.FILES,instance=pilgrim)
-
+            pilgrim_form = UpdatePilgrimForm(request.POST,request.FILES,instance=pilgrim)
+            print(pilgrim_form.errors)
             if pilgrim_form.is_valid():
                 pilgrim = pilgrim_form.save(commit=False)
                 user.get_notifications = pilgrim_form.cleaned_data['get_notifications']
@@ -1505,8 +1508,8 @@ def terms(request):
 
 
 
-class PilgrimForm(View):
-    MAX_SUBMISSIONS = 5
+class PilgrimFormView(View):
+    MAX_SUBMISSIONS = 3
     
     def get_client_ip(self, request):
         x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -1548,17 +1551,6 @@ class PilgrimForm(View):
         })
     
     def post(self, request):
-        # Check submission limit
-        ip = self.get_client_ip(request)
-        submission_count = self.get_submission_count(ip)
-        
-        if submission_count >= self.MAX_SUBMISSIONS:
-            return render(request, 'pilgrim_form/form.html', {
-                'form': NewRegisterForm(),
-                'submission_limit_reached': True,
-                'max_submissions': self.MAX_SUBMISSIONS
-            })
-        
         # Check if this is a duplicate submission
         form_id = request.session.get('last_form_id')
         current_form_id = request.POST.get('form_id', None)
@@ -1566,6 +1558,18 @@ class PilgrimForm(View):
         if form_id and form_id == current_form_id:
             # This is a duplicate submission, redirect to fresh form
             return redirect('form')
+
+        # Check submission limit
+        ip = self.get_client_ip(request)
+        submission_count = self.get_submission_count(ip)
+        
+        # Block if limit is reached
+        if submission_count >= self.MAX_SUBMISSIONS:
+            return render(request, 'pilgrim_form/form.html', {
+                'form': NewRegisterForm(),
+                'submission_limit_reached': True,
+                'max_submissions': self.MAX_SUBMISSIONS
+            })
             
         form = NewRegisterForm(request.POST)
         if form.is_valid():
@@ -1575,10 +1579,40 @@ class PilgrimForm(View):
             # Store the form ID in session
             request.session['last_form_id'] = current_form_id
             request.session['form_success'] = True
-            return redirect('form')
             
-        return render(request, 'pilgrim_form/form.html', {'form': form})
+            # Check if this was the final submission
+            new_submission_count = self.get_submission_count(ip)
+            if new_submission_count >= self.MAX_SUBMISSIONS:
+                return render(request, 'pilgrim_form/form.html', {
+                    'form': NewRegisterForm(),
+                    'success': True,
+                    'submission_limit_reached': True,
+                    'max_submissions': self.MAX_SUBMISSIONS
+                })
+            
+            return redirect('form')
+        else:
+            # If form is invalid, preserve the data and show errors
+            return render(request, 'pilgrim_form/form.html', {
+                'form': form,  # This will contain the submitted data and errors
+                'form_data': request.POST,  # Pass the POST data to preserve values
+                'active_tab': request.POST.get('active_tab', '1')  # Preserve active tab
+            })
+
+
+
+
 
 class LandinPageView(View):
     def get(self, request):
         return render(request , 'pilgrim_form/landing.html')
+
+
+
+
+
+
+# 404 page
+
+def Custom404View(self,request,exception):
+    return render(request,'404.html')

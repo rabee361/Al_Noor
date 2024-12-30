@@ -91,5 +91,4 @@ urlpatterns = [
 
     path('terms_privacy/' , terms , name="terms"),
 
-    
 ]

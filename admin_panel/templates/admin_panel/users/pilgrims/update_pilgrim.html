@@ -34,19 +34,22 @@
     
                   <div style="background-color: rgb(57, 58, 58); width: 100%; display: flex;gap: 10px;justify-content: space-evenly;border-radius: 30px; display: flex; justify-content: space-evenly;" >
                     <div class="form-block">
+
                       <div class="form-input">
                         <div class="form-label">{{ form.first_name.label_tag }}</div>
                         <div>{{ form.first_name|add_class:"form-control" }}</div>
-                         
                       </div>    
+
                       <div class="form-input">
                         <div class="form-label">{{ form.father_name.label_tag }}</div>
                         <div>{{ form.father_name|add_class:"form-control" }}</div> 
                       </div>
+
                       <div class="form-input">
                         <div class="form-label">{{ form.grand_father.label_tag }}</div>
                         <div>{{ form.grand_father|add_class:"form-control" }}</div> 
                       </div>    
+
                       <div class="form-input" style="text-align: right;">
                         <div class="form-label">الصورة الشخصية:</div>
                         <div class="current-image-wrapper">
@@ -54,10 +57,12 @@
                             <div class="form-input"><input type="file" name="pilgrim_image" id="pilgrim_image" class="my-img"></div>
                         </div>
                       </div>
+
                       <div class="form-input" style="display: flex; align-items: center; justify-content: right; gap: 40px;">
                         <div class="form-label">{{ form.get_notifications.label_tag }}</div>
                         <div class="form-input" style="padding-top: 27px;">{{ form.get_notifications|add_class:"form-control-check" }}</div> 
                       </div>
+
                     </div>
     
                     <div class="form-block">
@@ -82,6 +87,7 @@
                           <div><input type="date" class="date-field" name="birthday" value="{{form.birthday.value|date:'Y-m-d'}}"></div>
                         </div>
                       </div>
+
                   </div>
                 </div>
 
@@ -155,6 +161,7 @@
                         </div>
                       </div>
                     </div>
+                    
                   </div>
                 </div>
                 
@@ -165,24 +172,34 @@
                   <h4 style="text-align: center">معلومات الاقامة </h4>
                   
                   <div  style="display: flex; justify-content: space-evenly;">
+
                     <div class="form-block">
+
                       <div class="form-input">
                         <div class="form-label">{{ form.hotel.label_tag }}</div>
-                        <div>{{ form.hotel|add_class:"form-control" }}</div> 
-                      </div>    
+                        <div>{{ form.hotel | add_class:"form-control" }}</div> 
+                      </div>   
+
                       <div class="form-input">
                         <div class="form-label">{{ form.hotel_address.label_tag }}</div>
-                        <div>{{ form.hotel_address|add_class:"form-control" }}</div>
-                      </div>    
+                        <div>{{ form.hotel_address | add_class:"form-control" }}</div>
+                      </div>   
+
                     </div>
+
                     
                     <div class="form-block">
+
                       <div class="form-input">
                         <div class="form-label">{{ form.room_num.label_tag }}</div>
                         <div>{{ form.room_num|add_class:"form-control" }}</div>
                       </div>
+
                     </div>
+                    
                   </div>
+
+
                 </div>
                 
             
@@ -209,32 +226,67 @@
                     </div>  
                   </div>
 
-                  </div>
                 </div>
-                
 
- 
-                
+
+
+              <!-- Add Map Container -->
+              <div class="map-container" style="padding: 0 20px;">
+                <div id="map"></div>
+              </div>
                 
                 <div style="display: flex; gap: 10px; justify-content: left;">
                   <input type="submit" value="حفظ" class="save-button">
                 </div>
+
                 
               </form>
-            </div>
-            
+          </div>
+
     </div>
-  </div>
+</div>
 
 {% endblock content %}
 
+{% block extra_head %}
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+<style>
+    #map {
+        height: 400px;
+        width: 100%;
+        margin: 20px 0;
+        border-radius: 10px;
+    }
+</style>
+{% endblock %}
 
+{% block extra_scripts %}
 <script>
-  $(document).ready(function() {
-      $('#id_my_datetime_field').datepicker({
-          format: "yyyy-mm-dd",
-          autoclose: true,
-          todayHighlight: true
-      });
-  });
-  </script>
+    function initMap() {
+        // Default coordinates (Mecca)
+        const defaultLocation = { lat: 21.4225, lng: 39.8262 };
+        
+        // Create map
+        const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 13,
+            center: defaultLocation,
+        });
+
+        // Create marker
+        let marker = new google.maps.Marker({
+            position: defaultLocation,
+            map: map,
+            draggable: true
+        });
+
+        // Update marker position when dragged
+        google.maps.event.addListener(marker, 'dragend', function(event) {
+            document.getElementById("id_latitude").value = event.latLng.lat();
+            document.getElementById("id_longitude").value = event.latLng.lng();
+        });
+    }
+
+    // Initialize map when page loads
+    window.addEventListener('load', initMap);
+</script>
+{% endblock %}
