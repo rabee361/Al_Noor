@@ -160,7 +160,6 @@ select {
     display: flex;
     gap: 2px;
     background: #f8f9fa;
-    padding: 0 24px;
     border-bottom: 1px solid var(--border-color);
 }
 
@@ -168,6 +167,7 @@ select {
     padding: 16px 24px;
     background: none;
     border: none;
+    text-wrap: nowrap;
     border-bottom: 2px solid transparent;
     color: #666;
     font-family: 'Cairo', sans-serif;
@@ -340,4 +340,58 @@ select {
     .next-btn, .prev-btn, .submit-btn {
         width: 100%;
     }
+}
+
+/* Add these styles for the welcome tab */
+.welcome-text {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.welcome-text h2 {
+    color: var(--primary-color);
+    font-size: 28px;
+    margin-bottom: 24px;
+}
+
+.welcome-text p {
+    margin-bottom: 16px;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.welcome-text ul {
+    text-align: right;
+    list-style: none;
+    margin: 20px auto;
+    padding: 0 20px;
+    max-width: 500px;
+}
+
+.welcome-text ul li {
+    position: relative;
+    padding-right: 20px;
+    margin-bottom: 12px;
+    font-size: 15px;
+}
+
+.welcome-text ul li:before {
+    content: "•";
+    color: var(--primary-color);
+    position: absolute;
+    right: 0;
+    font-size: 20px;
+    line-height: 1;
+}
+
+/* Center the start button in welcome tab */
+.welcome-text + .form-navigation {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.welcome-text + .form-navigation .next-btn {
+    padding: 12px 48px;
+    font-size: 18px;
 }

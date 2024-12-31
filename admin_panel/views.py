@@ -1509,7 +1509,7 @@ def terms(request):
 
 
 class PilgrimFormView(View):
-    MAX_SUBMISSIONS = 3
+    MAX_SUBMISSIONS = 10
     
     def get_client_ip(self, request):
         x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')

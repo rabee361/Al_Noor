@@ -19,7 +19,7 @@
                 <div class="header-content">
                     <img src="{% static 'assets/img/alnoor.jpg' %}" alt="Al Noor Logo" class="header-logo">
                     <div class="header-text">
-                        <h1>استمارة معلومات الحاج</h1>
+                        <h1>التسجيل في حملة النور لحج عام 1445هج</h1>
                         <p class="form-description">يرجى ملء هذه الاستمارة بالمعلومات المطلوبة</p>
                         {% if success %}
                             <p class="success-message" id="success-message">تم إرسال النموذج بنجاح!</p>
@@ -35,12 +35,33 @@
 
             <div class="tabs-container">
                 <div class="tabs-header">
-                    <button type="button" class="tab-btn {% if not active_tab or active_tab == '1' %}active{% endif %}" data-tab="1">المعلومات الشخصية</button>
-                    <button type="button" class="tab-btn {% if active_tab == '2' %}active{% endif %}" data-tab="2">معلومات الحج </button>
-                    <button type="button" class="tab-btn {% if active_tab == '3' %}active{% endif %}" data-tab="3">معلومات إضافية</button>
+                    <button type="button" class="tab-btn {% if not active_tab or active_tab == '1' %}active{% endif %}" data-tab="1">مرحباً بكم</button>
+                    <button type="button" class="tab-btn {% if active_tab == '2' %}active{% endif %}" data-tab="2">المعلومات الشخصية</button>
+                    <button type="button" class="tab-btn {% if active_tab == '3' %}active{% endif %}" data-tab="3">معلومات الحج</button>
+                    <button type="button" class="tab-btn {% if active_tab == '4' %}active{% endif %}" data-tab="4">معلومات إضافية</button>
                 </div>
 
                 <div class="tab-content {% if not active_tab or active_tab == '1' %}active{% endif %}" data-tab="1">
+                    <div class="form-section">
+                        <div class="welcome-text">
+                            <h2>بسم الله الرحمن الرحيم</h2>
+                            <p>النور , نور على نور</p>
+                            <p>نرحب بكم في حملة النور للحج و العمرة بالقديح</p>
+                            <p>ملاحظات هامة:</p>
+                            <ul>
+                                <li>يلتزم الحاج بتسجيل بياناته الصحيحة و بدقة.</li>
+                                <li>يجب تسجيل الجوال بشكل صحيح وعند تغييره يجب إخبار مسؤول المكتب على الجوال 0508090777</li>
+                                <li>يجب كتابة جميع الأرقام بالانجليزية (1234) و ليس بالعربية</li>
+                                <li>دفع مقدم 2000 ريال مسترجع في حال الانسحاب بشرط يكون قبل إصدار تصريح الحج</li>
+                            </ul>
+                        </div>
+                        <div class="form-navigation">
+                            <button type="button" class="next-btn" data-next="2">ابدأ التسجيل</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" data-tab="2">
                     <div class="form-section">
                         <div class="form-group">
                             <label for="first_name">الاسم الأول *</label>
@@ -93,7 +114,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="phonenumber">رقم الهاتف *</label>
+                            <label for="phonenumber">رقم الجوال *</label>
                             <input type="text" id="phonenumber" name="phonenumber" required 
                                 value="{{ form_data.phonenumber }}"
                                 {% if form.errors.phonenumber %}class="invalid-field"{% endif %}>
@@ -102,7 +123,7 @@
                             {% endif %}
                         </div>
                         <div class="form-group">
-                            <label for="job_position">المسمى الوظيفي *</label>
+                            <label for="job_position"> الوظيفة *</label>
                             <select id="job_position" name="job_position" required 
                                 value="{{ form_data.job_position }}"
                                 {% if form.errors.job_position %}class="invalid-field"{% endif %}>
@@ -127,7 +148,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="birthday">تاريخ الميلاد *</label>
+                            <label for="birthday">تاريخ الميلاد (الميلادي فقط) *</label>
                             <input type="date" id="birthday" name="birthday" required 
                                 value="{{ form_data.birthday }}"
                                 {% if form.errors.birthday %}class="invalid-field"{% endif %}>
@@ -137,7 +158,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="marital_status">الحالة الزوجية *</label>
+                            <label for="marital_status">الحالة الاجتماعية *</label>
                             <select id="marital_status" name="marital_status" required 
                                 value="{{ form_data.marital_status }}"
                                 {% if form.errors.marital_status %}class="invalid-field"{% endif %}>
@@ -152,7 +173,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="address">العنوان  *</label>
+                            <label for="address">مكان السكن  *</label>
                             <select id="address" name="address" required 
                                 value="{{ form_data.address }}"
                                 {% if form.errors.address %}class="invalid-field"{% endif %}>
@@ -188,12 +209,12 @@
                         </div>
 
                         <div class="form-navigation">
-                            <button type="button" class="next-btn" data-next="2">التالي</button>
+                            <button type="button" class="next-btn" data-next="3">التالي</button>
                         </div>
                     </div>
                 </div>
 
-                <div class="tab-content" data-tab="2">
+                <div class="tab-content" data-tab="3">
                     <div class="form-section">
 
                         <div class="form-group">
@@ -255,7 +276,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="alhajj">نوع الحج *</label>
+                            <label for="alhajj">نوع الحجة </label>
                             <select id="alhajj" name="alhajj" required 
                                 value="{{ form_data.alhajj }}"
                                 {% if form.errors.alhajj %}class="invalid-field"{% endif %}>
@@ -271,7 +292,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="last_year"> اخر سنة حج *</label>
+                            <label for="last_year"> اخر سنة حججت فيها </label>
                             <input type="number" id="last_year" name="last_year" 
                                 value="{{ form_data.last_year }}"
                                 {% if form.errors.last_year %}class="invalid-field"{% endif %}>
@@ -281,7 +302,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="count_hajjas"> عدد الحجات *</label>
+                            <label for="count_hajjas"> عدد الحجات </label>
                             <input type="number" id="count_hajjas" name="count_hajjas" 
                                 value="{{ form_data.count_hajjas }}"
                                 {% if form.errors.count_hajjas %}class="invalid-field"{% endif %}>
@@ -314,17 +335,17 @@
                         </div>
 
                         <div class="form-footer">
-                            <button type="button" class="prev-btn" data-prev="1">السابق</button>
-                            <button type="button" class="next-btn" data-next="3">التالي</button>
+                            <button type="button" class="prev-btn" data-prev="2">السابق</button>
+                            <button type="button" class="next-btn" data-next="4">التالي</button>
                         </div>
                     </div>
                 </div>
 
-                <div class="tab-content" data-tab="3">
+                <div class="tab-content" data-tab="4">
                     <div class="form-section">
                         
                         <div class="form-group">
-                            <label for="blood_type">فصيلة الدم  *</label>
+                            <label for="blood_type">فصيلة الدم  </label>
                             <select id="blood_type" name="blood_type" required 
                                 value="{{ form_data.blood_type }}"
                                 {% if form.errors.blood_type %}class="invalid-field"{% endif %}>
@@ -344,7 +365,7 @@
                         </div>
                         
                         <div class="form-group">
-                            <label for="illness">تعاني من أي أمراض مزمنة ؟ *</label>
+                            <label for="illness">  لديك أمراض مزمنة ؟ </label>
                             <select id="illness" name="illness" required 
                                 value="{{ form_data.illness }}"
                                 {% if form.errors.illness %}class="invalid-field"{% endif %}>
@@ -358,7 +379,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="wheelchair">بحاجة كرسي متحرك ؟ *</label>
+                            <label for="wheelchair">بحاجة كرسي متحرك ؟ </label>
                             <select id="wheelchair" name="wheelchair" required 
                                 value="{{ form_data.wheelchair }}"
                                 {% if form.errors.wheelchair %}class="invalid-field"{% endif %}>
@@ -372,7 +393,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="tawaf">  هل تحتاج مساعدة في الطواف ؟*</label>
+                            <label for="tawaf">  هل تحتاج مساعدة في الطواف ؟</label>
                             <select id="tawaf" name="tawaf" required 
                                 value="{{ form_data.tawaf }}"
                                 {% if form.errors.tawaf %}class="invalid-field"{% endif %}>
@@ -386,7 +407,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="sai">   هل تحتاج مساعدة في السعي ؟ *</label>
+                            <label for="sai">   هل تحتاج مساعدة في السعي ؟ </label>
                             <select id="sai" name="sai" required 
                                 value="{{ form_data.sai }}"
                                 {% if form.errors.sai %}class="invalid-field"{% endif %}>
@@ -400,7 +421,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="type_help">نوع المساعدة *</label>
+                            <label for="type_help">يمكنك كتابة المساعدة المطلوبة </label>
                             <input type="text" id="type_help" name="type_help" 
                                 value="{{ form_data.type_help }}"
                                 {% if form.errors.type_help %}class="invalid-field"{% endif %}>
@@ -410,7 +431,7 @@
                         </div>
 
                         <div class="form-footer">
-                            <button type="button" class="prev-btn" data-prev="2">السابق</button>
+                            <button type="button" class="prev-btn" data-prev="3">السابق</button>
                             <button type="submit" class="submit-btn">إرسال</button>
                         </div>
                     </div>
