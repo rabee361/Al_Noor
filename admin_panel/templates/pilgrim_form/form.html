@@ -372,6 +372,34 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="tawaf">  هل تحتاج مساعدة في الطواف ؟*</label>
+                            <select id="tawaf" name="tawaf" required 
+                                value="{{ form_data.tawaf }}"
+                                {% if form.errors.tawaf %}class="invalid-field"{% endif %}>
+                                <option value="">اختر</option>
+                                <option value="False">لا</option>
+                                <option value="True">نعم</option>
+                            </select>
+                            {% if form.errors.tawaf %}
+                                <span class="error-message">{{ form.errors.tawaf.0 }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sai">   هل تحتاج مساعدة في السعي ؟ *</label>
+                            <select id="sai" name="sai" required 
+                                value="{{ form_data.sai }}"
+                                {% if form.errors.sai %}class="invalid-field"{% endif %}>
+                                <option value="">اختر</option>
+                                <option value="False">لا</option>
+                                <option value="True">نعم</option>
+                            </select>
+                            {% if form.errors.sai %}
+                                <span class="error-message">{{ form.errors.sai.0 }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
                             <label for="type_help">نوع المساعدة *</label>
                             <input type="text" id="type_help" name="type_help" 
                                 value="{{ form_data.type_help }}"
