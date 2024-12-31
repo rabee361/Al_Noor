@@ -1,0 +1,397 @@
+/* Google Forms-like styles with RTL support */
+:root {
+    --primary-color: #D7A401;
+    --border-color: #dadce0;
+    --text-color: #202124;
+    --error-color: #d93025;
+    --success-color: #34a853;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    background-color: #f0ebf8;
+    color: var(--text-color);
+    line-height: 1.6;
+    direction: rtl;
+}
+
+.form-container {
+    max-width: 640px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.google-form {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-header {
+    padding: 24px;
+    border-bottom: 10px solid var(--primary-color);
+    border-radius: 8px 8px 0 0;
+}
+
+.header-content {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.header-text {
+    text-align: right;
+    flex: 1;
+}
+
+.header-logo {
+    width: 120px;
+    height: auto;
+    object-fit: contain;
+}
+
+.form-header h1 {
+    color: var(--text-color);
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.form-description {
+    color: #666;
+    font-size: 16px;
+}
+
+.form-section {
+    padding: 24px;
+}
+
+.form-group {
+    margin-bottom: 24px;
+    text-align: right;
+}
+
+label {
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    outline: none;
+    transition: border 0.2s;
+    font-family: 'Cairo', sans-serif;
+}
+
+input:focus, select:focus, textarea:focus {
+    border: 2px solid var(--primary-color);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+select {
+    background-color: white;
+}
+
+/* Form field styles */
+.invalid-field {
+    border-color: var(--error-color) !important;
+    background-color: #fff8f8;
+}
+
+.invalid-field:focus {
+    border: 2px solid var(--error-color) !important;
+    box-shadow: 0 0 0 1px rgba(217, 48, 37, 0.2);
+}
+
+.error-message {
+    color: var(--error-color);
+    font-size: 0.875rem;
+    margin-top: 4px;
+    display: block;
+}
+
+/* Success message styles */
+.success-message {
+    color: var(--success-color);
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    font-weight: 500;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.info-message {
+    color: #1a73e8;
+    margin-top: 8px;
+    font-weight: 500;
+}
+
+/* Submission limit styles */
+.submissions-remaining {
+    color: #666;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+}
+
+/* Tabs Styling */
+.tabs-container {
+    margin-top: 20px;
+}
+
+.tabs-header {
+    display: flex;
+    gap: 2px;
+    background: #f8f9fa;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.tab-btn {
+    padding: 16px 24px;
+    background: none;
+    border: none;
+    text-wrap: nowrap;
+    border-bottom: 2px solid transparent;
+    color: #666;
+    font-family: 'Cairo', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tab-btn:hover {
+    color: var(--primary-color);
+}
+
+.tab-btn.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+    font-weight: 500;
+}
+
+.tab-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #f0f0f0;
+}
+
+.tab-btn.disabled:hover {
+    background-color: #f0f0f0;
+    color: #666;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.form-footer {
+    padding: 24px;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.next-btn, .prev-btn {
+    padding: 10px 24px;
+    border: 1px solid var(--primary-color);
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Cairo', sans-serif;
+}
+
+.prev-btn {
+    background-color: white;
+    color: var(--primary-color);
+}
+
+.prev-btn:hover {
+    background-color: #fff5d6;
+}
+
+.submit-btn {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-family: 'Cairo', sans-serif;
+}
+
+.submit-btn:hover {
+    background-color: #b58901;
+}
+
+/* Navigation buttons */
+.form-navigation {
+    padding: 24px;
+    display: flex;
+    justify-content: flex-start;
+    direction: ltr;
+}
+
+.next-btn, .submit-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 4px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.next-btn:hover, .submit-btn:hover {
+    background-color: #b88e01;
+}
+
+/* Disabled button styles */
+.disabled-btn {
+    opacity: 0.6;
+    cursor: not-allowed !important;
+    background-color: #cccccc !important;
+}
+
+.disabled-btn:hover {
+    background-color: #cccccc !important;
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+    .form-container {
+        margin: 0;
+    }
+    
+    .google-form {
+        border-radius: 0;
+    }
+    
+    .form-header {
+        padding: 16px;
+    }
+    
+    .form-header h1 {
+        font-size: 24px;
+    }
+    
+    .form-section {
+        padding: 16px;
+    }
+    
+    .header-logo {
+        width: 100px;
+    }
+}
+
+/* Responsive Design for Tabs */
+@media (max-width: 640px) {
+    .tabs-header {
+        padding: 0 8px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE and Edge */
+    }
+
+    .tabs-header::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
+    }
+
+    .tab-btn {
+        white-space: nowrap;
+        padding: 12px 10px;
+        font-size: 13px;
+        flex: 0 0 auto;
+    }
+
+    .form-footer {
+        flex-direction: column;
+    }
+
+    .next-btn, .prev-btn, .submit-btn {
+        width: 100%;
+    }
+}
+
+/* Add these styles for the welcome tab */
+.welcome-text {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.welcome-text h2 {
+    color: var(--primary-color);
+    font-size: 28px;
+    margin-bottom: 24px;
+}
+
+.welcome-text p {
+    margin-bottom: 16px;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.welcome-text ul {
+    text-align: right;
+    list-style: none;
+    margin: 20px auto;
+    padding: 0 20px;
+    max-width: 500px;
+}
+
+.welcome-text ul li {
+    position: relative;
+    padding-right: 20px;
+    margin-bottom: 12px;
+    font-size: 15px;
+}
+
+.welcome-text ul li:before {
+    content: "•";
+    color: var(--primary-color);
+    position: absolute;
+    right: 0;
+    font-size: 20px;
+    line-height: 1;
+}
+
+/* Center the start button in welcome tab */
+.welcome-text + .form-navigation {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.welcome-text + .form-navigation .next-btn {
+    padding: 12px 48px;
+    font-size: 18px;
+}
