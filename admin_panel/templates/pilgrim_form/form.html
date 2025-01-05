@@ -19,7 +19,7 @@
                 <div class="header-content">
                     <img src="{% static 'assets/img/alnoor.jpg' %}" alt="Al Noor Logo" class="header-logo">
                     <div class="header-text">
-                        <h1>التسجيل في حملة النور لحج عام 1445هج</h1>
+                        <h1>التسجيل في حملة النور لحج عام 1446هج</h1>
                         <p class="form-description">يرجى ملء هذه الاستمارة بالمعلومات المطلوبة</p>
                         {% if success %}
                             <p class="success-message" id="success-message">تم إرسال النموذج بنجاح!</p>
@@ -50,7 +50,7 @@
                             <p>ملاحظات هامة:</p>
                             <ul>
                                 <li>يلتزم الحاج بتسجيل بياناته الصحيحة و بدقة.</li>
-                                <li>يجب تسجيل الجوال بشكل صحيح وعند تغييره يجب إخبار مسؤول المكتب على الجوال 0508090777</li>
+                                <li>يجب تسجيل رقم الجوال بشكل صحيح وعند تغييره يجب إخبار مسؤول المكتب على الجوال 0508090777</li>
                                 <li>يجب كتابة جميع الأرقام بالانجليزية (1234) و ليس بالعربية</li>
                                 <li>دفع مقدم 2000 ريال مسترجع في حال الانسحاب بشرط يكون قبل إصدار تصريح الحج</li>
                             </ul>
@@ -248,34 +248,6 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="tawaf">بحاجة مساعدة في الطواف ؟ *</label>
-                            <select id="tawaf" name="tawaf" required 
-                                value="{{ form_data.tawaf }}"
-                                {% if form.errors.tawaf %}class="invalid-field"{% endif %}>
-                                <option value="">اختر</option>
-                                <option value="False">لا</option>
-                                <option value="True">نعم</option>
-                            </select>
-                            {% if form.errors.tawaf %}
-                                <span class="error-message">{{ form.errors.tawaf.0 }}</span>
-                            {% endif %}
-                        </div>
-
-                        <div class="form-group">
-                            <label for="sai">بحاجة مساعدة في السعي ؟ *</label>
-                            <select id="sai" name="sai" required 
-                                value="{{ form_data.sai }}"
-                                {% if form.errors.sai %}class="invalid-field"{% endif %}>
-                                <option value="">اختر</option>
-                                <option value="False">لا</option>
-                                <option value="True">نعم</option>
-                            </select>
-                            {% if form.errors.sai %}
-                                <span class="error-message">{{ form.errors.sai.0 }}</span>
-                            {% endif %}
-                        </div>
-
-                        <div class="form-group">
                             <label for="alhajj">نوع الحجة </label>
                             <select id="alhajj" name="alhajj" required 
                                 value="{{ form_data.alhajj }}"
@@ -312,23 +284,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="tradition_reference"> مرجع التقليد  *</label>
-                            <select id="tradition_reference" name="tradition_reference" required 
+                            <label for="tradition_reference">مرجع التقليد *</label>
+                            <input type="text" id="tradition_reference" name="tradition_reference" required 
                                 value="{{ form_data.tradition_reference }}"
                                 {% if form.errors.tradition_reference %}class="invalid-field"{% endif %}>
-                                <option value="">اختر</option>
-                                <option value="الشيخ السيستاني">الشيخ السيستاني</option>
-                                <option value="الشيخ الخوئي">الشيخ الخوئي</option>
-                                <option value="الشيخ الوحيد">الشيخ الوحيد</option>
-                                <option value="السيد الخامنئي">السيد الخامنئي</option>
-                                <option value="السيد الحكيم">السيد الحكيم</option>
-                                <option value="السيد صادق الشيرازي">السيد صادق الشيرازي</option>
-                                <option value="السيد محمد الشيرازي">السيد محمد الشيرازي</option>
-                                <option value="الشيخ الفياض">الشيخ الفياض</option>
-                                <option value="الشيخ العصفور">الشيخ العصفور</option>
-                                <option value="الشيخ أمين زين الدين">الشيخ أمين زين الدين</option>
-                                <option value="الشيخ المدرسي">الشيخ المدرسي</option>
-                            </select>
                             {% if form.errors.tradition_reference %}
                                 <span class="error-message">{{ form.errors.tradition_reference.0 }}</span>
                             {% endif %}
@@ -365,6 +324,34 @@
                         </div>
                         
                         <div class="form-group">
+                            <label for="tawaf">بحاجة مساعدة في الطواف ؟ *</label>
+                            <select id="tawaf" name="tawaf" required 
+                                value="{{ form_data.tawaf }}"
+                                {% if form.errors.tawaf %}class="invalid-field"{% endif %}>
+                                <option value="">اختر</option>
+                                <option value="False">لا</option>
+                                <option value="True">نعم</option>
+                            </select>
+                            {% if form.errors.tawaf %}
+                                <span class="error-message">{{ form.errors.tawaf.0 }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sai">بحاجة مساعدة في السعي ؟ *</label>
+                            <select id="sai" name="sai" required 
+                                value="{{ form_data.sai }}"
+                                {% if form.errors.sai %}class="invalid-field"{% endif %}>
+                                <option value="">اختر</option>
+                                <option value="False">لا</option>
+                                <option value="True">نعم</option>
+                            </select>
+                            {% if form.errors.sai %}
+                                <span class="error-message">{{ form.errors.sai.0 }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
                             <label for="illness">  لديك أمراض مزمنة ؟ </label>
                             <select id="illness" name="illness" required 
                                 value="{{ form_data.illness }}"
@@ -389,34 +376,6 @@
                             </select>
                             {% if form.errors.wheelchair %}
                                 <span class="error-message">{{ form.errors.wheelchair.0 }}</span>
-                            {% endif %}
-                        </div>
-
-                        <div class="form-group">
-                            <label for="tawaf">  هل تحتاج مساعدة في الطواف ؟</label>
-                            <select id="tawaf" name="tawaf" required 
-                                value="{{ form_data.tawaf }}"
-                                {% if form.errors.tawaf %}class="invalid-field"{% endif %}>
-                                <option value="">اختر</option>
-                                <option value="False">لا</option>
-                                <option value="True">نعم</option>
-                            </select>
-                            {% if form.errors.tawaf %}
-                                <span class="error-message">{{ form.errors.tawaf.0 }}</span>
-                            {% endif %}
-                        </div>
-
-                        <div class="form-group">
-                            <label for="sai">   هل تحتاج مساعدة في السعي ؟ </label>
-                            <select id="sai" name="sai" required 
-                                value="{{ form_data.sai }}"
-                                {% if form.errors.sai %}class="invalid-field"{% endif %}>
-                                <option value="">اختر</option>
-                                <option value="False">لا</option>
-                                <option value="True">نعم</option>
-                            </select>
-                            {% if form.errors.sai %}
-                                <span class="error-message">{{ form.errors.sai.0 }}</span>
                             {% endif %}
                         </div>
 

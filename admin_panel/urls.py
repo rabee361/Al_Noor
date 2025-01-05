@@ -16,6 +16,7 @@ urlpatterns = [
     path('add_form/' , add_register_form , name="add_register_form"),
     path('update_form/<str:form_id>' , update_register_form , name="update_register_form"),
     path('delete_form/<str:form_id>' , delete_register_form , name="delete_register_form"),
+    path('delete-all-forms/' , delete_all_forms , name="delete_all_forms"),
 
     path('managers/' , managers_list , name="managers"),
     path('add_manager/' , add_manager , name="add_manager"),

@@ -154,6 +154,10 @@ def delete_register_form(request,form_id):
 
 
 
+def delete_all_forms(request):
+    Registration.objects.all().delete()
+    return redirect('registration_forms')
+
 
 
 
