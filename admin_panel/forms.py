@@ -336,12 +336,6 @@ class NewRegisterForm(forms.ModelForm):
             'type_help': {
                 'required': 'يرجى اختيار نوع المساعدة'
             },
-            'tawaf': {
-                'required': 'يرجى تحديد ما إذا كنت بحاجة لمساعدة في الطواف'
-            },
-            'sai': {
-                'required': 'يرجى تحديد ما إذا كنت بحاجة لمساعدة في السعي'
-            }
         }
 
 

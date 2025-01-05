@@ -381,7 +381,7 @@
 
                         <div class="form-group">
                             <label for="type_help">يمكنك كتابة المساعدة المطلوبة </label>
-                            <input type="text" id="type_help" name="type_help" 
+                            <input type="text" id="type_help" name="type_help" required
                                 value="{{ form_data.type_help }}"
                                 {% if form.errors.type_help %}class="invalid-field"{% endif %}>
                             {% if form.errors.type_help %}
