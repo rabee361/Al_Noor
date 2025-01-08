@@ -19,7 +19,7 @@ from django.shortcuts import get_object_or_404
 from fcm_django.models import FCMDevice
 from django.views.decorators.cache import cache_page
 from rest_framework.decorators import api_view
-from rest_framework.views import View
+from rest_framework.views import APIView
 
 
 
@@ -581,7 +581,7 @@ class SendNotification(APIView):
 
 
 
-class Calender(View):
+class Calender(APIView):
     def post(self,request):
         longitude = request.data.get('longitude')
         latitude = request.data.get('latitude')
