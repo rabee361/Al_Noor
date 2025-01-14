@@ -1474,6 +1474,59 @@ def my_account(request):
 
 
 
+@login_required(login_url='login')
+def admins_list(request):
+    q = request.GET.get('q') or ''
+    admins = CustomUser.objects.filter(is_superuser=True,username__startswith=q).order_by('-id')
+    context = {
+        'admins':admins,
+    }
+    return render(request , 'admin_panel/users/admin/admin_list.html' , context)
+
+
+
+def update_admin(request,admin_id):
+    admin = CustomUser.objects.get(id=admin_id)
+    user = admin
+    form = UpdateAdmin(instance=user)
+
+    if request.method == 'POST':
+        form = UpdateAdmin(request.POST,request.FILES,instance=admin)
+        if form.is_valid():
+            user = CustomUser.objects.get(
+                phonenumber=form.cleaned_data['phonenumber'],
+            )
+            image=request.FILES.get('image')
+            if image:
+                user.image = request.FILES.get('image')
+            else:
+                user.image = admin.image
+
+
+            user.get_notifications = form.cleaned_data['get_notifications']
+            user.username = form.cleaned_data['username']
+            user.email = form.cleaned_data['email']
+            user.save()
+            return redirect('admins')
+
+    admin_image = request.user.image.url
+    admin_image = admin.image.url
+    username = request.user.username
+    
+    context = {
+        'form': form,
+        'admin_image': admin_image,
+        'admin_id': admin.id,
+    }
+    return render(request, 'admin_panel/users/admin/update_admin.html', context)
+
+
+
+
+def delete_admin(request,admin_id):
+    CustomUser.objects.get(id=admin_id).delete()
+    return redirect('admins')
+
 
 
 @login_required(login_url='login')
@@ -1482,18 +1535,18 @@ def add_admin(request):
 
     if request.method == 'POST':
         form = NewAdmin(request.POST, request.FILES)
-        print(form.errors)
         if form.is_valid():
             user = CustomUser.objects.create(
                 username=form.cleaned_data['username'],
                 phonenumber=form.cleaned_data['phonenumber'],
                 email=form.cleaned_data['email'],
-                password=form.cleaned_data['password1'],
                 get_notifications=form.cleaned_data['get_notifications'],
                 user_type = 'اداري',
                 is_superuser = True,
                 is_staff = True
             )
+            user.set_password(form.cleaned_data['password1'])
+            user.save()
             if form.cleaned_data['image']:
                 user.image = form.cleaned_data['image']
             

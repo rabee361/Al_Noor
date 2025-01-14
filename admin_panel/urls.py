@@ -7,6 +7,9 @@ urlpatterns = [
  
     path('my-account/' , my_account , name="my_account"),
     path('add-admin/' , add_admin , name="add_admin"),
+    path('admins/' , admins_list , name="admins"),
+    path('update-admin/<str:admin_id>' , update_admin , name="update_admin"),
+    path('delete-admin/<str:admin_id>' , delete_admin , name="delete_admin"),
 
     path('login/' , login_user , name="login"),
     path('logout/' , logout_user , name="logout"),

@@ -171,6 +171,35 @@ class UpdateGuide(forms.ModelForm):
 
 
 
+class UpdateAdmin(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = '__all__'
+        exclude = ['user']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['phonenumber'] = forms.CharField(label='رقم الهاتف', required=True)
+        self.fields['email'] = forms.CharField(label='الايميل   ', required=False)
+        self.fields['username'] = forms.CharField(label='الاسم', required=True)
+
+
+
+class UpdateGuide(forms.ModelForm):
+    class Meta:
+        model = Guide
+        fields = '__all__'
+        exclude = ['user']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['phonenumber'] = forms.CharField(label='رقم الهاتف', required=True)
+        self.fields['email'] = forms.CharField(label='الايميل   ', required=False)
+        self.fields['username'] = forms.CharField(label='الاسم', required=True)
+        self.fields['get_notifications'] = forms.BooleanField(label='تلقي اشعارات', required=False)
+
+
+
 
 
 class CustomUserCreationForm(ModelForm):
