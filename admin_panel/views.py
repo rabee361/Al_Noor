@@ -1485,30 +1485,28 @@ def admins_list(request):
 
 
 
+@login_required(login_url='login')  
 def update_admin(request,admin_id):
     admin = CustomUser.objects.get(id=admin_id)
-    user = admin
-    form = UpdateAdmin(instance=user)
+    form = UpdateAdmin(instance=admin)
 
     if request.method == 'POST':
         form = UpdateAdmin(request.POST,request.FILES,instance=admin)
+        print(form.is_valid())
+        print(form.errors)
         if form.is_valid():
-            user = CustomUser.objects.get(
-                phonenumber=form.cleaned_data['phonenumber'],
-            )
             image=request.FILES.get('image')
             if image:
-                user.image = request.FILES.get('image')
+                admin.image = request.FILES.get('image')
             else:
-                user.image = admin.image
+                admin.image = admin.image
 
-
-            user.get_notifications = form.cleaned_data['get_notifications']
-            user.username = form.cleaned_data['username']
-            user.email = form.cleaned_data['email']
-            user.save()
+            admin.username = form.cleaned_data['username']
+            admin.email = form.cleaned_data['email']
+            admin.phonenumber = form.cleaned_data['phonenumber']
+            admin.save()
             return redirect('admins')
-
+        
     admin_image = request.user.image.url
     admin_image = admin.image.url
     username = request.user.username
@@ -1523,6 +1521,7 @@ def update_admin(request,admin_id):
 
 
 
+@login_required(login_url='login')
 def delete_admin(request,admin_id):
     CustomUser.objects.get(id=admin_id).delete()
     return redirect('admins')

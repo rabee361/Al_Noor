@@ -27,44 +27,40 @@
         <div>
             <form action="" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 30px; color: white;">
                 {% csrf_token %}
-                <div style="background-color: rgb(57, 58, 58); width: 100%;display: flex;gap: 10px;justify-content: space-evenly;border-radius: 30px;" dir="rtl">
+                <div style="background-color: rgb(57, 58, 58); width: 100%; display: flex; gap: 10px; justify-content: space-evenly; border-radius: 30px; padding: 30px;" dir="rtl">
                   
-                  <div class="form-block">
-                    <div class="form-input">
-                      <div class="form-label">{{ form.username.label_tag }}</div>
-                      <div>{{ form.username|add_class:"form-control" }}</div>
+                    <div class="form-block">
+                        <div class="form-input" style="margin-bottom: 20px;">
+                            <div class="form-label">{{ form.username.label_tag }}</div>
+                            <div>{{ form.username|add_class:"form-control" }}</div>
+                        </div>
+                        <div class="form-input" style="margin-bottom: 20px;">
+                            <div class="form-label">{{ form.email.label_tag }}</div>
+                            <div>{{ form.email|add_class:"form-control" }}</div> 
+                        </div>
                     </div>
-                    <div class="form-input">
-                      <div class="form-label">{{ form.email.label_tag }}</div>
-                      <div>{{ form.email|add_class:"form-control" }}</div> 
+                    
+                    <div class="form-block">
+                        <div class="form-input" style="margin-bottom: 20px;">
+                            <div class="form-label">{{ form.phonenumber.label_tag }}</div>
+                            <div>{{ form.phonenumber|add_class:"form-control" }}</div> 
+                        </div>      
+                        <div class="form-input" style="text-align: right; margin-bottom: 20px;">
+                            <div class="form-label">الصورة الشخصية:</div>
+                            <div class="current-image-wrapper">
+                                <img src="{{ admin_image }}" alt="Current Image" class="current-image">
+                                <div class="form-input" style="margin-top: 10px;">
+                                    <input type="file" name="image" id="image_id" class="my-img">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                
-                
-                <div class="form-block">
-                    <div class="form-input">
-                        <div class="form-label">{{ form.phonenumber.label_tag }}</div>
-                        <div>{{ form.phonenumber|add_class:"form-control" }}</div> 
-                    </div>      
-                    <div class="form-input" style="text-align: right;">
-                      <div class="form-label">الصورة الشخصية:</div>
-                      <div class="current-image-wrapper">
-                          <img src="{{ admin_image }}" alt="Current Image" class="current-image">
-                          <div class="form-input"><input type="file" name="image" id="image_id" class="my-img"></div>
-                      </div>
-                    </div>
-                  </div>
 
-
-
+                <div style="display: flex; gap: 10px; justify-content: left; margin-top: 20px; margin-bottom: 30px;">
+                    <input type="submit" value="حفظ" class="save-button">
                 </div>
-
-
-                <div style="display: flex; gap: 10px; justify-content: left;">
-                  <input type="submit" value="حفظ" class="save-button">
-                </div>
-
-              </form>
+            </form>
         </div>
   
     </div>

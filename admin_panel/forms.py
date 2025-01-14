@@ -174,8 +174,7 @@ class UpdateGuide(forms.ModelForm):
 class UpdateAdmin(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = '__all__'
-        exclude = ['user']
+        fields = ['username','phonenumber','email']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
