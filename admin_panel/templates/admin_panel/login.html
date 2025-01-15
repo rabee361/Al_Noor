@@ -7,10 +7,10 @@
 <head>
   <meta charset="utf-8" />
   <link rel="apple-touch-icon" sizes="76x76" href="{% static '/assets/img/apple-icon.png' %}">
-  <link rel="icon" type="image/png" href="{% static '/assets/img/kaaba.png' %}">
+  <link rel="icon" type="image/png" href="{% static '/assets/img/alnoor.png' %}">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Al Noor
+    حملة النور - تسجيل الدخول
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -30,18 +30,18 @@
 <body class="login-wrapper">
     <div class="login-body">
         <div class="profile-image">
-            <img width=200 height=200 src="{% static 'assets/img/kaaba.png' %}" alt="Profile">
+            <img src="{% static 'assets/img/alnoor.png' %}" alt="Profile">
         </div>
         <h1 class="login-title">تسجيل الدخول</h1>
         <form class="login-form" action="" method="post">
             {% csrf_token %}
             <div class="login-form-group">
                 <label for="phonenumber">رقم الهاتف</label>
-                <input type="text" class="login-field" id="phonenumber" name="phonenumber" placeholder="رقم الهاتف">
+                <input type="text" class="login-field" id="phonenumber" name="phonenumber" placeholder="رقم الهاتف" autocomplete="off">
             </div>
             <div class="login-form-group">
                 <label for="password">كلمة المرور</label>
-                <input type="password" class="login-field" id="password" name="password" placeholder="كلمة المرور">
+                <input type="password" class="login-field" id="password" name="password" placeholder="كلمة المرور" autocomplete="new-password">
             </div>
             <div class="remember-me">
                 <input type="checkbox" id="remember" name="remember">
