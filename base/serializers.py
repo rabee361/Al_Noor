@@ -529,7 +529,7 @@ class MessageSerializer(serializers.ModelSerializer):
     def get_audio_url(self,obj):
 
         if obj.audio:
-            return f"http://alnoor-hajj.com{obj.audio.file.url}"
+            return f"https://alnoor-hajj.com{obj.audio.file.url}"
         return None
 
 
