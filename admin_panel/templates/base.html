@@ -42,82 +42,48 @@
 
 </head>
 
-<body class="" style="background-color: rgb(77, 76, 76); font-family: Cairo;">  
+<body class="" style="background-color: var(--body-color); font-family: Cairo;">  
   <div class="wrapper">
-    <!-- <div class="sidebar" style="left: auto; right: 0; width: 230px;  height: 700px;">
-      <div class="sidebar-wrapper" id="sidebar-wrapper" style="background-color: rgb(53, 52, 52); height: 700px;">
-        <ul class="nav">
-          <li style="display: flex; flex-direction: column; color: white; align-items: center;">
-              <p class="h3">
-                <img src="{{user_image}}" alt="" class="rounded-circle" style="width: 90px; height: 90px; object-fit: cover; margin: auto;">
-                <h5>{{username}}</h5>
-              </p>
-          </li>
-          <li style="margin-right: 20px;">
-            <a href="{% url 'main_dashboard' %}" style="display: flex; flex-direction: row-reverse; gap: 10px;">
-              <i class="now-ui-icons design_app"></i>
-              <p class="h3">اللوحة الرئيسية</p>
-            </a>  
-          </li>
-          <li style="margin-right: 20px;">
-            <a href="{% url 'pilgrims' %}" style="display: flex; flex-direction: row-reverse; gap: 10px;">
-              <i class="now-ui-icons users_single-02"></i>
-              <p class="h3">الحجاج</p>
-            </a>
-          </li>
-          <li style="margin-right: 20px;">
-            <a href="{% url 'employees' %}" style="display: flex; flex-direction: row-reverse; gap: 10px;">
-              <i class="now-ui-icons users_single-02"></i>
-              <p class="h3">الموظفين</p>
-            </a>
-          </li>
-          <li style="margin-right: 20px;">
-            <a href="{% url 'managers' %}" style="display: flex; flex-direction: row-reverse; gap: 10px;">
-              <i class="now-ui-icons users_single-02"></i>
-              <p class="h3">الإدارة</p>
-            </a>
-          </li>
-          <li style="margin-right: 20px;">
-            <a href="{% url 'guides' %}" style="display: flex; flex-direction: row-reverse; gap: 10px;">
-              <i class="now-ui-icons users_single-02"></i>
-              <p class="h3">المرشدين</p>
-            </a>
-          </li>
-          <li style="margin-right: 20px;">
-            <a href="{% url 'registration_forms' %}" style="display: flex; flex-direction: row-reverse; gap: 10px;">
-              <i class="now-ui-icons design_bullet-list-67"></i>
-              <p class="h3">استمارات التسجيل</p>
-            </a>
-          </li>
-          <li style="margin-right: 20px;">
-            <a href="{% url 'guidance_posts' %}" style="display: flex; flex-direction: row-reverse; gap: 10px;">
-              <i class="now-ui-icons text_caps-small"></i>
-              <p class="h3">الارشاد الديني</p>
-            </a>
-          </li>
-          <li style="margin-right: 20px;">
-            <a href="{% url 'tasks' %}" style="display: flex; flex-direction: row-reverse; gap: 10px;">
-              <i class="now-ui-icons design_bullet-list-67"></i>
-              <p class="h3">المهام</p>
-            </a>
-          </li>
-          <li style="margin-right: 20px;">
-            <a href="{% url 'steps' %}" style="display: flex; flex-direction: row-reverse; gap: 10px;">
-              <i class="now-ui-icons text_caps-small"></i>
-              <p class="h3">جدول الحملة</p>
-            </a>
-          </li>
-          <li style="margin-right: 20px;">
-            <a href="{% url 'notifications' %}" style="display: flex; flex-direction: row-reverse; gap: 10px;">
-              <i class="now-ui-icons text_caps-small"></i>
-              <p class="h3">اشعارات</p>
-            </a>
-          </li>
-        </ul>
+    <!-- Add the top navbar -->
+    <nav class="top-navbar">
+      <div class="navbar-container">
+        <div class="navbar-brand">
+          <img src="{% static 'assets/img/alnoor.png' %}" alt="alnoor logo" class="navbar-logo">
+          <h6>حملة النور</h6>
+          <div class="navbar-controls">
+            <button class="theme-toggle-btn" id="themeToggle">
+              <i class="fas fa-moon"></i>
+            </button>
+            <div class="settings-dropdown">
+              <button class="settings-btn" id="settingsToggle">
+                <i class="fas fa-cog"></i>
+              </button>
+              <div class="settings-dropdown-content">
+                <a href="{% url 'my_account' %}">
+                  <i class="fas fa-user"></i>
+                  حسابي
+                </a>
+                <a href="{% url 'logout' %}">
+                  <i class="fas fa-sign-out-alt"></i>
+                  تسجيل خروج
+                </a>
+              </div>
+            </div>
+            <div class="navbar-toggle">
+              <button type="button" class="navbar-toggler">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-    </div> -->
+    </nav>
 
-      <div class="sidebar" data-color="orange" style="color: white;">
+
+
+    <div class="sidebar" data-color="orange" style="color: white;">
 
         <div class="sidebar-wrapper" id="sidebar-wrapper" style="font-family: Cairo; font-size: larger;">
           <ul class="nav" style="text-align: right;">
@@ -265,32 +231,6 @@
           </ul>
         </div>
       </div>
-
-    <nav class="navbar navbar-expand-lg" style="background-color: #D7A401;">
-      <div class="container-fluid">
-        <div class="navbar-wrapper">
-          <div class="navbar-toggle">
-            <button type="button" class="navbar-toggler">
-              <span class="navbar-toggler-bar bar1"></span>
-              <span class="navbar-toggler-bar bar2"></span>
-              <span class="navbar-toggler-bar bar3"></span>
-            </button>
-          </div>
-
-        </div>
-        
-        <div class="mydropdown" dir="rtl">
-          <span style="color: white;">
-              <i class="now-ui-icons loader_gear"></i>
-          </span>
-          <div class="mydropdown-content" dir="rtl">
-            <a href="{% url 'logout' %}" style="color: black; text-decoration: none;"><p>تسجيل خروج</p></a>
-            <a href="{% url 'my_account' %}" style="color: black; text-decoration: none; width: 100%;"><p>حسابي</p></a>
-          </div>
-        </div>  
-
-      </div>
-    </nav>
 
     {% block content %}
 

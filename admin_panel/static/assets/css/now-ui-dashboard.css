@@ -2030,14 +2030,6 @@ a.text-gray:hover {
   color: rgba(255, 255, 255, 0.8);
 }
 
-body {
-  color: #2c2c2c;
-  font-size: 14px;
-  font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-}
-
 .main {
   position: relative;
   background: #FFFFFF;
@@ -5917,11 +5909,6 @@ sidebar-wrapper
     -ms-transform: translate3d(0px, 0, 0);
     transform: translate3d(0px, 0, 0);
     box-shadow: 0px 2px 22px 0 rgba(0, 0, 0, 0.2), 0px 2px 30px 0 rgba(0, 0, 0, 0.35);
-  }
-
-  .nav-open body {
-    position: relative;
-    overflow-x: hidden;
   }
 
   .nav-open .menu-on-right .main-panel {
