@@ -82,6 +82,7 @@ class Registration(models.Model):
     id_number = models.IntegerField(verbose_name='رقم الهوية')
     birthday = models.DateField(verbose_name='تاريخ الميلاد')
     job_position = models.CharField(choices=Job_position, max_length=50, null=True, blank=True, verbose_name='المهنة')
+    additional = models.CharField(max_length=500, null=True, blank=True, verbose_name='كتابة المرافق معاك')
     gender = models.CharField(choices=Gender, max_length=10, verbose_name='الجنس')
     options_trip = models.CharField(choices=Options_trip, max_length=20, verbose_name='خيارات الرحلة')
     marital_status = models.CharField(choices=Marital_status, max_length=10, verbose_name='الحالة الاجتماعية')

@@ -328,6 +328,9 @@ class NewRegisterForm(forms.ModelForm):
             'marital_status': {
                 'required': 'يرجى اختيار الحالة الاجتماعية'
             },
+            'additional': {
+                'required': 'يرجى كتابة المرافق معاك'
+            },
             'address': {
                 'required': 'يرجى اختيار العنوان'
             },
@@ -407,3 +410,62 @@ class SecondaryStepForm(ModelForm):
     class Meta:
         model = SecondarySteps
         fields = '__all__'
+
+
+class PilgrimCreationForm(forms.ModelForm):
+    password = forms.CharField(
+        label='كلمة السر',
+        widget=forms.PasswordInput(),
+        error_messages={'required': 'يرجى إدخال كلمة السر'}
+    )
+    password2 = forms.CharField(
+        label='تأكيد كلمة السر',
+        widget=forms.PasswordInput(),
+        error_messages={'required': 'يرجى تأكيد كلمة السر'}
+    )
+    get_notifications = forms.BooleanField(
+        label='تلقي اشعارات',
+        required=False
+    )
+    image = forms.ImageField(
+        label='الصورة الشخصية',
+        required=False
+    )
+
+    class Meta:
+        model = Pilgrim
+        fields = [
+            'first_name', 'father_name', 'last_name', 'grand_father',
+            'registeration_id', 'phonenumber', 'hotel', 'hotel_address',
+            'room_num', 'gate_num', 'flight_num', 'flight_date',
+            'flight_company', 'company_logo', 'from_city', 'to_city',
+            'birthday', 'duration', 'boarding_time', 'arrival', 'departure',
+            'guide'
+        ]
+        error_messages = {
+            'first_name': {'required': 'يرجى إدخال الاسم الأول'},
+            'father_name': {'required': 'يرجى إدخال اسم الأب'},
+            'last_name': {'required': 'يرجى إدخال اسم العائلة'},
+            'grand_father': {'required': 'يرجى إدخال اسم الجد'},
+            'registeration_id': {'required': 'يرجى إدخال رقم التسجيل'},
+            'phonenumber': {'required': 'يرجى إدخال رقم الهاتف'},
+            'hotel': {'required': 'يرجى إدخال اسم الفندق'},
+            'hotel_address': {'required': 'يرجى إدخال عنوان الفندق'},
+            'room_num': {'required': 'يرجى إدخال رقم الغرفة'},
+            'flight_num': {'required': 'يرجى إدخال رقم الرحلة'},
+            'flight_date': {'required': 'يرجى إدخال تاريخ الرحلة'},
+            'flight_company': {'required': 'يرجى إدخال شركة الطيران'},
+        }
+
+    def clean_password2(self):
+        password1 = self.cleaned_data.get('password')
+        password2 = self.cleaned_data.get('password2')
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError('كلمات المرور غير متطابقة')
+        return password2
+
+    def clean_phonenumber(self):
+        phonenumber = self.cleaned_data.get('phonenumber')
+        if CustomUser.objects.filter(phonenumber=phonenumber).exists():
+            raise forms.ValidationError('رقم الهاتف مسجل مسبقاً')
+        return phonenumber

@@ -31,7 +31,13 @@
                       <div class="form-input">
                         <div class="form-label">{{ form.first_name.label_tag }}</div>
                         <div>{{ form.first_name|add_class:"form-control" }}</div>
-                         
+                        {% if form.first_name.errors %}
+                            <div class="error-message">
+                                {% for error in form.first_name.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                       </div>    
                       <div class="form-input">
                         <div class="form-label">{{ form.father_name.label_tag }}</div>
@@ -218,3 +224,21 @@
       });
   });
   </script>
+
+<style>
+    .error-message {
+        color: #dc3545;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+    
+    .alert-danger {
+        color: #721c24;
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        padding: .75rem 1.25rem;
+        margin-bottom: 1rem;
+        border: 1px solid transparent;
+        border-radius: .25rem;
+    }
+</style>

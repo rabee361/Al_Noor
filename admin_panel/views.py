@@ -14,6 +14,9 @@ from django.core.cache import cache
 from datetime import datetime, timedelta
 from django.utils import timezone
 from base.models import FormSubmission
+from django.views.generic.edit import CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 
 
 def login_user(request):
@@ -299,10 +302,6 @@ def add_pilgrim(request):
                 pilgrim.save()
 
             return redirect('pilgrims')
-        
-        else:
-            return redirect('pilgrims')
-    
 
     context = {
         'form': form,
@@ -619,7 +618,7 @@ def update_note(request,note_id):
     context = {
         'form': form,
     }
-    return render(request, 'add_note.html', context)
+    return render(request, 'admin_panel/notes/add_note.html', context)
 
 
 
@@ -703,11 +702,7 @@ def update_employee(request,employee_id):
     if request.method == 'POST':
         form = UpdateEmployee(request.POST,request.FILES,instance=employee)
         if form.is_valid():
-            user = CustomUser.objects.get(
-                phonenumber=form.cleaned_data['phonenumber'],
-            )
             image=request.FILES.get('image')
-            print(image)
             if image:
                 user.image = request.FILES.get('image')
             else:
@@ -806,16 +801,13 @@ def update_guide(request,guide_id):
     if request.method == 'POST':
         form = UpdateGuide(request.POST,request.FILES,instance=guide)
         if form.is_valid():
-            user = CustomUser.objects.get(
-                phonenumber=form.cleaned_data['phonenumber'],
-            )
             image=request.FILES.get('image')
             if image:
                 user.image = request.FILES.get('image')
             else:
                 user.image = guide.user.image
 
-
+            user.phonenumber = form.cleaned_data['phonenumber']
             user.get_notifications = form.cleaned_data['get_notifications']
             user.username = form.cleaned_data['username']
             user.email = form.cleaned_data['email']
@@ -1672,3 +1664,44 @@ class LandinPageView(View):
 
 def Custom404View(self,request,exception):
     return render(request,'404.html')
+
+
+
+
+
+
+class AddPilgrimView(LoginRequiredMixin, CreateView):
+    template_name = 'admin_panel/users/pilgrims/add_pilgrim.html'
+    form_class = PilgrimCreationForm
+    success_url = reverse_lazy('pilgrims')
+    login_url = 'login'
+
+    @transaction.atomic
+    def form_valid(self, form):
+        # Create CustomUser
+        user = CustomUser.objects.create(
+            username=form.cleaned_data['first_name'],
+            phonenumber=form.cleaned_data['phonenumber'],
+            get_notifications=form.cleaned_data['get_notifications'],
+            user_type='حاج'
+        )
+        user.set_password(form.cleaned_data['password'])
+        
+        if form.cleaned_data.get('image'):
+            user.image = form.cleaned_data['image']
+        user.save()
+
+        # Create Chat objects
+        Chat.objects.create(user=user, chat_type='guide')
+        Chat.objects.create(user=user, chat_type='manager')
+
+        # Create Pilgrim
+        pilgrim = form.save(commit=False)
+        pilgrim.user = user
+        
+        if form.cleaned_data.get('guide'):
+            pilgrim.guide = form.cleaned_data['guide']
+            
+        pilgrim.save()
+        
+        return super().form_valid(form)

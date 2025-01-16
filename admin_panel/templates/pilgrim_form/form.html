@@ -17,7 +17,7 @@
             
             <div class="form-header">
                 <div class="header-content">
-                    <img src="{% static 'assets/img/alnoor.jpg' %}" alt="Al Noor Logo" class="header-logo">
+                    <img src="{% static 'assets/img/alnoor2.png' %}" alt="Al Noor Logo" class="header-logo">
                     <div class="header-text">
                         <h1>التسجيل في حملة النور لحج عام 1446هج</h1>
                         <p class="form-description">يرجى ملء هذه الاستمارة بالمعلومات المطلوبة</p>
@@ -323,6 +323,17 @@
                             {% endif %}
                         </div>
                         
+
+                        <div class="form-group">
+                            <label for="additional">كتابة المرافق معاك</label>
+                            <input type="text" id="additional" name="additional" required
+                                value="{{ form_data.additional }}"
+                                {% if form.errors.additional %}class="invalid-field"{% endif %}>
+                            {% if form.errors.additional %}
+                                <span class="error-message">{{ form.errors.additional.0 }}</span>
+                            {% endif %}
+                        </div>
+
                         <div class="form-group">
                             <label for="tawaf">بحاجة مساعدة في الطواف ؟ *</label>
                             <select id="tawaf" name="tawaf" required 
@@ -379,15 +390,15 @@
                             {% endif %}
                         </div>
 
-                        <div class="form-group">
-                            <label for="type_help">يمكنك كتابة المساعدة المطلوبة </label>
-                            <input type="text" id="type_help" name="type_help" required
-                                value="{{ form_data.type_help }}"
-                                {% if form.errors.type_help %}class="invalid-field"{% endif %}>
-                            {% if form.errors.type_help %}
-                                <span class="error-message">{{ form.errors.type_help.0 }}</span>
-                            {% endif %}
-                        </div>
+                            <div class="form-group">
+                                <label for="type_help">يمكنك كتابة المساعدة المطلوبة </label>
+                                <input type="text" id="type_help" name="type_help" required
+                                    value="{{ form_data.type_help }}"
+                                    {% if form.errors.type_help %}class="invalid-field"{% endif %}>
+                                {% if form.errors.type_help %}
+                                    <span class="error-message">{{ form.errors.type_help.0 }}</span>
+                                {% endif %}
+                            </div>
 
                         <div class="form-footer">
                             <button type="button" class="prev-btn" data-prev="3">السابق</button>

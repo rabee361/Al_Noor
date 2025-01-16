@@ -37,19 +37,15 @@
   <header class="header">
     <nav class="navbar navbar-expand-lg navbar-light fixed-top">
       <div class="container">
-        <a class="navbar-brand " href="#">حملة النور</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <i class="bi bi-list" id="menu"></i>
-        </button>
-        <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
-          <ul class="navbar-nav d-flex flex-row-reverse ms-auto" id="navbar">
-          </ul>
-          <div class="d-flex ms-auto">
-            <a class="btn" href="">انضم الان</a>
-            <button id="mode-toggle" class="btn-light-mode switch-button"><i id="mode-icon"
-                class="bi bi-moon-fill"></i></button>
-          </div>
+        <div class="navbar-brand-container me-auto">
+          <a class="navbar-brand" href="#">حملة النور</a>
+          <img src="{% static '/assets/img/alnoor.png' %}" alt="النور" class="navbar-logo">
+        </div>
+        <div class="navbar-btn-container">
+          <a class="btn" href="{% url 'form' %}">
+            <i class="bi bi-person-plus-fill me-2"></i>
+            انضم الان
+          </a>
         </div>
       </div>
     </nav>
@@ -57,35 +53,55 @@
   <!-- ======= end Header ======= -->
 
   <!-- ============== Start Hero section ========== -->
-  <section class="hero  d-flex align-items-center justify-content-center" id="hero">
+  <section class="hero d-flex align-items-center justify-content-center" id="hero">
     <div id="particles-js"></div>
     <div class="container">
-      <div class="row flex-row-reverse align-items-center">
-        <div class="col-12 col-lg-5">
+      <div class="row">
+        <!-- Text content -->
+        <div class="col-12 col-lg-5 order-lg-1">
           <div class="hero-text text-end">
             <div class="row">
-              <div class="col-12 ">
-                <h1 class="title col-12 text-end" data-aos="fade-up" data-aos-delay="150">ابنِ النجاح بأحدث<span
-                    class="unique-text"> الحلول </span>التكنولوجية
-                  نحن هنا لدعم أعمالك </h1>
+              <!-- Announcement Box -->
+              <div class="col-12">
+                <div class="announcement-box" data-aos="fade-up" data-aos-delay="100">
+                  <h2 class="announcement-title">
+                    <i class="bi bi-megaphone-fill me-2"></i>
+                    حملة النور تعلن عن بدء التسجيل لحج هذا العام 1446
+                  </h2>
+                  <h3 class="announcement-subtitle">
+                    <i class="bi bi-clock-history me-2"></i>
+                    سارعوا بالتسجيل معنا لحج هذا العام
+                  </h3>
+                  <p class="accommodation-info">
+                    <i class="bi bi-building me-2"></i>
+                    سكن بنظام فندقي خاص ومستقل بالحملة في مكة المكرمة + مخيمات المشاعر
+                  </p>
+                </div>
               </div>
-              <div class="col-12 text-end">
-                <p class="text-end" data-aos="fade-up" data-aos-delay="200">نقدم خدمات متنوعة تشمل تطوير تطبيقات الويب
-                  والهاتف الذكي، تصميم وتحسين مواقع
-                  الويب، حلول الحماية والأمان، تطوير البرمجيات والتخصيص، والاستشارات التكنولوجية. نعمل على مساعدتك في
-                  تحقيق أهدافك العملية من خلال استخدام التكنولوجيا الحديثة بأفضل الطرق الممكنة.</p>
+              
+              <!-- Welcome Text -->
+              <div class="col-12">
+                <p class="welcome-text" data-aos="fade-up" data-aos-delay="200">
+                  يطيب لنا الترحيب بكم في حملة النور والتي بدأت مشوارها كإحدى حملات الحج لأول مرة هذا العام 1425 هـ وتتطلع الحملة لأن تكون إحدى حملات الحج المميزة في هذه المنطقة حيث لا يخفى على الجميع تميز بعض الحملات خلال السنوات الأخيرة ومن منطق التميز فان الحملة بإدارتها ولجانها وكوادرها تسعى جاهدة لأن تكون النموذج المشرف لخدمة ضيوف الرحمن في هذا العام والأعوام القادمة. وانه ليسعدنا تعاون إخواننا الحجاج وأخواتنا الحاجات معا للوصول إلى مبتغانا وهو إكمال مناسك الحج هذا العام بسلامة ويسر في أعمالنا وأبداننا
+                </p>
               </div>
-              <div class="col-12 text-end" data-aos-delay="250">
-                <a href="{% url 'form' %}" class="btn">انضم الان</a>
+              
+              <!-- Join Button -->
+              <div class="col-12 text-end hide-btn" data-aos="fade-up" data-aos-delay="300">
+                <a href="{% url 'form' %}" class="btn">
+                  <i class="bi bi-person-plus-fill me-2"></i>
+                  انضم الان
+                </a>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-12 col-lg-7 mx-md-auto text-center" data-aos="fade-right" data-aos-delay="100">
+
+        <!-- Image -->
+        <div class="col-12 col-lg-7 order-lg-2">
           <div class="hero-image">
             <div class="hero-img">
-              <img class="img-fluid " alt="hero-img"
-                src="{% static '/assets/img/hero/bodigmas_IT_solutions_company_illustrationvectorflat_designmini_942ad818-e3f4-47af-a5e8-78e030aff9c9-removebg.png' %}">
+              <img class="landing-image" alt="landing-image" src="{% static '/assets/img/landing.jpg' %}">
             </div>
           </div>
         </div>
@@ -93,3 +109,16 @@
     </div>
   </section>
   <!-- ============== End Hero section ========== -->
+
+  <script>
+    // Add scroll event listener for navbar background
+    window.addEventListener('scroll', function() {
+      const navbar = document.querySelector('.navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+  </script>
+</body>

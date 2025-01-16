@@ -7,7 +7,9 @@
     --bg-color: #1a1a1a;
     --card-bg: #2d2d2d;
     --primary-color: #D7A401;
-    --input-bg: #3d3d3d;
+    --input-bg: #454545;
+    --input-hover-bg: #505050;
+    --input-focus-bg: #555555;
     --text-color: #ffffff;
     --text-muted: #a0a0a0;
     --hover-color: #b88e01;
@@ -209,11 +211,20 @@
 .form-control {
     width: 100%;
     outline: none;
-    border: rgb(58, 57, 57);
+    border: none;
     color: white;
-    font-size: larger;
-    background-color: rgb(155, 155, 155);
+    font-size: 16px;
+    background-color: var(--input-bg);
     height: 45px;
+    border-radius: 10px;
+    padding: 0 15px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    box-shadow: 0 0 0 1px var(--primary-color);
 }
 
 
@@ -276,9 +287,9 @@
         width: 100%;
         outline: none;
         border: rgb(58, 57, 57);
-        color: white;
+        color: var(--text-color);
         font-size: x-small;
-        background-color: rgb(155, 155, 155);
+        background-color: var(--input-bg);
         height: 25px;
     }
 
@@ -717,4 +728,264 @@ body {
     width: 100%;
     max-width: 319px;
     margin: 0 auto;
+}
+
+/* Update date and time field styles */
+.date-field,
+.time-field {
+    width: 100%;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 16px;
+    background-color: var(--input-bg);
+    height: 45px;
+    padding: 0 15px;
+    transition: all 0.3s ease;
+}
+
+.date-field:focus,
+.time-field:focus {
+    background-color: #4d4d4d;
+    box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+/* Form group styling */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+/* Form label styling */
+.form-label {
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Form input wrapper */
+.form-input {
+    margin-bottom: 1.25rem;
+}
+
+/* Form block container */
+.form-block {
+    padding: 1.5rem;
+    width: 100%;
+}
+
+/* Error message styling */
+.error-message {
+    color: #ff4d4d;
+    font-size: 12px;
+    margin-top: 0.25rem;
+}
+
+/* Checkbox styling */
+.form-control-check {
+    width: 20px;
+    height: 20px;
+    background-color: var(--input-bg);
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+.form-control-check:checked {
+    background-color: var(--primary-color);
+}
+
+/* Form section container */
+.form-section {
+    background-color: var(--card-bg);
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* Section header */
+.section-header {
+    color: var(--text-color);
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+/* Save button styling */
+.save-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 10px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.save-button:hover {
+    background-color: var(--hover-color);
+}
+
+/* File input styling */
+input[type="file"] {
+    background-color: var(--input-bg);
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
+    color: var(--text-color);
+}
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+    .form-block {
+        padding: 1rem;
+    }
+
+    .form-control,
+    .date-field,
+    .time-field {
+        height: 40px;
+        font-size: 14px;
+    }
+
+    .save-button {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+}
+
+/* Update form control styles */
+.form-control {
+    background-color: var(--input-bg);
+    border: 1px solid transparent;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.form-control:hover {
+    background-color: var(--input-hover-bg);
+}
+
+.form-control:focus {
+    background-color: var(--input-focus-bg);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 1px var(--primary-color);
+}
+
+/* Update date and time field styles */
+.date-field,
+.time-field {
+    background-color: var(--input-bg);
+    border: 1px solid transparent;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.date-field:hover,
+.time-field:hover {
+    background-color: var(--input-hover-bg);
+}
+
+.date-field:focus,
+.time-field:focus {
+    background-color: var(--input-focus-bg);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 1px var(--primary-color);
+}
+
+/* Update select and file input styles */
+select.form-control,
+input[type="file"] {
+    background-color: var(--input-bg);
+    border: 1px solid transparent;
+}
+
+select.form-control:hover,
+input[type="file"]:hover {
+    background-color: var(--input-hover-bg);
+}
+
+select.form-control:focus,
+input[type="file"]:focus {
+    background-color: var(--input-focus-bg);
+    border-color: var(--primary-color);
+}
+
+/* Update checkbox background */
+.form-control-check {
+    background-color: var(--input-bg);
+}
+
+.form-control-check:hover {
+    background-color: var(--input-hover-bg);
+}
+
+.form-control-check:checked {
+    background-color: var(--primary-color);
+}
+
+/* Add these styles to your custom.css file */
+
+.announcement-box {
+    background-color: rgba(215, 164, 1, 0.1);
+    border-right: 4px solid var(--primary-color);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border-radius: 8px;
+}
+
+.announcement-title {
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    font-family: 'Tajawal', sans-serif;
+}
+
+.announcement-subtitle {
+    color: var(--text-color);
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    font-family: 'Tajawal', sans-serif;
+}
+
+.accommodation-info {
+    color: var(--text-color);
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 0;
+    font-family: 'Tajawal', sans-serif;
+}
+
+.welcome-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-color);
+    margin-bottom: 2rem;
+    font-family: 'Tajawal', sans-serif;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .announcement-title {
+        font-size: 1.4rem;
+    }
+    
+    .announcement-subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .accommodation-info {
+        font-size: 1rem;
+    }
+    
+    .welcome-text {
+        font-size: 1rem;
+        line-height: 1.6;
+    }
 }

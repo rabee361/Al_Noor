@@ -27,7 +27,7 @@ urlpatterns = [
     path('delete_manager/<str:manager_id>/' , delete_manager , name="delete_manager"),
 
     path('pilgrims_list/' , pilgrims_list , name="pilgrims"),
-    path('add_pilgrim/' , add_pilgrim , name="add_pilgrim"),
+    path('add_pilgrim/' , AddPilgrimView.as_view() , name="add_pilgrim"),
     path('update_pilgrim/<str:pilgrim_id>/' , update_pilgrim, name="update_pilgrim"),
     path('delete-pilgrim/<str:pilgrim_id>/' , delete_pilgrim , name="delete-pilgrim"),
     path('delete-all-pilgrims/' , delete_all_pilgrims , name="delete_all_pilgrims"),
