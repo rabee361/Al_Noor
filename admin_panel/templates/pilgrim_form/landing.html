@@ -1,70 +1,117 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="techida | IT Solutions & Business Services HTML landing page template ">
+
+
   <title>حملة النور</title>
+  <!-- fav icon -->
   <link rel="icon" type="image/png" href="{% static '/assets/img/alnoor.png' %}">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+  <!-- bootstarp css file -->
+  <link rel="stylesheet" href="{% static '/assets/css/bootstrap.min.css' %}">
+
+  <!-- bootstrap icons -->
+  <link rel="stylesheet" href="{% static '/assets/css/bootstrap-icons/bootstrap-icons.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+  <!-- Google font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&amp;display=swap">
+
   <link rel="stylesheet" href="{% static '/assets/css/style.css' %}">
 </head>
 
-<body>
-  <header>
-    <nav class="navbar">
-      <div class="nav-container">
-        <div class="logo-container">
-          <img src="{% static '/assets/img/alnoor.png' %}" alt="النور" class="logo">
-          <h1>حملة النور</h1>
+<body class="home-rtl">
+
+  <!-- ======= start Header ======= -->
+  <header class="header">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+      <div class="container">
+        <div class="navbar-brand-container me-auto">
+          <a class="navbar-brand" href="#">حملة النور</a>
+          <img src="{% static '/assets/img/alnoor.png' %}" alt="النور" class="navbar-logo">
         </div>
-        <a href="{% url 'form' %}" class="join-btn">
-          <i class="bi bi-person-plus-fill"></i>
-          انضم الان
-        </a>
-      </div>
-    </nav>
-  </header>
-
-  <main class="hero">
-    <div class="hero-container">
-      <div class="hero-content">
-        <div class="text-content">
-          <div class="card announcement">
-            <h2>
-              <i class="bi bi-megaphone-fill"></i>
-              حملة النور تعلن عن بدء التسجيل لحج هذا العام 1446
-            </h2>
-            <h3>
-              <i class="bi bi-clock-history"></i>
-              سارعوا بالتسجيل معنا لحج هذا العام
-            </h3>
-            <p>
-              <i class="bi bi-building"></i>
-              سكن بنظام فندقي خاص ومستقل بالحملة في مكة المكرمة + مخيمات المشاعر
-            </p>
-          </div>
-          
-          <div class="card welcome">
-            <p>يطيب لنا الترحيب بكم في حملة النور والتي بدأت مشوارها كإحدى حملات الحج لأول مرة هذا العام 1425 هـ وتتطلع الحملة لأن تكون إحدى حملات الحج المميزة في هذه المنطقة حيث لا يخفى على الجميع تميز بعض الحملات خلال السنوات الأخيرة ومن منطق التميز فان الحملة بإدارتها ولجانها وكوادرها تسعى جاهدة لأن تكون النموذج المشرف لخدمة ضيوف الرحمن في هذا العام والأعوام القادمة</p>
-          </div>
-
-          <a href="{% url 'form' %}" class="join-btn mobile">
-            <i class="bi bi-person-plus-fill"></i>
+        <div class="navbar-btn-container">
+          <a class="btn" href="{% url 'form' %}">
+            <i class="bi bi-person-plus-fill me-2"></i>
             انضم الان
           </a>
         </div>
-        
-        <div class="hero-image">
-          <img src="{% static '/assets/img/landing.jpg' %}" alt="landing">
+      </div>
+    </nav>
+  </header>
+  <!-- ======= end Header ======= -->
+
+  <!-- ============== Start Hero section ========== -->
+  <section class="hero d-flex align-items-center justify-content-center" id="hero">
+    <div id="particles-js"></div>
+    <div class="container">
+      <div class="row">
+        <!-- Text content -->
+        <div class="col-12 col-lg-5 order-lg-1">
+          <div class="hero-text text-end">
+            <div class="row">
+              <!-- Announcement Box -->
+              <div class="col-12">
+                <div class="announcement-box" data-aos="fade-up" data-aos-delay="100">
+                  <h2 class="announcement-title">
+                    <i class="bi bi-megaphone-fill me-2"></i>
+                    حملة النور تعلن عن بدء التسجيل لحج هذا العام 1446
+                  </h2>
+                  <h3 class="announcement-subtitle">
+                    <i class="bi bi-clock-history me-2"></i>
+                    سارعوا بالتسجيل معنا لحج هذا العام
+                  </h3>
+                  <p class="accommodation-info">
+                    <i class="bi bi-building me-2"></i>
+                    سكن بنظام فندقي خاص ومستقل بالحملة في مكة المكرمة + مخيمات المشاعر
+                  </p>
+                </div>
+              </div>
+              
+              <!-- Welcome Text -->
+              <div class="col-12">
+                <p class="welcome-text" data-aos="fade-up" data-aos-delay="200">
+                  يطيب لنا الترحيب بكم في حملة النور والتي بدأت مشوارها كإحدى حملات الحج لأول مرة هذا العام 1425 هـ وتتطلع الحملة لأن تكون إحدى حملات الحج المميزة في هذه المنطقة حيث لا يخفى على الجميع تميز بعض الحملات خلال السنوات الأخيرة ومن منطق التميز فان الحملة بإدارتها ولجانها وكوادرها تسعى جاهدة لأن تكون النموذج المشرف لخدمة ضيوف الرحمن في هذا العام والأعوام القادمة. وانه ليسعدنا تعاون إخواننا الحجاج وأخواتنا الحاجات معا للوصول إلى مبتغانا وهو إكمال مناسك الحج هذا العام بسلامة ويسر في أعمالنا وأبداننا
+                </p>
+              </div>
+              
+              <!-- Join Button -->
+              <div class="col-12 text-end hide-btn" data-aos="fade-up" data-aos-delay="300">
+                <a href="{% url 'form' %}" class="btn">
+                  <i class="bi bi-person-plus-fill me-2"></i>
+                  انضم الان
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Image -->
+        <div class="col-12 col-lg-7 order-lg-2">
+          <div class="hero-image">
+            <div class="hero-img">
+              <img class="landing-image" alt="landing-image" src="{% static '/assets/img/landing.jpg' %}">
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </main>
+  </section>
+  <!-- ============== End Hero section ========== -->
 
   <script>
+    // Add scroll event listener for navbar background
     window.addEventListener('scroll', function() {
       const navbar = document.querySelector('.navbar');
       if (window.scrollY > 50) {
