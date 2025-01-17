@@ -4,24 +4,24 @@
 
 {% block content %}
 
-<div class="main-panel" id="main-panel" style="background-color: rgb(77, 76, 76);">
+<div class="main-panel" id="main-panel" style="background-color: var(--card-bg);">
     <div class="content" dir="rtl" style="margin-top: 10px;">
   
         <div class="bread-crumbs-size" style="display: flex; gap: 0;">
           <div style="height: 70px; margin-left: 1300px; display: flex; gap: 10px;">
-            <a href="{% url 'main_dashboard' %}" style="text-decoration: none;"><h5 style="color: white;">الرئيسية</h5></a>
-            <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: #D7A401;"></i></h5>
-            <a href="{% url 'guidance_posts' %}" style="text-decoration: none;"><h5 style="color: white;">الإرشاد الديني</h5></a>
-            <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: #D7A401;"></i></h5>
-            <h5 style="color: white;">إضافة</h5>
-            <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: #D7A401;"></i></h5>
+            <a href="{% url 'main_dashboard' %}" style="text-decoration: none;"><h5 style="color: var(--text-color);">الرئيسية</h5></a>
+            <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: var(--primary-color);"></i></h5>
+            <a href="{% url 'guidance_posts' %}" style="text-decoration: none;"><h5 style="color: var(--text-color);">الإرشاد الديني</h5></a>
+            <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: var(--primary-color);"></i></h5>
+            <h5 style="color: var(--text-color);">إضافة</h5>
+            <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: var(--primary-color);"></i></h5>
           </div>
         </div>
 
         <div>
-            <form action="" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 30px; color: white;">
+            <form action="" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 30px; color: var(--text-color);">
                 {% csrf_token %}
-                <div style="height: auto ;padding-bottom: 20px ;background-color: rgb(57, 58, 58); width: 100%; display: flex; gap: 10px ;justify-content: space-evenly; border-radius: 30px;" dir="rtl">
+                <div style="height: auto ;padding-bottom: 20px ;background-color: var(--body-color); width: 100%; display: flex; gap: 10px ;justify-content: space-evenly; border-radius: 30px;" dir="rtl">
                   
                   <div class="form-block">
                     <div class="form-input">

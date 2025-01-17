@@ -8,9 +8,9 @@
 
       <div class="bread-crumbs-size" style="display: flex; gap: 0;">
         <div style="height: 70px; margin-left: 1300px; display: flex; gap: 10px;">
-          <a href="{% url 'main_dashboard' %}" style="text-decoration: none;"><h5 style="color: white;">الرئيسية</h5></a>
+          <a href="{% url 'main_dashboard' %}" style="text-decoration: none;"><h5 style="color: var(--text-color);">الرئيسية</h5></a>
           <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
-          <h5 style="color: white;">الحجاج</h5>
+          <h5 style="color: var(--text-color);">الحجاج</h5>
           <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
         </div>
       </div>
@@ -26,12 +26,12 @@
         <div class="actions-container">
           <a href="{% url 'export_pilgrim' %}" class="action-button import-button">
             <span >
-              <i class=" now-ui-icons arrows-1_cloud-download-93"></i>تصدير ملف
+              تصدير ملف
             </span>
           </a>
           <a href="{% url 'import_pilgrim' %}" class="action-button import-button">
             <span >
-              <i class=" now-ui-icons arrows-1_cloud-download-93"></i>استيراد ملف
+              استيراد ملف
             </span>
           </a>
           <a href="#" data-toggle="modal" data-target="#deleteAllPilgrimsModal" class="action-button import-button">
@@ -43,6 +43,7 @@
             <i class="fas fa-plus"></i>
             <span>إضافة حاج</span>
           </a>
+
         </div>
       </div>
 
@@ -52,55 +53,55 @@
         <div class="card" style="background-color: var(--body-color);">
           <div class="card-body">
             <div class="table-responsive">
-              <div style="overflow-x: auto; width: 100%;">
+              <div class="table-container">
                 <table class="table my-table">
                   <thead class="text-primary header-wrapper">
-                    <th style="color: white;">
+                    <th style="color: var(--text-color)">
                       ID
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color)">
                       الاسم
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color)">
                       اسم الأب
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color)">
                       اسم الجد
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color)">
                       العائلة
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color)">
                       رقم الهاتف
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color)">
                       المرشد
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color)">
                       رقم الرحلة
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color)">
                       موعد الاقلاع
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color)">
                       موعد الهبوط
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color)">
                       من 
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color)">
                       إلى 
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color)">
                       الفندق
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color)">
                       عنوان الفندق
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color)">
                       رقم الغرفة
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color)">
                       
                     </th>
                   </thead>
@@ -108,7 +109,7 @@
                   {% for pilgrim in pilgrims %}
                     <tr class="body-fields">
                       <td>
-                        <a style="text-decoration: none; color: white;" href="{% url 'update_pilgrim' pilgrim.id %}">
+                        <a style="text-decoration: none; color: var(--text-color);" href="{% url 'update_pilgrim' pilgrim.id %}">
                           {{pilgrim.id}}
                         </a>
                       </td>

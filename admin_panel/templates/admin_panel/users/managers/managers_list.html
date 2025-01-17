@@ -8,9 +8,9 @@
 
       <div class="bread-crumbs-size" style="display: flex; gap: 0;">
         <div style="height: 70px; margin-left: 1300px; display: flex; gap: 10px;">
-          <a href="{% url 'main_dashboard' %}" style="text-decoration: none;"><h5 style="color: white;">الرئيسية</h5></a>
+          <a href="{% url 'main_dashboard' %}" style="text-decoration: none;"><h5 style="color: var(--text-color);">الرئيسية</h5></a>
           <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
-          <h5 style="color: white;">الادارة</h5>
+          <h5 style="color: var(--text-color);">الادارة</h5>
           <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
         </div>
       </div>
@@ -39,22 +39,22 @@
               <div style="overflow-x: auto; width: 100%;">
                 <table class="table my-table">
                   <thead class="text-primary header-wrapper">
-                    <th style="color: white;">
+                    <th style="color: var(--text-color);">
                       ID
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color);">
                       الاسم
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color);">
                       رقم الهاتف
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color);">
                       الايميل
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color);">
                       تلقي الاشعارات
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color);">
                       
                     </th>
                   </thead>
@@ -62,7 +62,7 @@
                   {% for manager in managers %}
                     <tr class="body-fields">
                       <td>
-                        <a href="{% url 'update_manager' manager.id %}" style="color: white; text-decoration: none;">
+                        <a href="{% url 'update_manager' manager.id %}" style="color: var(--text-color); text-decoration: none;">
                           {{manager.id}}
                         </a>
                       </td>

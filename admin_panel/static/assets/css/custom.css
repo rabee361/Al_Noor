@@ -37,8 +37,23 @@ body {
     background-color: var(--body-color);
     font-family: Cairo;
     transition: background-color 0.3s ease;
+    overflow: hidden;
+    height: 100vh;
 }
 
+.main-panel {
+    transition: background-color 0.3s ease;
+    position: relative;
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -ms-overflow-style: none !important;
+    scrollbar-width: none;
+}
+
+.main-panel::-webkit-scrollbar {
+    display: none;
+}
 
 @media (min-width: 992px) {
     .main-panel {
@@ -416,7 +431,7 @@ body {
 
 
 .form-group {
-    background-color: rgb(57, 58, 58); 
+    background-color: var(--body-color); 
     width: 100%; 
     height: 300px;
     display: flex;
@@ -1122,6 +1137,14 @@ input[type="file"]:focus {
   right: 0;
   z-index: 1000; /* Higher z-index than navbar */
   background-color: var(--bg-color);
+  overflow-y: auto;
+  overflow-x: hidden;
+  -ms-overflow-style: none !important;
+  scrollbar-width: none;
+}
+
+.sidebar::-webkit-scrollbar {
+  display: none;
 }
 
 .sidebar-wrapper {
@@ -1548,4 +1571,49 @@ input[type="file"]:focus {
         font-size: 0.8rem;
         gap: 6px;
     }
+}
+
+/* Improve table scrolling */
+.table-responsive {
+    overflow: visible !important;
+    position: relative;
+    max-height: none !important;
+    margin-bottom: 20px;
+}
+
+.table-container {
+    position: relative;
+    width: 100%;
+    overflow: visible !important;
+}
+
+/* Ensure table takes full width */
+.table {
+    width: 100%;
+    margin-bottom: 0;
+    overflow: visible !important;
+}
+
+/* Override any table scroll settings */
+.table-responsive,
+.table-container,
+.table {
+    -ms-overflow-style: visible !important;
+    scrollbar-width: none;
+}
+
+.card-body {
+    overflow: visible !important;
+}
+
+/* Keep the table header visible */
+.header-wrapper {
+    position: relative;
+}
+
+/* Content wrapper */
+.content {
+    position: relative;
+    min-height: calc(100vh - 70px); /* Adjust based on your header height */
+    padding-bottom: 20px;
 }

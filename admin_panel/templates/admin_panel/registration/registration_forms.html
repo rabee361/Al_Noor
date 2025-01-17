@@ -8,9 +8,9 @@
 
       <div class="bread-crumbs-size" style="display: flex; gap: 0;">
         <div style="height: 70px; margin-left: 1300px; display: flex; gap: 10px;">
-          <a href="{% url 'main_dashboard' %}" style="text-decoration: none;"><h5 style="color: white;">الرئيسية</h5></a>
+          <a href="{% url 'main_dashboard' %}" style="text-decoration: none;"><h5 style="color: var(--text-color);">الرئيسية</h5></a>
           <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
-          <h5 style="color: white;">استمارات التسجيل</h5>
+          <h5 style="color: var(--text-color);">استمارات التسجيل</h5>
           <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
         </div>
       </div>
@@ -19,7 +19,7 @@
       <!-- Replace with form-wrapped search and actions container -->
       <div class="search-actions-container">
         <form method="GET" action="" class="search-wrapper">
-          <input type="text" name="q" class="search-input" placeholder="البحث عن المهام..." value="{{ request.GET.q }}">
+          <input type="text" name="q" class="search-input" placeholder="البحث عن استمارة..." value="{{ request.GET.q }}">
           <button type="submit" class="search-button">
             <i class="fas fa-search"></i>
           </button>
@@ -54,79 +54,79 @@
               <div style="overflow-x: auto; width: 100%;">
                 <table class="table my-table">
                   <thead class="text-primary header-wrapper" style=" text-align: center;">
-                    <th style="color: white;">
+                    <th style="color: var(--text-color);">
                       ID
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color);">
                     رقم الهاتف
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color);">
                     الاسم الاول
                     </th>
-                    <th style="color: white;">
+                      <th style="color: var(--text-color);">
                     الاب
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color);">
                     الجد
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color);">
                     العائلة 
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color);">
                     رقم الهوية
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color);">
                     الميلاد
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color);">
                     العمل
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color);">
                     الجنس
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color);">
                     خيارات الرحلة
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color);">
                     الحالة الاجتماعية
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color);">
                     مكان السكن
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color);">
                     نوع الحجة
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color);">
                     مرجع التقليد
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color);">
                     عدد الحجات
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color);">
                     اخر سنة حج
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color);">
                     وسيلة الرحلة
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color);">
                     فصيلة الدم
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color);">
                     أمراض
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color);">
                     مساعدة في الطواف
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color);">
                     مساعدة في السعي
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color);">
                     كرسي متحرك
                     </th>
-                    <th style="color: white;">  
+                    <th style="color: var(--text-color);">  
                     نوع المساعدة
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color);">
                       
                     </th>
                   </thead>
@@ -134,7 +134,7 @@
                   {% for form in forms %}
                     <tr class="body-fields">
                       <td>
-                        <a style="text-decoration: none; color: white;" href="{% url 'update_register_form' form.id %}">
+                        <a style="text-decoration: none; color: var(--text-color);" href="{% url 'update_register_form' form.id %}">
                           {{form.id}}
                         </a>
                       </td>

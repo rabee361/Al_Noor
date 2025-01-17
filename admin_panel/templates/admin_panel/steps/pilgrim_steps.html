@@ -3,28 +3,32 @@
 
 
 {% block content %}
-<div class="main-panel" id="main-panel" style="background-color: rgb(77, 76, 76);">
+<div class="main-panel" id="main-panel" style="background-color: var(--card-bg);">
   <div class="content" dir="rtl" style="margin-top: 10px;">
 
       <div class="bread-crumbs-size" style="display: flex; gap: 0;">
         <div style="height: 70px; margin-left: 1300px; display: flex; gap: 10px;">
-          <a href="{% url 'main_dashboard' %}" style="text-decoration: none;"><h5 style="color: white;">الرئيسية</h5></a>
+          <a href="{% url 'main_dashboard' %}" style="text-decoration: none;"><h5 style="color: var(--text-color);">الرئيسية</h5></a>
           <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
-          <h5 style="color: white;">الخطوات الرئيسية</h5>
+          <h5 style="color: var(--text-color);">الخطوات الرئيسية</h5>
           <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
         </div>
       </div>
 
+
+      <!-- Replace with form-wrapped search and actions container -->
+      <div class="search-actions-container">
+        <form method="GET" action="" class="search-wrapper">
+          <input type="text" name="q" class="search-input" placeholder="البحث عن المهام..." value="{{ request.GET.q }}">
+          <button type="submit" class="search-button">
+            <i class="fas fa-search"></i>
+          </button>
+        </form>
+      </div>
+
       <div class="row">
       <div class="col-md-12">
-        <div class="card" style="background-color: rgb(57, 58, 58);">
-
-          <div style="display: flex;">
-            <div class="card-header" style="margin-left: 520px;">
-              <form action="" method="get" style="color: rgb(54, 54, 54);">
-                  <input type="text" name="q" class="custom-input" style="font-family: Cairo; font-weight: 600;" placeholder="  بحث بالاسم ">
-              </form>
-            </div>
+        <div class="card" style="background-color: var(--body-color);">
 
           </div>
 
@@ -33,13 +37,13 @@
               <div style="overflow-x: auto; width: 100%;">
                 <table class="table my-table">
                   <thead class="text-primary header-wrapper">
-                    <th style="color: white;">
+                    <th style="color: var(--text-color);">
                     الخطوة
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color);">
                     الحاج
                     </th>
-                    <th style="color: white;">
+                    <th style="color: var(--text-color);">
                     اكتملت
                     </th>
 

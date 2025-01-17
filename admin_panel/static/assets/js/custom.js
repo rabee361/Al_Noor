@@ -43,4 +43,33 @@ document.addEventListener('DOMContentLoaded', function() {
             this.style.boxShadow = 'none';
         });
     });
+
+    // Prevent scroll event propagation
+    const sidebar = document.querySelector('.sidebar');
+    const mainPanel = document.querySelector('.main-panel');
+
+    if (sidebar) {
+        sidebar.addEventListener('wheel', (e) => {
+            e.stopPropagation();
+        });
+    }
+
+    if (mainPanel) {
+        mainPanel.addEventListener('wheel', (e) => {
+            e.stopPropagation();
+        });
+    }
+
+    // Remove perfect scrollbar
+    if (typeof PerfectScrollbar !== 'undefined') {
+        const scrollElements = document.querySelectorAll('.sidebar, .main-panel');
+        scrollElements.forEach(element => {
+            if (element._ps) {
+                element._ps.destroy();
+            }
+            element.classList.remove('ps');
+            element.classList.remove('ps--active-y');
+            element.classList.remove('ps--active-x');
+        });
+    }
 });
