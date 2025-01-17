@@ -6,6 +6,7 @@ from django.utils import timezone
 import random
 import secrets
 import string
+from tenacity import retry, stop_after_attempt, wait_exponential
 
 
 weekday_mapping = {
@@ -21,13 +22,13 @@ weekday_mapping = {
 
 
 
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=2, max=10))
 def get_response(longitude,latitude,day,month,year):
     Url = 'http://api.aladhan.com/v1/timings?tune=0,7,0,0,0,0,0,0,0'
     formatted_date = ''
     if day and month and year:
         date = datetime(int(year), int(month), int(day))
         formatted_date = date.strftime("%d-%m-%Y")
-        print(Url+formatted_date)
     else:
         return Response({"error":"wrong data"})
     
@@ -37,7 +38,11 @@ def get_response(longitude,latitude,day,month,year):
         'method' : 8,
     }
     response = requests.get(Url+formatted_date,params=p)
-    return response.json()
+    
+    try:
+        return response.json()
+    except ValueError:
+        return {"error": "Invalid JSON response", "content": response.text}
 
 
 
