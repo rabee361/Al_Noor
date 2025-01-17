@@ -3,7 +3,7 @@
 
 
 {% block content %}
-<div class="main-panel" id="main-panel" style="background-color: rgb(77, 76, 76);">
+<div class="main-panel" id="main-panel" style="background-color: var(--card-bg);">
   <div class="content" dir="rtl" style="margin-top: 10px;">
 
       <div class="bread-crumbs-size" style="display: flex; gap: 0;">
@@ -15,23 +15,23 @@
         </div>
       </div>
 
-      <div style="display: flex; gap: 5px; color: white; font-size: smaller;" dir="ltr">
-        <a href="{% url 'add_guidance_post' %}" style="text-decoration: none;"><h5 class="add-button">إضافة</h5></a>
-        <a href="{% url 'add_guidance_category' %}" style="text-decoration: none;"><h5 class="import-button2">فئة جديدة</h5></a>
+      <!-- Replace with form-wrapped search and actions container -->
+      <div class="search-actions-container">
+        <form method="GET" action="" class="search-wrapper">
+          <input type="text" name="q" class="search-input" placeholder="البحث عن المنشورات..." value="{{ request.GET.q }}">
+          <button type="submit" class="search-button">
+            <i class="fas fa-search"></i>
+          </button>
+        </form>
+        <a href="{% url 'add_guidance_post' %}" class="action-button add-task-button">
+          <i class="fas fa-plus"></i>
+          <span>إضافة مرشد</span>
+        </a>
       </div>
 
       <div class="row">
       <div class="col-md-12">
-        <div class="card" style="background-color: rgb(57, 58, 58);">
-
-          <div style="display: flex;">
-            <div class="card-header" style="margin-left: 520px;">
-              <form action="" method="get" style="color: rgb(54, 54, 54);">
-                  <input type="text" name="q" class="custom-input" placeholder="  بحث">
-              </form>
-            </div>
-          </div>
-      
+        <div class="card" style="background-color: var(--body-color);">
 
           <div class="card-body">
             <div class="table-responsive">

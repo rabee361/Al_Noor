@@ -28,4 +28,19 @@ document.addEventListener('DOMContentLoaded', function() {
             icon.classList.add('fa-sun');
         }
     }
+
+    // Add smooth hover effect for action buttons
+    const actionButtons = document.querySelectorAll('.action-button');
+    
+    actionButtons.forEach(button => {
+        button.addEventListener('mouseover', function() {
+            this.style.transform = 'translateY(-2px)';
+            this.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+        });
+        
+        button.addEventListener('mouseout', function() {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = 'none';
+        });
+    });
 });

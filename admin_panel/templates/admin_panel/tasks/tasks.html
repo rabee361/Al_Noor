@@ -15,45 +15,48 @@
         </div>
       </div>
 
-      <div style="display: flex; gap: 5px; color: var(--text-color); font-size: smaller;" dir="ltr">
-        <a href="{% url 'add_task' %}" style="text-decoration: none;"><h5 class="add-button">إضافة</h5></a>
+      <!-- Replace with form-wrapped search and actions container -->
+      <div class="search-actions-container">
+        <form method="GET" action="" class="search-wrapper">
+          <input type="text" name="q" class="search-input" placeholder="البحث عن المهام..." value="{{ request.GET.q }}">
+          <button type="submit" class="search-button">
+            <i class="fas fa-search"></i>
+          </button>
+        </form>
+        <div class="actions-wrapper">
+          <a href="{% url 'add_task' %}" class="action-button add-task-button">
+            <i class="fas fa-plus"></i>
+            <span>إضافة مهمة</span>
+          </a>
+        </div>
       </div>
-
       
       <div class="row">
       <div class="col-md-12">
         <div class="card" style="background-color: var(--body-color);">
 
-          <div style="display: flex;">
-            <div class="card-header" style="margin-left: 520px;">
-              <form action="" method="get" style="color: var(--text-color);">
-                  <input type="text" name="q" class="custom-input" placeholder="  بحث">
-              </form>
-            </div>
-          </div>
-      
 
           <div class="card-body">
             <div class="table-responsive">
               <div style="overflow-x: auto; width: 100%;">
                 <table class="table my-table">
-                  <thead class="text-primary header-wrapper">
-                    <th style="color: var(--text-color);">
+                  <thead class="header-wrapper">
+                    <th>
                       ID
                     </th>
-                    <th style="color: var(--text-color);">
+                    <th>
                       الموظف
                     </th>
-                    <th style="color: var(--text-color);">
+                    <th>
                     المهمة
                     </th>
-                    <th style="color: var(--text-color);">
+                    <th>
                       انتهت 
                     </th>
-                    <th style="color: var(--text-color);">
+                    <th>
                        تم قبولها
                     </th>
-                    <th style="color: var(--text-color);">
+                    <th>
                       
                     </th>
                   </thead>

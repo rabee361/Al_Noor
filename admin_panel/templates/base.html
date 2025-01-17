@@ -48,12 +48,16 @@
       color: var(--text-color);
       cursor: pointer;
       padding: 8px;
-      border-radius: 50%;
+      border-radius: 10px;
       transition: background-color 0.3s;
   }
 
   .theme-toggle-btn:hover {
-      background-color: var(--input-hover-bg);
+      background-color: var(--primary-color);
+  }
+
+  .theme-toggle-btn:focus {
+      border: none;
   }
 
   .theme-toggle-btn i {
@@ -71,11 +75,8 @@
       <div class="navbar-container">
         <div class="navbar-brand">
           <img src="{% static 'assets/img/alnoor.png' %}" alt="alnoor logo" class="navbar-logo">
-          <h6>حملة النور</h6>
+          <h6 style="color: var(--primary-color);">حملة النور</h6>
           <div class="navbar-controls">
-            <button class="theme-toggle-btn" id="themeToggle">
-              <i class="fas fa-moon"></i>
-            </button>
             <div class="settings-dropdown">
               <button class="settings-btn" id="settingsToggle">
                 <i class="fas fa-cog"></i>
@@ -91,6 +92,9 @@
                 </a>
               </div>
             </div>
+            <button class="theme-toggle-btn" id="themeToggle">
+              <i class="fas fa-moon"></i>
+            </button>
             <div class="navbar-toggle">
               <button type="button" class="navbar-toggler">
                 <span class="navbar-toggler-bar bar1"></span>

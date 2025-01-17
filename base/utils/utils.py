@@ -22,7 +22,7 @@ weekday_mapping = {
 
 
 
-@retry(stop=stop_after_attempt(5), wait=wait_exponential(multiplier=1, min=2, max=10))
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=2, max=10))
 def get_response(longitude,latitude,day,month,year):
     Url = 'http://api.aladhan.com/v1/timings?tune=0,7,0,0,0,0,0,0,0'
     formatted_date = ''
