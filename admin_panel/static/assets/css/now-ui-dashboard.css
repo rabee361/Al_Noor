@@ -23,6 +23,77 @@ Licensed under the MIT license - http://opensource.org/licenses/MIT
 Copyright (c) 2015 Daniel Eden
 */
 
+
+
+
+
+:root {
+  --bg-color: #1a1a1a;
+  --body-color: #4d4c4c;
+  --card-bg: #2d2d2d;
+  --primary-color: var(--primary-color);
+  --input-bg: #454545;
+  --input-hover-bg: #505050;
+  --input-focus-bg: #555555;
+  --text-color: #ffffff;
+  --text-muted: #a0a0a0;
+  --hover-color: #b88e01;
+
+  /* Light theme */
+  --bg-color-light: #ffffff;
+  --body-color-light: #f4f4f4;
+  --card-bg-light: #ffffff;
+  --primary-color-light: #D7A401;
+  --input-bg-light: #f8f9fa;
+  --input-hover-bg-light: #e9ecef;
+  --input-focus-bg-light: #dee2e6;
+  --text-color-light: #2c2c2c;
+  --text-muted-light: #6c757d;
+  --hover-color-light: #b88e01;
+
+  /* Dark theme */
+  --bg-color-dark: #1a1a1a;
+  --body-color-dark: #4d4c4c;
+  --card-bg-dark: #2d2d2d;
+  --primary-color-dark: #D7A401;
+  --input-bg-dark: #454545;
+  --input-hover-bg-dark: #505050;
+  --input-focus-bg-dark: #555555;
+  --text-color-dark: #ffffff;
+  --text-muted-dark: #a0a0a0;
+  --hover-color-dark: #b88e01;
+}
+
+/* Theme-based variables */
+[data-theme="light"] {
+  --bg-color: var(--bg-color-light);
+  --body-color: var(--body-color-light);
+  --card-bg: var(--card-bg-light);
+  --primary-color: var(--primary-color-light);
+  --input-bg: var(--input-bg-light);
+  --input-hover-bg: var(--input-hover-bg-light);
+  --input-focus-bg: var(--input-focus-bg-light);
+  --text-color: var(--text-color-light);
+  --text-muted: var(--text-muted-light);
+  --hover-color: var(--hover-color-light);
+}
+
+[data-theme="dark"] {
+  --bg-color: var(--bg-color-dark);
+  --body-color: var(--body-color-dark);
+  --card-bg: var(--card-bg-dark);
+  --primary-color: var(--primary-color-dark);
+  --input-bg: var(--input-bg-dark);
+  --input-hover-bg: var(--input-hover-bg-dark);
+  --input-focus-bg: var(--input-focus-bg-dark);
+  --text-color: var(--text-color-dark);
+  --text-muted: var(--text-muted-dark);
+  --hover-color: var(--hover-color-dark);
+}
+
+
+
+
 .animated {
   -webkit-animation-duration: 1s;
   animation-duration: 1s;
@@ -2632,9 +2703,9 @@ a[data-toggle="collapse"][aria-expanded="true"] .caret,
 }
 
 .page-header[filter-color="orange"] {
-  background: rgba(44, 44, 44, 0.2);
+  background: var(--bg-color);
   /* For browsers that do not support gradients */
-  background: -webkit-linear-gradient(90deg, rgba(44, 44, 44, 0.2), rgba(224, 23, 3, 0.6));
+  background: -webkit-linear-gradient(90deg, rgba(var(--bg-color), 0.2), rgba(224, 23, 3, 0.6));
   /* For Safari 5.1 to 6.0 */
   background: -o-linear-gradient(90deg, rgba(44, 44, 44, 0.2), rgba(224, 23, 3, 0.6));
   /* For Opera 11.1 to 12.0 */
@@ -3875,7 +3946,7 @@ sidebar-wrapper
 .off-canvas-sidebar .nav li>a {
   margin: 10px 15px 0;
   border-radius: 30px;
-  color: #FFFFFF;
+  color: var(--text-color);
   display: block;
   text-decoration: none;
   position: relative;
@@ -3891,23 +3962,23 @@ sidebar-wrapper
   margin: 0 15px;
 }
 
-.sidebar .nav li:hover:not(.active)>a,
+.sidebar .nav li:hover:not(.active)>a,  
 .sidebar .nav li:focus:not(.active)>a,
 .off-canvas-sidebar .nav li:hover:not(.active)>a,
 .off-canvas-sidebar .nav li:focus:not(.active)>a {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--bg-color);
 }
 
 .sidebar .nav li:hover:not(.active)>a i,
 .sidebar .nav li:focus:not(.active)>a i,
 .off-canvas-sidebar .nav li:hover:not(.active)>a i,
 .off-canvas-sidebar .nav li:focus:not(.active)>a i {
-  color: #FFFFFF;
+  color: var(--text-color);
 }
 
 .sidebar .nav li.active>a,
 .off-canvas-sidebar .nav li.active>a {
-  background-color: #D7A401;
+  background-color: var(--primary-color);
   box-shadow: 0 1px 15px 1px rgba(39, 39, 39, 0.1);
 }
 
@@ -3929,7 +4000,7 @@ sidebar-wrapper
   line-height: 30px;
   width: 34px;
   text-align: center;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-color);
   position: relative;
 }
 
@@ -3954,7 +4025,7 @@ sidebar-wrapper
   height: 100%;
   content: "";
   display: block;
-  background: #FFFFFF;
+  background: var(--bg-color);
   opacity: 1;
 }
 
@@ -3994,7 +4065,7 @@ sidebar-wrapper
   right: 15px;
   height: 1px;
   width: calc(100% - 30px);
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: var(--bg-color);
 }
 
 .sidebar .logo p,
@@ -4002,7 +4073,7 @@ sidebar-wrapper
   float: left;
   font-size: 20px;
   margin: 10px 10px;
-  color: #FFFFFF;
+  color: var(--text-color);
   line-height: 20px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
@@ -4014,7 +4085,7 @@ sidebar-wrapper
   display: block;
   white-space: nowrap;
   font-size: 1em;
-  color: #FFFFFF;
+  color: var(--text-color);
   text-decoration: none;
   font-weight: 400;
   line-height: 30px;
@@ -4094,17 +4165,17 @@ sidebar-wrapper
 
 .sidebar[data-color="orange"]:after,
 .off-canvas-sidebar[data-color="orange"]:after {
-  background: rgb(53, 52, 52);
+  background: var(--body-color);
 }
 
 .sidebar[data-color="orange"] .nav li.active>a:not([data-toggle="collapse"]),
 .off-canvas-sidebar[data-color="orange"] .nav li.active>a:not([data-toggle="collapse"]) {
-  color: rgb(53, 52, 52);
+    color: var(--body-color);
 }
 
 .sidebar[data-color="orange"] .nav li.active>a:not([data-toggle="collapse"]) i,
 .off-canvas-sidebar[data-color="orange"] .nav li.active>a:not([data-toggle="collapse"]) i {
-  color: rgb(53, 52, 52);
+  color: var(--body-color);
 }
 
 .sidebar[data-color="red"]:after,
@@ -4147,19 +4218,18 @@ sidebar-wrapper
 
 .off-canvas-sidebar .nav>li>a,
 .off-canvas-sidebar .nav>li>a:hover {
-  color: #FFFFFF;
+  color: var(--text-color);
 }
 
 .off-canvas-sidebar .nav>li>a:focus {
-  background: #D7A401;
+  background: var(--primary-color);
 }
 
 .main-panel {
   position: relative;
   float: right;
   width: calc(100% - 260px);
-  background-color: #E3E3E3;
-  background-color: #ebecf1;
+  background-color: var(--bg-color);
   -webkit-transition: all 0.5s cubic-bezier(0.685, 0.0473, 0.346, 1);
   -moz-transition: all 0.5s cubic-bezier(0.685, 0.0473, 0.346, 1);
   -o-transition: all 0.5s cubic-bezier(0.685, 0.0473, 0.346, 1);
@@ -4190,7 +4260,7 @@ sidebar-wrapper
 @media (min-width: 991px) {
   .sidebar {
     display: block;
-    box-shadow: 0px 2px 22px 0 rgba(0, 0, 0, 0.2), 0px 2px 30px 0 rgba(0, 0, 0, 0.35);
+    box-shadow: 0px 2px 22px 0 rgba(0, 0, 0, 0.1), 0px 2px 30px 0 rgba(0, 0, 0, 0.15);
   }
 }
 .active
@@ -4198,7 +4268,7 @@ sidebar-wrapper
   height: 260px;
   padding-top: 80px;
   padding-bottom: 45px;
-  background: #D7A401;  
+  background: var(--primary-color);  
   /* fallback for old browsers */
   background: -webkit-gradient(linear, left top, right top, from(#0c2646), color-stop(60%, #204065), to(#2a5788));
   background: linear-gradient(to right, #0c2646 0%, #204065 60%, #2a5788 100%);
@@ -4207,23 +4277,23 @@ sidebar-wrapper
 }
 
 .panel-header .header .title {
-  color: #FFFFFF;
+  color: var(--text-color);
 }
 
 .panel-header .header .category {
   max-width: 600px;
-  color: #D7A401;
+  color: var(--primary-color);
   margin: 0 auto;
   font-size: 13px;
 }
 
 .panel-header .header .category a {
-  color: #FFFFFF;
+  color: var(--text-color);
 }
 
 .panel-header-sm {
   height: 100px;
-  background-color: #D7A401;
+  background-color: var(--primary-color);
 }
 
 .panel-header-lg {
@@ -4301,7 +4371,7 @@ sidebar-wrapper
 }
 
 .fixed-plugin .fa-cog {
-  color: #FFFFFF;
+  color: var(--text-color);
   padding: 10px;
   border-radius: 0 0 6px 6px;
   width: auto;
@@ -4328,7 +4398,7 @@ sidebar-wrapper
 }
 
 .fixed-plugin .fa-circle-thin {
-  color: #FFFFFF;
+  color: var(--text-color);
 }
 
 .fixed-plugin .active .fa-circle-thin {
@@ -4355,7 +4425,7 @@ sidebar-wrapper
 }
 
 .fixed-plugin .badge {
-  border: 3px solid #FFFFFF;
+  border: 3px solid var(--text-color);
   border-radius: 50%;
   cursor: pointer;
   display: inline-block;
@@ -4637,11 +4707,11 @@ sidebar-wrapper
 }
 
 .card[data-background-color="orange"] .card-header {
-  background-color: rgb(53, 52, 52);
+  background-color: var(--bg-color);
 }
 
 .card[data-background-color="orange"] .card-footer .stats {
-  color: #FFFFFF;
+  color: var(--text-color);
 }
 
 .card[data-background-color="red"] {
@@ -4775,7 +4845,7 @@ sidebar-wrapper
 .card-user .avatar {
   width: 124px;
   height: 124px;
-  border: 1px solid #FFFFFF;
+  border: 1px solid var(--text-color);
   position: relative;
 }
 
@@ -4890,7 +4960,7 @@ sidebar-wrapper
 
   .navbar .dropdown-menu .dropdown-item:focus,
   .navbar .dropdown-menu .dropdown-item:hover {
-    color: #FFFFFF;
+    color: var(--text-color);
   }
 
   .navbar.bg-white .dropdown-menu .dropdown-item:focus,
@@ -5944,11 +6014,11 @@ sidebar-wrapper
   .menu-on-right .sidebar {
     left: auto;
     right: 0;
-    -webkit-transform: translate3d(260px, 0, 0);
-    -moz-transform: translate3d(260px, 0, 0);
-    -o-transform: translate3d(260px, 0, 0);
-    -ms-transform: translate3d(260px, 0, 0);
-    transform: translate3d(260px, 0, 0);
+    -webkit-transform: translate3d(-260px, 0, 0);
+    -moz-transform: translate3d(-260px, 0, 0);
+    -o-transform: translate3d(-260px, 0, 0);
+    -ms-transform: translate3d(-260px, 0, 0);
+    transform: translate3d(-260px, 0, 0);
   }
 
   .navbar-minimize {
@@ -5976,4 +6046,44 @@ sidebar-wrapper
   }
 }
 
-/*# sourceMappingURL=dashboard-free.css.map */
+/* Replace #FFFFFF with var(--text-color) */
+.navbar .form-group .form-group-addon,
+.navbar .form-group .input-group-prepend .input-group-text,
+.navbar .form-group .input-group-append .input-group-text,
+.navbar .input-group .form-group-addon,
+.navbar .input-group .input-group-prepend .input-group-text,
+.navbar .input-group .input-group-append .input-group-text {
+  color: var(--text-color);
+}
+
+/* Replace var(--primary-color) with var(--primary-color) */
+.off-canvas-sidebar .nav>li>a:focus {
+  background: var(--primary-color);
+}
+
+.panel-header {
+  background: var(--primary-color);
+}
+
+.panel-header-sm {
+  background-color: var(--primary-color);
+}
+
+/* Replace white backgrounds with var(--bg-color) */
+.bg-white {
+  background-color: var(--bg-color) !important;
+}
+
+/* Replace text colors */
+.page-header .category,
+.page-header .description {
+  color: var(--text-muted);
+}
+
+.alert .close {
+  color: var(--text-color) !important;
+}
+
+.sidebar .logo .simple-text {
+  color: var(--text-color);
+}

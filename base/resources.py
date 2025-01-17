@@ -160,7 +160,7 @@ class RegistrationResource(resources.ModelResource):
         column_name='العائلة',
         attribute='last_name',
     )
-    registeration_id = Field(
+    id_number = Field(
         column_name='رقم الهوية',
         attribute='id_number',
     )
@@ -220,6 +220,10 @@ class RegistrationResource(resources.ModelResource):
     chronic_diseases = Field(
         column_name='هل لديك أمراض مزمنة',
         attribute='chronic_diseases',
+    )
+    additional = Field(
+        column_name="كتابة المرافق معاك",
+        attribute='additional'
     )
     tawaf = Field(
         column_name='هل تحتاج لمن يساعدك خلال الطواف',

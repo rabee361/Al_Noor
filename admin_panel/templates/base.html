@@ -4,6 +4,8 @@
 <html lang="ar">
 
 <head>
+  <script src="{% static '/assets/js/custom.js' %}"></script>
+
   <meta charset="utf-8" />
   <link rel="apple-touch-icon" sizes="76x76" href="{% static '/assets/img/apple-icon.png' %}">
   <link rel="icon" type="image/png" href="{% static '/assets/img/alnoor.png' %}">
@@ -39,10 +41,30 @@
   <link href="{% static '/assets/demo/demo.css' %}" rel="stylesheet" />
   <link href="{% static '/assets/css/custom.css' %}" rel="stylesheet" />
 
+  <style>
+  .theme-toggle-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-color);
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 50%;
+      transition: background-color 0.3s;
+  }
+
+  .theme-toggle-btn:hover {
+      background-color: var(--input-hover-bg);
+  }
+
+  .theme-toggle-btn i {
+      font-size: 1.2rem;
+  }
+  </style>
 
 </head>
 
-<body class="" style="background-color: var(--body-color); font-family: Cairo;">  
+<body class="" style="background-color: var(--card-bg); font-family: Cairo;">  
+
   <div class="wrapper">
     <!-- Add the top navbar -->
     <nav class="top-navbar">
@@ -83,11 +105,11 @@
 
 
 
-    <div class="sidebar" data-color="orange" style="color: white;">
+    <div class="sidebar" data-color="orange" style="color: var(--text-color);">
 
         <div class="sidebar-wrapper" id="sidebar-wrapper" style="font-family: Cairo; font-size: larger;">
           <ul class="nav" style="text-align: right;">
-            <li style="display: flex; flex-direction: column; color: white; align-items: center;">
+            <li style="display: flex; flex-direction: column; color: var(--text-color); align-items: center;">
               <p class="h3">
                 <img src="{{user_image}}" alt="" class="rounded-circle" style="width: 90px; height: 90px; object-fit: cover; margin: auto;">
                 <h5>{{username}}</h5>
@@ -230,7 +252,7 @@
             </li>
           </ul>
         </div>
-      </div>
+    </div>
 
     {% block content %}
 
@@ -275,7 +297,6 @@
     });
   });
   </script>
-
 
 
 </body>
