@@ -2136,6 +2136,8 @@ svg {
 .navbar-brand {
   color: var(--brand-color) !important;
   font-size: 1.3rem;
+  max-width: 100%;
+  height: auto;
   font-weight: 700;
   margin: 0; /* Remove default margin */
   padding: 0;

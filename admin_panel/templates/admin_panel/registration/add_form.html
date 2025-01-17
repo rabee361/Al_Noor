@@ -101,7 +101,7 @@
                     </div>
                     <div class="form-input">
                       <div class="form-label">{{ form.last_year.label_tag }}</div>
-                      <div><input type="number" min="1900" max="2050" class="form-control"></div>
+                      <div>{{ form.last_year|add_class:"form-control" }}</div>
                     </div>
                   </div>
 
@@ -123,8 +123,8 @@
                       <div>{{ form.illness|add_class:"form-control" }}</div> 
                     </div>
                     <div class="form-input">
-                      <div class="form-label">{{ form.chronic_diseases.label_tag }}</div>
-                      <div>{{ form.chronic_diseases|add_class:"form-control" }}</div> 
+                      <div class="form-label">{{ form.additional.label_tag }}</div>
+                      <div>{{ form.additional|add_class:"form-control" }}</div> 
                     </div>
                   </div>
 

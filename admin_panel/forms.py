@@ -370,6 +370,94 @@ class NewRegisterForm(forms.ModelForm):
         }
 
 
+
+
+
+
+
+class UpdateRegisterForm(forms.ModelForm):
+
+    class Meta:
+        model = Registration
+        fields = '__all__'
+        error_messages = {
+            'first_name': {
+                'required': 'يرجى إدخال الاسم الأول'
+            },
+            'father_name': {
+                'required': 'يرجى إدخال اسم الأب'
+            },
+            'grand_father': {
+                'required': 'يرجى إدخال اسم الجد'
+            },
+            'last_name': {
+                'required': 'يرجى إدخال اسم العائلة'
+            },
+            'id_number': {
+                'required': 'يرجى إدخال رقم الهوية',
+                'invalid': 'رقم الهوية يجب أن يكون أرقاماً فقط'
+            },
+            'phonenumber': {
+                'required': 'يرجى إدخال رقم الهاتف',
+                'invalid': 'رقم الهاتف غير صالح'
+            },
+            'job_position': {
+                'required': 'يرجى اختيار المسمى الوظيفي'
+            },
+            'birthday': {
+                'required': 'يرجى إدخال تاريخ الميلاد',
+                'invalid': 'صيغة التاريخ غير صحيحة'
+            },
+            'marital_status': {
+                'required': 'يرجى اختيار الحالة الاجتماعية'
+            },
+            'additional': {
+                'required': 'يرجى كتابة المرافق معاك'
+            },
+            'address': {
+                'required': 'يرجى اختيار العنوان'
+            },
+            'gender': {
+                'required': 'يرجى اختيار الجنس'
+            },
+            'options_trip': {
+                'required': 'يرجى اختيار خيارات الرحلة'
+            },
+            'means_journey': {
+                'required': 'يرجى اختيار وسيلة السفر'
+            },
+            'tawaf': {
+                'required': 'يرجى تحديد ما إذا كنت بحاجة لمساعدة في الطواف'
+            },
+            'sai': {
+                'required': 'يرجى تحديد ما إذا كنت بحاجة لمساعدة في السعي'
+            },
+            'alhajj': {
+                'required': 'يرجى اختيار نوع الحج'
+            },
+            'tradition_reference': {
+                'required': 'يرجى اختيار مرجع التقليد'
+            },
+            'blood_type': {
+                'required': 'يرجى اختيار فصيلة الدم'
+            },
+            'illness': {
+                'required': 'يرجى تحديد ما إذا كنت تعاني من أمراض مزمنة'
+            },
+            'wheelchair': {
+                'required': 'يرجى تحديد ما إذا كنت بحاجة لكرسي متحرك'
+            },
+            'type_help': {
+                'required': 'يرجى اختيار نوع المساعدة'
+            },
+        }
+
+
+
+
+
+
+
 class NotificationForm(ModelForm):
     class Meta:
         model = BaseNotification

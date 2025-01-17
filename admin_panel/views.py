@@ -132,13 +132,14 @@ def add_register_form(request):
 @login_required(login_url='login')
 def update_register_form(request,form_id):
     register_form = Registration.objects.get(id=form_id)
-    form = NewRegisterForm(instance=register_form)
+    form = UpdateRegisterForm(instance=register_form)
 
     if request.method == 'POST':
-        form = NewRegisterForm(request.POST,instance=register_form)
+        form = UpdateRegisterForm(request.POST,instance=register_form)
         if form.is_valid():
             form.save()
             return redirect('registration_forms')
+        print(form.errors)
 
     context = {
         'form': form,

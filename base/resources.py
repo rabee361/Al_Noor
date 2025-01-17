@@ -222,7 +222,7 @@ class RegistrationResource(resources.ModelResource):
         attribute='chronic_diseases',
     )
     additional = Field(
-        column_name="كتابة المرافق معاك",
+        column_name="اسم المرافق معك",
         attribute='additional'
     )
     tawaf = Field(
