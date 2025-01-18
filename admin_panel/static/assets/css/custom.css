@@ -36,19 +36,19 @@
 body {
     background-color: var(--body-color);
     font-family: Cairo;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.5s ease;
     overflow: hidden;
     height: 100vh;
 }
 
 .main-panel {
-    transition: background-color 0.3s ease;
     position: relative;
     height: 100vh;
     overflow-y: auto;
     overflow-x: hidden;
     -ms-overflow-style: none !important;
     scrollbar-width: none;
+    transition: all 0.5s ease;
 }
 
 .main-panel::-webkit-scrollbar {
@@ -233,7 +233,7 @@ body {
     height: 45px;
     border-radius: 10px;
     padding: 0 15px;
-    transition: all 0.3s ease;
+    transition: all 0.5s ease;
 }
 
 .form-control:focus {
@@ -727,7 +727,7 @@ body {
     font-family: 'Cairo', sans-serif;
     font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.5s ease; 
 }
 
 .save-button:hover {
@@ -747,7 +747,7 @@ body {
     background-color: var(--input-bg);
     height: 45px;
     padding: 0 15px;
-    transition: all 0.3s ease;
+    transition: all 0.5s ease;
 }
 
 .date-field:focus,
@@ -828,7 +828,7 @@ body {
     font-family: 'Cairo', sans-serif;
     font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.5s ease;
 }
 
 .save-button:hover {
@@ -868,7 +868,7 @@ input[type="file"] {
     background-color: var(--input-bg);
     border: 1px solid transparent;
     color: var(--text-color);
-    transition: all 0.3s ease;
+    transition: all 0.5s ease;
 }
 
 .form-control:hover {
@@ -887,7 +887,7 @@ input[type="file"] {
     background-color: var(--input-bg);
     border: 1px solid transparent;
     color: var(--text-color);
-    transition: all 0.3s ease;
+    transition: all 0.5s ease;
 }
 
 .date-field:hover,
@@ -1004,7 +1004,7 @@ input[type="file"]:focus {
   height: 60px;
   background-color: var(--card-bg);
   color: var(--primary-color);
-  transition: background-color 0.3s ease;
+  transition: all 0.5s ease;
   z-index: 900; /* Reduced z-index to be below sidebar */
 }
 
@@ -1017,7 +1017,7 @@ input[type="file"]:focus {
         height: 60px;
         background-color: var(--card-bg);
         color: var(--primary-color);
-        transition: background-color 0.3s ease;
+        transition: all 0.5s ease;
         z-index: 900; /* Reduced z-index to be below sidebar */
       }
 }
@@ -1065,7 +1065,7 @@ input[type="file"]:focus {
   font-size: 1.1rem;
   padding: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
 }
 
 .theme-toggle-btn:hover {
@@ -1085,7 +1085,7 @@ input[type="file"]:focus {
   font-size: 1.1rem;
   padding: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
 }
 
 .settings-btn:hover {
@@ -1116,7 +1116,7 @@ input[type="file"]:focus {
   display: flex;
   align-items: center;
   gap: 8px;
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
   font-size: 13px;
 }
 
@@ -1238,7 +1238,7 @@ input[type="file"]:focus {
     color: var(--text-color);
     font-family: 'Cairo', sans-serif;
     font-size: 16px;
-    transition: all 0.3s ease;
+    transition: all 0.5s ease;
 }
 
 .search-input::placeholder {
@@ -1262,7 +1262,7 @@ input[type="file"]:focus {
     color: var(--text-muted);
     padding: 10px;
     cursor: pointer;
-    transition: color 0.3s ease;
+    transition: color 0.5s ease;
 }
 
 .search-button:hover {
@@ -1323,7 +1323,7 @@ input[type="file"]:focus {
     font-size: 14px;
     font-weight: 500;
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: all 0.5s ease;
     height: 40px;
     white-space: nowrap;
 }
@@ -1442,7 +1442,7 @@ input[type="file"]:focus {
     font-size: 14px;
     font-weight: 500;
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: all 0.5s ease;
     height: 40px;
     white-space: nowrap;
     min-width: 140px;
