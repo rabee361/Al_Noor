@@ -337,7 +337,7 @@
 
         
     .add-button {
-        background: #D7A401;
+        background: var(--primary-color);
         font-size:inherit;
         display: flex;
         flex-direction: row-reverse;
@@ -347,7 +347,7 @@
         text-wrap: nowrap;
         width: 50px;
         border-radius: 20px;
-        color: white;
+        color: var(--text-color);
     }
 
     .import-button {
@@ -361,11 +361,11 @@
         text-wrap: nowrap;
         width: 90px;
         border-radius: 20px;
-        color: white;
+        color: var(--text-color);
     }    
 
     .import-button2 {
-        background: #D7A401;
+        background: var(--primary-color);
         font-size:inherit;
         display: flex;
         flex-direction: row-reverse;
@@ -375,7 +375,7 @@
         text-wrap: nowrap;
         width: 110px;
         border-radius: 20px;
-        color: white;
+        color: var(--text-color);
     }    
 
 }

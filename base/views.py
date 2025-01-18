@@ -44,8 +44,12 @@ class LoginUser(GenericAPIView):
                 data = serializer.data
                 try:
                     guide_chat = Chat.objects.get(user=user, chat_type='guide')
-                    manager_chat = Chat.objects.get(user=user , chat_type='manager')
                     data['guide_chat_id'] = guide_chat.id
+                except Chat.DoesNotExist:
+                    None
+                    
+                try:
+                    manager_chat = Chat.objects.get(user=user , chat_type='manager')
                     data['manager_chat_id'] = manager_chat.id
                 except Chat.DoesNotExist:
                     None
