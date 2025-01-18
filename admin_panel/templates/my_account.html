@@ -4,27 +4,32 @@
 
 {% block content %}
 
-<div class="main-panel" id="main-panel" style="background-color: rgb(77, 76, 76);">
+<div class="main-panel" id="main-panel" style="background-color: var(--card-bg);">
     <div class="content" dir="rtl" style="margin-top: 10px;">
   
         <div class="bread-crumbs-size" style="display: flex; gap: 0;">
           <div style="height: 70px; margin-left: 1300px; display: flex; gap: 10px;">
-            <h5 style="color: white;">حسابي</h5>
+            <h5 style="color: var(--text-color);">حسابي</h5>
           </div>
         </div>
 
 
-        <div style="display: flex; gap: 5px; color: white; font-size: smaller;" dir="ltr">
-          <a href="{% url 'change_password' user_id %}" style="text-decoration: none;"><h5 class="change-button" style="background-color: #969696;">تعديل كلمة المرور</h5></a>
-          <a href="{% url 'add_admin' %}" style="text-decoration: none;"><h5 class="import-button2">إضافة أدمن</h5></a>
+        <div style="display: flex; gap: 5px; margin-bottom: 10px; color: var(--text-color); font-size: smaller;" dir="ltr">
+          <a href="{% url 'change_password' user_id %}" class="action-button import-button">
+            <span>تعديل كلمة المرور</span>
+          </a>
+          <a href="{% url 'add_admin' %}" class="action-button add-task-button">
+            <i class="fas fa-plus"></i>
+            <span>إضافة ملاحظة</span>
+          </a>
         </div>
   
 
 
         <div>
-            <form action="" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 30px; color: white;">
+            <form action="" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 30px; color: var(--text-color);">
                 {% csrf_token %}
-                <div style="background-color: rgb(57, 58, 58); width: 100%;display: flex; justify-content: space-evenly; border-radius: 30px;" dir="rtl">
+                <div style="background-color: var(--body-color); width: 100%;display: flex; justify-content: space-evenly; border-radius: 30px;" dir="rtl">
                   
                   <div class="form-block">
                     <div class="form-input">

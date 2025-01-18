@@ -76,32 +76,33 @@
         <div class="navbar-brand">
           <img src="{% static 'assets/img/alnoor.png' %}" alt="alnoor logo" class="navbar-logo">
           <h6 style="color: var(--primary-color);">حملة النور</h6>
-          <div class="navbar-controls">
-            <div class="settings-dropdown">
-              <button class="settings-btn" id="settingsToggle">
-                <i class="fas fa-cog"></i>
-              </button>
-              <div class="settings-dropdown-content">
-                <a href="{% url 'my_account' %}">
-                  <i class="fas fa-user"></i>
-                  حسابي
-                </a>
-                <a href="{% url 'logout' %}">
-                  <i class="fas fa-sign-out-alt"></i>
-                  تسجيل خروج
-                </a>
-              </div>
-            </div>
-            <button class="theme-toggle-btn" id="themeToggle">
-              <i class="fas fa-moon"></i>
+        </div>
+        
+        <div class="navbar-controls">
+          <div class="settings-dropdown">
+            <button class="settings-btn" id="settingsToggle">
+              <i class="fas fa-cog"></i>
             </button>
-            <div class="navbar-toggle">
-              <button type="button" class="navbar-toggler">
-                <span class="navbar-toggler-bar bar1"></span>
-                <span class="navbar-toggler-bar bar2"></span>
-                <span class="navbar-toggler-bar bar3"></span>
-              </button>
+            <div class="settings-dropdown-content">
+              <a href="{% url 'my_account' %}">
+                <i class="fas fa-user"></i>
+                حسابي
+              </a>
+              <a href="{% url 'logout' %}">
+                <i class="fas fa-sign-out-alt"></i>
+                تسجيل خروج
+              </a>
             </div>
+          </div>
+          <button class="theme-toggle-btn" id="themeToggle">
+            <i class="fas fa-moon"></i>
+          </button>
+          <div class="navbar-toggle">
+            <button type="button" class="navbar-toggler">
+              <span class="navbar-toggler-bar bar1"></span>
+              <span class="navbar-toggler-bar bar2"></span>
+              <span class="navbar-toggler-bar bar3"></span>
+            </button>
           </div>
         </div>
       </div>

@@ -698,29 +698,29 @@ body {
 }
 
 .page-link {
-    color: white;
-    background-color: rgba(40, 40, 40, 0.9);
+    color: var(--text-color);
+    background-color: var(--focus-bg);
     padding: 8px 12px;
     border-radius: 5px;
     text-decoration: none;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.5s ease;
     font-family: 'Cairo', sans-serif;
 }
 
 .page-link:hover {
     background-color: var(--primary-color);
-    color: white;
+    color: var(--text-color);
 }
 
 .page-link.active {
     background-color: var(--primary-color);
-    color: white;
+    color: var(--text-color);
     cursor: default;
 }
 
 .save-button {
     background-color: var(--primary-color);
-    color: white;
+    color: var(--text-color);
     border: none;
     padding: 10px 30px;
     border-radius: 20px;
@@ -1025,20 +1025,22 @@ input[type="file"]:focus {
 .navbar-container {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   height: 100%;
   color: var(--text-color);
   padding: 0 20px;
-  margin-right: 230px; /* Account for sidebar width */
+  margin-right: 230px;
 }
 
 .navbar-brand {
   display: flex;
   align-items: center;
-  gap: 15px; /* Space between logo and title */
+  gap: 15px;
+  margin-right: auto;
 }
 
 .navbar-logo {
-  width: 40px; /* Adjust size as needed */
+  width: 40px;
   height: 40px;
   object-fit: cover;
 }
@@ -1053,7 +1055,7 @@ input[type="file"]:focus {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-left: 0; /* Remove margin */
+  margin-left: auto;
 }
 
 /* Theme toggle button */
