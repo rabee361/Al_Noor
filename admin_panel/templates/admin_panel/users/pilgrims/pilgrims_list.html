@@ -18,7 +18,7 @@
       <!-- Replace with form-wrapped search and actions container -->
       <div class="search-actions-container">
         <form method="GET" action="" class="search-wrapper">
-          <input type="text" name="q" class="search-input" placeholder="البحث عن الحجاج..." value="{{ request.GET.q }}">
+          <input type="text" name="q" class="search-input" placeholder="البحث عن حاج..." value="{{ request.GET.q }}">
           <button type="submit" class="search-button">
             <i class="fas fa-search"></i>
           </button>
@@ -51,9 +51,10 @@
       <div class="row">
       <div class="col-md-12">
         <div class="card" style="background-color: var(--body-color);">
+
           <div class="card-body">
             <div class="table-responsive">
-              <div class="table-container">
+              <div style="overflow-x: auto; width: 100%;">
                 <table class="table my-table">
                   <thead class="text-primary header-wrapper">
                     <th style="color: var(--text-color); font-weight: 400;"> 

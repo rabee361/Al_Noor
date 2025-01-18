@@ -133,7 +133,7 @@ body {
 
 
 .import-button {
-    background-color: var(--body-color);
+    background-color: var(--focus-bg);
     color: var(--text-color);
 }
 

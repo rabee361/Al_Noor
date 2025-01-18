@@ -5376,7 +5376,7 @@ sidebar-wrapper
     width: 22px;
     height: 1px;
     border-radius: 1px;
-    background: #FFFFFF;
+    background: var(--text-color);
   }
 
   .navbar-toggler-bar+.navbar-toggler-bar {
@@ -5935,7 +5935,7 @@ sidebar-wrapper
     width: 22px;
     height: 1px;
     border-radius: 1px;
-    background: #FFFFFF;
+    background: var(--text-color);
   }
 
   .navbar-toggler-bar+.navbar-toggler-bar {
