@@ -1097,13 +1097,15 @@ input[type="file"]:focus {
 .settings-dropdown-content {
   position: absolute;
   top: 100%;
-  left: 0;
+  right: 0;
+  left: auto;
   background-color: var(--body-color);
   min-width: 160px;
   border-radius: 8px;
   box-shadow: 0 2px 3px var(--body-color);
   display: none;
   z-index: 1001;
+  transform-origin: top right;
 }
 
 .settings-dropdown:hover .settings-dropdown-content {
@@ -1120,6 +1122,8 @@ input[type="file"]:focus {
   gap: 8px;
   transition: all 0.5s ease;
   font-size: 13px;
+  text-align: right;
+  justify-content: flex-end;
 }
 
 .settings-dropdown-content a:hover {
@@ -1131,6 +1135,9 @@ input[type="file"]:focus {
   font-size: 14px;
   width: 18px;
   text-align: center;
+  margin-left: 8px;
+  margin-right: 0;
+  order: 2;
 }
 
 /* Adjust main content to account for top navbar */
@@ -1531,7 +1538,7 @@ input[type="file"]:focus {
     }
 
     .settings-btn {
-        font-size: 0.9rem;
+        font-size: 1.1rem;
         padding: 6px;
     }
 
@@ -1567,7 +1574,7 @@ input[type="file"]:focus {
 
     .theme-toggle-btn,
     .settings-btn {
-        font-size: 0.8rem;
+        font-size: 1.1rem;
         padding: 5px;
     }
 
