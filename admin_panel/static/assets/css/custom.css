@@ -10,6 +10,7 @@
     --primary-color: #D7A401;
     /* --secondary-color: #E6B800; */
     --input-bg: #f0f0f0;
+    --input-border: #c4c4c4;
     --input-hover-bg: #e8e8e8;
     --input-focus-bg: #e0e0e0;
     --text-color: #333333;
@@ -25,7 +26,8 @@
     --focus-bg: #454545;
     --primary-color: #D7A401;
     --input-bg: #454545;
-    --input-hover-bg: #505050;
+    --input-border: #616161;
+    --input-hover-bg: #423e3e;
     --input-focus-bg: #555555;
     --text-color: #ffffff;
     --text-muted: #a0a0a0;
@@ -226,8 +228,8 @@ body {
 .form-control {
     width: 100%;
     outline: none;
-    border: none;
-    color: white;
+    color: var(--text-color);
+    border: 1px solid var(--input-border);
     font-size: 16px;
     background-color: var(--input-bg);
     height: 45px;
@@ -303,7 +305,7 @@ body {
     .form-control {
         width: 100%;
         outline: none;
-        border: rgb(58, 57, 57);
+        border: 1px solid var(--input-border);
         color: var(--text-color);
         font-size: x-small;
         background-color: var(--input-bg);
@@ -391,12 +393,13 @@ body {
 .form-control-text {
     width: 100%;
     outline: none;
-    border: rgb(58, 57, 57);
-    border-radius: 20px;
-    color: white;
+    border: 1px solid var(--input-border);
+    border-radius: 10px;
+    color: var(--text-color);
     font-size: larger;
-    background-color: rgb(155, 155, 155);
+    background-color: var(--input-bg);
     height: 80px;
+    transition: all 0.5s ease;
 }
 
 
@@ -445,6 +448,8 @@ body {
     justify-content: space-evenly;
     border-radius: 30px;
 }
+
+
 
 
 
@@ -569,7 +574,7 @@ body {
     width: 100%;
     height: 35px;
     padding: 6px 8px;
-    border: 1px solid var(--input-bg);
+    border: 1px solid var(--input-border);
     border-radius: 4px;
     background-color: var(--input-bg);
     color: var(--text-color);
@@ -740,7 +745,7 @@ body {
 .time-field {
     width: 100%;
     outline: none;
-    border: none;
+    border: 1px solid var(--input-border);
     border-radius: 10px;
     color: white;
     font-size: 16px;
@@ -793,7 +798,7 @@ body {
     height: 20px;
     background-color: var(--input-bg);
     border-radius: 4px;
-    border: none;
+    border: 1px solid var(--input-border);
     cursor: pointer;
 }
 
@@ -842,6 +847,7 @@ input[type="file"] {
     padding: 10px;
     width: 100%;
     color: var(--text-color);
+    border: 1px solid var(--input-border);
 }
 
 /* Media queries for responsive design */
@@ -866,7 +872,7 @@ input[type="file"] {
 /* Update form control styles */
 .form-control {
     background-color: var(--input-bg);
-    border: 1px solid transparent;
+    border: 1px solid var(--input-border);
     color: var(--text-color);
     transition: all 0.5s ease;
 }
@@ -885,7 +891,7 @@ input[type="file"] {
 .date-field,
 .time-field {
     background-color: var(--input-bg);
-    border: 1px solid transparent;
+    border: 1px solid var(--input-border);
     color: var(--text-color);
     transition: all 0.5s ease;
 }
@@ -906,7 +912,7 @@ input[type="file"] {
 select.form-control,
 input[type="file"] {
     background-color: var(--input-bg);
-    border: 1px solid transparent;
+    border: 1px solid var(--input-border);
 }
 
 select.form-control:hover,
@@ -1321,7 +1327,7 @@ input[type="file"]:focus {
     flex: 1;
 }
 
-/* Action button styling */
+/* Action button base styles */
 .action-button {
     display: flex;
     align-items: center;
@@ -1335,16 +1341,66 @@ input[type="file"]:focus {
     transition: all 0.5s ease;
     height: 40px;
     white-space: nowrap;
+    flex-direction: row-reverse; /* For RTL layout */
 }
 
-
-.action-button:focus {
-    outline: none;
-    color: white;
-    background-color: var(--primary-color);
-    box-shadow: 0 0 0 2px var(--primary-color);
+.action-button i {
+    font-size: 14px;
+    margin-right: 0;
+    margin-left: 8px; /* Space between icon and text for RTL */
 }
 
+/* Specific icons for different actions */
+.action-button.password-change i {
+    font-size: 14px;
+    color: inherit;
+}
+
+/* Import button specific styles */
+.import-button {
+    background-color: var(--focus-bg);
+    color: var(--text-color);
+}
+
+.import-button:hover {
+    background-color: var(--body-color);
+    color: var(--text-color);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Icon mappings for common actions */
+.action-button[href*="change_password"] i {
+    font-size: 14px;
+}
+
+.action-button[href*="export"] i {
+    font-size: 14px;
+}
+
+.action-button[href*="import"] i {
+    font-size: 14px;
+}
+
+.action-button[href*="delete"] i {
+    font-size: 14px;
+}
+
+.action-button[href*="add"] i {
+    font-size: 14px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .action-button {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+
+    .action-button i {
+        font-size: 12px;
+    }
+}
 
 .add-task-button {
     background-color: var(--primary-color);

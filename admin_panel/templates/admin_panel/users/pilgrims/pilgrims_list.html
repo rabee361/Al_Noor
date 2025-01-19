@@ -25,19 +25,16 @@
         </form>
         <div class="actions-container">
           <a href="{% url 'export_pilgrim' %}" class="action-button import-button">
-            <span >
-              تصدير ملف
-            </span>
+            <i class="fas fa-file-export"></i>
+            <span>تصدير ملف</span>
           </a>
           <a href="{% url 'import_pilgrim' %}" class="action-button import-button">
-            <span >
-              استيراد ملف
-            </span>
+            <i class="fas fa-file-import"></i>
+            <span>استيراد ملف</span>
           </a>
           <a href="#" data-toggle="modal" data-target="#deleteAllPilgrimsModal" class="action-button import-button">
-            <span >
-              حذف الكل
-            </span>
+            <i class="fas fa-trash-alt"></i>
+            <span>حذف الكل</span>
           </a>
           <a href="{% url 'add_pilgrim' %}" class="action-button add-task-button">
             <i class="fas fa-plus"></i>

@@ -36,6 +36,7 @@ Copyright (c) 2015 Daniel Eden
   --input-bg: #454545;
   --input-hover-bg: #505050;
   --input-focus-bg: #555555;
+  --input-border: #c4c4c4;
   --text-color: #ffffff;
   --text-muted: #a0a0a0;
   --hover-color: #b88e01;
@@ -47,6 +48,7 @@ Copyright (c) 2015 Daniel Eden
   --focus-bg-light: #e0e0e0;
   --primary-color-light: #D7A401;
   --input-bg-light: #f8f9fa;
+  --input-border-light: #c4c4c4;
   --input-hover-bg-light: #e9ecef;
   --input-focus-bg-light: #dee2e6;
   --text-color-light: #333333;
@@ -59,6 +61,7 @@ Copyright (c) 2015 Daniel Eden
   --card-bg-dark: #2d2d2d;
   --focus-bg-dark: #454545;
   --primary-color-dark: #D7A401;
+  --input-border-dark: #616161;
   --input-bg-dark: #454545;
   --input-hover-bg-dark: #505050;
   --input-focus-bg-dark: #555555;
@@ -77,6 +80,7 @@ Copyright (c) 2015 Daniel Eden
   --input-bg: var(--input-bg-light);
   --input-hover-bg: var(--input-hover-bg-light);
   --input-focus-bg: var(--input-focus-bg-light);
+  --input-border: var(--input-border-light);
   --text-color: var(--text-color-light);
   --text-muted: var(--text-muted-light);
   --hover-color: var(--hover-color-light);
@@ -86,11 +90,12 @@ Copyright (c) 2015 Daniel Eden
   --bg-color: var(--bg-color-dark);
   --body-color: var(--body-color-dark);
   --card-bg: var(--card-bg-dark);
-  --primary-color: var(--primary-color-dark);
   --focus-bg: var(--focus-bg-dark);
+  --primary-color: var(--primary-color-dark);
   --input-bg: var(--input-bg-dark);
   --input-hover-bg: var(--input-hover-bg-dark);
   --input-focus-bg: var(--input-focus-bg-dark);
+  --input-border: var(--input-border-dark);
   --text-color: var(--text-color-dark);
   --text-muted: var(--text-muted-dark);
   --hover-color: var(--hover-color-dark);

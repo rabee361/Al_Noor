@@ -9,22 +9,22 @@
   
         <div class="bread-crumbs-size" style="display: flex; gap: 0;">
           <div style="height: 70px; margin-left: 1300px; display: flex; gap: 10px;">
-            <a href="{% url 'main_dashboard' %}" style="text-decoration: none;"><h5 style="color: white;">الرئيسية</h5></a>
-            <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: #D7A401;"></i></h5>
-            <a href="{% url 'pilgrims' %}" style="text-decoration: none;"><h5 style="color: white;">الحجاج</h5></a>
-            <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: #D7A401;"></i></h5>
-            <h5 style="color: white;">إضافة</h5>
-            <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: #D7A401;"></i></h5>
+            <a href="{% url 'main_dashboard' %}" style="text-decoration: none;"><h5 style="color: var(--text-color);">الرئيسية</h5></a>
+            <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: var(--primary-color);"></i></h5>
+            <a href="{% url 'pilgrims' %}" style="text-decoration: none;"><h5 style="color: var(--text-color);">الحجاج</h5></a>
+            <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: var(--primary-color);"></i></h5>
+            <h5 style="color: var(--text-color);">إضافة</h5>
+            <h5><i class="now-ui-icons arrows-1_minimal-left" style="margin-top: 3px; color: var(--primary-color);"></i></h5>
           </div>
         </div>
 
         <div>
-            <form action="" method="post" style="display: flex; flex-direction: column; gap: 30px; color: white;">
+            <form action="" method="post" style="display: flex; flex-direction: column; gap: 30px; color: var(--text-color);">
                 {% csrf_token %}
 
                 <div class="form-group" style="height: auto;display: flex; flex-direction: column; justify-content: flex-start; gap: 0px; padding-bottom: 20px;" dir="rtl">
                   
-                  <h4 style="text-align: center">المعلومات الشخصية</h4>
+                  <h4 style="text-align: center; color: var(--text-color);">المعلومات الشخصية</h4>
     
                   <div style="background-color: var(--body-color); width: 100%;display: flex;gap: 10px;justify-content: space-evenly;border-radius: 30px; display: flex; justify-content: space-evenly;" >
                     <div class="form-block">
@@ -72,7 +72,7 @@
                 
                 <div style="background-color: var(--body-color); width: 100%;display: flex;gap: 10px;justify-content: space-evenly;border-radius: 30px; height: auto;display: flex; flex-direction: column; justify-content: flex-start; gap: 0px; padding-bottom: 20px;">
                   
-                  <h4 style="text-align: center">معلومات الاقامة و الرحلة</h4>
+                  <h4 style="text-align: center; color: var(--text-color);">معلومات الاقامة و الرحلة</h4>
                   
                   <div  style="display: flex; justify-content: space-evenly;">
                     <div class="form-block">
@@ -163,7 +163,7 @@
     
                 <div style="background-color: var(--body-color); width: 100%;display: flex;gap: 10px;justify-content: space-evenly;border-radius: 30px; height: auto;display: flex; flex-direction: column; justify-content: flex-start; gap: 0px; padding-bottom: 20px;">
 
-                  <h4 style="text-align: center">معلومات الحساب</h4>
+                  <h4 style="text-align: center; color: var(--text-color);">معلومات الحساب</h4>
 
                   <div style="display: flex; justify-content: space-evenly;">
 

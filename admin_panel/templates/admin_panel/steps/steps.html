@@ -23,10 +23,19 @@
             <i class="fas fa-search"></i>
           </button>
         </form>
-        <a href="{% url 'pilgrim-steps' %}" class="action-button add-task-button">
-          <i class="fas fa-plus"></i>
-          <span>متابعة الحجاج</span>
-        </a>
+        <div class="actions-container">
+          <a href="{% url 'add_step' %}" class="action-button add-task-button">
+            <span>
+              <i class="fas fa-plus"></i>
+              إضافة خطوة رئيسية
+            </span>
+          </a>
+          <a href="{% url 'pilgrim-steps' %}" class="action-button import-button">
+            <span >
+              متابعة الحجاج
+            </span>
+          </a>
+        </div>
       </div>
 
 
