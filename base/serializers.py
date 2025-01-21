@@ -393,7 +393,6 @@ class CreatePilgrimSerializer(serializers.ModelSerializer):
         exclude = ['user','haj_steps']
 
     def validate(self, attrs):
-        email = attrs.get('email')
         phonenumber = attrs.get('phonenumber')
         if not re.match(r'^\d{5,15}$', phonenumber):
             raise serializers.ValidationError({"error": "رقم الهاتف يجب أن يكون من 5 إلى 15 رقم"})
