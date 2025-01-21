@@ -380,3 +380,9 @@ class UserPassword(models.Model):
     phonenumber = models.CharField(max_length=100, verbose_name='رقم الهاتف')
     password = models.CharField(max_length=100, verbose_name='كلمة المرور')
 
+
+
+
+class TermsAndConditions(models.Model):
+    terms = models.TextField(verbose_name='الأحكام و الشروط')
+    privacy = models.TextField(verbose_name='سياسة الخصوصية')

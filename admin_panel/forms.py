@@ -557,3 +557,12 @@ class PilgrimCreationForm(forms.ModelForm):
         if CustomUser.objects.filter(phonenumber=phonenumber).exists():
             raise forms.ValidationError('رقم الهاتف مسجل مسبقاً')
         return phonenumber
+
+
+
+
+
+class TermsForm(ModelForm):
+    class Meta:
+        model = TermsAndConditions
+        fields = '__all__'

@@ -1553,8 +1553,26 @@ def add_admin(request):
 
 
 def terms(request):
-    return render(request , 'admin_panel/about/terms_and_privacy.html')
+    terms = TermsAndConditions.objects.first()
+    context = {
+        'terms':terms,
+    }
+    return render(request , 'admin_panel/about/terms_and_privacy.html' , context)
 
+
+    
+def update_terms(request):
+    terms = TermsAndConditions.objects.first()
+    form = TermsForm(instance=terms)
+    if request.method == 'POST':
+        form = TermsForm(request.POST,instance=terms)
+        if form.is_valid():
+            form.save()
+            return redirect('terms')
+    context = {
+        'form':form,
+    }
+    return render(request , 'admin_panel/about/update_terms.html' , context)
 
 
 class PilgrimFormView(View):

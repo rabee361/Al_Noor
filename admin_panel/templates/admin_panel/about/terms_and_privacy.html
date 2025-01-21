@@ -15,6 +15,19 @@
         </div>
       </div>
 
+
+
+        <!-- Replace with form-wrapped search and actions container -->
+        <div class="search-actions-container" dir="ltr">
+          <div class="actions-container">
+              <a href="{% url 'update_terms' %}" class="action-button import-button">
+              <i class="fas fa-edit"></i>
+              <span>تعديل الأحكام و الشروط</span>
+            </a>
+          </div>
+        </div>
+
+
       <div class="row">
       <div class="col-md-12">
         <div class="card" style="background-color: var(--body-color);">
@@ -26,15 +39,7 @@
                 </div>
                 <div>   
                     <ul style="display: flex; flex-direction: column; gap: 10px;">
-                        <li>
-                            يجب أن يملك الحاج رقم هاتف خاص به مع رقم هوية لتسجيله ضمن الحملة و لكي يتمكن من استعمال التطبيق
-                        </li>
-                        <li>
-                            يجب أن يملك الحاج رقم هاتف خاص به مع رقم هوية لتسجيله ضمن الحملة و لكي يتمكن من استعمال التطبيق
-                        </li>
-                        <li>
-                            يجب أن يملك الحاج رقم هاتف خاص به مع رقم هوية لتسجيله ضمن الحملة و لكي يتمكن من استعمال التطبيق
-                        </li>
+                       {{terms.terms}}
                     </ul>
                 </div>
             </div>
@@ -44,15 +49,7 @@
                 </div>
                 <div>   
                     <ul style="display: flex; flex-direction: column; gap: 10px;">
-                        <li>
-                            هذا الموقع لا يجمع بيانات عن المستخدمين و يتبع لسياسات الخصوصية المتفق عليها بالأحكام و الشروط الدولية
-                        </li>
-                        <li>
-                            هذا الموقع لا يجمع بيانات عن المستخدمين و يتبع لسياسات الخصوصية المتفق عليها بالأحكام و الشروط الدولية
-                        </li>
-                        <li>
-                            هذا الموقع لا يجمع بيانات عن المستخدمين و يتبع لسياسات الخصوصية المتفق عليها بالأحكام و الشروط الدولية
-                        </li>
+                      {{terms.privacy}}
                     </ul>
                 </div>
             </div>
