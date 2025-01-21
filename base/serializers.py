@@ -6,7 +6,7 @@ from django.contrib.auth import  authenticate
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.tokens import TokenError, RefreshToken
 from rest_framework.exceptions import ValidationError
-
+import re
 
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -167,6 +167,16 @@ class CreateEmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
         exclude = ['user']
+    def validate(self, attrs):
+        email = attrs.get('email')
+        phonenumber = attrs.get('phonenumber')
+        if not re.match(r'^\d{5,15}$', phonenumber):
+            raise serializers.ValidationError({"error": "رقم الهاتف يجب أن يكون من 5 إلى 15 رقم"})
+        if CustomUser.objects.filter(phonenumber=phonenumber).exists():
+            raise serializers.ValidationError({"error": "هذا الرقم موجود مسبقا"})
+        if CustomUser.objects.filter(email=email).exists():
+            raise serializers.ValidationError({"error": "هذا البريد الإلكتروني موجود مسبقا"})
+        return super().validate(attrs)
 
     def create(self,validated_data):#### needs modification
         password = validated_data.get('password')
@@ -180,7 +190,6 @@ class CreateEmployeeSerializer(serializers.ModelSerializer):
         validated_data['user'] = user
         employee = Employee.objects.create(user=user)
         return employee
-
 
 
 class UpdateEmployeeSerializer(serializers.ModelSerializer):
@@ -382,6 +391,14 @@ class CreatePilgrimSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pilgrim
         exclude = ['user','haj_steps']
+
+    def validate(self, attrs):
+        email = attrs.get('email')
+        phonenumber = attrs.get('phonenumber')
+        if not re.match(r'^\d{5,15}$', phonenumber):
+            raise serializers.ValidationError({"error": "رقم الهاتف يجب أن يكون من 5 إلى 15 رقم"})
+        if CustomUser.objects.filter(phonenumber=phonenumber).exists():
+            raise serializers.ValidationError({"error": "هذا الرقم موجود مسبقا"})
 
     def create(self , validated_data):
         password = validated_data.pop('password')

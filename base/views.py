@@ -718,6 +718,7 @@ class CreateEmployee(CreateAPIView):
     # permission_clasess = [IsAuthenticated]
     queryset = Employee.objects.all()
     serializer_class = CreateEmployeeSerializer
+
    
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data, partial=True)
