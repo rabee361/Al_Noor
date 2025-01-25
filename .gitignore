@@ -2,9 +2,6 @@
 .log
 dist/
 build/
-<<<<<<< HEAD
 __pycache__/
-=======
-__pycache__/
-al-noor-6d972-firebase-adminsdk-lax5i-a484f77017.json
->>>>>>> 9dd17ff (changes)
+env
+/env
