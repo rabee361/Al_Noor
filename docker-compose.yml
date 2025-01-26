@@ -5,8 +5,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: gunicorn Fazaa.wsgi:application --bind 0.0.0.0:8000
-    container_name: fazaa_web_1
+    command: gunicorn Al_Noor.wsgi:application --bind 0.0.0.0:8000
+    container_name: al_noor_web_1
     volumes:
       - .:/home/app
       - static_volume:/home/app/staticfiles
@@ -24,12 +24,12 @@ services:
       - db
       - redis
     networks:
-      - fazaa_network
+      - al_noor_network
 
  
   db:
     image: postgis/postgis:15-3.3
-    container_name: fazaa_db_1
+    container_name: al_noor_db_1
     env_file:
       - ./.env
     environment:
@@ -45,16 +45,16 @@ services:
     expose:
       - "5432"
     networks:
-        - fazaa_network
+        - al_noor_network
 
   redis:
     image: redis:latest
-    container_name: fazaa_redis_1
+    container_name: al_noor_redis_1
     ports:
       - "6380:6379"
     restart: always
     networks:
-      - fazaa_network
+      - al_noor_network
     volumes:
       - redis_data:/data
 
@@ -72,11 +72,11 @@ services:
       - web
     restart: always
     networks:
-      - fazaa_network
+      - al_noor_network
 
 
 networks:
-  fazaa_network:
+  al_noor_network:
     driver: bridge
 
 volumes:

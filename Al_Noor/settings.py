@@ -255,7 +255,7 @@ class CustomFirebaseCredentials(credentials.ApplicationDefault):
             self._g_credential, self._project_id = load_credentials_from_file(self._account_file_path,scopes=credentials._scopes)
 
 
-custom_credentials = CustomFirebaseCredentials('nouralhj-2fb2e-firebase-adminsdk-u62ua-ac6ae82050.json.json')
+custom_credentials = CustomFirebaseCredentials('nouralhajj-90487-firebase-adminsdk-fbsvc-dd7c05190d.json')
 FIREBASE_MESSAGING_APP = initialize_app(custom_credentials, options={'projectId': 'nouralhj-2fb2e'}, name='messaging')
 
 
