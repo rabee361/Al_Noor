@@ -256,7 +256,7 @@ class CustomFirebaseCredentials(credentials.ApplicationDefault):
 
 
 custom_credentials = CustomFirebaseCredentials('nouralhajj-90487-firebase-adminsdk-fbsvc-dd7c05190d.json')
-FIREBASE_MESSAGING_APP = initialize_app(custom_credentials, options={'projectId': 'nouralhj-2fb2e'}, name='messaging')
+FIREBASE_MESSAGING_APP = initialize_app(custom_credentials, options={'projectId': 'nouralhajj-90487'}, name='messaging')
 
 
 
