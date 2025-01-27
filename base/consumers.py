@@ -210,7 +210,7 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 		self.chat_id = self.scope['url_route']['kwargs']['chat_id']
 		self.user_id = self.scope['url_route']['kwargs']['user_id']
 		self.room_group_name = str(self.chat_id)
-		messages = await self.get_chat_msgs(self.chat_i)
+		messages = await self.get_chat_msgs(self.chat_id)
 
 
 		await self.channel_layer.group_add(
