@@ -438,7 +438,7 @@ def update_manager(request,manager_id):
         form = UpdateManager(request.POST,request.FILES,instance=manager)
         if form.is_valid():
             user = CustomUser.objects.get(
-                phonenumber=form.cleaned_data['phonenumber'],
+                id=manager.user.id,
             )
             image=request.FILES.get('image')
             print(image)
@@ -711,6 +711,7 @@ def update_employee(request,employee_id):
 
 
             user.get_notifications = form.cleaned_data['get_notifications']
+            user.phonenumber = form.cleaned_data['phonenumber']
             user.username = form.cleaned_data['username']
             user.email = form.cleaned_data['email']
             user.save()

@@ -225,8 +225,6 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 		else:
 			raise ValueError('this is not your chat')
 
-	
-
 		for message in messages:
 			await self.send(text_data=json.dumps(message))
 
