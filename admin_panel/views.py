@@ -437,19 +437,13 @@ def update_manager(request,manager_id):
     if request.method == 'POST':
         form = UpdateManager(request.POST,request.FILES,instance=manager)
         if form.is_valid():
-            user = CustomUser.objects.get(
-                id=manager.user.id,
-            )
             image=request.FILES.get('image')
-            print(image)
             if image:
                 user.image = request.FILES.get('image')
             else:
                 user.image = manager.user.image
-            # if password1:
-            #     user.set_password(password1)
 
-
+            user.phonenumber = form.cleaned_data['phonenumber']
             user.get_notifications = form.cleaned_data['get_notifications']
             user.username = form.cleaned_data['username']
             user.email = form.cleaned_data['email']
