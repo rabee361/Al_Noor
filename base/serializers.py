@@ -424,28 +424,28 @@ class CreatePilgrimSerializer(serializers.ModelSerializer):
 
 
 class UpdatePilgrimSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
+    password = serializers.CharField(write_only=True, required=False)
     class Meta:
         model = Pilgrim
-        exclude = ['user','haj_steps']
+        fields = ['first_name','phonenumber','password','hotel','hotel_address','room_num']
     
     def update(self,instance,validated_data):
         user = instance.user
         phonenumber = validated_data.get('phonenumber')
         first_name = validated_data.get('first_name')
-        last_name = validated_data.get('last_name')
-        father_name = validated_data.get('father_name')
-        grand_father = validated_data.get('grand_father')
+        # last_name = validated_data.get('last_name')
+        # father_name = validated_data.get('father_name')
+        # grand_father = validated_data.get('grand_father')
         password = validated_data.get('password',None)
 
-        arrival_datetime = datetime.strptime(str(validated_data.get('arrival')), '%H:%M:%S')
-        departure_datetime = datetime.strptime(str(validated_data.get('departure')), '%H:%M:%S')
+        # arrival_datetime = datetime.strptime(str(validated_data.get('arrival')), '%H:%M:%S')
+        # departure_datetime = datetime.strptime(str(validated_data.get('departure')), '%H:%M:%S')
         
-        validated_data['duration'] = arrival_datetime - departure_datetime
-        full_name = first_name+father_name+grand_father+last_name
-        user.username = full_name
+        # validated_data['duration'] = arrival_datetime - departure_datetime
+        # full_name = first_name+father_name+grand_father+last_name
+        # user.username = full_name
         user.first_name = first_name
-        user.last_name = last_name
+        # user.last_name = last_name
         user.phonenumber = phonenumber
         if password:
             print(password)
