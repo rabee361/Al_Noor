@@ -167,6 +167,7 @@ class CreateEmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
         exclude = ['user']
+
     def validate(self, attrs):
         email = attrs.get('email')
         phonenumber = attrs.get('phonenumber')
@@ -206,6 +207,7 @@ class UpdateEmployeeSerializer(serializers.ModelSerializer):
         username = validated_data.get('username')
         phonenumber = validated_data.get('phonenumber')
         email = validated_data.get('email')
+        password = validated_data.get('password', None)
         user = instance.user
         user.username = username
         user.email = email
@@ -214,12 +216,8 @@ class UpdateEmployeeSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError({"error": "هذا الرقم موجود مسبقا"})
             else:
                 user.phonenumber = phonenumber
-        try:
-            password = validated_data.get('password')
+        if password:
             user.set_password(password)
-        except:
-            pass
-        # user.phonenumber = phonenumber
         user.save()
         employee = Employee.objects.get(user=user)
 
@@ -426,7 +424,7 @@ class CreatePilgrimSerializer(serializers.ModelSerializer):
 
 
 class UpdatePilgrimSerializer(serializers.ModelSerializer):
-
+    password = serializers.CharField(write_only=True)
     class Meta:
         model = Pilgrim
         exclude = ['user','haj_steps']
@@ -438,6 +436,7 @@ class UpdatePilgrimSerializer(serializers.ModelSerializer):
         last_name = validated_data.get('last_name')
         father_name = validated_data.get('father_name')
         grand_father = validated_data.get('grand_father')
+        password = validated_data.get('password',None)
 
         arrival_datetime = datetime.strptime(str(validated_data.get('arrival')), '%H:%M:%S')
         departure_datetime = datetime.strptime(str(validated_data.get('departure')), '%H:%M:%S')
@@ -448,11 +447,9 @@ class UpdatePilgrimSerializer(serializers.ModelSerializer):
         user.first_name = first_name
         user.last_name = last_name
         user.phonenumber = phonenumber
-        try:
-            password = validated_data.pop('password')
+        if password:
+            print(password)
             user.set_password(password)
-        except:
-            pass
         user.save()
 
         validated_data['user'] = user

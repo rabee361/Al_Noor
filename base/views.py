@@ -39,8 +39,11 @@ class LoginUser(GenericAPIView):
                     device_tok.user = user
                     device_tok.save()
                 except:
-                    FCMDevice.objects.create(user=user , registration_id=device_token ,type='android')
-            
+                    if device_token and device_token != '':
+                        FCMDevice.objects.create(user=user , registration_id=device_token ,type='android')
+                    else:
+                        pass
+                    
                 data = serializer.data
                 try:
                     guide_chat = Chat.objects.get(user=user, chat_type='guide')

@@ -35,9 +35,7 @@ PilgrimPatterns = [
     path('guidance-posts/' , ListCreateGuidancePost.as_view() , name="list-guidance-posts"),
     path('guidance-post/<str:pk>/' , RetUpdDesGuidancePost.as_view() , name="get-guidance-post"),
     path('get-guide/<str:pk>/' , GetGuide.as_view() , name="get-guide"),
-
     path('update-location/<str:pk>/' , UpdatePilgrimLocation.as_view() , name="update-location")
-
 ]
 
 
