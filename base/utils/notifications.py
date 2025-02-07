@@ -8,10 +8,12 @@ def send_task_notification(employee,title,content):
     if employee.user.get_notifications:
         title = "لديك مهمة جديدة"
         devices = FCMDevice.objects.filter(user=employee.user.id)
-        devices.send_message(
-                message =Message(
-                    notification=Notification(
-                        title=title,
+        for device in devices:
+            device.send_message(
+                    message =Message(
+                        notification=Notification(
+                            title=title,
+
                         body=content
                     ),
                 ),
@@ -44,9 +46,11 @@ def send_pilgrims_notification(title,content,sentBy):
     users = CustomUser.objects.filter((Q(user_type='حاج') & Q(get_notifications=True) )& Q(id__in = pilgrims))
     for user in users:
         devices = FCMDevice.objects.filter(user=user.id)
-        devices.send_message(
+        for device in devices:
+            device.send_message(
                 message =Message(
                     notification=Notification(
+
                         title=title,
                         body=content
                     ),
@@ -62,10 +66,12 @@ def send_event_notification(title,content,sentBy):
     users = CustomUser.objects.filter(Q(user_type='حاج') & Q(get_notifications=True))
     for user in users:
         devices = FCMDevice.objects.filter(user=user.id)
-        devices.send_message(
+        for device in devices:
+            device.send_message(
                 message =Message(
                     notification=Notification(
                         title=title,
+
                         body=content
                     ),
                 ),
