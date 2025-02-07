@@ -564,19 +564,19 @@ class ListHajSteps(APIView):
 
 
 class SendNotification(APIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def post(self,request):
-        # user = request.user
+        user = request.user
         pilgrims = Pilgrim.objects.all().exists()
         title = request.data.get('title')
         content = request.data.get('content')
         if pilgrims:
             if title and content :
-                # if user.user_type == 'مرشد':
-                send_pilgrims_notification(title=title,content=content,sentBy=user)
-                # elif user.user_type == 'اداري':
-                    # send_event_notification(title=title,content=content)
+                if user.user_type == 'مرشد':
+                    send_pilgrims_notification(title=title,content=content,sentBy=user)
+                elif user.user_type == 'اداري':
+                    send_event_notification(title=title,content=content)
                 return Response({
                     "message":"تم ارسال الاشعار"
                 })
