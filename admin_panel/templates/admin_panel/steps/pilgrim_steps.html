@@ -73,6 +73,30 @@
               </div>
             </div>
           </div>
+
+          <div class="pagination-wrapper">
+            <div class="pagination">
+              {% if steps.has_previous %}
+                <a href="?page={{ steps.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="page-link">&laquo;</a>
+              {% endif %}
+
+
+              {% for num in steps.paginator.page_range %}
+                {% if num == steps.number %}
+                  <a class="page-link active">{{ num }}</a>
+                {% elif num > steps.number|add:'-3' and num < steps.number|add:'3' %}
+
+                  <a href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="page-link">{{ num }}</a>
+                {% endif %}
+              {% endfor %}
+
+              {% if steps.has_next %}
+                <a href="?page={{ steps.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="page-link">&raquo;</a>
+              {% endif %}
+            </div>
+
+          </div>
+
         </div>
       </div>
     </div>

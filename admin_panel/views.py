@@ -17,7 +17,7 @@ from base.models import FormSubmission
 from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def login_user(request):
     if request.method == 'POST':
@@ -1274,10 +1274,10 @@ def steps_list(request):
 
 
 
-
 @login_required(login_url='login')
 def pilgrim_steps(request):
     q = request.GET.get('q') or ''
+    page = request.GET.get('page', 1)
 
     data = []
 
@@ -1299,11 +1299,18 @@ def pilgrim_steps(request):
                     'completed':False,
                 })
 
+    paginator = Paginator(data, 5)  # Show 10 items per page
+    try:
+        steps = paginator.page(page)
+    except PageNotAnInteger:
+        steps = paginator.page(1)
+    except EmptyPage:
+        steps = paginator.page(paginator.num_pages)
+
     context = {
-        'steps':data,
+        'steps': steps,
     }
     return render(request , 'admin_panel/steps/pilgrim_steps.html' , context)
-
 
 
 
