@@ -694,12 +694,17 @@ body {
     justify-content: center;
     padding: 1rem;
     margin-top: 1rem;
+    width: 100%;
+    overflow-x: auto;
 }
 
 .pagination {
     display: flex;
     gap: 5px;
     align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0 10px;
 }
 
 .page-link {
@@ -710,6 +715,9 @@ body {
     text-decoration: none;
     transition: background-color 0.5s ease;
     font-family: 'Cairo', sans-serif;
+    min-width: 40px;
+    text-align: center;
+    display: inline-block;
 }
 
 .page-link:hover {
@@ -1647,35 +1655,20 @@ input[type="file"]:focus {
 
 /* Improve table scrolling */
 .table-responsive {
-    overflow: visible !important;
+    overflow-x: auto !important;
     position: relative;
-    max-height: none !important;
     margin-bottom: 20px;
+    width: 100%;
 }
 
 .table-container {
-    position: relative;
-    width: 100%;
-    overflow: visible !important;
+    min-width: 100%;
+    overflow-x: auto !important;
 }
 
-/* Ensure table takes full width */
-.table {
-    width: 100%;
-    margin-bottom: 0;
-    overflow: visible !important;
-}
-
-/* Override any table scroll settings */
-.table-responsive,
-.table-container,
-.table {
-    -ms-overflow-style: visible !important;
-    scrollbar-width: none;
-}
-
+/* Ensure the card body can scroll horizontally */
 .card-body {
-    overflow: visible !important;
+    overflow-x: auto !important;
 }
 
 /* Keep the table header visible */
