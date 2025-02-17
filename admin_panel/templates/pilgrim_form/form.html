@@ -28,8 +28,8 @@
                             {% endif %}
                         {% elif submission_limit_reached %}
                             <p class="error-message">عذراً، لقد وصلت إلى الحد الأقصى للنماذج المسموح بها ({{ max_submissions }} نماذج) خلال 24 ساعة.</p>
-                        {% else %}
-                            <p class="error-message">حدث خطأ أثناء إرسال النموذج. يرجى المحاولة مرة أخرى.</p>
+                        {% elif form.errors %}
+                            <p class="header-error-message">يرجى التحقق من صحة البيانات المدخلة وإعادة المحاولة.</p>
                         {% endif %}
                     </div>
                 </div>
