@@ -28,6 +28,8 @@
                             {% endif %}
                         {% elif submission_limit_reached %}
                             <p class="error-message">عذراً، لقد وصلت إلى الحد الأقصى للنماذج المسموح بها ({{ max_submissions }} نماذج) خلال 24 ساعة.</p>
+                        {% else %}
+                            <p class="error-message">حدث خطأ أثناء إرسال النموذج. يرجى المحاولة مرة أخرى.</p>
                         {% endif %}
                     </div>
                 </div>
@@ -127,7 +129,7 @@
                             <select id="job_position" name="job_position" required 
                                 value="{{ form_data.job_position }}"
                                 {% if form.errors.job_position %}class="invalid-field"{% endif %}>
-                                <option value="">اختر</option>
+                                <option value="" disabled selected>--</option>
                                 <option value="موظف حكومي">موظف حكومي</option>
                                 <option value="موظف شركة">موظف شركة</option>
                                 <option value="موظف أهلي">موظف أهلي</option>
@@ -162,7 +164,7 @@
                             <select id="marital_status" name="marital_status" required 
                                 value="{{ form_data.marital_status }}"
                                 {% if form.errors.marital_status %}class="invalid-field"{% endif %}>
-                                <option value="">اختر</option>
+                                <option value="" disabled selected>--</option>
                                 <option value="متزوج">متزوج</option>
                                 <option value="أعزب">أعزب</option>
                                 <option value="مطلق">مطلق</option>
@@ -177,7 +179,7 @@
                             <select id="address" name="address" required 
                                 value="{{ form_data.address }}"
                                 {% if form.errors.address %}class="invalid-field"{% endif %}>
-                                <option value="">اختر</option>
+                                <option value="" disabled selected>--</option>
                                 <option value="القديح">القديح</option>
                                 <option value="القطيف">القطيف</option>
                                 <option value="صفوى">صفوى</option>
@@ -199,7 +201,7 @@
                             <select id="gender" name="gender" required 
                                 value="{{ form_data.gender }}"
                                 {% if form.errors.gender %}class="invalid-field"{% endif %}>
-                                <option value="">اختر</option>
+                                <option value="" disabled selected>--</option>
                                 <option value="ذكر">ذكر</option>
                                 <option value="أنثى">أنثى</option>
                             </select>
@@ -222,7 +224,7 @@
                             <select id="options_trip" name="options_trip" required 
                                 value="{{ form_data.options_trip }}"
                                 {% if form.errors.options_trip %}class="invalid-field"{% endif %}>
-                                <option value="">اختر</option>
+                                <option value="" disabled selected>--</option>
                                 <option value="المدينة و مكة">المدينة و مكة</option>
                                 <option value="مكة فقط">مكة فقط</option>
                             </select>
@@ -236,7 +238,7 @@
                             <select id="means_journey" name="means_journey" required 
                                 value="{{ form_data.means_journey }}"
                                 {% if form.errors.means_journey %}class="invalid-field"{% endif %}>
-                                <option value="">اختر</option>
+                                <option value="" disabled selected>--</option>
                                 <option value="طيران ذهاب وعودة">طيران ذهاب وعودة</option>
                                 <option value="ذهاب (طيران) والعودة (حافلة)">ذهاب (طيران) والعودة (حافلة)</option>
                                 <option value="ذهاب (حافلة) والعودة (طيران)">ذهاب (حافلة) والعودة (طيران)</option>
@@ -252,7 +254,7 @@
                             <select id="alhajj" name="alhajj" required 
                                 value="{{ form_data.alhajj }}"
                                 {% if form.errors.alhajj %}class="invalid-field"{% endif %}>
-                                <option value="">اختر</option>
+                                <option value="" disabled selected>--</option>
                                 <option value="حج واجب  ( أحج لأول مرة )">حج واجب  ( أحج لأول مرة )</option>
                                 <option value="حج مستحب ( حججت مسبقا )">حج مستحب ( حججت مسبقا )</option>
                                 <option value="حج نيابي ( أحج نيابة عن غير )">حج نيابي ( أحج نيابة عن غير )</option>
@@ -308,7 +310,7 @@
                             <select id="blood_type" name="blood_type" required 
                                 value="{{ form_data.blood_type }}"
                                 {% if form.errors.blood_type %}class="invalid-field"{% endif %}>
-                                <option value="">اختر</option>
+                                <option value="" disabled selected>--</option>
                                 <option value="A+">A+</option>
                                 <option value="A-">A-</option>
                                 <option value="B+">B+</option>
@@ -339,7 +341,7 @@
                             <select id="tawaf" name="tawaf" required 
                                 value="{{ form_data.tawaf }}"
                                 {% if form.errors.tawaf %}class="invalid-field"{% endif %}>
-                                <option value="">اختر</option>
+                                <option value="" disabled selected>--</option>
                                 <option value="False">لا</option>
                                 <option value="True">نعم</option>
                             </select>
@@ -353,7 +355,7 @@
                             <select id="sai" name="sai" required 
                                 value="{{ form_data.sai }}"
                                 {% if form.errors.sai %}class="invalid-field"{% endif %}>
-                                <option value="">اختر</option>
+                                <option value="" disabled selected>--</option>
                                 <option value="False">لا</option>
                                 <option value="True">نعم</option>
                             </select>
@@ -367,7 +369,7 @@
                             <select id="illness" name="illness" required 
                                 value="{{ form_data.illness }}"
                                 {% if form.errors.illness %}class="invalid-field"{% endif %}>
-                                <option value="">اختر</option>
+                                <option value="" disabled selected>--</option>
                                 <option value="False">لا</option>
                                 <option value="True">نعم</option>
                             </select>
@@ -381,7 +383,7 @@
                             <select id="wheelchair" name="wheelchair" required 
                                 value="{{ form_data.wheelchair }}"
                                 {% if form.errors.wheelchair %}class="invalid-field"{% endif %}>
-                                <option value="">اختر</option>
+                                <option value="" disabled selected>--</option>
                                 <option value="False">لا</option>
                                 <option value="True">نعم</option>
                             </select>
@@ -482,7 +484,7 @@
                     setTimeout(function() {
                         successMessage.style.display = 'none';
                     }, 300);
-                }, 3000);
+                }, 8000);
             }
 
             // Form submission handling

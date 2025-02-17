@@ -79,7 +79,7 @@ class Registration(models.Model):
     father_name = models.CharField(max_length=50, verbose_name='اسم الأب')
     grand_father = models.CharField(max_length=50, verbose_name='اسم الجد')
     last_name = models.CharField(max_length=50, verbose_name='اسم العائلة')
-    id_number = models.IntegerField(verbose_name='رقم الهوية')
+    id_number = models.BigIntegerField(verbose_name='رقم الهوية')
     birthday = models.DateField(verbose_name='تاريخ الميلاد')
     job_position = models.CharField(choices=Job_position, max_length=50, null=True, blank=True, verbose_name='المهنة')
     additional = models.CharField(max_length=500, null=True, blank=True, verbose_name='اسم المرافق معك')

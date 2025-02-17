@@ -499,7 +499,7 @@ class SecondaryStepForm(ModelForm):
         model = SecondarySteps
         fields = '__all__'
 
-
+ 
 class PilgrimCreationForm(forms.ModelForm):
     password = forms.CharField(
         label='كلمة السر',
