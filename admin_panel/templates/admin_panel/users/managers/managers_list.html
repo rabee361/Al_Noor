@@ -60,11 +60,9 @@
                   </thead>
                   <tbody class="body-wrapper">
                   {% for manager in managers %}
-                    <tr class="body-fields">
+                    <tr class="body-fields" onclick="window.location.href='{% url 'update_manager' manager.id %}'">
                       <td>
-                        <a href="{% url 'update_manager' manager.id %}" style="color: var(--text-color); text-decoration: none;">
-                          {{manager.id}}
-                        </a>
+                        {{manager.id}}
                       </td>
                       <td>
                           {{manager.user.username}}
@@ -83,9 +81,6 @@
                         {% endif %}
                       </td>
                       <td>
-                          <a href="{% url 'update_manager' manager.id %}" class="btn btn-success btn-sm btn-icon">
-                            <i class="now-ui-icons ui-2_settings-90"></i>
-                          </a>
                           <button type="button" rel="tooltip" class="btn btn-danger btn-simple btn-icon btn-sm" data-toggle="modal" data-target="#deleteadminModal{{ manager.id }}">
                             <i class="now-ui-icons ui-1_simple-remove"></i>
                           </button>

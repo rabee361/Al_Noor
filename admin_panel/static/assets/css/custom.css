@@ -1682,3 +1682,52 @@ input[type="file"]:focus {
     min-height: calc(100vh - 70px); /* Adjust based on your header height */
     padding-bottom: 20px;
 }
+
+
+
+
+
+
+/* Table row hover and click styles */
+.table .body-fields {
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    position: relative;
+}
+
+.table .body-fields:hover {
+    background-color: var(--focus-bg);
+}
+
+.table .body-fields td {
+    position: relative;
+    z-index: 1;
+}
+
+.table .body-fields td a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Make the entire row clickable */
+.table .body-fields td:first-child a {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    display: block;
+    padding: inherit;
+}
+
+/* Preserve button clickability */
+.table .body-fields td:last-child {
+    position: relative;
+    z-index: 3;
+}
+
+.table .body-fields td:last-child .btn {
+    position: relative;
+    z-index: 3;
+}

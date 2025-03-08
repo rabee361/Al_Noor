@@ -57,10 +57,9 @@
                   </thead>
                   <tbody class="body-wrapper">
                   {% for admin in admins %}
-                    <tr class="body-fields">
+                    <tr class="body-fields" onclick="window.location.href='{% url 'update_admin' admin.id %}'">
                       <td>
-                        <a href="{% url 'update_admin' admin.id %}" style="text-decoration: none; color: var(--text-color);">
-                          {{admin.id}}
+                        {{admin.id}}
                         </a>
                       </td>
                       <td>
@@ -73,9 +72,6 @@
                         {{admin.email}}
                       </td>
                       <td>
-                          <a href="{% url 'update_admin' admin.id %}" class="btn btn-success btn-sm btn-icon">
-                            <i class="now-ui-icons ui-2_settings-90"></i>
-                          </a>
                           <button type="button" rel="tooltip" class="btn btn-danger btn-simple btn-icon btn-sm" data-toggle="modal" data-target="#deleteAdminModal{{ admin.id }}">
                             <i class="now-ui-icons ui-1_simple-remove"></i>
                           </button>

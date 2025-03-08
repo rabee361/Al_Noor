@@ -6,7 +6,7 @@ from admin_panel.views import PilgrimFormView , LandinPageView
 
 
 urlpatterns = [
-    path('myadmin/', admin.site.urls),
+    path('supersecureadmin/', admin.site.urls),
     path('api/' , include('base.urls')),
     path('admin/' , include('admin_panel.urls')),
     path('myapi/' , include('admin_panel.api.urls')),

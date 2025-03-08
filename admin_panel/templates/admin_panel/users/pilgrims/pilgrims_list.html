@@ -105,10 +105,9 @@
                   </thead>
                   <tbody class="body-wrapper">
                   {% for pilgrim in pilgrims %}
-                    <tr class="body-fields">
+                    <tr class="body-fields" onclick="window.location.href='{% url 'update_pilgrim' pilgrim.id %}'">
                       <td>
-                        <a style="text-decoration: none; color: var(--text-color);" href="{% url 'update_pilgrim' pilgrim.id %}">
-                          {{pilgrim.id}}
+                        {{pilgrim.id}}
                         </a>
                       </td>
                       <td>
@@ -154,9 +153,6 @@
                         {{pilgrim.room_num}}
                       </td>
                       <td>
-                          <a href="{% url 'update_pilgrim' pilgrim.id %}" class="btn btn-success btn-sm btn-icon">
-                            <i class="now-ui-icons ui-2_settings-90"></i>
-                          </a>
                           <button type="button" rel="tooltip" class="btn btn-danger btn-simple btn-icon btn-sm" data-toggle="modal" data-target="#deleteadminModal{{ pilgrim.id }}">
                             <i class="now-ui-icons ui-1_simple-remove"></i>
                           </button>

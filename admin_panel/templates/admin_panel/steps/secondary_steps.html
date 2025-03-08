@@ -48,15 +48,11 @@
                   </thead>
                   <tbody class="body-wrapper">
                   {% for step in steps %}
-                    <tr class="body-fields">
+                    <tr class="body-fields" onclick="window.location.href='{% url 'update_secondary_step' step.id %}'">
                       <td>
-                        <a href="{% url 'update_secondary_step' step.id %}" style="text-decoration: none; color: white;"></a>
                         {{step.name}}
                       </td>
                       <td>
-                          <a href="{% url 'update_secondary_step' step.id %}" class="btn btn-success btn-sm btn-icon">
-                            <i class="now-ui-icons ui-2_settings-90"></i>
-                          </a>
                           <button type="button" rel="tooltip" class="btn btn-danger btn-simple btn-icon btn-sm" data-toggle="modal" data-target="#deleteadminModal{{ step.id }}">
                             <i class="now-ui-icons ui-1_simple-remove"></i>
                           </button>

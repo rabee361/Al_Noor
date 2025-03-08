@@ -60,14 +60,12 @@
                   </thead>
                   <tbody class="body-wrapper">
                   {% for post in posts %}
-                    <tr class="body-fields">
+                    <tr class="body-fields" onclick="window.location.href='{% url 'update_religious_post' post.id %}'">
                       <td>
                         {{post.rank}}
                       </td>
                       <td>
-                        <a href="{% url 'update_religious_post' post.id %}" style="text-decoration: none; color: var(--text-color);">
-                          {{post.title}}
-                        </a>
+                        {{post.title}}
                       </td>
                       <td>
                         {{post.category}}
@@ -79,9 +77,6 @@
                         {{post.created}}
                       </td>
                       <td>
-                          <a href="{% url 'update_religious_post' post.id %}" class="btn btn-success btn-sm btn-icon">
-                            <i class="now-ui-icons ui-2_settings-90"></i>
-                          </a>
                           <button type="button" rel="tooltip" class="btn btn-danger btn-simple btn-icon btn-sm" data-toggle="modal" data-target="#deleteadminModal{{ post.id }}">
                             <i class="now-ui-icons ui-1_simple-remove"></i>
                           </button>

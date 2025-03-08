@@ -62,11 +62,9 @@
                   </thead>
                   <tbody class="body-wrapper">
                   {% for task in tasks %}
-                    <tr class="body-fields">
+                    <tr class="body-fields" onclick="window.location.href='{% url 'update_task' task.id %}'">
                       <td>
-                        <a href="{% url 'update_task' task.id %}" style="color: var(--text-color); text-decoration: none;">
-                          {{task.id}}
-                        </a>
+                        {{task.id}}
                       </td>
                       <td>  
                         {{task.employee}}
@@ -89,9 +87,6 @@
                         {% endif %}
                       </td>
                       <td>
-                          <a href="{% url 'update_task' task.id %}" class="btn btn-success btn-sm btn-icon">
-                            <i class="now-ui-icons ui-2_settings-90"></i>
-                          </a>
                           <button type="button" rel="tooltip" class="btn btn-danger btn-simple btn-icon btn-sm" data-toggle="modal" data-target="#deleteadminModal{{ task.id }}">
                             <i class="now-ui-icons ui-1_simple-remove"></i>
                           </button>

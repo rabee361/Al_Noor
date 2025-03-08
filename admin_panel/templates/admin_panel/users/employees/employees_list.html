@@ -63,10 +63,9 @@
                   </thead>
                   <tbody class="body-wrapper">
                   {% for employee in employees %}
-                    <tr class="body-fields">
+                    <tr class="body-fields" onclick="window.location.href='{% url 'update_employee' employee.id %}'">
                       <td>
-                        <a href="{% url 'update_employee' employee.id %}" style="text-decoration: none; color: var(--text-color);">
-                          {{employee.id}}
+                        {{employee.id}}
                         </a>
                       </td>
                       <td>
@@ -86,9 +85,6 @@
                         {% endif %}
                       </td>
                       <td>
-                          <a href="{% url 'update_employee' employee.id %}" class="btn btn-success btn-sm btn-icon">
-                            <i class="now-ui-icons ui-2_settings-90"></i>
-                          </a>
                           <button type="button" rel="tooltip" class="btn btn-danger btn-simple btn-icon btn-sm" data-toggle="modal" data-target="#deleteadminModal{{ employee.id }}">
                             <i class="now-ui-icons ui-1_simple-remove"></i>
                           </button>

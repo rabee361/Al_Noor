@@ -131,11 +131,9 @@
                   </thead>
                   <tbody class="body-wrapper">
                   {% for form in forms %}
-                    <tr class="body-fields">
+                    <tr class="body-fields" onclick="window.location.href='{% url 'update_register_form' form.id %}'">
                       <td>
-                        <a style="text-decoration: none; color: var(--text-color);" href="{% url 'update_register_form' form.id %}">
-                          {{form.id}}
-                        </a>
+                        {{form.id}}
                       </td>
                       <td>
                         {{form.phonenumber}}
@@ -226,9 +224,6 @@
                         {{form.type_help}}
                       </td>
                       <td>
-                          <a href="{% url 'update_register_form' form.id %}" class="btn btn-success btn-sm btn-icon">
-                            <i class="now-ui-icons ui-2_settings-90"></i>
-                          </a>
                           <button type="button" rel="tooltip" class="btn btn-danger btn-simple btn-icon btn-sm" data-toggle="modal" data-target="#deleteadminModal{{ form.id }}">
                             <i class="now-ui-icons ui-1_simple-remove"></i>
                           </button>
