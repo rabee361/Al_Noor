@@ -951,12 +951,14 @@ def notifications_list(request):
 @login_required(login_url='login')
 def add_notification(request):
     form = NotificationForm()
+    user = request.user
     if request.method == 'POST':
         form = NotificationForm(request.POST, request.FILES)
         if form.is_valid():
             title = form.cleaned_data['title']
             content = form.cleaned_data['content']
-            send_event_notification(title=title,content=content)
+            info = form.cleaned_data['info']
+            send_event_notification(title=title,content=content,sentBy=user)
             form.save()
             return redirect('notifications')
     context = {
