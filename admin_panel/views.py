@@ -1548,7 +1548,7 @@ def add_admin(request):
     context = {
         'form' : form,
     }
-    return render(request , 'admin_panel/users/add_admin.html' , context)
+    return render(request , 'admin_panel/users/admin/add_admin.html' , context)
 
 
 

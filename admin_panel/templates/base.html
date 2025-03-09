@@ -15,25 +15,20 @@
     حملة النور - لوحة التحكم
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-  <!--     Fonts and icons     -->
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-  
   <link
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
   rel="stylesheet"
   />
 
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<!-- Bootstrap Bundle (includes Popper) -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <!-- Bootstrap Bundle (includes Popper) -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
 
   <!-- CSS Files -->
   <link href="{% static '/assets/css/bootstrap.min.css' %}" rel="stylesheet"/>
   <link href="{% static '/assets/css/now-ui-dashboard.css' %}" rel="stylesheet"/>
-  <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="{% static '/assets/css/custom.css' %}" rel="stylesheet" />
 
   <style>
@@ -111,8 +106,8 @@
           <ul class="nav" style="text-align: right;">
             <li style="display: flex; flex-direction: column; color: var(--text-color); align-items: center;">
               <p class="h3">
-                <img src="{{user_image}}" alt="" class="rounded-circle" style="width: 90px; height: 90px; object-fit: cover; margin: auto;">
-                <h5>{{username}}</h5>
+                <img src="{{request.user.image.url}}" alt="" class="rounded-circle" style="width: 90px; height: 90px; object-fit: cover; margin: auto;">
+                <h5>{{request.user.username}}</h5>
               </p> 
             </li>
             <li class="">

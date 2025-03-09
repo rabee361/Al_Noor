@@ -1,7 +1,13 @@
-.env
 .log
 dist/
 build/
 __pycache__/
+__pycache__
+.env
 env
 /env
+.DS_Store
+.idea
+.vscode
+.pytest_cache
+.pytest_cache

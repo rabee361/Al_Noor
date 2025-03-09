@@ -251,6 +251,15 @@ class UpdatePilgrim(UpdateAPIView):
 
 
 
+class PilgrimSteps(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = HajSteps.objects.all()
+    serializer_class = HajStepSerializer
+
+    def get_queryset(self):
+        pilgrim = self.request.user.pilgrim
+        return HajSteps.objects.filter(pilgrim=pilgrim)
+
 
 
 class GetPilgrim(RetrieveUpdateDestroyAPIView):
