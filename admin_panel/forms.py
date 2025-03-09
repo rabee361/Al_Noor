@@ -461,7 +461,7 @@ class UpdateRegisterForm(forms.ModelForm):
 class NotificationForm(ModelForm):
     class Meta:
         model = BaseNotification
-        fields = ['title','content','info']
+        fields = ['title','content']
 
 
 class GuidancePostForm(ModelForm):

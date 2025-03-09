@@ -213,7 +213,6 @@ class BaseNotification(models.Model):
     sentBy = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name='مرسل من')
     title = models.CharField(max_length=100, verbose_name='العنوان')
     content = models.CharField(max_length=200, verbose_name='المحتوى')
-    info = models.CharField(max_length=200, verbose_name='معلومات')
     created = models.DateTimeField(auto_now_add=True, verbose_name='تاريخ الإنشاء')
 
     def __str__(self) -> str:

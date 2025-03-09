@@ -23,21 +23,6 @@ def send_task_notification(employee,title,content):
 
 
 
-# def send_event_notification(title,content,sentBy):
-#     users = CustomUser.objects.filter(Q(user_type='حاج') & Q(get_notifications=True))
-#     for user in users:
-#         devices = FCMDevice.objects.filter(user=user.id)
-#         devices.send_message(
-#                 message =Message(
-#                     notification=Notification(
-#                         title=title,
-#                         body=content
-#                     ),
-#                 ),
-#             )
-#         UserNotification.objects.create(user=user,content=content,title=title)
-    
-
 
 
 def send_pilgrims_notification(title,content,sentBy):
@@ -57,7 +42,7 @@ def send_pilgrims_notification(title,content,sentBy):
                 ),
             )
         UserNotification.objects.create(user=user,content=content,title=title)
-    BaseNotification.objects.create(title=title,content=content,info="لا يوجد",sentBy=sentBy)
+    BaseNotification.objects.create(title=title,content=content,sentBy=sentBy)
     
 
 
@@ -71,13 +56,12 @@ def send_event_notification(title,content,sentBy):
                 message =Message(
                     notification=Notification(
                         title=title,
-
                         body=content
                     ),
                 ),
             )
         UserNotification.objects.create(user=user,content=content,title=title)
-    BaseNotification.objects.create(title=title,content=content,info="لا يوجد",sentBy=sentBy)
+    BaseNotification.objects.create(title=title,content=content,sentBy=sentBy)
 
 
 
