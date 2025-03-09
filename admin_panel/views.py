@@ -958,7 +958,6 @@ def add_notification(request):
             title = form.cleaned_data['title']
             content = form.cleaned_data['content']
             send_event_notification(title=title,content=content,sentBy=user)
-            form.save()
             return redirect('notifications')
     context = {
         'form' : form,
