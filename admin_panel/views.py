@@ -957,7 +957,6 @@ def add_notification(request):
         if form.is_valid():
             title = form.cleaned_data['title']
             content = form.cleaned_data['content']
-            info = form.cleaned_data['info']
             send_event_notification(title=title,content=content,sentBy=user)
             form.save()
             return redirect('notifications')
