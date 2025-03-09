@@ -237,7 +237,7 @@ def update_pilgrim(request,pilgrim_id):
 
         context = { 'form': form,
                     'pilgrim_image':pilgrim_image,
-                    'user_id': user.id, 
+                    'pilgrim_id': user.id, 
                     'company_logo':pilgrim.company_logo.url,
                     'pilgrim_steps':data
                     }
@@ -457,7 +457,7 @@ def update_manager(request,manager_id):
     context = {
         'form': form,
         'manager_image': manager_image,
-        'user_id': user.id,
+        'manager_id': user.id,
     }
     return render(request, 'admin_panel/users/managers/update_manager.html', context)
 
@@ -715,7 +715,7 @@ def update_employee(request,employee_id):
     
     context = {
         'form': form,
-        'user_id': user.id,
+        'employee_id': user.id,
         'employee_image': employee_image,
     }
     return render(request, 'admin_panel/users/employees/update_employee.html', context)
@@ -815,7 +815,7 @@ def update_guide(request,guide_id):
     context = {
         'form': form,
         'guide_image': guide_image,
-        'user_id': user.id,
+        'guide_id': user.id,
     }
     return render(request, 'admin_panel/users/guides/update_guide.html', context)
 
@@ -1489,8 +1489,6 @@ def update_admin(request,admin_id):
 
     if request.method == 'POST':
         form = UpdateAdmin(request.POST,request.FILES,instance=admin)
-        print(form.is_valid())
-        print(form.errors)
         if form.is_valid():
             image=request.FILES.get('image')
             if image:
