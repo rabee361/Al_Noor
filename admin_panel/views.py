@@ -1273,7 +1273,6 @@ def steps_list(request):
 
 
 
-
 @login_required(login_url='login')
 def pilgrim_steps(request):
     q = request.GET.get('q') or ''
@@ -1299,7 +1298,7 @@ def pilgrim_steps(request):
                     'completed':False,
                 })
 
-    paginator = Paginator(data, 5)  # Show 10 items per page
+    paginator = Paginator(data, 10)  # Show 10 items per page
     try:
         steps = paginator.page(page)
     except PageNotAnInteger:
@@ -1310,9 +1309,10 @@ def pilgrim_steps(request):
     context = {
         'steps': steps,
     }
-    return render(request , 'admin_panel/steps/pilgrim_steps.html' , context)
 
-
+    if request.htmx:
+        return render(request, 'admin_panel/partials/pilgrim_steps_partial.html', context)
+    return render(request, 'admin_panel/steps/pilgrim_steps.html', context)
 
 
 

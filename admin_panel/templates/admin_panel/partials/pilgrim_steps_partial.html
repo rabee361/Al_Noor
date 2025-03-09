@@ -1,0 +1,17 @@
+{% for step in steps %}
+    <tr class="body-fields">
+    <td>
+        {{step.name}}
+    </td>
+    <td>
+        {{step.pilgrim}}
+    </td>
+    <td>
+        {% if step.completed %}
+        <i class="fas fa-check" style="color: rgb(140, 206, 41); font-size: 30px;"></i>
+        {% else %}
+        <i class="fas fa-circle-xmark" style="color: rgb(230, 73, 73); font-size: 30px;"></i>
+        {% endif %}
+    </td>
+    </tr>
+{% endfor %}

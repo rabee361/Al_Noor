@@ -19,7 +19,7 @@
       <!-- Replace with form-wrapped search and actions container -->
       <div class="search-actions-container">
         <form method="GET" action="" class="search-wrapper">
-          <input type="text" name="q" class="search-input" placeholder="البحث عن حاج..." value="{{ request.GET.q }}">
+          <input hx-get="{% url 'pilgrim_steps' %}" hx-push-url="true" hx-target="#admin-partial" hx-swap="innerHTML" hx-trigger="keyup changed delay:300ms" type="text" value="{{ request.GET.q }}" name="q" class="search-input" placeholder="البحث عن حاج...">
           <button type="submit" class="search-button">
             <i class="fas fa-search"></i>
           </button>
@@ -29,8 +29,7 @@
       <div class="row">
       <div class="col-md-12">
         <div class="card" style="background-color: var(--body-color);">
-
-          </div>
+        </div>
 
           <div class="card-body">
             <div class="table-responsive">
@@ -48,26 +47,8 @@
                     </th>
 
                   </thead>
-                  <tbody class="body-wrapper">
-                  {% for step in steps %}
-                    <tr class="body-fields">
-                      <td>
-                        {{step.name}}
-                      </td>
-                      <td>
-                        {{step.pilgrim}}
-                      </td>
-                      <td>
-                        {% if step.completed %}
-                        <i class="fas fa-check" style="color: rgb(140, 206, 41); font-size: 30px;"></i>
-                        {% else %}
-                        <i class="fas fa-circle-xmark" style="color: rgb(230, 73, 73); font-size: 30px;"></i>
-                        {% endif %}
-                      </td>
-                    </tr>
-
-                  
-                  {% endfor %}
+                  <tbody class="body-wrapper" id="admin-partial">
+                    {% include 'admin_panel/partials/pilgrim_steps_partial.html' %}
                   </tbody>
                 </table>
               </div>
