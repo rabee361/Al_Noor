@@ -207,13 +207,6 @@ class RegisterPilgrim(ListCreateAPIView):
 
 
 
-@api_view(['GET'])
-@cache_page(60 * 5)
-def get_pilgrims(request):
-    pilgrims = Pilgrim.objects.select_related('guide','user').prefetch_related('haj_steps').all()
-    serializer = PilgrimSerializer(pilgrims , many=True)
-    return Response(serializer.data , status=status.HTTP_200_OK)
-
 
 class ListPilgrim(ListAPIView):
     # permission_classes = [IsAuthenticated]
@@ -251,14 +244,16 @@ class UpdatePilgrim(UpdateAPIView):
 
 
 
-class PilgrimSteps(ListAPIView):
-    permission_classes = [IsAuthenticated]
-    queryset = HajSteps.objects.all()
-    serializer_class = HajStepSerializer
 
-    def get_queryset(self):
-        pilgrim = self.request.user.pilgrim
-        return HajSteps.objects.filter(pilgrim=pilgrim)
+class PilgrimSteps(APIView):
+    def get(self,request,pilgrim_id):
+        try:
+            pilgrim = Pilgrim.objects.get(id=pilgrim_id)
+            steps = HaJStepsPilgrim.objects.filter(pilgrim=pilgrim)
+            serializer = CompletedHajStepsPilgrimSerializer(steps , many=True)
+            return Response(serializer.data , status=status.HTTP_200_OK)
+        except Pilgrim.DoesNotExist:
+            return Response({"error":"لا يوجد حاج بهذا الرقم"})
 
 
 

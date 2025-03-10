@@ -136,7 +136,6 @@ class Pilgrim(models.Model):
     guide = models.ForeignKey('Guide', null=True, blank=True, on_delete=models.SET_NULL, verbose_name='المرشد')
     created = models.DateTimeField(auto_now_add=True, verbose_name='تاريخ الإنشاء')
 
-
     def __str__(self) -> str:
         return f'{self.user.username}'
 

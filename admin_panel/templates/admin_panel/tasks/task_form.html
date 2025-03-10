@@ -28,30 +28,29 @@
                       <div class="form-label">{{ form.employee.label_tag }}</div>
                       <div>{{ form.employee|add_class:"form-control" }}</div>
                     </div>
-                    <div class="form-input">
-                      <div class="form-label">{{ form.title.label_tag }}</div>
-                      <div>{{ form.title|add_class:"form-control" }}</div>
-                       
-                    </div>
-                    <div class="form-input">
-                      <div class="form-label">{{ form.content.label_tag }}</div>
-                      <div>{{ form.content|add_class:"form-control" }}</div> 
-                    </div>
-                </div>
-                
-                
-                <div class="form-block">
+
                     <div class="form-input-check" style="width: 100% ; gap: 60px;">
-                        <div class="form-label">{{ form.accepted.label_tag }}</div>
-                        <div>{{ form.accepted|add_class:"form-control-check" }}</div> 
+                      <div class="form-label">{{ form.accepted.label_tag }}</div>
+                      <div>{{ form.accepted|add_class:"form-control-check" }}</div> 
                     </div>
+                      
                     <div class="form-input-check" style="width: 100%;">
                       <div class="form-label">{{ form.completed.label_tag }}</div>
                       <div>{{ form.completed|add_class:"form-control-check" }}</div>
                     </div>
                   </div>
+                
+                  <div class="form-block">
+                    <div class="form-input">
+                      <div class="form-label">{{ form.title.label_tag }}</div>
+                      <div>{{ form.title|add_class:"form-control" }}</div>
+                    </div>
 
-
+                    <div class="form-input">
+                      <div class="form-label">{{ form.content.label_tag }}</div>
+                      <div>{{ form.content|add_class:"form-control" }}</div> 
+                    </div>
+                  </div>
 
                 </div>
 

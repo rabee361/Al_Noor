@@ -58,8 +58,7 @@ ManagerPatterns = [
     path('list-guides/' , ListGuides.as_view()),
     path('create-pilgrim/' , CreatePilgrim.as_view()),
     path('update-pilgrim/<str:pk>/' , UpdatePilgrim.as_view()),
-    path('list-all-guides/' , get_pilgrims),   
-    path('pilgrim-steps/' , PilgrimSteps.as_view()),
+    path('pilgrim-steps/<str:pilgrim_id>/' , PilgrimSteps.as_view()),
     path('delete-pilgrims' , DeletePilgrims.as_view()),
 ]
 

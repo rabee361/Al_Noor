@@ -375,6 +375,15 @@ class HajStepsPilgrimSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = HaJStepsPilgrim
+        fields = '__all__'
+
+
+
+class CompletedHajStepsPilgrimSerializer(serializers.ModelSerializer):
+    haj_step = serializers.CharField(source='haj_step.name',read_only=True)
+
+    class Meta:
+        model = HaJStepsPilgrim
         fields = ['haj_step','completed']
 
 
