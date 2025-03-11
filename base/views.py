@@ -17,8 +17,6 @@ from rest_framework import status
 from fcm_django.models import FCMDevice
 from django.shortcuts import get_object_or_404
 from fcm_django.models import FCMDevice
-from django.views.decorators.cache import cache_page
-from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 
 
@@ -114,28 +112,6 @@ class SendCodePassword(GenericAPIView):
         except:
             raise serializers.ValidationError({'error':['أدخل رقم هاتف صحيح']})
     
-
-
-
-
-# ######### needs modification to adapt to sms
-# class VerifyCode(GenericAPIView):
-#     # permission_classes = [IsAuthenticated]
-
-#     def post(self, request, pk):
-#         code = request.data['code']
-#         user = CustomUser.objects.get(id=pk)
-#         code_ver = VerificationCode.objects.filter(user=user.id).first()
-#         if code_ver:
-#             if str(code) == str(code_ver.code):
-#                 if timezone.now() > code_ver.expires_at:
-#                     return Response({"message":["انتهت صلاحية رمز التحقق"]}, status=status.HTTP_400_BAD_REQUEST)
-#                 code_ver.is_verified = True
-#                 code_ver.save()
-#                 return Response({"message":"تم التحقق من الرمز", 'user_id':code_ver.user.id},status=status.HTTP_200_OK)
-#             else:
-#                 return Response({'message':['الرمز خاطئ, يرجى إعادة إدخال الرمز بشكل صحيح']})
-        
 
 
 

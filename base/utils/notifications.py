@@ -1,5 +1,6 @@
 from fcm_django.models import FCMDevice
-from firebase_admin.messaging import Message, Notification
+from firebase_admin.messaging import Message, Notification , UnregisteredError
+from firebase_admin.exceptions import InvalidArgumentError
 from ..models import UserNotification , CustomUser , Guide , Pilgrim , BaseNotification
 from django.db.models import Q
 
@@ -9,16 +10,21 @@ def send_task_notification(employee,title,content):
         title = "لديك مهمة جديدة"
         devices = FCMDevice.objects.filter(user=employee.user.id)
         for device in devices:
-            device.send_message(
-                    message =Message(
-                        notification=Notification(
-                            title=title,
+            try:
+                device.send_message(
+                        message =Message(
+                            notification=Notification(
+                                title=title,
 
-                        body=content
+                            body=content
+                        ),
                     ),
-                ),
-            )
-        user = CustomUser.objects.get(id=employee.user.id)
+                )
+                user = CustomUser.objects.get(id=employee.user.id)
+            except UnregisteredError:
+                pass
+            except InvalidArgumentError:
+                pass
         UserNotification.objects.create(user=user,content=content,title=title)
 
 
@@ -32,15 +38,19 @@ def send_pilgrims_notification(title,content,sentBy):
     for user in users:
         devices = FCMDevice.objects.filter(user=user.id)
         for device in devices:
-            device.send_message(
-                message =Message(
-                    notification=Notification(
-
+            try:
+                device.send_message(
+                    message =Message(
+                        notification=Notification(
                         title=title,
                         body=content
+                        ),
                     ),
-                ),
-            )
+                )
+            except UnregisteredError:
+                pass
+            except InvalidArgumentError:
+                pass
         UserNotification.objects.create(user=user,content=content,title=title)
     BaseNotification.objects.create(title=title,content=content,sentBy=sentBy)
     
@@ -52,32 +62,21 @@ def send_event_notification(title,content,sentBy):
     for user in users:
         devices = FCMDevice.objects.filter(user=user.id)
         for device in devices:
-            device.send_message(
-                message =Message(
-                    notification=Notification(
-                        title=title,
-                        body=content
+            try:
+                device.send_message(
+                    message =Message(
+                        notification=Notification(
+                            title=title,
+                            body=content
+                        ),
                     ),
-                ),
-            )
+                )
+            except UnregisteredError:
+                pass
+            except InvalidArgumentError:
+                pass
         UserNotification.objects.create(user=user,content=content,title=title)
     BaseNotification.objects.create(title=title,content=content,sentBy=sentBy)
-
-
-
-def send_password(user,title,content):
-    if user.get_notifications:
-        devices = FCMDevice.objects.filter(user=user.id)
-        devices.send_message(
-                message =Message(
-                    notification=Notification(
-                        title=title,
-                        body=content
-                    ),
-                ),
-            )
-        UserNotification.objects.create(user=user,content=content,title=title)
-
 
 
 
