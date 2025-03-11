@@ -131,7 +131,7 @@
                   </thead>
                   <tbody class="body-wrapper">
                   {% for form in forms %}
-                    <tr class="body-fields" onclick="window.location.href='{% url 'update_register_form' form.id %}'">
+                    <tr class="body-fields" onclick="clickHandler(event)" data-link="{% url 'update_register_form' form.id %}">
                       <td>
                         {{form.id}}
                       </td>
@@ -224,35 +224,11 @@
                         {{form.type_help}}
                       </td>
                       <td>
-                          <button type="button" rel="tooltip" class="btn btn-danger btn-simple btn-icon btn-sm" data-toggle="modal" data-target="#deleteadminModal{{ form.id }}">
+                          <button type="button" class="btn btn-danger btn-simple btn-icon btn-sm delete-btn" data-id="{{ form.id }}" data-delete-url="{% url 'delete_register_form' form.id %}">
                             <i class="now-ui-icons ui-1_simple-remove"></i>
                           </button>
                       </td>
                   </tr>
-
-
-                  <div class="modal fade" id="deleteadminModal{{ form.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteadminModalLabel{{ form.id }}" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="deleteadminModalLabel{{ form.id }}">حذف استمارة</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                        <div class="modal-body">
-                          <p>"هل أنت واثق من أنك تريد حذف استمارة الحاج  {{form.first_name}}?"</p>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
-                          <form action="{% url 'delete_register_form' form.id %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-danger">حذف</button>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                   
                   {% endfor %}
                   </tbody>
@@ -312,6 +288,6 @@
   </div>
 </div>
 
-
+{% include 'admin_panel/modal.html' %}
 
 {% endblock content %}

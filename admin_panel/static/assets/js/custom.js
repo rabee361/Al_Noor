@@ -73,3 +73,79 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+
+function clickHandler(event) {
+    if (!event.target.closest('.checkbox-cell')) {
+        window.location.href = event.currentTarget.getAttribute('data-link');
+    }
+}
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Get the modal
+    const modal = document.getElementById('deleteConfirmModal');
+    
+    // Get all delete buttons
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+    
+    // Get the delete form and confirmation text
+    const deleteForm = document.getElementById('deleteForm');
+    const deleteConfirmText = document.getElementById('deleteConfirmText');
+    
+    // Get all close buttons
+    const closeButtons = document.querySelectorAll('.close-modal');
+    
+    // Add click event listener to each delete button
+    deleteButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        // Get data attributes
+        const id = this.getAttribute('data-id');
+        const name = this.getAttribute('data-name');
+        const deleteUrl = this.getAttribute('data-delete-url');
+        
+        deleteForm.action = deleteUrl;
+        
+        // Show the modal
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+      });
+    });
+    
+    // Add click event listener to close buttons
+    closeButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        // Hide the modal
+        modal.style.display = 'none';
+        document.body.style.overflow = ''; // Restore scrolling
+      });
+    });
+    
+    // Close modal when clicking outside of it
+    window.addEventListener('click', function(event) {
+      if (event.target === modal) {
+        // Hide the modal
+        modal.style.display = 'none';
+        document.body.style.overflow = ''; // Restore scrolling
+      }
+    });
+    
+    // Close modal when pressing Escape key
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape' && modal.style.display === 'block') {
+        modal.style.display = 'none';
+        document.body.style.overflow = ''; // Restore scrolling
+      }
+    });
+  });
+  
+  // Function to handle row clicks (already in your code)
+  function clickHandler(event) {
+    if (!event.target.closest('button')) {
+      const link = event.currentTarget.dataset.link;
+      if (link) {
+        window.location.href = link;
+      }
+    }
+  }

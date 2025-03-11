@@ -57,7 +57,7 @@
                   </thead>
                   <tbody class="body-wrapper">
                   {% for admin in admins %}
-                    <tr class="body-fields" onclick="window.location.href='{% url 'update_admin' admin.id %}'">
+                    <tr class="body-fields" onclick="clickHandler(event)" data-link="{% url 'update_admin' admin.id %}">
                       <td>
                         {{admin.id}}
                         </a>
@@ -72,36 +72,11 @@
                         {{admin.email}}
                       </td>
                       <td>
-                          <button type="button" rel="tooltip" class="btn btn-danger btn-simple btn-icon btn-sm" data-toggle="modal" data-target="#deleteAdminModal{{ admin.id }}">
+                          <button type="button" class="btn btn-danger btn-simple btn-icon btn-sm delete-btn" data-id="{{ admin.id }}" data-delete-url="{% url 'delete_admin' admin.id %}">
                             <i class="now-ui-icons ui-1_simple-remove"></i>
                           </button>
                       </td>
                   </tr>
-
-
-                  <div class="modal fade" id="deleteAdminModal{{ admin.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteAdminModalLabel{{ admin.id }}" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="deleteAdminModalLabel{{ admin.id }}">حذف أدمن</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                        <div class="modal-body">
-                          <p>هل أنت واثق من أنك تريد حذف الأدمن "{{admin.username}}"؟</p>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
-                          <form action="{% url 'delete_admin' admin.id %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-danger">حذف</button>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  
                   {% endfor %}
                   </tbody>
                 </table>
@@ -135,5 +110,7 @@
     </div>
   </div>
 </div>
+
+{% include 'admin_panel/modal.html' %}
 
 {% endblock content %}

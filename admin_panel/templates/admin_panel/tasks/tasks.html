@@ -62,7 +62,7 @@
                   </thead>
                   <tbody class="body-wrapper">
                   {% for task in tasks %}
-                    <tr class="body-fields" onclick="window.location.href='{% url 'update_task' task.id %}'">
+                    <tr class="body-fields" onclick="clickHandler(event)" data-link="{% url 'update_task' task.id %}">
                       <td>
                         {{task.id}}
                       </td>
@@ -86,36 +86,12 @@
                         <i class="far fa-circle-xmark" style="color: rgb(230, 73, 73);"></i>
                         {% endif %}
                       </td>
-                      <td>
-                          <button type="button" rel="tooltip" class="btn btn-danger btn-simple btn-icon btn-sm" data-toggle="modal" data-target="#deleteadminModal{{ task.id }}">
+                      <td onclick="event.stopPropagation();">
+                          <button type="button" class="btn btn-danger btn-simple btn-icon btn-sm delete-btn" data-id="{{ task.id }}" data-delete-url="{% url 'delete_task' task.id %}">
                             <i class="now-ui-icons ui-1_simple-remove"></i>
                           </button>
                       </td>
                   </tr>
-
-
-                  <div class="modal fade" id="deleteadminModal{{ task.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteadminModalLabel{{ task.id }}" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="deleteadminModalLabel{{ task.id }}">حذف المهمة</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                        <div class="modal-body">
-                          <p>"هل أنت واثق من أنك تريد حذف المهمة {{task.title}}?"</p>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
-                          <form action="{% url 'delete_task' task.id %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-danger">حذف</button>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                   
                   {% endfor %}
                   </tbody>
@@ -149,5 +125,7 @@
     </div>
   </div>
 </div>
+
+  {% include 'admin_panel/modal.html' %}
 
 {% endblock content %}
