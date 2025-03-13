@@ -1,0 +1,55 @@
+{% for pilgrim in pilgrims %}
+<tr class="body-fields" onclick="clickHandler(event)" data-link="{% url 'update_pilgrim' pilgrim.id %}">
+  <td>
+    {{pilgrim.id}}
+    </a>
+  </td>
+  <td>
+    {{pilgrim.first_name}}
+  </td>
+  <td>
+    {{pilgrim.father_name}}
+  </td>
+  <td>
+    {{pilgrim.grand_father}}
+  </td>
+  <td>
+    {{pilgrim.last_name}}
+  </td>
+  <td>
+    {{pilgrim.phonenumber}}
+  </td>
+  <td>
+    {{pilgrim.guide.user.username}}
+  </td>
+  <td>
+    {{pilgrim.flight_num}}
+  </td>
+  <td>
+    {{pilgrim.arrival}}
+  </td>
+  <td>
+    {{pilgrim.departure}}
+  </td>
+  <td>
+    {{pilgrim.from_city}}
+  </td>
+  <td>
+    {{pilgrim.to_city}}
+  </td>
+  <td>
+    {{pilgrim.hotel}}
+  </td>
+  <td>
+    {{pilgrim.hotel_address}}
+  </td>
+  <td>
+    {{pilgrim.room_num}}
+  </td>
+  <td>
+      <button type="button" class="btn btn-danger btn-simple btn-icon btn-sm delete-btn" data-id="{{ pilgrim.id }}" data-delete-url="{% url 'delete_pilgrim' pilgrim.id %}">
+        <i class="now-ui-icons ui-1_simple-remove"></i>
+      </button>
+  </td>
+</tr>
+{% endfor %}

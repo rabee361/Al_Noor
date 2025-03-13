@@ -1,6 +1,6 @@
 from django.shortcuts import render , HttpResponse , redirect
 from base.models import *
-from base.resources import PilgrimResource , RegistrationResource , UserPasswordResource
+from base.resources import PilgrimResource , RegistrationResource
 from .forms import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate , login , logout
@@ -75,21 +75,11 @@ def main_dashboard(request):
 
 
 @login_required(login_url='login')
-def registration_forms(request):
-    context = {
-
-    }
-    return render(request , 'admin_panel/registration/registration_forms.html' , context=context)
-
-
-
-@login_required(login_url='login')
 def steps(request):
     context = {
 
     }
     return render(request , 'admin_panel/steps/steps.html' , context=context)
-
 
 @login_required(login_url='login')
 def registration_forms(request):
@@ -99,12 +89,15 @@ def registration_forms(request):
     paginator = Paginator(forms, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-
     context = {
-        'forms':page_obj,
- }
-    return render(request , 'admin_panel/registration/registration_forms.html' , context)
-
+        'forms': page_obj,
+    }
+    # If it's an HTMX request, return only the partial template
+    if request.htmx:
+        return render(request, 'admin_panel/partials/registration_forms_partial.html', context)
+        
+    # Otherwise return the full template
+    return render(request, 'admin_panel/registration/registration_forms.html', context)
 
 
 
@@ -166,7 +159,6 @@ def delete_all_forms(request):
 
 
 
-
 @login_required(login_url='login')
 def pilgrims_list(request):
     q = request.GET.get('q') or ''
@@ -177,9 +169,12 @@ def pilgrims_list(request):
     page_obj = paginator.get_page(page_number)
 
     context = {
-        'pilgrims':page_obj,
+        'pilgrims': page_obj,
     }
-    return render(request , 'admin_panel/users/pilgrims/pilgrims_list.html' , context)
+
+    if request.htmx:
+        return render(request, 'admin_panel/partials/pilgrims_partial.html', context)
+    return render(request, 'admin_panel/users/pilgrims/pilgrims_list.html', context)
 
 
 
@@ -522,10 +517,6 @@ def add_task(request):
 
 
 
-
-
-
-
 @login_required(login_url='login')
 def update_task(request,task_id):
     task = Task.objects.get(id=task_id)
@@ -544,18 +535,11 @@ def update_task(request,task_id):
 
 
 
-
-
-
-
 @login_required(login_url='login')
 def delete_task(request,task_id):
     Task.objects.get(id=task_id).delete()
 
     return redirect('tasks')
-
-
-
 
 
 
@@ -577,7 +561,6 @@ def notes_list(request):
 
 
 
-
 @login_required(login_url='login')
 def add_note(request):
     form = NewNote()
@@ -592,9 +575,6 @@ def add_note(request):
         'form': form,
     }
     return render(request, 'admin_panel/notes/add_note.html', context)
-
-
-
 
 
 
@@ -618,25 +598,11 @@ def update_note(request,note_id):
 
 
 
-
-
-
 @login_required(login_url='login')
 def delete_note(request,note_id):
     Note.objects.get(id=note_id).delete()
 
     return redirect('notes')
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -684,8 +650,6 @@ def add_employee(request):
     }
     return render(request , 'admin_panel/users/employees/add_employee.html' , context)
 
-    
-
 
 
 @login_required(login_url='login')
@@ -722,20 +686,12 @@ def update_employee(request,employee_id):
 
 
 
-
-
-
-
-
 @login_required(login_url='login')
 def delete_employee(request,employee_id):
     employee = Employee.objects.get(id=employee_id)
     user = CustomUser.objects.get(id=employee.user.id)
     user.delete()
     return redirect('employees')
-
-
-
 
 
 
@@ -787,8 +743,6 @@ def add_guide(request):
 
 
 
-
-
 def update_guide(request,guide_id):
     guide = Guide.objects.get(id=guide_id)
     user = guide.user
@@ -819,7 +773,6 @@ def update_guide(request,guide_id):
     }
     return render(request, 'admin_panel/users/guides/update_guide.html', context)
 
-
     
 
 def delete_guide(request,guide_id):
@@ -829,19 +782,12 @@ def delete_guide(request,guide_id):
     return redirect('guides')
 
 
-
-
-
-
-
-
 def export_pilgram(request):
     pilgrim_resource = PilgrimResource()
     dataset = pilgrim_resource.export()
     response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
     response['Content-Disposition'] = 'attachment; filename="pilgrims.xlsx"'
     return response
-
 
 
 def export_forms(request):
@@ -882,7 +828,6 @@ def import_pilgrim(request):
                     user.save()
                     chat1 = Chat.objects.create(user=user , chat_type='guide')  
                     chat2 = Chat.objects.create(user=user , chat_type='manager')
-                    UserPassword.objects.create(password=my_password , username=user.username , phonenumber=str(row['رقم الجوال']))
                 else:
                     user.first_name = row['الاسم الأول']
                     user.last_name = row['العائلة']
@@ -915,12 +860,14 @@ def import_pilgrim(request):
                 )
                 pilgrim.save()
 
-            passwords = UserPasswordResource()
-            dataset = passwords.export()
-            response = HttpResponse(dataset.xlsx, content_type='application/vnd.ms-excel')
-            response['Content-Disposition'] = 'attachment; filename="passwords.xlsx"'
-            UserPassword.objects.all().delete()
-            return response
+                try:
+                    guide = Guide.objects.get(id = row['المرشد'])
+                    pilgrim.guide = guide
+                    pilgrim.save()
+                except Guide.DoesNotExist:
+                    pass
+
+            return redirect('pilgrims')
 
         return render(request, 'admin_panel/users/pilgrims/import_pilgrims.html')
 
@@ -964,19 +911,10 @@ def add_notification(request):
     }
     return render(request , 'admin_panel/notifications/add_notification.html' , context)
 
-    
-
 
 def delete_notifications(request,notification_id):
     BaseNotification.objects.get(id=notification_id).delete()
     return redirect('notifications')
-
-
-
-
-
-
-
 
 
 
@@ -987,8 +925,6 @@ def guidance_posts(request):
         'posts':posts,
     }
     return render(request , 'admin_panel/religious_work/guidance_posts.html' , context)
-
-
 
 
 
@@ -1005,8 +941,6 @@ def add_guidance_post(request):
         'form' : form,
     }
     return render(request , 'admin_panel/religious_work/add_guidance_post.html' , context)
-
-
 
 
 
@@ -1029,14 +963,10 @@ def update_guidance_post(request,post_id):
 
 
 
-
-
 @login_required(login_url='login')
 def delete_guidance_post(request,post_id):
     GuidancePost.objects.get(id=post_id).delete()
     return redirect('guidance_posts')
-
-
 
 
 

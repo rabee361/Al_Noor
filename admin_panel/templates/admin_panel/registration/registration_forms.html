@@ -19,7 +19,7 @@
       <!-- Replace with form-wrapped search and actions container -->
       <div class="search-actions-container">
         <form method="GET" action="" class="search-wrapper">
-          <input type="text" name="q" class="search-input" placeholder="البحث عن استمارة..." value="{{ request.GET.q }}">
+          <input hx-get="{% url 'registration_forms' %}" hx-push-url="true" hx-target="#registration-forms-partial" hx-swap="innerHTML" hx-trigger="keyup changed delay:300ms" type="text" value="{{ request.GET.q }}" name="q" class="search-input" placeholder="البحث عن استمارة...">
           <button type="submit" class="search-button">
             <i class="fas fa-search"></i>
           </button>
@@ -129,108 +129,8 @@
                       
                     </th>
                   </thead>
-                  <tbody class="body-wrapper">
-                  {% for form in forms %}
-                    <tr class="body-fields" onclick="clickHandler(event)" data-link="{% url 'update_register_form' form.id %}">
-                      <td>
-                        {{form.id}}
-                      </td>
-                      <td>
-                        {{form.phonenumber}}
-                      </td>
-                      <td>
-                        {{form.first_name}}
-                      </td>
-                      <td>
-                        {{form.father_name}}
-                      </td>
-                      <td>
-                        {{form.grand_father}}
-                      </td>
-                      <td>
-                        {{form.last_name}}
-                      </td>
-                      <td>
-                        {{form.id_number}}
-                      </td>
-                      <td>
-                        {{form.birthday}}
-                      </td>
-                      <td>
-                        {{form.job_position}}
-                      </td>
-                      <td>
-                        {{form.gender}}
-                      </td>
-                      <td>
-                        {{form.options_trip}}
-                      </td>
-                      <td>
-                        {{form.marital_status}}
-                      </td>
-                      <td>
-                        {{form.address}}
-                      </td>
-                      <td>
-                        {{form.alhajj}}
-                      </td>
-                      <td>
-                        {{form.tradition_reference}}
-                      </td>
-                      <td>
-                        {{form.count_hajjas}}
-                      </td>
-                      <td>
-                        {{form.last_year}}
-                      </td>
-                      <td>
-                        {{form.means_journey}}
-                      </td>
-                      <td>
-                        {{form.additional}}
-                      </td>
-                      <td>
-                        {{form.blood_type}}
-                      </td>
-                      <td>
-                        {% if form.illness %}
-                        <i class="fas fa-check" style="color: rgb(140, 206, 41);"></i>
-                        {% else %}
-                        <i class="far fa-circle-xmark" style="color: rgb(230, 73, 73);"></i>
-                        {% endif %}
-                      </td>
-                      <td>
-                        {% if form.tawaf %}
-                        <i class="fas fa-check" style="color: rgb(140, 206, 41);"></i>
-                        {% else %}
-                        <i class="far fa-circle-xmark" style="color: rgb(230, 73, 73);"></i>
-                        {% endif %}
-                      </td>
-                      <td>
-                        {% if form.sai %}
-                        <i class="fas fa-check" style="color: rgb(140, 206, 41);"></i>
-                        {% else %}
-                        <i class="far fa-circle-xmark" style="color: rgb(230, 73, 73);"></i>
-                        {% endif %}
-                      </td>
-                      <td>
-                        {% if form.wheelchair %}
-                        <i class="fas fa-check" style="color: rgb(140, 206, 41);"></i>
-                        {% else %}
-                        <i class="far fa-circle-xmark" style="color: rgb(230, 73, 73);"></i>
-                        {% endif %}
-                      </td>
-                      <td>
-                        {{form.type_help}}
-                      </td>
-                      <td>
-                          <button type="button" class="btn btn-danger btn-simple btn-icon btn-sm delete-btn" data-id="{{ form.id }}" data-delete-url="{% url 'delete_register_form' form.id %}">
-                            <i class="now-ui-icons ui-1_simple-remove"></i>
-                          </button>
-                      </td>
-                  </tr>
-                  
-                  {% endfor %}
+                  <tbody class="body-wrapper" id="registration-forms-partial">
+                    {% include 'admin_panel/partials/registration_forms_partial.html' %}
                   </tbody>
                 </table>
               </div>

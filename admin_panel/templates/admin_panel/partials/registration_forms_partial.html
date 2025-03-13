@@ -1,0 +1,100 @@
+{% for form in forms %}
+<tr class="body-fields" onclick="clickHandler(event)" data-link="{% url 'update_register_form' form.id %}">
+  <td>
+    {{form.id}}
+  </td>
+  <td>
+    {{form.phonenumber}}
+  </td>
+  <td>
+    {{form.first_name}}
+  </td>
+  <td>
+    {{form.father_name}}
+  </td>
+  <td>
+    {{form.grand_father}}
+  </td>
+  <td>
+    {{form.last_name}}
+  </td>
+  <td>
+    {{form.id_number}}
+  </td>
+  <td>
+    {{form.birthday}}
+  </td>
+  <td>
+    {{form.job_position}}
+  </td>
+  <td>
+    {{form.gender}}
+  </td>
+  <td>
+    {{form.options_trip}}
+  </td>
+  <td>
+    {{form.marital_status}}
+  </td>
+  <td>
+    {{form.address}}
+  </td>
+  <td>
+    {{form.alhajj}}
+  </td>
+  <td>
+    {{form.tradition_reference}}
+  </td>
+  <td>
+    {{form.count_hajjas}}
+  </td>
+  <td>
+    {{form.last_year}}
+  </td>
+  <td>
+    {{form.means_journey}}
+  </td>
+  <td>
+    {{form.additional}}
+  </td>
+  <td>
+    {{form.blood_type}}
+  </td>
+  <td>
+    {% if form.illness %}
+    <i class="fas fa-check" style="color: rgb(140, 206, 41);"></i>
+    {% else %}
+    <i class="far fa-circle-xmark" style="color: rgb(230, 73, 73);"></i>
+    {% endif %}
+  </td>
+  <td>
+    {% if form.tawaf %}
+    <i class="fas fa-check" style="color: rgb(140, 206, 41);"></i>
+    {% else %}
+    <i class="far fa-circle-xmark" style="color: rgb(230, 73, 73);"></i>
+    {% endif %}
+  </td>
+  <td>
+    {% if form.sai %}
+    <i class="fas fa-check" style="color: rgb(140, 206, 41);"></i>
+    {% else %}
+    <i class="far fa-circle-xmark" style="color: rgb(230, 73, 73);"></i>
+    {% endif %}
+  </td>
+  <td>
+    {% if form.wheelchair %}
+    <i class="fas fa-check" style="color: rgb(140, 206, 41);"></i>
+    {% else %}
+    <i class="far fa-circle-xmark" style="color: rgb(230, 73, 73);"></i>
+    {% endif %}
+  </td>
+  <td>
+    {{form.type_help}}
+  </td>
+  <td>
+      <button type="button" class="btn btn-danger btn-simple btn-icon btn-sm delete-btn" data-id="{{ form.id }}" data-delete-url="{% url 'delete_register_form' form.id %}">
+        <i class="now-ui-icons ui-1_simple-remove"></i>
+      </button>
+  </td>
+</tr>
+{% endfor %}

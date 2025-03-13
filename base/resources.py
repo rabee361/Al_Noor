@@ -239,37 +239,3 @@ class RegistrationResource(resources.ModelResource):
         model = Registration
         exclude = ('id',)
 
-    # def after_save_instance(self, instance, using_transactions, dry_run):
-    #     if not dry_run:
-    #         user_id = instance.user
-    #         user = CustomUser.objects.get(id =user_id.id)
-    #         user.set_password('oneoneone')
-    #         Chat.objects.create(user=user)
-    #         print("123")
-    #         user.save()
-    #     return True
-
-
-
-
-
-
-
-
-class UserPasswordResource(resources.ModelResource):
-    phonenumber = Field(
-        column_name='رقم الجوال',
-        attribute='phonenumber',
-    )
-    username = Field(
-        column_name='الاسم ',
-        attribute='username',
-    )
-    password = Field(
-        column_name='كلمة السر',
-        attribute='password',
-    )
- 
-    class Meta:
-        model = UserPassword
-        exclude = ['id']

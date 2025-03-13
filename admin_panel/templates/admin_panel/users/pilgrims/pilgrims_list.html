@@ -18,7 +18,7 @@
       <!-- Replace with form-wrapped search and actions container -->
       <div class="search-actions-container">
         <form method="GET" action="" class="search-wrapper">
-          <input type="text" name="q" class="search-input" placeholder="البحث عن حاج..." value="{{ request.GET.q }}">
+          <input hx-get="{% url 'pilgrims' %}" hx-push-url="true" hx-target="#pilgrims-partial" hx-swap="innerHTML" hx-trigger="keyup changed delay:300ms" type="text" value="{{ request.GET.q }}" name="q" class="search-input" placeholder="البحث عن حاج...">
           <button type="submit" class="search-button">
             <i class="fas fa-search"></i>
           </button>
@@ -103,62 +103,8 @@
                       
                     </th>
                   </thead>
-                  <tbody class="body-wrapper">
-                  {% for pilgrim in pilgrims %}
-                    <tr class="body-fields" onclick="clickHandler(event)" data-link="{% url 'update_pilgrim' pilgrim.id %}">
-                      <td>
-                        {{pilgrim.id}}
-                        </a>
-                      </td>
-                      <td>
-                        {{pilgrim.first_name}}
-                      </td>
-                      <td>
-                        {{pilgrim.father_name}}
-                      </td>
-                      <td>
-                        {{pilgrim.grand_father}}
-                      </td>
-                      <td>
-                        {{pilgrim.last_name}}
-                      </td>
-                      <td>
-                        {{pilgrim.phonenumber}}
-                      </td>
-                      <td>
-                        {{pilgrim.guide.user.username}}
-                      </td>
-                      <td>
-                        {{pilgrim.flight_num}}
-                      </td>
-                      <td>
-                        {{pilgrim.arrival}}
-                      </td>
-                      <td>
-                        {{pilgrim.departure}}
-                      </td>
-                      <td>
-                        {{pilgrim.from_city}}
-                      </td>
-                      <td>
-                        {{pilgrim.to_city}}
-                      </td>
-                      <td>
-                        {{pilgrim.hotel}}
-                      </td>
-                      <td>
-                        {{pilgrim.hotel_address}}
-                      </td>
-                      <td>
-                        {{pilgrim.room_num}}
-                      </td>
-                      <td>
-                          <button type="button" class="btn btn-danger btn-simple btn-icon btn-sm delete-btn" data-id="{{ pilgrim.id }}" data-delete-url="{% url 'delete_pilgrim' pilgrim.id %}">
-                            <i class="now-ui-icons ui-1_simple-remove"></i>
-                          </button>
-                      </td>
-                  </tr>
-                  {% endfor %}
+                  <tbody class="body-wrapper" id="pilgrims-partial">
+                    {% include 'admin_panel/partials/pilgrims_partial.html' %}
                   </tbody>
                 </table>
               </div>
