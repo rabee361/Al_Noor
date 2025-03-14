@@ -18,7 +18,7 @@
       <!-- Replace with form-wrapped search and actions container -->
       <div class="search-actions-container">
         <form method="GET" action="" class="search-wrapper">
-          <input type="text" name="q" class="search-input" placeholder="البحث عن ملاحظة..." value="{{ request.GET.q }}">
+          <input hx-get="{% url 'notes' %}" hx-push-url="true" hx-target="#notes-partial" hx-swap="innerHTML" hx-trigger="keyup changed delay:300ms" type="text" value="{{ request.GET.q }}" name="q" class="search-input" placeholder="البحث عن ملاحظة...">
           <button type="submit" class="search-button">
             <i class="fas fa-search"></i>
           </button>
@@ -54,32 +54,8 @@
                       
                     </th>
                   </thead>
-                  <tbody class="body-wrapper">
-                  {% for note in notes %}
-                    <tr class="body-fields" onclick="clickHandler(event)" data-link="{% url 'update_note' note.id %}">
-                        <a href="{% url 'update_note' note.id %}">
-                        <td>
-                          {{note.id}}
-                        </td>
-                        </a>
-                      <td>
-                        <a href="{% url 'update_note' note.id %}" style="color: var(--text-color); text-decoration: none;">
-                          {{note.pilgrim.user.username}}
-                        </a>
-                      </td>
-                      <td>
-                          {{note.guide.user.username}}
-                      </td>
-                      <td>
-                        {{note.content}}
-                      </td>
-                      <td>
-                          <button type="button" class="btn btn-danger btn-simple btn-icon btn-sm delete-btn" data-id="{{ note.id }}" data-delete-url="{% url 'delete_note' note.id %}">
-                            <i class="now-ui-icons ui-1_simple-remove"></i>
-                          </button>
-                      </td>
-                  </tr>
-                  {% endfor %}
+                  <tbody class="body-wrapper" id="notes-partial">
+                    {% include "admin_panel/partials/notes_partial.html" %}
                   </tbody>
                 </table>
               </div>

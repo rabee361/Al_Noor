@@ -469,12 +469,6 @@ def delete_manager(request,manager_id):
 
 
 
-
-
-
-
-
-
 @login_required(login_url='login')
 def task_list(request):
     q = request.GET.get('q') or ''
@@ -486,13 +480,11 @@ def task_list(request):
 
     context = {
         'tasks':page_obj,
- }
+    }
+
+    if request.htmx:
+        return render(request , 'admin_panel/partials/tasks_partial.html' , context)
     return render(request , 'admin_panel/tasks/tasks.html' , context)
-
-
-
-
-
 
 
 
@@ -555,7 +547,9 @@ def notes_list(request):
 
     context = {
         'notes':page_obj,
- }
+    }
+    if request.htmx:
+        return render(request , 'admin_panel/partials/notes_partial.html' , context)
     return render(request , 'admin_panel/notes/notes.html' , context)
 
 

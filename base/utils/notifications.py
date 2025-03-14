@@ -20,12 +20,11 @@ def send_task_notification(employee,title,content):
                         ),
                     ),
                 )
-                user = CustomUser.objects.get(id=employee.user.id)
             except UnregisteredError:
                 pass
             except InvalidArgumentError:
                 pass
-        UserNotification.objects.create(user=user,content=content,title=title)
+        UserNotification.objects.create(user=employee.user,content=content,title=title)
 
 
 

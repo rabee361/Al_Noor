@@ -1,0 +1,33 @@
+{% for task in tasks %}
+<tr class="body-fields" onclick="clickHandler(event)" data-link="{% url 'update_task' task.id %}">
+  <td>
+    {{task.id}}
+  </td>
+  <td>  
+    {{task.employee}}
+  </td>
+  <td>
+    {{task.title}}
+  </td>
+  <td>
+    {% if task.completed %}
+    <i class="fas fa-check" style="color: rgb(140, 206, 41);"></i>
+    {% else %}
+    <i class="far fa-circle-xmark" style="color: rgb(230, 73, 73);"></i>
+    {% endif %}
+  </td>
+  <td>
+    {% if task.accepted %}
+    <i class="fas fa-check" style="color: rgb(140, 206, 41);"></i>
+    {% else %}
+    <i class="far fa-circle-xmark" style="color: rgb(230, 73, 73);"></i>
+    {% endif %}
+  </td>
+  <td onclick="event.stopPropagation();">
+      <button type="button" class="btn btn-danger btn-simple btn-icon btn-sm delete-btn" data-id="{{ task.id }}" data-delete-url="{% url 'delete_task' task.id %}">
+        <i class="now-ui-icons ui-1_simple-remove"></i>
+      </button>
+  </td>
+</tr>
+
+{% endfor %}

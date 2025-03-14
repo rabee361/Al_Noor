@@ -1,0 +1,25 @@
+{% for note in notes %}
+<tr class="body-fields" onclick="clickHandler(event)" data-link="{% url 'update_note' note.id %}">
+    <a href="{% url 'update_note' note.id %}">
+    <td>
+      {{note.id}}
+    </td>
+    </a>
+  <td>
+    <a href="{% url 'update_note' note.id %}" style="color: var(--text-color); text-decoration: none;">
+      {{note.pilgrim.user.username}}
+    </a>
+  </td>
+  <td>
+      {{note.guide.user.username}}
+  </td>
+  <td>
+    {{note.content}}
+  </td>
+  <td>
+      <button type="button" class="btn btn-danger btn-simple btn-icon btn-sm delete-btn" data-id="{{ note.id }}" data-delete-url="{% url 'delete_note' note.id %}">
+        <i class="now-ui-icons ui-1_simple-remove"></i>
+      </button>
+  </td>
+</tr>
+{% endfor %}
