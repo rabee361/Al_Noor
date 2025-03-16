@@ -159,6 +159,8 @@ class Pilgrim(models.Model):
         except Chat.DoesNotExist:
             return None 
 
+    class Meta:
+        ordering = ['-id']
 
 
 

@@ -17,6 +17,7 @@ from base.models import FormSubmission
 from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
+from openpyxl import load_workbook
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def login_user(request):
@@ -162,7 +163,7 @@ def delete_all_forms(request):
 @login_required(login_url='login')
 def pilgrims_list(request):
     q = request.GET.get('q') or ''
-    pilgrims = Pilgrim.objects.filter(first_name__startswith = q).order_by('-id')
+    pilgrims = Pilgrim.objects.select_related('user').filter(first_name__startswith = q).order_by('-id')
 
     paginator = Paginator(pilgrims, 10)
     page_number = request.GET.get('page')
@@ -791,8 +792,6 @@ def export_forms(request):
     response['Content-Disposition'] = 'attachment; filename="register_forms.xlsx"'
     return response
 
- 
-
 @transaction.atomic
 def import_pilgrim(request):
         
@@ -801,12 +800,37 @@ def import_pilgrim(request):
             df = pd.read_excel(excel_file)
             for index, row in df.iterrows():
 
-                arrival_datetime = datetime.strptime(str(row['موعد الوصول']), '%H:%M:%S')
-                departure_datetime = datetime.strptime(str(row['موعد الرحيل']), '%H:%M:%S')
+                # Convert time strings to proper datetime format
+                arrival_str = str(row['موعد الوصول']).strip()
+                departure_str = str(row['موعد الرحيل']).strip()
+                boarding_str = str(row['وقت الصعود']).strip()
 
-                diff = departure_datetime - arrival_datetime
+                # Parse times and convert to 24-hour format
+                try:
+                    arrival_dt = datetime.strptime(arrival_str, '%I:%M:%S %p')
+                    arrival_time = arrival_dt.strftime('%H:%M:%S')
+                except ValueError:
+                    arrival_time = '00:00:00'  # Default if parsing fails
 
-                formatted_diff = str(timedelta(hours=diff.seconds//3600, minutes=diff.seconds//60%60))
+                try:
+                    departure_dt = datetime.strptime(departure_str, '%I:%M:%S %p') 
+                    departure_time = departure_dt.strftime('%H:%M:%S')
+                except ValueError:
+                    departure_time = '00:00:00'
+
+                try:
+                    boarding_dt = datetime.strptime(boarding_str, '%I:%M:%S %p')
+                    boarding_time = boarding_dt.strftime('%H:%M:%S') 
+                except ValueError:
+                    boarding_time = '00:00:00'
+
+                # Calculate duration
+                try:
+                    diff = departure_dt - arrival_dt
+                    formatted_diff = str(timedelta(hours=diff.seconds//3600, minutes=diff.seconds//60%60))
+                except:
+                    formatted_diff = '00:00'
+
                 pilgrim_phonenumber = str(row['رقم الجوال'])
                 pilgrim_username = str(row['الاسم الأول']) + ' ' + str(row['اسم الأب']) + ' ' + str(row['اسم الجد']) + ' ' + str(row['العائلة'])
                 user , created =CustomUser.objects.update_or_create(phonenumber=pilgrim_phonenumber ,
@@ -838,12 +862,12 @@ def import_pilgrim(request):
                     'birthday':row['تاريخ الميلاد - الميلادي فقط'],
                     'flight_num':row['رقم الرحلة'],
                     'flight_date':row['تاريخ الرحلة'],
-                    'arrival':row['موعد الوصول'],
-                    'departure':row['موعد الرحيل'],
+                    'arrival':arrival_time,
+                    'departure':departure_time,
                     'from_city':row['من المدينة'],
                     'to_city':row['إلى المدينة'],
                     'duration':str(formatted_diff),
-                    'boarding_time':row['وقت الصعود'],
+                    'boarding_time':boarding_time,
                     'gate_num':row['رقم البوابة'],
                     'flight_company':row['شركة الطيران'],
                     'status':True,
@@ -852,21 +876,17 @@ def import_pilgrim(request):
                     'room_num':row['رقم الغرفة']
                     }
                 )
-                pilgrim.save()
 
                 try:
                     guide = Guide.objects.get(id = row['المرشد'])
                     pilgrim.guide = guide
-                    pilgrim.save()
                 except Guide.DoesNotExist:
                     pass
+                pilgrim.save()
 
             return redirect('pilgrims')
 
         return render(request, 'admin_panel/users/pilgrims/import_pilgrims.html')
-
-
-
 
 
 
