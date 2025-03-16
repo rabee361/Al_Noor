@@ -20,6 +20,10 @@ from django.urls import reverse_lazy
 from openpyxl import load_workbook
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+
+login_decorator = login_required(login_url='login')
+
+
 def login_user(request):
     if request.method == 'POST':
         phonenumber = request.POST['phonenumber']
@@ -32,14 +36,10 @@ def login_user(request):
     return render(request , 'admin_panel/login.html')
 
 
-
-
-@login_required(login_url='login')
+@login_decorator
 def logout_user(request):
     logout(request)
     return redirect('login')
-
-
 
 
 def change_password(request,user_id):
@@ -55,8 +55,7 @@ def change_password(request,user_id):
     return render(request, 'admin_panel/change_password.html')
 
 
-
-@login_required(login_url='login')
+@login_decorator
 def main_dashboard(request):
     total_pilgrims = Pilgrim.objects.count()
     total_employees = Employee.objects.count()
@@ -74,15 +73,14 @@ def main_dashboard(request):
     return render(request , 'admin_panel/dashboard.html' , context)
 
 
-
-@login_required(login_url='login')
+@login_decorator
 def steps(request):
     context = {
 
     }
     return render(request , 'admin_panel/steps/steps.html' , context=context)
 
-@login_required(login_url='login')
+@login_decorator
 def registration_forms(request):
     q = request.GET.get('q') or ''
     forms = Registration.objects.filter(first_name__startswith = q).order_by('-id')
@@ -101,9 +99,7 @@ def registration_forms(request):
     return render(request, 'admin_panel/registration/registration_forms.html', context)
 
 
-
-
-@login_required(login_url='login')
+@login_decorator
 def add_register_form(request):
     form = NewRegisterForm()
 
@@ -120,10 +116,7 @@ def add_register_form(request):
     return render(request, 'admin_panel/registration/add_form.html', context)
 
 
-
-
-
-@login_required(login_url='login')
+@login_decorator
 def update_register_form(request,form_id):
     register_form = Registration.objects.get(id=form_id)
     form = UpdateRegisterForm(instance=register_form)
@@ -141,26 +134,20 @@ def update_register_form(request,form_id):
     return render(request, 'admin_panel/registration/add_form.html', context)
 
 
-
-
-
-
+@login_decorator
 def delete_register_form(request,form_id):
     Registration.objects.get(id=form_id).delete()
 
     return redirect('registration_forms')
 
 
-
+@login_decorator
 def delete_all_forms(request):
     Registration.objects.all().delete()
     return redirect('registration_forms')
 
 
-
-
-
-@login_required(login_url='login')
+@login_decorator
 def pilgrims_list(request):
     q = request.GET.get('q') or ''
     pilgrims = Pilgrim.objects.select_related('user').filter(first_name__startswith = q).order_by('-id')
@@ -178,9 +165,7 @@ def pilgrims_list(request):
     return render(request, 'admin_panel/users/pilgrims/pilgrims_list.html', context)
 
 
-
-
-
+@login_decorator
 def update_pilgrim(request,pilgrim_id):
         pilgrim = Pilgrim.objects.get(id=pilgrim_id)
         user = CustomUser.objects.get(id=pilgrim.user.id)
@@ -241,11 +226,7 @@ def update_pilgrim(request,pilgrim_id):
         return render(request, 'admin_panel/users/pilgrims/update_pilgrim.html', context=context)
 
 
-
-
-
-
-@login_required(login_url='login')
+@login_decorator
 @transaction.atomic
 def add_pilgrim(request):
     form = NewPilgrim()
@@ -307,55 +288,7 @@ def add_pilgrim(request):
 
 
 
-
-
-
-# @login_required(login_url='login')
-# def update_pilgrim(request,pilgrim_id):
-#     pilgrim = Pilgrim.objects.get(id=pilgrim_id)
-#     user = CustomUser.objects.get(id=pilgrim.user)
-#     form = UpdatePilgrim(instance=user)
-
-#     if request.method == 'POST':
-#         form = UpdatePilgrim(request.POST,request.FILES,instance=pilgrim)
-#         if form.is_valid():
-#             user = CustomUser.objects.get(
-#                 phonenumber=form.cleaned_data['phonenumber'],
-#             )
-#             password1=form.cleaned_data['password1']
-#             password2=form.cleaned_data['password2']
-#             image=request.FILES.get('image')
-#             print(image)
-#             if image:
-#                 user.image = request.FILES.get('image')
-#             else:
-#                 user.image = pilgrim.user.image
-#             # if password1:
-#             #     user.set_password(password1)
-
-
-#             user.get_notifications = form.cleaned_data['get_notifications']
-#             user.username = form.cleaned_data['username']
-#             user.save()
-#             return redirect('pilgrims')
-
-#     user_image = request.user.image.url
-#     pilgrim_image = pilgrim.user.image.url
-#     username = request.user.username
-    
-#     context = {
-#         'form': form,
-#         'user_image': user_image,
-#         'pilgrim_image': pilgrim_image,
-#         'username': username,
-#     }
-#     return render(request, 'update_pilgrim.html', context)
-
-
-
-
-
-@login_required(login_url='login')
+@login_decorator
 def delete_pilgrim(request,pilgrim_id):
     pilgrim = Pilgrim.objects.get(id=pilgrim_id)
     user = CustomUser.objects.get(id=pilgrim.user.id)
@@ -363,15 +296,14 @@ def delete_pilgrim(request,pilgrim_id):
     return redirect('pilgrims')
 
 
-@login_required(login_url='login')
+@login_decorator
 def delete_all_pilgrims(request):
     users = CustomUser.objects.filter(user_type='حاج')
     users.delete()
     return redirect('pilgrims')
 
 
-
-@login_required(login_url='login')
+@login_decorator
 def managers_list(request):
     q = request.GET.get('q') or ''
     managers = Management.objects.filter(user__first_name__startswith = q).order_by('-id')
@@ -386,12 +318,7 @@ def managers_list(request):
     return render(request , 'admin_panel/users/managers/managers_list.html' , context)
 
 
-
-
-
-
-
-@login_required(login_url='login')
+@login_decorator
 def add_manager(request):
     form = NewManager()
 
@@ -419,12 +346,7 @@ def add_manager(request):
     return render(request , 'admin_panel/users/managers/manager_form.html' , context)
 
 
-
-
-
-
-
-@login_required(login_url='login')
+@login_decorator
 def update_manager(request,manager_id):
     manager = Management.objects.get(id=manager_id)
     user = manager.user
@@ -458,9 +380,7 @@ def update_manager(request,manager_id):
     return render(request, 'admin_panel/users/managers/update_manager.html', context)
 
 
-
-
-@login_required(login_url='login')
+@login_decorator
 def delete_manager(request,manager_id):
     manager = Management.objects.get(id=manager_id)
     user = CustomUser.objects.get(id=manager.user.id)
@@ -468,9 +388,7 @@ def delete_manager(request,manager_id):
     return redirect("managers")
 
 
-
-
-@login_required(login_url='login')
+@login_decorator
 def task_list(request):
     q = request.GET.get('q') or ''
     tasks = Task.objects.filter(employee__user__username__startswith = q).order_by('-id')
@@ -488,8 +406,7 @@ def task_list(request):
     return render(request , 'admin_panel/tasks/tasks.html' , context)
 
 
-
-@login_required(login_url='login')
+@login_decorator
 def add_task(request):
     form = NewTask()
 
@@ -509,8 +426,7 @@ def add_task(request):
     return render(request, 'admin_panel/tasks/task_form.html', context)
 
 
-
-@login_required(login_url='login')
+@login_decorator
 def update_task(request,task_id):
     task = Task.objects.get(id=task_id)
     form = NewTask(instance=task)
@@ -527,17 +443,14 @@ def update_task(request,task_id):
     return render(request, 'admin_panel/tasks/task_form.html', context)
 
 
-
-@login_required(login_url='login')
+@login_decorator
 def delete_task(request,task_id):
     Task.objects.get(id=task_id).delete()
 
     return redirect('tasks')
 
 
-
-
-@login_required(login_url='login')
+@login_decorator
 def notes_list(request):
     q = request.GET.get('q') or ''
     notes = Note.objects.filter(pilgrim__user__username__startswith = q).order_by('-id')
@@ -554,9 +467,7 @@ def notes_list(request):
     return render(request , 'admin_panel/notes/notes.html' , context)
 
 
-
-
-@login_required(login_url='login')
+@login_decorator
 def add_note(request):
     form = NewNote()
 
@@ -572,9 +483,7 @@ def add_note(request):
     return render(request, 'admin_panel/notes/add_note.html', context)
 
 
-
-
-@login_required(login_url='login')
+@login_decorator
 def update_note(request,note_id):
     note = Note.objects.get(id=note_id)
     form = NewNote(instance=note)
@@ -591,18 +500,14 @@ def update_note(request,note_id):
     return render(request, 'admin_panel/notes/add_note.html', context)
 
 
-
-
-@login_required(login_url='login')
+@login_decorator
 def delete_note(request,note_id):
     Note.objects.get(id=note_id).delete()
 
     return redirect('notes')
 
 
-
-
-@login_required(login_url='login')
+@login_decorator
 def employees_list(request):
     q = request.GET.get('q') or ''
 
@@ -618,8 +523,7 @@ def employees_list(request):
     return render(request , 'admin_panel/users/employees/employees_list.html' , context)
 
 
-
-@login_required(login_url='login')
+@login_decorator
 def add_employee(request):
     form = NewEmployee()
 
@@ -646,8 +550,7 @@ def add_employee(request):
     return render(request , 'admin_panel/users/employees/add_employee.html' , context)
 
 
-
-@login_required(login_url='login')
+@login_decorator
 def update_employee(request,employee_id):
     employee = Employee.objects.get(id=employee_id)
     user = employee.user
@@ -669,8 +572,10 @@ def update_employee(request,employee_id):
             user.email = form.cleaned_data['email']
             user.save()
             return redirect('employees')
-
+        
+    employee_image = request.user.image.url
     employee_image = employee.user.image.url
+    username = request.user.username
     
     context = {
         'form': form,
@@ -680,8 +585,7 @@ def update_employee(request,employee_id):
     return render(request, 'admin_panel/users/employees/update_employee.html', context)
 
 
-
-@login_required(login_url='login')
+@login_decorator
 def delete_employee(request,employee_id):
     employee = Employee.objects.get(id=employee_id)
     user = CustomUser.objects.get(id=employee.user.id)
@@ -689,8 +593,7 @@ def delete_employee(request,employee_id):
     return redirect('employees')
 
 
-
-@login_required(login_url='login')
+@login_decorator
 def guides_list(request):
     q = request.GET.get('q') or ''
 
@@ -706,9 +609,7 @@ def guides_list(request):
     return render(request , 'admin_panel/users/guides/guides_list.html' , context)
 
 
-
-
-@login_required(login_url='login')
+@login_decorator
 def add_guide(request):
     form = NewGuide()
 
@@ -737,7 +638,7 @@ def add_guide(request):
     return render(request , 'admin_panel/users/guides/add_guide.html' , context)
 
 
-
+@login_decorator
 def update_guide(request,guide_id):
     guide = Guide.objects.get(id=guide_id)
     user = guide.user
@@ -768,8 +669,8 @@ def update_guide(request,guide_id):
     }
     return render(request, 'admin_panel/users/guides/update_guide.html', context)
 
-    
 
+@login_decorator
 def delete_guide(request,guide_id):
     guide = Guide.objects.get(id=guide_id)
     user = CustomUser.objects.get(id=guide.user.id)
@@ -777,6 +678,7 @@ def delete_guide(request,guide_id):
     return redirect('guides')
 
 
+@login_decorator
 def export_pilgram(request):
     pilgrim_resource = PilgrimResource()
     dataset = pilgrim_resource.export()
@@ -785,6 +687,7 @@ def export_pilgram(request):
     return response
 
 
+@login_decorator
 def export_forms(request):
     pilgrim_resource = RegistrationResource()
     dataset = pilgrim_resource.export()
@@ -792,6 +695,7 @@ def export_forms(request):
     response['Content-Disposition'] = 'attachment; filename="register_forms.xlsx"'
     return response
 
+@login_decorator
 @transaction.atomic
 def import_pilgrim(request):
         
@@ -889,7 +793,7 @@ def import_pilgrim(request):
         return render(request, 'admin_panel/users/pilgrims/import_pilgrims.html')
 
 
-
+@login_decorator
 def notifications_list(request):
     q = request.GET.get('q') or ''
     notifications = BaseNotification.objects.filter(title__startswith=q).order_by('-id')
@@ -909,7 +813,7 @@ def notifications_list(request):
 
 
 
-@login_required(login_url='login')
+@login_decorator
 def add_notification(request):
     form = NotificationForm()
     user = request.user
@@ -925,13 +829,13 @@ def add_notification(request):
     }
     return render(request , 'admin_panel/notifications/add_notification.html' , context)
 
-
+@login_decorator
 def delete_notifications(request,notification_id):
     BaseNotification.objects.get(id=notification_id).delete()
     return redirect('notifications')
 
 
-
+@login_decorator
 def guidance_posts(request):
     q = request.GET.get('q') or ''
     posts = GuidancePost.objects.filter(title__startswith=q).order_by('rank')
@@ -943,7 +847,7 @@ def guidance_posts(request):
 
 
 
-@login_required(login_url='login')
+@login_decorator
 def add_guidance_post(request):
     form = GuidancePostForm()
     if request.method == 'POST':
@@ -958,7 +862,7 @@ def add_guidance_post(request):
 
 
 
-@login_required(login_url='login')
+@login_decorator
 def update_guidance_post(request,post_id):
     post = GuidancePost.objects.get(id=post_id)
     form = GuidancePostForm(instance=post)
@@ -977,14 +881,14 @@ def update_guidance_post(request,post_id):
 
 
 
-@login_required(login_url='login')
+@login_decorator
 def delete_guidance_post(request,post_id):
     GuidancePost.objects.get(id=post_id).delete()
     return redirect('guidance_posts')
 
 
 
-
+@login_decorator
 def guidance_categories(request): 
     q = request.GET.get('q') or ''
     categories = GuidanceCategory.objects.filter(name__startswith=q).order_by('-id')
@@ -996,7 +900,7 @@ def guidance_categories(request):
 
 
 
-@login_required(login_url='login')
+@login_decorator
 def add_guidance_category(request):
     form = GuidanceCategoryForm()
     if request.method == 'POST':
@@ -1017,7 +921,7 @@ def add_guidance_category(request):
 
 
 
-@login_required(login_url='login')
+@login_decorator
 def update_guidance_category(request,category_id):
     category = GuidanceCategory.objects.get(id=category_id)
     form = GuidanceCategoryForm(instance=category)
@@ -1037,7 +941,7 @@ def update_guidance_category(request,category_id):
 
 
 
-@login_required(login_url='login')
+@login_decorator
 def delete_guidance_category(request,category_id):
     GuidanceCategory.objects.get(id=category_id).delete()
     return redirect('guidance_categories')
@@ -1062,7 +966,7 @@ def religious_posts(request):
 
 
 
-@login_required(login_url='login')
+@login_decorator
 def add_religious_post(request):
     form = ReligiousPostForm()
     if request.method == 'POST':
@@ -1084,7 +988,7 @@ def add_religious_post(request):
 
 
 
-@login_required(login_url='login')
+@login_decorator
 def update_religious_post(request,post_id):
     post = ReligiousPost.objects.get(id=post_id)
     form = ReligiousPostForm(instance=post)
@@ -1105,7 +1009,7 @@ def update_religious_post(request,post_id):
 
 
 
-@login_required(login_url='login')
+@login_decorator
 def delete_religious_post(request,post_id):
     ReligiousPost.objects.get(id=post_id).delete()
     return redirect('religious_posts')
@@ -1115,7 +1019,7 @@ def delete_religious_post(request,post_id):
 
 
 
-
+@login_decorator
 def religious_categories(request): 
     q = request.GET.get('q') or ''
     categories = ReligiousCategory.objects.filter(name__startswith=q).order_by('-id')
@@ -1129,7 +1033,7 @@ def religious_categories(request):
 
 
 
-@login_required(login_url='login')
+@login_decorator
 def add_religious_category(request):
     form = ReligiousCategoryForm()
 
@@ -1147,7 +1051,7 @@ def add_religious_category(request):
 
 
 
-@login_required(login_url='login')
+@login_decorator
 def update_religious_category(request,category_id):
     category = ReligiousCategory.objects.get(id=category_id)
     form = ReligiousCategoryForm(instance=category)
@@ -1167,7 +1071,7 @@ def update_religious_category(request,category_id):
 
 
 
-@login_required(login_url='login')
+@login_decorator
 def delete_religious_category(request,category_id):
     ReligiousCategory.objects.get(id=category_id).delete()
     return redirect('religious_categories')
@@ -1176,7 +1080,7 @@ def delete_religious_category(request,category_id):
 
 
 
-@login_required(login_url='login')
+@login_decorator
 def update_religious_post(request,post_id):
     post = ReligiousPost.objects.get(id=post_id)
     form = ReligiousPostForm(instance=post)
@@ -1197,7 +1101,7 @@ def update_religious_post(request,post_id):
 
 
 
-@login_required(login_url='login')
+@login_decorator
 def delete_religious_post(request,post_id):
     ReligiousPost.objects.get(id=post_id).delete()
     return redirect('religious_posts')
@@ -1206,7 +1110,7 @@ def delete_religious_post(request,post_id):
 
 
 
-@login_required(login_url='login')
+@login_decorator
 def steps_list(request):
     q = request.GET.get('q') or ''
     steps = HajSteps.objects.filter(name__startswith=q).order_by('-id')
@@ -1217,7 +1121,7 @@ def steps_list(request):
 
 
 
-@login_required(login_url='login')
+@login_decorator
 def pilgrim_steps(request):
     q = request.GET.get('q') or ''
     page = request.GET.get('page', 1)
@@ -1260,7 +1164,7 @@ def pilgrim_steps(request):
 
 
 
-@login_required(login_url='login')
+@login_decorator
 def add_step(request):
     form = StepForm()
 
@@ -1278,7 +1182,7 @@ def add_step(request):
 
 
 
-@login_required(login_url='login')
+@login_decorator
 def update_step(request,step_id):
     step = HajSteps.objects.get(id=step_id)
     form = StepForm(instance=step)
@@ -1298,7 +1202,7 @@ def update_step(request,step_id):
 
 
 
-@login_required(login_url='login')
+@login_decorator
 def delete_step(request,step_id):
     HajSteps.objects.get(id=step_id).delete()
     return redirect('steps')
@@ -1311,7 +1215,7 @@ def delete_step(request,step_id):
 
 
 
-@login_required(login_url='login')
+@login_decorator
 def secondary_steps_list(request):
     q = request.GET.get('q') or ''
     steps = SecondarySteps.objects.filter(name__startswith=q).order_by('-id')
@@ -1326,7 +1230,7 @@ def secondary_steps_list(request):
 
 
 
-@login_required(login_url='login')
+@login_decorator
 def add_secondary_step(request):
     form = SecondaryStepForm()
 
@@ -1346,7 +1250,7 @@ def add_secondary_step(request):
 
 
 
-@login_required(login_url='login')
+@login_decorator
 def update_secondary_step(request,step_id):
     step = SecondarySteps.objects.get(id=step_id)
     form = SecondaryStepForm(instance=step)
@@ -1369,7 +1273,7 @@ def update_secondary_step(request,step_id):
 
 
 
-@login_required(login_url='login')
+@login_decorator
 def delete_secondary_step(request,step_id):
     SecondarySteps.objects.get(id=step_id).delete()
     return redirect('secondary_steps')
@@ -1377,7 +1281,7 @@ def delete_secondary_step(request,step_id):
 
 
 
-
+@login_decorator
 def my_account(request):
     user = request.user
     form = UpdateUser(instance=user)
@@ -1413,7 +1317,7 @@ def my_account(request):
 
 
 
-@login_required(login_url='login')
+@login_decorator
 def admins_list(request):
     q = request.GET.get('q') or ''
     admins = CustomUser.objects.filter(is_superuser=True,username__startswith=q).order_by('-id')
@@ -1424,7 +1328,7 @@ def admins_list(request):
 
 
 
-@login_required(login_url='login')  
+@login_decorator
 def update_admin(request,admin_id):
     admin = CustomUser.objects.get(id=admin_id)
     form = UpdateAdmin(instance=admin)
@@ -1458,14 +1362,14 @@ def update_admin(request,admin_id):
 
 
 
-@login_required(login_url='login')
+@login_decorator
 def delete_admin(request,admin_id):
     CustomUser.objects.get(id=admin_id).delete()
     return redirect('admins')
 
 
 
-@login_required(login_url='login')
+@login_decorator
 def add_admin(request):
     form = NewAdmin()
 
@@ -1495,7 +1399,7 @@ def add_admin(request):
 
 
 
-
+@login_decorator
 def terms(request):
     terms = TermsAndConditions.objects.first()
     context = {
@@ -1504,7 +1408,8 @@ def terms(request):
     return render(request , 'admin_panel/about/terms_and_privacy.html' , context)
 
 
-    
+
+@login_decorator
 def update_terms(request):
     terms = TermsAndConditions.objects.first()
     form = TermsForm(instance=terms)
@@ -1517,6 +1422,7 @@ def update_terms(request):
         'form':form,
     }
     return render(request , 'admin_panel/about/update_terms.html' , context)
+
 
 
 class PilgrimFormView(View):
@@ -1619,17 +1525,10 @@ class LandinPageView(View):
         return render(request , 'pilgrim_form/landing.html')
 
 
-
-
-
-
 # 404 page
 
 def Custom404View(self,request,exception):
     return render(request,'404.html')
-
-
-
 
 
 
