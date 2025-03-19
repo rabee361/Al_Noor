@@ -149,3 +149,41 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
   }
+
+// Password visibility toggle functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to create and setup password toggle
+    function setupPasswordToggle(passwordInput) {
+        // Create container div
+        const container = document.createElement('div');
+        container.className = 'password-field-container';
+        
+        // Insert container before password input
+        passwordInput.parentNode.insertBefore(container, passwordInput);
+        
+        // Move password input into container
+        container.appendChild(passwordInput);
+        
+        // Create toggle button
+        const toggleButton = document.createElement('button');
+        toggleButton.type = 'button';
+        toggleButton.className = 'password-toggle';
+        toggleButton.innerHTML = '<i class="fas fa-eye"></i>';
+        
+        // Add toggle button to container
+        container.appendChild(toggleButton);
+        
+        // Add click event listener
+        toggleButton.addEventListener('click', function() {
+            const type = passwordInput.type === 'password' ? 'text' : 'password';
+            passwordInput.type = type;
+            
+            // Toggle icon
+            toggleButton.innerHTML = `<i class="fas fa-eye${type === 'password' ? '' : '-slash'}"></i>`;
+        });
+    }
+    
+    // Setup toggle for all password fields
+    const passwordFields = document.querySelectorAll('input[type="password"]');
+    passwordFields.forEach(setupPasswordToggle);
+});

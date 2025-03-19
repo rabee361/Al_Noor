@@ -509,13 +509,13 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: var(--card-bg);
+    background-color: var(--bg-color);
     overflow-y: auto;
     padding: 20px 0;
 }
 
 .login-body {
-    background-color: var(--bg-color);
+    background-color: var(--card-bg);
     padding: 1.5rem;
     border-radius: 10px;
     width: 100%;
@@ -1352,6 +1352,11 @@ input[type="file"]:focus {
     flex-direction: row-reverse; /* For RTL layout */
 }
 
+.action-button:focus {
+    background-color: var(--hover-color);
+    color: var(--text-color);
+}
+
 .action-button i {
     font-size: 14px;
     margin-right: 0;
@@ -1730,4 +1735,45 @@ input[type="file"]:focus {
 .table .body-fields td:last-child .btn {
     position: relative;
     z-index: 3;
+}
+
+
+
+
+/* Password field container */
+.password-field-container {
+    position: relative;
+    width: 100%;
+}
+
+/* Password toggle button */
+.password-toggle {
+    position: absolute;
+    left: 10px;  /* For RTL layout */
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 5px;
+    transition: color 0.3s ease;
+    z-index: 2;
+}
+
+.password-toggle:focus {
+    outline: none;
+}
+
+.password-toggle:hover {
+    color: var(--primary-color);
+}
+
+.password-toggle i {
+    font-size: 16px;
+}
+
+/* Adjust password input padding to accommodate the toggle button */
+.password-field-container .form-control {
+    padding-left: 35px;  /* For RTL layout */
 }
