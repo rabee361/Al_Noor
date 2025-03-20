@@ -19,7 +19,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from openpyxl import load_workbook
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+import openpyxl 
 
 login_decorator = login_required(login_url='login')
 
@@ -695,102 +695,111 @@ def export_forms(request):
     response['Content-Disposition'] = 'attachment; filename="register_forms.xlsx"'
     return response
 
+
+
 @login_decorator
 @transaction.atomic
 def import_pilgrim(request):
-        
-        if request.method == 'POST':
-            excel_file = request.FILES['file']
-            df = pd.read_excel(excel_file)
-            for index, row in df.iterrows():
+    if request.method == 'POST':
+        excel_file = request.FILES['file']
+        workbook = openpyxl.load_workbook(excel_file)
+        sheet = workbook.active
 
-                # Convert time strings to proper datetime format
-                arrival_str = str(row['موعد الوصول']).strip()
-                departure_str = str(row['موعد الرحيل']).strip()
-                boarding_str = str(row['وقت الصعود']).strip()
+        # Assuming the first row is the header
+        headers = {cell.value: idx for idx, cell in enumerate(sheet[1])}
 
-                # Parse times and convert to 24-hour format
-                try:
-                    arrival_dt = datetime.strptime(arrival_str, '%I:%M:%S %p')
-                    arrival_time = arrival_dt.strftime('%H:%M:%S')
-                except ValueError:
-                    arrival_time = '00:00:00'  # Default if parsing fails
+        for row in sheet.iter_rows(min_row=2, values_only=True):
+            # Convert time strings to proper datetime format
+            arrival_str = str(row[headers['موعد الوصول']]).strip()
+            departure_str = str(row[headers['موعد الرحيل']]).strip()
+            boarding_str = str(row[headers['وقت الصعود']]).strip()
 
-                try:
-                    departure_dt = datetime.strptime(departure_str, '%I:%M:%S %p') 
-                    departure_time = departure_dt.strftime('%H:%M:%S')
-                except ValueError:
-                    departure_time = '00:00:00'
+            # Parse times and convert to 24-hour format
+            try:
+                arrival_dt = datetime.strptime(arrival_str, '%I:%M:%S %p')
+                arrival_time = arrival_dt.strftime('%H:%M:%S')
+            except ValueError:
+                arrival_time = '00:00:00'  # Default if parsing fails
 
-                try:
-                    boarding_dt = datetime.strptime(boarding_str, '%I:%M:%S %p')
-                    boarding_time = boarding_dt.strftime('%H:%M:%S') 
-                except ValueError:
-                    boarding_time = '00:00:00'
+            try:
+                departure_dt = datetime.strptime(departure_str, '%I:%M:%S %p') 
+                departure_time = departure_dt.strftime('%H:%M:%S')
+            except ValueError:
+                departure_time = '00:00:00'
 
-                # Calculate duration
-                try:
-                    diff = departure_dt - arrival_dt
-                    formatted_diff = str(timedelta(hours=diff.seconds//3600, minutes=diff.seconds//60%60))
-                except:
-                    formatted_diff = '00:00'
+            try:
+                boarding_dt = datetime.strptime(boarding_str, '%I:%M:%S %p')
+                boarding_time = boarding_dt.strftime('%H:%M:%S') 
+            except ValueError:
+                boarding_time = '00:00:00'
 
-                pilgrim_phonenumber = str(row['رقم الجوال'])
-                pilgrim_username = str(row['الاسم الأول']) + ' ' + str(row['اسم الأب']) + ' ' + str(row['اسم الجد']) + ' ' + str(row['العائلة'])
-                user , created =CustomUser.objects.update_or_create(phonenumber=pilgrim_phonenumber ,
-                                                                    defaults={
-                                                                    'username':pilgrim_username,
-                                                                    'user_type':'حاج',
-                                                                    'first_name':str(row['الاسم الأول']) , 
-                                                                    'last_name':str(row['العائلة'])   
-                                                                    })
-                if created:                
-                    my_password = str(row['رقم الهوية'])
-                    user.set_password(my_password)
-                    user.save()
-                    chat1 = Chat.objects.create(user=user , chat_type='guide')  
-                    chat2 = Chat.objects.create(user=user , chat_type='manager')
-                else:
-                    user.first_name = row['الاسم الأول']
-                    user.last_name = row['العائلة']
+            # Calculate duration
+            try:
+                diff = departure_dt - arrival_dt
+                formatted_diff = str(timedelta(hours=diff.seconds//3600, minutes=diff.seconds//60%60))
+            except:
+                formatted_diff = '00:00'
 
-                pilgrim , created = Pilgrim.objects.update_or_create(
-                    user=user,
-                    phonenumber=pilgrim_phonenumber,
-                    defaults={
-                    'registeration_id':row['رقم الهوية'],
-                    'first_name':row['الاسم الأول'],
-                    'father_name':row['اسم الأب'],
-                    'grand_father':row['اسم الجد'],
-                    'last_name':row['العائلة'],
-                    'birthday':row['تاريخ الميلاد - الميلادي فقط'],
-                    'flight_num':row['رقم الرحلة'],
-                    'flight_date':row['تاريخ الرحلة'],
-                    'arrival':arrival_time,
-                    'departure':departure_time,
-                    'from_city':row['من المدينة'],
-                    'to_city':row['إلى المدينة'],
-                    'duration':str(formatted_diff),
-                    'boarding_time':boarding_time,
-                    'gate_num':row['رقم البوابة'],
-                    'flight_company':row['شركة الطيران'],
-                    'status':True,
-                    'hotel':row['الفندق'],
-                    'hotel_address':row['عنوان الفندق'],
-                    'room_num':row['رقم الغرفة']
-                    }
-                )
+            pilgrim_phonenumber = str(row[headers['رقم الجوال']])
+            pilgrim_username = f"{row[headers['الاسم الأول']]} {row[headers['اسم الأب']]} {row[headers['اسم الجد']]} {row[headers['العائلة']]}"
+            user, created = CustomUser.objects.update_or_create(
+                phonenumber=pilgrim_phonenumber,
+                defaults={
+                    'username': pilgrim_username,
+                    'user_type': 'حاج',
+                    'first_name': str(row[headers['الاسم الأول']]),
+                    'last_name': str(row[headers['العائلة']])
+                }
+            )
+            if created:                
+                my_password = str(row[headers['رقم الهوية']])
+                user.set_password(my_password)
+                user.save()
+                Chat.objects.bulk_create([
+                    Chat(user=user, chat_type='guide'),
+                    Chat(user=user, chat_type='manager')
+                ])
+            else:
+                user.first_name = row[headers['الاسم الأول']]
+                user.last_name = row[headers['العائلة']]
 
-                try:
-                    guide = Guide.objects.get(id = row['المرشد'])
-                    pilgrim.guide = guide
-                except Guide.DoesNotExist:
-                    pass
-                pilgrim.save()
+            pilgrim, created = Pilgrim.objects.update_or_create(
+                user=user,
+                phonenumber=pilgrim_phonenumber,
+                defaults={
+                    'registeration_id': row[headers['رقم الهوية']],
+                    'first_name': row[headers['الاسم الأول']],
+                    'father_name': row[headers['اسم الأب']],
+                    'grand_father': row[headers['اسم الجد']],
+                    'last_name': row[headers['العائلة']],
+                    'birthday': row[headers['تاريخ الميلاد - الميلادي فقط']],
+                    'flight_num': row[headers['رقم الرحلة']],
+                    'flight_date': row[headers['تاريخ الرحلة']],
+                    'arrival': arrival_time,
+                    'departure': departure_time,
+                    'from_city': row[headers['من المدينة']],
+                    'to_city': row[headers['إلى المدينة']],
+                    'duration': str(formatted_diff),
+                    'boarding_time': boarding_time,
+                    'gate_num': row[headers['رقم البوابة']],
+                    'flight_company': row[headers['شركة الطيران']],
+                    'status': True,
+                    'hotel': row[headers['الفندق']],
+                    'hotel_address': row[headers['عنوان الفندق']],
+                    'room_num': row[headers['رقم الغرفة']]
+                }
+            )
 
-            return redirect('pilgrims')
+            try:
+                guide = Guide.objects.get(id=row[headers['المرشد']])
+                pilgrim.guide = guide
+            except Guide.DoesNotExist:
+                pass
+            pilgrim.save()
 
-        return render(request, 'admin_panel/users/pilgrims/import_pilgrims.html')
+        return redirect('pilgrims')
+
+    return render(request, 'admin_panel/users/pilgrims/import_pilgrims.html')
 
 
 @login_decorator
