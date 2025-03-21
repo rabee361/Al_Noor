@@ -188,33 +188,33 @@ document.addEventListener('DOMContentLoaded', function() {
     passwordFields.forEach(setupPasswordToggle);
 });
 
-// document.addEventListener('DOMContentLoaded', function() {
-//   const form = document.getElementById('importForm');
-//   const loadingModal = document.getElementById('loadingModal');
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('importForm');
+  const loadingModal = document.getElementById('loadingModal');
 
-//   form.addEventListener('submit', function(e) {
-//       e.preventDefault();
+  form.addEventListener('submit', function(e) {
+      e.preventDefault();
       
-//       // Show loading modal with animation
-//       loadingModal.style.display = 'block';
-//       setTimeout(() => loadingModal.classList.add('show'), 10);
+      // Show loading modal with animation
+      loadingModal.style.display = 'block';
+      setTimeout(() => loadingModal.classList.add('show'), 10);
       
-//       // Submit form
-//       const formData = new FormData(this);
-//       fetch(this.action, {
-//           method: 'POST',
-//           body: formData,
-//       })
-//       .then(response => {
-//           if (response.redirected) {
-//               window.location.href = response.url;
-//           }
-//       })
-//       .catch(error => {
-//           console.error('Error:', error);
-//           loadingModal.style.display = 'none';
-//           loadingModal.classList.remove('show');
-//           alert('حدث خطأ أثناء استيراد البيانات. يرجى المحاولة مرة أخرى.');
-//       });
-//   });
-// });
+      // Submit form
+      const formData = new FormData(this);
+      fetch(this.action, {
+          method: 'POST',
+          body: formData,
+      })
+      .then(response => {
+          if (response.redirected) {
+              window.location.href = response.url;
+          }
+      })
+      .catch(error => {
+          console.error('Error:', error);
+          loadingModal.style.display = 'none';
+          loadingModal.classList.remove('show');
+          alert('حدث خطأ أثناء استيراد البيانات. يرجى المحاولة مرة أخرى.');
+      });
+  });
+});
