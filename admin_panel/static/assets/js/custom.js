@@ -204,9 +204,6 @@ document.addEventListener('DOMContentLoaded', function() {
       fetch(this.action, {
           method: 'POST',
           body: formData,
-          headers: {
-              'X-Requested-With': 'XMLHttpRequest'
-          }
       })
       .then(response => {
           if (response.redirected) {
