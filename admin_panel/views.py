@@ -701,103 +701,144 @@ def export_forms(request):
 @transaction.atomic
 def import_pilgrim(request):
     if request.method == 'POST':
-        excel_file = request.FILES['file']
-        workbook = openpyxl.load_workbook(excel_file)
-        sheet = workbook.active
-
-        # Assuming the first row is the header
-        headers = {cell.value: idx for idx, cell in enumerate(sheet[1])}
-
-        for row in sheet.iter_rows(min_row=2, values_only=True):
-            # Convert time strings to proper datetime format
-            arrival_str = str(row[headers['موعد الوصول']]).strip()
-            departure_str = str(row[headers['موعد الرحيل']]).strip()
-            boarding_str = str(row[headers['وقت الصعود']]).strip()
-
-            # Parse times and convert to 24-hour format
+        try:
+            if 'file' not in request.FILES:
+                return HttpResponse('No file uploaded', status=400)
+            
+            excel_file = request.FILES['file']
+            
+            # Validate file type
+            if not excel_file.name.endswith(('.xls', '.xlsx')):
+                return HttpResponse('Invalid file type', status=400)
+            
             try:
-                arrival_dt = datetime.strptime(arrival_str, '%I:%M:%S %p')
-                arrival_time = arrival_dt.strftime('%H:%M:%S')
-            except ValueError:
-                arrival_time = '00:00:00'  # Default if parsing fails
+                workbook = openpyxl.load_workbook(excel_file)
+                sheet = workbook.active
+            except Exception as e:
+                return HttpResponse('Invalid Excel file', status=400)
 
-            try:
-                departure_dt = datetime.strptime(departure_str, '%I:%M:%S %p') 
-                departure_time = departure_dt.strftime('%H:%M:%S')
-            except ValueError:
-                departure_time = '00:00:00'
+            # Validate headers
+            required_headers = [
+                'رقم الجوال', 'الاسم الأول', 'اسم الأب', 'اسم الجد', 'العائلة',
+                'رقم الهوية', 'تاريخ الميلاد - الميلادي فقط', 'رقم الرحلة',
+                'تاريخ الرحلة', 'موعد الوصول', 'موعد الرحيل', 'وقت الصعود',
+                'من المدينة', 'إلى المدينة', 'رقم البوابة', 'شركة الطيران',
+                'الفندق', 'عنوان الفندق', 'رقم الغرفة'
+            ]
+            
+            headers = {cell.value: idx for idx, cell in enumerate(sheet[1])}
+            missing_headers = [header for header in required_headers if header not in headers]
+            
+            if missing_headers:
+                return HttpResponse(f'Missing headers: {", ".join(missing_headers)}', status=400)
 
-            try:
-                boarding_dt = datetime.strptime(boarding_str, '%I:%M:%S %p')
-                boarding_time = boarding_dt.strftime('%H:%M:%S') 
-            except ValueError:
-                boarding_time = '00:00:00'
+            for row in sheet.iter_rows(min_row=2, values_only=True):
+                try:
+                    # Convert time strings to proper datetime format
+                    arrival_str = str(row[headers['موعد الوصول']]).strip()
+                    departure_str = str(row[headers['موعد الرحيل']]).strip()
+                    boarding_str = str(row[headers['وقت الصعود']]).strip()
 
-            # Calculate duration
-            try:
-                diff = departure_dt - arrival_dt
-                formatted_diff = str(timedelta(hours=diff.seconds//3600, minutes=diff.seconds//60%60))
-            except:
-                formatted_diff = '00:00'
+                    # Parse times and convert to 24-hour format
+                    try:
+                        arrival_dt = datetime.strptime(arrival_str, '%I:%M:%S %p')
+                        arrival_time = arrival_dt.strftime('%H:%M:%S')
+                    except ValueError:
+                        arrival_time = '00:00:00'  # Default if parsing fails
 
-            pilgrim_phonenumber = str(row[headers['رقم الجوال']])
-            pilgrim_username = f"{row[headers['الاسم الأول']]} {row[headers['اسم الأب']]} {row[headers['اسم الجد']]} {row[headers['العائلة']]}"
-            user, created = CustomUser.objects.update_or_create(
-                phonenumber=pilgrim_phonenumber,
-                defaults={
-                    'username': pilgrim_username,
-                    'user_type': 'حاج',
-                    'first_name': str(row[headers['الاسم الأول']]),
-                    'last_name': str(row[headers['العائلة']])
-                }
-            )
-            if created:                
-                my_password = str(row[headers['رقم الهوية']])
-                user.set_password(my_password)
-                user.save()
-                Chat.objects.bulk_create([
-                    Chat(user=user, chat_type='guide'),
-                    Chat(user=user, chat_type='manager')
-                ])
-            else:
-                user.first_name = row[headers['الاسم الأول']]
-                user.last_name = row[headers['العائلة']]
+                    try:
+                        departure_dt = datetime.strptime(departure_str, '%I:%M:%S %p') 
+                        departure_time = departure_dt.strftime('%H:%M:%S')
+                    except ValueError:
+                        departure_time = '00:00:00'
 
-            pilgrim, created = Pilgrim.objects.update_or_create(
-                user=user,
-                phonenumber=pilgrim_phonenumber,
-                defaults={
-                    'registeration_id': row[headers['رقم الهوية']],
-                    'first_name': row[headers['الاسم الأول']],
-                    'father_name': row[headers['اسم الأب']],
-                    'grand_father': row[headers['اسم الجد']],
-                    'last_name': row[headers['العائلة']],
-                    'birthday': row[headers['تاريخ الميلاد - الميلادي فقط']],
-                    'flight_num': row[headers['رقم الرحلة']],
-                    'flight_date': row[headers['تاريخ الرحلة']],
-                    'arrival': arrival_time,
-                    'departure': departure_time,
-                    'from_city': row[headers['من المدينة']],
-                    'to_city': row[headers['إلى المدينة']],
-                    'duration': str(formatted_diff),
-                    'boarding_time': boarding_time,
-                    'gate_num': row[headers['رقم البوابة']],
-                    'flight_company': row[headers['شركة الطيران']],
-                    'status': True,
-                    'hotel': row[headers['الفندق']],
-                    'hotel_address': row[headers['عنوان الفندق']],
-                    'room_num': row[headers['رقم الغرفة']]
-                }
-            )
+                    try:
+                        boarding_dt = datetime.strptime(boarding_str, '%I:%M:%S %p')
+                        boarding_time = boarding_dt.strftime('%H:%M:%S') 
+                    except ValueError:
+                        boarding_time = '00:00:00'
 
-            try:
-                guide = Guide.objects.get(id=row[headers['المرشد']])
-                pilgrim.guide = guide
-            except Guide.DoesNotExist:
-                pass
-            pilgrim.save()
+                    # Calculate duration
+                    try:
+                        diff = departure_dt - arrival_dt
+                        formatted_diff = str(timedelta(hours=diff.seconds//3600, minutes=diff.seconds//60%60))
+                    except:
+                        formatted_diff = '00:00'
 
-        return redirect('pilgrims')
+                    pilgrim_phonenumber = str(row[headers['رقم الجوال']])
+                    if not pilgrim_phonenumber:
+                        continue  # Skip empty rows
+                        
+                    pilgrim_username = f"{row[headers['الاسم الأول']]} {row[headers['اسم الأب']]} {row[headers['اسم الجد']]} {row[headers['العائلة']]}"
+                    user, created = CustomUser.objects.update_or_create(
+                        phonenumber=pilgrim_phonenumber,
+                        defaults={
+                            'username': pilgrim_username,
+                            'user_type': 'حاج',
+                            'first_name': str(row[headers['الاسم الأول']]),
+                            'last_name': str(row[headers['العائلة']])
+                        }
+                    )
+                    if created:                
+                        my_password = str(row[headers['رقم الهوية']])
+                        user.set_password(my_password)
+                        user.save()
+                        Chat.objects.bulk_create([
+                            Chat(user=user, chat_type='guide'),
+                            Chat(user=user, chat_type='manager')
+                        ])
+                    else:
+                        user.first_name = row[headers['الاسم الأول']]
+                        user.last_name = row[headers['العائلة']]
+
+                    pilgrim, created = Pilgrim.objects.update_or_create(
+                        user=user,
+                        phonenumber=pilgrim_phonenumber,
+                        defaults={
+                            'registeration_id': row[headers['رقم الهوية']],
+                            'first_name': row[headers['الاسم الأول']],
+                            'father_name': row[headers['اسم الأب']],
+                            'grand_father': row[headers['اسم الجد']],
+                            'last_name': row[headers['العائلة']],
+                            'birthday': row[headers['تاريخ الميلاد - الميلادي فقط']],
+                            'flight_num': row[headers['رقم الرحلة']],
+                            'flight_date': row[headers['تاريخ الرحلة']],
+                            'arrival': arrival_time,
+                            'departure': departure_time,
+                            'from_city': row[headers['من المدينة']],
+                            'to_city': row[headers['إلى المدينة']],
+                            'duration': str(formatted_diff),
+                            'boarding_time': boarding_time,
+                            'gate_num': row[headers['رقم البوابة']],
+                            'flight_company': row[headers['شركة الطيران']],
+                            'status': True,
+                            'hotel': row[headers['الفندق']],
+                            'hotel_address': row[headers['عنوان الفندق']],
+                            'room_num': row[headers['رقم الغرفة']]
+                        }
+                    )
+
+                    try:
+                        if 'المرشد' in headers and row[headers['المرشد']]:
+                            guide = Guide.objects.get(id=row[headers['المرشد']])
+                            pilgrim.guide = guide
+                            pilgrim.save()
+                    except Guide.DoesNotExist:
+                        pass
+                    except Exception as e:
+                        print(f"Error assigning guide: {str(e)}")
+                        
+                except Exception as row_error:
+                    print(f"Error processing row: {str(row_error)}")
+                    continue  # Skip problematic rows but continue processing
+
+            return redirect('pilgrims')
+            
+        except Exception as e:
+            print(f"Import error: {str(e)}")
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return HttpResponse(str(e), status=500)
+            return redirect('pilgrims')
 
     return render(request, 'admin_panel/users/pilgrims/import_pilgrims.html')
 
@@ -1022,7 +1063,6 @@ def update_religious_post(request,post_id):
 def delete_religious_post(request,post_id):
     ReligiousPost.objects.get(id=post_id).delete()
     return redirect('religious_posts')
-
 
 
 

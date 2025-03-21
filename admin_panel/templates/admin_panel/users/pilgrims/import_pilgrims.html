@@ -25,7 +25,7 @@
               <div class="form-input" style="display: flex; flex-direction: row;">
                   <div class="form-label"> اختر ملف الاكسل : </div>
                   <div>
-                    <input class="form-control" type="file" name="file" required>
+                    <input class="form-control" type="file" name="file" accept=".xlsx,.xls" required>
                   </div>
               </div>
           </div>
@@ -52,6 +52,88 @@
     <p style="color: var(--text-muted); margin-top: 10px; font-size: 14px;">قد تتطلب العملية عدة دقائق...</p>
   </div>
 </div>
+
+<style>
+.custom-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid var(--card-bg);
+    border-top: 5px solid var(--primary-color);
+    border-radius: 50%;
+    margin: 0 auto;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.modal {
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('importForm');
+    const loadingModal = document.getElementById('loadingModal');
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Validate file
+        const fileInput = this.querySelector('input[type="file"]');
+        const file = fileInput.files[0];
+        if (!file) {
+            alert('الرجاء اختيار ملف');
+            return;
+        }
+        
+        // Validate file type
+        const validTypes = [
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'application/vnd.ms-excel'
+        ];
+        if (!validTypes.includes(file.type)) {
+            alert('الرجاء اختيار ملف اكسل صالح');
+            return;
+        }
+
+        // Show loading modal
+        loadingModal.style.display = 'block';
+        
+        // Submit form
+        const formData = new FormData(this);
+        fetch(this.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': csrfToken
+            },
+            credentials: 'same-origin'
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            if (response.redirected) {
+                window.location.href = response.url;
+            } else {
+                return response.text();
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            loadingModal.style.display = 'none';
+            alert('حدث خطأ أثناء استيراد البيانات. يرجى المحاولة مرة أخرى.');
+        });
+    });
+});
+</script>
 
 
 {% endblock content %}
