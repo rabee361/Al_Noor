@@ -567,7 +567,7 @@ class SimpleGuidancePostSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         content = representation.get('content', '')
         category_name = instance.category.name if instance.category else None
-        representation['content'] = content[:60] + '...'
+        representation['content'] = content[:200] + '...'
         representation['category_name'] = category_name
         return representation
 
@@ -593,7 +593,7 @@ class SimpleReligiousPostSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         content = representation.get('content', '')
         category_name = instance.category.name if instance.category else None
-        representation['content'] = content[:60] + "..."
+        representation['content'] = content[:200] + "..."
         representation['category_name'] = category_name
         return representation
     
