@@ -1,0 +1,22 @@
+{% for notification in notifications %}
+<tr class="body-fields">
+  <td>
+    {{notification.id}}
+  </td>
+  <td>
+    {{notification.title}}
+  </td>
+  <td>
+    {{notification.content}}
+  </td>
+  <td>
+    {{notification.created}}
+  </td>
+  <td>
+      <button type="button" rel="tooltip" class="btn btn-danger btn-simple btn-icon btn-sm" data-toggle="modal" data-target="#deleteadminModal{{ notification.id }}">
+        <i class="now-ui-icons ui-1_simple-remove"></i>
+      </button>
+  </td>
+</tr>
+
+{% endfor %}
