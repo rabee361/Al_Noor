@@ -559,7 +559,16 @@ class PilgrimCreationForm(forms.ModelForm):
         return phonenumber
 
 
+class LiveStreamForm(ModelForm):
+    class Meta:
+        model = LiveStream
+        fields = '__all__'
 
+
+class LiveStreamTypeForm(ModelForm):
+    class Meta:
+        model = LiveStreamCategory
+        fields = '__all__'
 
 
 class TermsForm(ModelForm):

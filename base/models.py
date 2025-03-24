@@ -221,7 +221,6 @@ class BaseNotification(models.Model):
 
 
 
-
 class Note(models.Model):
     pilgrim = models.ForeignKey(Pilgrim, on_delete=models.CASCADE, verbose_name='الحاج')
     guide = models.ForeignKey(Guide, on_delete=models.CASCADE, verbose_name='المرشد')
@@ -231,9 +230,6 @@ class Note(models.Model):
 
     def __str__(self) -> str:
         return f'{self.pilgrim.user.username} : note'
-
-
-
 
 
 
@@ -250,12 +246,8 @@ class Chat(models.Model):
         return f'{self.user.username} chat'
 
 
-
-
 class AudioAttach(models.Model):
     file = models.FileField(upload_to='audio/chats', verbose_name='الملف') # to send audio record in chat
-
-
 
 
 class ChatMessage(models.Model):
@@ -322,6 +314,29 @@ class ReligiousPost(models.Model):
 
     class Meta:
         ordering = ['rank']
+
+
+
+
+class LiveStreamCategory(models.Model):
+    name = models.CharField(max_length=50, verbose_name='الاسم')
+    created = models.DateTimeField(auto_now_add=True, verbose_name='تاريخ الإنشاء')
+
+    def __str__(self) -> str:
+        return self.name
+
+
+class LiveStream(models.Model):
+    cover = models.ImageField(upload_to='cover', verbose_name='الغلاف')
+    title = models.CharField(max_length=100, verbose_name='العنوان')
+    content = models.TextField(verbose_name='المحتوى')
+    category = models.ForeignKey(LiveStreamCategory, on_delete=models.CASCADE, verbose_name='الفئة')
+    rank = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(1000)], verbose_name='الترتيب')
+    stream_url = models.URLField(verbose_name='رابط البث المباشر')
+    created = models.DateTimeField(auto_now_add=True, verbose_name='تاريخ الإنشاء')
+
+    def __str__(self) -> str:
+        return self.title
 
 
 

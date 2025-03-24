@@ -913,8 +913,11 @@ def update_guidance_post(request,post_id):
     form = GuidancePostForm(instance=post)
 
     if request.method == 'POST':
-        form = GuidancePostForm(request.POST, instance=post)
+        form = GuidancePostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
+            if request.FILES.get('cover'):
+                post.cover = request.FILES.get('cover')
+                post.save()
             form.save()
             return redirect('guidance_posts')
 
@@ -1039,8 +1042,11 @@ def update_religious_post(request,post_id):
     form = ReligiousPostForm(instance=post)
 
     if request.method == 'POST':
-        form = ReligiousPostForm(request.POST, instance=post)
+        form = ReligiousPostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
+            if request.FILES.get('cover'):
+                post.cover = request.FILES.get('cover')
+                post.save()
             form.save()
             return redirect('religious_posts')
 
@@ -1151,7 +1157,88 @@ def delete_religious_post(request,post_id):
     return redirect('religious_posts')
 
 
+def stream_types(request):
+    q = request.GET.get('q') or ''
+    types = LiveStreamCategory.objects.filter(name__startswith=q).order_by('-id')
+    context = {
+        'types':types,
+    }
+    return render(request , 'admin_panel/live_stream/stream_types.html' , context)
 
+def add_stream_type(request):
+    form = LiveStreamTypeForm()
+    if request.method == 'POST':
+        form = LiveStreamTypeForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('stream_types')
+    context = {
+        'form': form,
+    }
+    return render(request, 'admin_panel/live_stream/add_stream_type.html', context)
+
+def update_stream_type(request,id):
+    type = LiveStreamCategory.objects.get(id=id)
+    form = LiveStreamTypeForm(instance=type)
+    if request.method == 'POST':
+        form = LiveStreamTypeForm(request.POST, instance=type)
+        if form.is_valid():
+            form.save()
+            return redirect('stream_types')
+    context = {
+        'form': form,
+    }
+    return render(request, 'admin_panel/live_stream/add_stream_type.html', context)
+        
+    
+def delete_stream_type(request,id):
+    LiveStreamCategory.objects.get(id=id).delete()
+    return redirect('stream_types')
+
+
+def live_streams(request):
+    streams = LiveStream.objects.all()
+    context = {
+        'streams':streams,
+    }
+    return render(request , 'admin_panel/live_stream/live_streams.html' , context)
+
+def add_live_stream(request):
+    form = LiveStreamForm()
+    print(request.POST)
+    if request.method == 'POST':
+        form = LiveStreamForm(request.POST , request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('live_streams')
+        print(form.errors)
+    context = {
+        'form': form,
+    }
+    return render(request, 'admin_panel/live_stream/add_live_stream.html', context)
+
+def update_live_stream(request,id):
+    stream = LiveStream.objects.get(id=id)
+    form = LiveStreamForm(instance=stream)
+
+    if request.method == 'POST':
+        form = LiveStreamForm(request.POST, request.FILES, instance=stream)
+        if form.is_valid():
+            if request.FILES.get('cover'):
+                stream.cover = request.FILES.get('cover')
+                stream.save()
+            form.save()
+            return redirect('live_streams')
+
+    context = {
+        'form': form,
+        'stream_cover':stream.cover.url
+    }
+    return render(request, 'admin_panel/live_stream/update_live_stream.html', context)
+
+def delete_live_stream(request,id):
+    LiveStream.objects.get(id=id).delete()
+    return redirect('live_streams')
 
 
 @login_decorator

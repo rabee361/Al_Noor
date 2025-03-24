@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+<div class="main-panel" id="main-panel" style="background-color: var(--card-bg);">
+  <div class="content" dir="rtl" style="margin-top: 10px;">
+
+      <div class="bread-crumbs-size" style="display: flex; gap: 0;">
+        <div style="height: 70px; margin-left: 1300px; display: flex; gap: 10px;">
+          <a href="{% url 'main_dashboard' %}" style="text-decoration: none;"><h5 style="color: var(--text-color);">الرئيسية</h5></a>
+          <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
+          <h5 style="color: var(--text-color);">فئات البث المباشر </h5>
+          <h5><i class="now-ui-icons arrows-1_minimal-left bread-crumbs-arrow" style="margin-top: 3px;"></i></h5>
+        </div>
+      </div>
+
+      <!-- Replace with form-wrapped search and actions container -->
+      <div class="search-actions-container">
+        <form method="GET" action="" class="search-wrapper">
+          <input type="text" name="q" class="search-input" placeholder="البحث عن الفئات..." value="{{ request.GET.q }}">
+          <button type="submit" class="search-button">
+            <i class="fas fa-search"></i>
+          </button>
+        </form>
+        <a href="{% url 'add_stream_type' %}" class="action-button add-task-button">
+          <i class="fas fa-plus"></i>
+          <span>إضافة فئة</span>
+        </a>
+      </div>
+
+      <div class="row">
+      <div class="col-md-12">
+        <div class="card" style="background-color: var(--body-color);">
+
+          <div class="card-body">
+            <div class="table-responsive">
+              <div style="overflow-x: auto; width: 100%;">
+                <table class="table my-table">
+                  <thead class="text-primary header-wrapper">
+                    <th style="color: var(--text-color); font-weight: 400;">
+                    اسم الفئة
+                    </th>
+                    <th style="color: var(--text-color); font-weight: 400;">
+                      
+                    </th>
+                  </thead>
+                  <tbody class="body-wrapper">
+                  {% for type in types %}
+                    <tr class="body-fields" onclick="clickHandler(event)" data-link="{% url 'update_stream_type' type.id %}">
+                      <td>
+                        {{type.name}}
+                      </td>
+                      <td>
+                          <button type="button" class="btn btn-danger btn-simple btn-icon btn-sm delete-btn" data-id="{{ type.id }}" data-delete-url="{% url 'delete_stream_type' type.id %}">
+                            <i class="now-ui-icons ui-1_simple-remove"></i>
+                          </button>
+                      </td>
+                  </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include 'admin_panel/modal.html' %}  
+
+{% endblock content %}

@@ -116,142 +116,151 @@
             </li>
             <li class="">
               <a href="{% url 'main_dashboard' %}" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: larger;">
-                <i class="now-ui-icons design_app"></i>
+                <i class="fa fa-home"></i>
                 <p>اللوحة الرئيسية</p>
               </a>
             </li>
             <li>
               <a href="{% url 'registration_forms' %}" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: larger;">
-                <i class="now-ui-icons files_paper"></i>
+                <i class="fa fa-file-alt"></i>
                 <p>استمارات التسجيل</p>
               </a>
             </li>
             <li>
               <a href="{% url 'pilgrims' %}" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: larger;">
-                <i class="now-ui-icons users_single-02"></i>
+                <i class="fa fa-users"></i>
                 <p>الحجاج</p>
               </a>
             </li>
             <li>
               <a href="{% url 'notes' %}" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: larger;">
-                <i class="now-ui-icons files_paper"></i>
+                <i class="fa fa-sticky-note"></i>
                 <p>ملاحظات</p>
               </a>
             </li>
             <li>
               <a class="test" id="trigger" data-toggle="collapse" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: larger;">
-                <i class="now-ui-icons users_single-02"></i>
+                <i class="fa fa-user-tie"></i>
                 <p>الموظفين</p>
-                <i class="now-ui-icons arrows-1_minimal-down"></i>
+                <i class="fa fa-chevron-down"></i>
               </a>
             </li>
             <div class="collapse" id="section" style=" background: var(--focus-bg);">
               <li>
                 <a href="{% url 'guides' %}" style="display: flex; flex-direction: row-reverse; gap: 5px;">
-                  <i class="now-ui-icons users_single-02" style="font-size: 11pt;"></i>
+                  <i class="fa fa-user-graduate" style="font-size: 11pt;"></i>
                   <p class="text-drop-down">المرشدين</p>
                 </a>
               </li>
               <li>
                 <a href="{% url 'managers' %}" style="display: flex; flex-direction: row-reverse; gap: 5px;">
-                  <i class="now-ui-icons users_single-02" style="font-size: 11pt;"></i>
+                  <i class="fa fa-user-shield" style="font-size: 11pt;"></i>
                   <p class="text-drop-down">الادارة</p>
                 </a>
               </li>
               <li>
                 <a href="{% url 'employees' %}" style="display: flex; flex-direction: row-reverse; gap: 5px;">
-                  <i class="now-ui-icons users_single-02" style="font-size: 11pt;"></i>
+                  <i class="fa fa-user-tie" style="font-size: 11pt;"></i>
                   <p class="text-drop-down">الموظفين</p>
                 </a>
               </li>
               <li>
                 <a href="{% url 'admins' %}" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: 10pt;">
-                  <i class="now-ui-icons users_single-02"></i>
+                  <i class="fa fa-user-cog"></i>
                   <p class="text-drop-down">الأدمن</p>
                 </a>
               </li>
             </div>
             <li>
               <a href="{% url 'tasks' %}" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: larger;">
-                <i class="now-ui-icons design_bullet-list-67"></i>
+                <i class="fa fa-tasks"></i>
                 <p>المهام</p>
               </a>
             </li>
             <li>
               <a href="{% url 'notifications' %}" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: larger;">
-                <i class="now-ui-icons ui-1_bell-53"></i>
+                <i class="fa fa-bell"></i>
                 <p>الاشعارات</p>
               </a>
             </li>
             <li>
               <a class="test3" id="trigger3" data-toggle="collapse" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: larger;">
-                <i class="now-ui-icons users_single-02"></i>
+                <i class="fa fa-route"></i>
                 <p>خط السير</p>
-                <i class="now-ui-icons arrows-1_minimal-down"></i>
+                <i class="fa fa-chevron-down"></i>
               </a>
             </li>
 
             <div class="collapse" id="section3" style=" background: var(--focus-bg)">
-
               <li>
                 <a href="{% url 'steps' %}" style="display: flex; flex-direction: row-reverse; gap: 5px;">
-                  <i class="now-ui-icons users_single-02" style="font-size: 11pt;"></i>
+                  <i class="fa fa-list-ol" style="font-size: 11pt;"></i>
                   <p class="text-drop-down">الخطوات الرئيسية</p>
                 </a>
               </li>
               <li>
                 <a href="{% url 'secondary_steps' %}" style="display: flex; flex-direction: row-reverse; gap: 5px;">
-                  <i class="now-ui-icons users_single-02" style="font-size: 11pt;"></i>
+                  <i class="fa fa-list-ul" style="font-size: 11pt;"></i>
                   <p class="text-drop-down">الخطوات الفرعية</p>
                 </a>
               </li>
               <li>
                 <a href="{% url 'pilgrim_steps' %}" style="display: flex; flex-direction: row-reverse; gap: 5px;">
-                  <i class="now-ui-icons users_single-02" style="font-size: 11pt;"></i>
+                  <i class="fa fa-user-check" style="font-size: 11pt;"></i>
                   <p class="text-drop-down">متابعة الحجاج</p>
                 </a>
               </li>
-  
-              </div>
+            </div>
 
             <li>
               <a href="{% url 'guidance_posts' %}" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: larger;">
-                <i class="now-ui-icons travel_istanbul"></i>
+                <i class="fa fa-book-open"></i>
                 <p>الارشاد الديني</p>
               </a>
             </li>
             <li>
               <a href="{% url 'religious_posts' %}" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: larger;">
-                <i class="now-ui-icons travel_istanbul"></i>
+                <i class="fa fa-mosque"></i>
                 <p>الأعمال الدينية</p>
               </a>
             </li>
             <li>
+              <a href="{% url 'live_streams' %}" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: larger;">
+                <i class="fa fa-video"></i>
+                <p>البث المباشر</p>
+              </a>
+            </li>
+            <li>
               <a class="test2" id="trigger2" data-toggle="collapse" style="display: flex; flex-direction: row-reverse; gap: 5px; font-size: larger;">
-                <i class="now-ui-icons users_single-02"></i>
+                <i class="fa fa-folder"></i>
                 <p>فئات</p>
-                <i class="now-ui-icons arrows-1_minimal-down"></i>
+                <i class="fa fa-chevron-down"></i>
               </a>
             </li>
             <div class="collapse" id="section2" style=" background: var(--focus-bg)">
-
-            <li>
-              <a href="{% url 'religious_categories' %}" style="display: flex; flex-direction: row-reverse; gap: 5px;">
-                <i class="now-ui-icons users_single-02"></i>
-                <p class="text-drop-down" style="font-size: 10px;">فئات الأعمال الدينية</p>
-              </a>
-            </li>
-            <li>
-              <a href="{% url 'guidance_categories' %}" style="display: flex; flex-direction: row-reverse; gap: 5px;">
-                <i class="now-ui-icons users_single-02" style="font-size: 11pt;"></i>
-                <p class="text-drop-down">فئات الإرشاد الديني</p>
-              </a>
-            </li>
+              <li>
+                <a href="{% url 'religious_categories' %}" style="display: flex; flex-direction: row-reverse; gap: 5px;">
+                  <i class="fa fa-folder-open"></i>
+                  <p class="text-drop-down" style="font-size: 10px;">فئات الأعمال الدينية</p>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'guidance_categories' %}" style="display: flex; flex-direction: row-reverse; gap: 5px;">
+                  <i class="fa fa-folder-open" style="font-size: 11pt;"></i>
+                  <p class="text-drop-down">فئات الإرشاد الديني</p>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'stream_types' %}" style="display: flex; flex-direction: row-reverse; gap: 5px;">
+                  <i class="fa fa-folder-open" style="font-size: 11pt;"></i>
+                  <p class="text-drop-down">فئات البث المباشر </p>
+                </a>
+              </li>
             </div>
             
             <li>
               <a href="{% url 'terms' %}" style="display: flex; text-wrap:pretty ; flex-direction: row-reverse; gap: 5px; font-size: larger;">
-                <i class="now-ui-icons ui-1_bell-53"></i>
+                <i class="fa fa-shield-alt"></i>
                 <p style="font-size: 13pt;">الخصوصية و الأحكام</p>
               </a>
             </li>

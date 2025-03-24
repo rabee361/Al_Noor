@@ -21,7 +21,7 @@
         <div>
             <form action="" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 30px; color: white;">
                 {% csrf_token %}
-                <div style="height: auto ;background-color: rgb(57, 58, 58); width: 100%; display: flex; gap: 10px ;justify-content: space-evenly; border-radius: 30px; padding-bottom: 10px;" dir="rtl">
+                <div style="height: auto ;background-color: var(--body-color); width: 100%; display: flex; gap: 10px ;justify-content: space-evenly; border-radius: 30px; padding-bottom: 10px;" dir="rtl">
                   
                   <div class="form-block">
                     <div class="form-input">
@@ -37,10 +37,10 @@
                 
                 <div class="form-block">
                     <div class="form-input" style="text-align: right;">
-                        <div class="form-label">الصورة الشخصية:</div>
+                        <div class="form-label"> الغلاف:</div>
                         <div class="current-image-wrapper">
                             <img src="{{ post_image }}" alt="Current Image" class="current-image">
-                            <div class="form-input"><input type="file" name="image" id="image_id" class="my-img"></div>
+                            <div class="form-input"><input type="file" name="cover" id="image_id" class="my-img"></div>
                         </div>
                     </div>
                     <div class="form-input" style="border-radius: 20px;">

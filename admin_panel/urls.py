@@ -76,6 +76,16 @@ urlpatterns = [
     path('update-religious-category/<str:category_id>' , update_religious_category , name="update_religious_category"),
     path('delete-religious-category/<str:category_id>' , delete_religious_category , name="delete_religious_category"),
     
+    path('stream-types/' , stream_types , name="stream_types"),
+    path('stream-types/add/' , add_stream_type , name="add_stream_type"),
+    path('stream-types/update/<str:id>/' , update_stream_type , name="update_stream_type"),
+    path('stream-types/delete/<str:id>/' , delete_stream_type , name="delete_stream_type"),
+    
+    path('live-streams/' , live_streams , name="live_streams"),
+    path('live-streams/add/' , add_live_stream , name="add_live_stream"),
+    path('live-streams/update/<str:id>/' , update_live_stream , name="update_live_stream"),
+    path('live-streams/delete/<str:id>/' , delete_live_stream , name="delete_live_stream"),
+
     path('steps/' , steps_list , name="steps"),
     path('pilgrim-steps/' , pilgrim_steps , name="pilgrim_steps"),
     path('add-step/' , add_step , name="add_step"),
