@@ -598,8 +598,6 @@ class SimpleReligiousPostSerializer(serializers.ModelSerializer):
         return representation
     
 
-
-
 class ReligiousPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReligiousPost
@@ -621,3 +619,32 @@ class ReligiousCategorySerializer(serializers.ModelSerializer):
 
 
 
+class SimpleLiveStreamSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LiveStream
+        fields = '__all__'
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        content = representation.get('content', '')
+        type_name = instance.type.name if instance.type else None
+        representation['content'] = content[:200] + "..."
+        representation['type_name'] = type_name
+        return representation
+
+class LiveStreamSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LiveStream
+        fields = '__all__'
+
+
+class LiveStreamTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LiveStreamCategory
+        fields = '__all__'
+        
+
+class LiveStreamTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LiveStreamCategory
+        fields = '__all__'

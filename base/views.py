@@ -790,5 +790,22 @@ class RetUpdDesReligiousCategory(RetrieveUpdateDestroyAPIView):
 
 
 
+class ListLiveStream(ListCreateAPIView):
+    queryset = LiveStream.objects.all()
+    serializer_class = LiveStreamSerializer
+
+class RetUpdDesLiveStream(RetrieveUpdateDestroyAPIView):
+    queryset = LiveStream.objects.all()
+    serializer_class = LiveStreamSerializer
+
+class ListCreateStreamType(ListCreateAPIView):
+    queryset = LiveStreamCategory.objects.all()
+    serializer_class = LiveStreamTypeSerializer
+
+class RetUpdDesStreamType(RetrieveUpdateDestroyAPIView):
+    queryset = LiveStreamCategory.objects.all()
+    serializer_class = LiveStreamTypeSerializer
+
+
 
 
