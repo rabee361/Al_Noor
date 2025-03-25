@@ -5956,9 +5956,9 @@ sidebar-wrapper
     transition: width .2s linear;
   }
 
-  .main-panel {
+  /* .main-panel {
     width: 100%;
-  }
+  } */
 
   .navbar-toggle .navbar-toggler,
   .navbar-toggle {
