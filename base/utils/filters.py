@@ -91,6 +91,14 @@ class GuidancePostFilter(django_filters.FilterSet):
         fields = ['category_name']
 
 
+class LiveStreamFilter(django_filters.FilterSet):
+    category_name = django_filters.CharFilter(field_name='category__name' , lookup_expr='exact')
+    
+    class Meta:
+        model = LiveStream
+        fields = ['category_name']
+
+
 
 
 class ReligiousPostFilter(django_filters.FilterSet):

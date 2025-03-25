@@ -793,6 +793,8 @@ class RetUpdDesReligiousCategory(RetrieveUpdateDestroyAPIView):
 class ListLiveStream(ListCreateAPIView):
     queryset = LiveStream.objects.all()
     serializer_class = LiveStreamSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = LiveStreamFilter
 
 class RetUpdDesLiveStream(RetrieveUpdateDestroyAPIView):
     queryset = LiveStream.objects.all()
