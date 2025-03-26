@@ -53,9 +53,9 @@ body {
     transition: all 0.5s ease;
 }
 
-.main-panel::-webkit-scrollbar {
+/* .main-panel::-webkit-scrollbar {
     display: none;
-}
+} */
 
 
 .text-drop-down {
