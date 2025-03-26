@@ -39,31 +39,16 @@ body {
     background-color: var(--body-color);
     font-family: Cairo;
     transition: background-color 0.5s ease;
-    overflow-x: hidden;
-    overflow-y: auto;
-    min-height: 100vh;
-    height: auto;
-    position: relative;
-    margin: 0;
-    padding: 0;
-}
-
-.wrapper {
-    position: relative;
-    min-height: 100vh;
-    height: auto;
     overflow: hidden;
+    height: 100vh;
 }
 
 .main-panel {
     position: relative;
-    min-height: 100vh;
-    height: auto;
+    height: 100vh;
     overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 60px; /* Add padding for buttons/pagination */
-    -ms-overflow-style: none;
+    overflow-x: auto;
+    -ms-overflow-style: none !important;
     scrollbar-width: none;
     transition: all 0.5s ease;
 }
@@ -72,34 +57,6 @@ body {
     display: none;
 }
 
-/* Ensure content is properly spaced at the bottom */
-.main-panel > .content {
-    padding-bottom: 80px;
-    min-height: calc(100vh - 123px);
-}
-
-/* Mobile-specific adjustments */
-@media (max-width: 768px) {
-    .main-panel {
-        padding-bottom: 80px;
-    }
-    
-    .main-panel > .content {
-        padding-bottom: 100px;
-    }
-    
-    body, html {
-        height: 100%;
-        position: fixed;
-        overflow: hidden;
-        width: 100%;
-    }
-    
-    .wrapper {
-        height: 100%;
-        overflow: hidden;
-    }
-}
 
 .text-drop-down {
     font-size: 5px !important;
