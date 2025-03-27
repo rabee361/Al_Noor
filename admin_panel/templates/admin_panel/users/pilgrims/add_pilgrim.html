@@ -70,7 +70,7 @@
 
 
                 
-                <div style="background-color: var(--body-color); width: 100%;display: flex;gap: 10px;justify-content: space-evenly;border-radius: 30px; height: auto;display: flex; flex-direction: column; justify-content: flex-start; gap: 0px; padding-bottom: 20px;">
+                <div style="background-color: var(--body-color); width: 100%;display: flex;gap: 5px;justify-content: space-evenly;border-radius: 30px; height: auto;display: flex; flex-direction: column; justify-content: flex-start; padding-bottom: 5px;">
                   
                   <h4 style="text-align: center; color: var(--text-color);">معلومات الاقامة و الرحلة</h4>
                   
@@ -84,18 +84,14 @@
                       
                       <div class="form-input-datetime">
                         <div class="form-label">{{ form.flight_date.label_tag }}</div>
-                        <div><input type="date" class="date-field" name="birthday"></div>
+                        <div><input type="date" class="date-field form-control" name="flight_date"></div>
                       </div>
-
-
 
                       <div class="form-input-datetime">
                         <div class="form-label">{{ form.departure.label_tag }}</div>
                         <div><input type="time" class="time-field" name="departure"></div>
                       </div>
                   
-
-
                       <div class="form-input-datetime">
                         <div class="form-label">{{ form.arrival.label_tag }}</div>
                         <div><input type="time" class="time-field" name="arrival"></div> 
@@ -121,11 +117,6 @@
                     </div>
                     
                     <div class="form-block">
-
-
-
-
-
 
                       <div class="form-input-datetime">
                         <div class="form-label">{{ form.from_city.label_tag }}</div>
@@ -161,7 +152,7 @@
                 
 
     
-                <div style="background-color: var(--body-color); width: 100%;display: flex;gap: 10px;justify-content: space-evenly;border-radius: 30px; height: auto;display: flex; flex-direction: column; justify-content: flex-start; gap: 0px; padding-bottom: 20px;">
+                <div style="background-color: var(--body-color); width: 100%;display: flex;gap: 5px;justify-content: space-evenly;border-radius: 30px; height: auto;display: flex; flex-direction: column; justify-content: flex-start;padding-bottom: 5px;">
 
                   <h4 style="text-align: center; color: var(--text-color);">معلومات الحساب</h4>
 
@@ -213,7 +204,7 @@
             </div>
             
     </div>
-  </div>
+</div>
 
 {% endblock content %}
 

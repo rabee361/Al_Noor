@@ -53,9 +53,9 @@ body {
     transition: all 0.5s ease;
 }
 
-/* .main-panel::-webkit-scrollbar {
+.main-panel::-webkit-scrollbar {
     display: none;
-} */
+}
 
 
 .text-drop-down {
@@ -69,6 +69,12 @@ body {
      }
    }
 
+
+@media (max-width: 600px) {
+    .main-panel {
+       padding-bottom: 280px; /* Adjust the value as needed */
+     }
+   }
 
 
 
@@ -212,17 +218,6 @@ body {
     height: 45px;
 }
 
-
-.date-field {
-    width: 80%;
-    outline: none;
-    border: rgb(58, 57, 57);
-    border-radius: 20px;
-    color: white;
-    font-size: larger;
-    background-color: rgb(155, 155, 155);
-    height: 45px;
-}
 
 
 .form-control {
@@ -692,7 +687,7 @@ body {
 .pagination-wrapper {
     display: flex;
     justify-content: center;
-    padding-bottom: 3rem;
+    padding-bottom: 5rem;
     /* margin-top: 1rem; */
     width: 100%;
     overflow-x: auto;
@@ -759,15 +754,9 @@ body {
     font-size: 16px;
     background-color: var(--input-bg);
     height: 45px;
-    padding: 0 15px;
     transition: all 0.5s ease;
 }
 
-.date-field:focus,
-.time-field:focus {
-    background-color: #4d4d4d;
-    box-shadow: 0 0 0 2px var(--primary-color);
-}
 
 /* Form group styling */
 .form-group {
@@ -865,7 +854,6 @@ input[type="file"] {
     }
 
     .form-control,
-    .date-field,
     .time-field {
         height: 40px;
         font-size: 14px;
