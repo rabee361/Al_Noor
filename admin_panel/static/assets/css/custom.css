@@ -692,8 +692,8 @@ body {
 .pagination-wrapper {
     display: flex;
     justify-content: center;
-    padding: 1rem;
-    margin-top: 1rem;
+    padding-bottom: 3rem;
+    /* margin-top: 1rem; */
     width: 100%;
     overflow-x: auto;
 }

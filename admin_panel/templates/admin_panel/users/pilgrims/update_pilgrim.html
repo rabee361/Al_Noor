@@ -33,7 +33,7 @@
 
 
         <div>
-            <form action="" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 70px; color: var(--text-color);">
+            <form action="" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 40px; color: var(--text-color);">
                 {% csrf_token %}
 
                 <div style="background-color: var(--body-color); width: 100%; height: auto;display: flex; flex-direction: column; justify-content: space-evenly; border-radius: 30px; gap: 0px;" dir="rtl">
@@ -173,8 +173,6 @@
                   </div>
                 </div>
                 
-
-                
                 <div style="background-color: var(--body-color); width: 100%;display: flex;gap: 10px;justify-content: space-evenly;border-radius: 30px; height: auto;display: flex; flex-direction: column; justify-content: flex-start; gap: 0px; padding-bottom: 20px;">
                   
                   <h4 style="text-align: center; color: var(--text-color);">معلومات الاقامة </h4>
@@ -182,37 +180,27 @@
                   <div  style="display: flex; justify-content: space-evenly;">
 
                     <div class="form-block">
-
                       <div class="form-input">
                         <div class="form-label">{{ form.hotel.label_tag }}</div>
                         <div>{{ form.hotel | add_class:"form-control" }}</div> 
                       </div>   
-
                       <div class="form-input">
                         <div class="form-label">{{ form.hotel_address.label_tag }}</div>
                         <div>{{ form.hotel_address | add_class:"form-control" }}</div>
                       </div>   
-
                     </div>
-
                     
                     <div class="form-block">
-
                       <div class="form-input">
                         <div class="form-label">{{ form.room_num.label_tag }}</div>
                         <div>{{ form.room_num|add_class:"form-control" }}</div>
                       </div>
-
                     </div>
                     
                   </div>
-
-
                 </div>
                 
-            
-                
-                <div style="background-color: var(--body-color); width: 100%;display: flex;gap: 10px;justify-content: space-evenly;border-radius: 30px; height: auto;display: flex; flex-direction: column; justify-content: flex-start; gap: 0px; padding-bottom: 20px;">
+                <div style="background-color: var(--body-color); width: 100%;display: flex;gap: 10px;justify-content: space-evenly;border-radius: 30px; height: auto;display: flex; flex-direction: column; justify-content: flex-start;">
                   
                   <h4 style="text-align: center">خطوات الحملة </h4>
                   
@@ -236,13 +224,6 @@
 
                 </div>
 
-
-
-              <!-- Add Map Container -->
-              <div class="map-container" style="padding: 0 20px;">
-                <div id="map"></div>
-              </div>
-                
               <div style="display: flex; justify-content: left;">
                 <button type="submit" class="action-button add-task-button" style="border: none">
                   <i class="fas fa-save"></i>
@@ -250,8 +231,7 @@
                 </button>
               </div>
 
-                
-              </form>
+            </form>
           </div>
 
     </div>
