@@ -3,12 +3,12 @@
 
 {% block content %}
 
-<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script
 src="https://code.jquery.com/jquery-3.6.4.min.js"
-integrity="s127.0.0.1:8000z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
+integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
 crossorigin="anonymous">
 </script>
 
@@ -27,286 +27,66 @@ crossorigin="anonymous">
       </div>
     </div>
     
-    <div class="row" style="color: var(--text-color);">
-      <div class="col-lg-4 col-sm-12">
-        <div class="card card-chart" style="width: 100%; height: 130px; background-color: var(--body-color);">
-          <div class="card-header">
-            <h4 class="card-title" style="text-align: center; border-bottom: solid; border-color: var(--primary-color); color: var(--text-color);"> الحجاج</h4>
-          </div>
-          <div class="card-body">
-            <div class="chart-area" style="text-align: center; font-size: x-large;">
-              {{total_pilgrims}}
-            </div>
-          </div>
+    <!-- Stats Cards Grid -->
+    <div class="stats-grid">
+      <!-- Card 1 -->
+      <div class="stat-card">
+        <div class="stat-card-title">إجمالي استمارات التسجيل</div>
+        <div class="stat-card-value">{{total_forms}}</div>
+        <div class="stat-card-change positive">{{new_forms}} جديد</div>
+        <div class="stat-card-icon">
         </div>
       </div>
-      <div class="col-lg-4 col-md-6 col-sm-12">
-        <div class="card card-chart" style="width: 100%; height: 130px; background-color: var(--body-color);">
-          <div class="card-header">
-            <h4 class="card-title" style="text-align: center; border-bottom: solid; border-color: var(--primary-color);"> الموظفين</h4>
-          </div>
-          <div class="card-body">
-            <div class="chart-area" style="text-align: center; font-size: x-large;">
-             {{total_employees}}
-            </div>
-          </div>
+      <!-- Card 1 -->
+      <div class="stat-card">
+        <div class="stat-card-title">إجمالي الحجاج </div>
+        <div class="stat-card-value">{{total_pilgrims}}</div>
+        <div class="stat-card-icon">
         </div>
       </div>
-      <div class="col-lg-4 col-md-6 col-sm-12">
-        <div class="card card-chart" style="width: 100%; height: 130px; background-color: var(--body-color);">
-          <div class="card-header">
-              <h4 class="card-title" style="text-align: center; border-bottom: solid; border-color: var(--primary-color);"> استمارات التسجيل</h4>
-          </div>
-          <div class="card-body">
-            <div class="chart-area" style="text-align: center;  font-size: x-large;">
-              {{total_forms}}
-            </div>
-          </div>
+      <!-- Card 1 -->
+      <div class="stat-card">
+        <div class="stat-card-title">إجمالي المدراء</div>
+        <div class="stat-card-value">{{total_managers}}</div>
+        <div class="stat-card-icon">
         </div>
       </div>
-    </div>
-    <div class="row" style="color: var(--text-color);">
-      <div class="col-md-6 col-sm-12">
-        <div class="card card-chart" style="width: 100%; height: 130px; background-color: var(--body-color);">
-          <div class="card-header">
-            <h4 class="card-title" style="text-align: center; border-bottom: solid; border-color: var(--primary-color);"> الاداريين</h4>
-          </div>
-          <div class="card-body">
-            <div class="chart-area" style="text-align: center;  font-size: x-large;">
-              {{total_managers}}
-            </div>
-          </div>
+      <!-- Card 1 -->
+      <div class="stat-card">
+        <div class="stat-card-title">إجمالي المرشدين</div>
+        <div class="stat-card-value">{{total_guides}}</div>
+        <div class="stat-card-icon">
         </div>
       </div>
-      <div class="col-md-6 col-sm-12">
-        <div class="card card-chart" style="width: 100%; height: 130px; margin-left: 100px; background-color: var(--body-color);">
-          <div class="card-header">
-            <h4 class="card-title" style="text-align: center; border-bottom: solid; border-color: var(--primary-color);"> المرشدين</h4>
-          </div>
-          <div class="card-body">
-            <div class="chart-area" style="text-align: center;  font-size: x-large;">
-              {{total_guides}}
-            </div>
-          </div>
+      <!-- Card 1 -->
+      <div class="stat-card">
+        <div class="stat-card-title">إجمالي الموظفين</div>
+        <div class="stat-card-value">{{total_employees}}</div>
+        <div class="stat-card-icon">
+        </div>
+      </div>
+      
+      <!-- Card 3 -->
+      <div class="stat-card">
+        <div class="stat-card-title">المهام </div>
+        <div class="stat-card-value">{{total_tasks}}</div>
+        <div class="stat-card-change positive">{{completed_tasks}} مكتملة</div>
+        <div class="stat-card-icon">
+        </div>
+      </div>
+      
+      <!-- Card 5 -->
+      <div class="stat-card">
+        <div class="stat-card-title">الملاحظات </div>
+        <div class="stat-card-value">{{total_notes}}</div>
+        <div class="stat-card-icon">
         </div>
       </div>
     </div>
 
-    <div class="container" style="margin-top: 60px; width: 100%; display: flex; gap: 20px;">
-      <div class="col-md-6 col-sm-12" style="background-color: var(--body-color); border-radius: 10px;">
-        <canvas id="spendPerCustomerChart"></canvas>
-      </div>
-      <div class="col-md-6 col-sm-12" style="background-color: var(--body-color); border-radius: 10px;">
-        <canvas id="paymentMethodChart"></canvas>
-      </div>
-    </div>
   </div>
 
 </div>
-
-
-
-
-
-
-
-
-<script>
-    let spendPerCustomerCtx = document.getElementById("spendPerCustomerChart").getContext("2d");
-    let spendPerCustomerChart = new Chart(spendPerCustomerCtx, {
-      type: "line",
-      options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      aspectRatio: 1,
-        title: {
-          display: false,
-          text: ""
-        },
-          scales: {
-            x: {
-            ticks: {
-              font: {
-                color: 'white', // Set the font color to white
-              }
-            }
-          },
-            y: {
-          ticks: { 
-            stepSize: 1, // Set the distance between y-axis labels to 1
-            beginAtZero: true, // Ensure the scale starts at 0
-            font: {
-                color: 'white', // Set the font color to white
-              }
-          }
-        }
-      }
-      }
-    });
-
-
-
-
-
-  let paymentMethodCtx = document.getElementById("paymentMethodChart").getContext("2d");
-  let paymentMethodChart = new Chart(paymentMethodCtx, {
-     type: "pie",
-     options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      aspectRatio: 1,
-         title: {
-         display: false,
-         text: "المهام"
-       },
-       layout: {
-         padding: {
-           left: 0,
-           right: 0,
-           top: 0,
-           bottom: 25
-         }
-       },
-
-
-       plugins: {
-            legend: {
-                labels: {
-                    font: {
-                        family: 'Arial', // Specify the font family
-                        size: 14, // Specify the font size
-                        style: 'normal', // Specify the font style
-                        weight: 'bold' // Specify the font weight
-                    }
-                }
-            }
-        }
-
-     }
-  });
- </script>
- 
- <script>
-  $("#filterForm").on("submit", (event) => {
-     event.preventDefault();
-     // Assuming you want to load the chart when the form is submitted
-     loadAllCharts();
-  });
-
-
-  function loadChart2(chart, endpoint) {
- $.ajax({
-    url: endpoint,
-    type: "GET",
-    dataType: "json",
-    success: (jsonResponse) => {
-      const title = "Latest Pilgrims Joining";
-
-      // Define all months of the year
-      const allMonths = [
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
-      ];
-
-      // Initialize an object to hold the counts for each month
-      let monthCounts = {};
-      allMonths.forEach(month => {
-        monthCounts[month] = 0; // Initialize all months with a count of 0
-      });
-
-      // Update counts based on the API response
-      jsonResponse.data.datasets.forEach(dataset => {
-        dataset.data.forEach(item => {
-          monthCounts[item.month_name] = item.count;
-        });
-      });
-
-      // Prepare labels and data for the chart
-      let labels = allMonths;
-      let data = allMonths.map(month => monthCounts[month]);
-
-      // Reset the current chart
-      chart.data.datasets = [];
-      chart.data.labels = [];
-
-      // Load new data into the chart
-      chart.options.title.text = title;
-      chart.options.title.display = true;
-      chart.data.labels = labels;
-      chart.data.datasets.push({
-        label: 'Pilgrims',
-        data: data,
-        borderColor: 'rgba(75, 192, 192, 1)',
-        fill: false,
-        backgroundColor: '#FFFFFF'
-      });
-
-
-      chart.options.scales = {
-        x: {
-          ticks: {
-            font: {
-              color: 'white', // Set the font color to white
-            }
-          }
-        },
-        y: {
-          ticks: {
-            font: {
-              color: 'white', // Set the font color to white
-            },
-            stepSize: 1, // Set the distance between y-axis labels to 1
-            beginAtZero: true // Ensure the scale starts at 0
-          }
-        }
-      };
-
-      chart.update(); 
-    },
-    error: () => console.log("Failed to fetch chart data from " + endpoint + "!")
- });
-}
-
-
-
- 
-  function loadChart(chart, endpoint) {
-     $.ajax({
-       url: endpoint,
-       type: "GET",
-       dataType: "json",
-       success: (jsonResponse) => {
-         // Extract data from the response
-         const completed = jsonResponse.completed;
-         const remaining = jsonResponse.remaining;
- 
-         // Reset the current chart
-         chart.data.datasets = [];
-         chart.data.labels = [];
- 
-         // Prepare data for the chart
-         const labels = ['المهام المنتهية', 'المهام المتبقية'];
-         const data = [completed, remaining];
- 
-         // Load new data into the chart
-         chart.data.labels = labels;
-         chart.data.datasets.push({
-           data: data,
-           backgroundColor: ['#007bff', '#dc3545'] // Example colors, adjust as needed
-         });
-         chart.update(); 
-       },
-       error: () => console.log("Failed to fetch chart data from " + endpoint + "!")
-     });
-  }
- 
-  function loadAllCharts() {
-    loadChart2(spendPerCustomerChart, `https://alnoor-hajj.com/myapi/chart/line-chart/`);
-    loadChart(paymentMethodChart, `https://alnoor-hajj.com/myapi/chart/pie-chart/`);
-  }
-
-  loadAllCharts();
- </script>
 
 
 {% endblock content %}

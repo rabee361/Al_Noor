@@ -55,7 +55,6 @@ def change_password(request,user_id):
         
     return render(request, 'admin_panel/change_password.html')
 
-
 @login_decorator
 def main_dashboard(request):
     total_pilgrims = Pilgrim.objects.select_related('user').filter(user__is_deleted=False).count()
@@ -63,16 +62,23 @@ def main_dashboard(request):
     total_managers = Management.objects.select_related('user').count()
     total_guides = Guide.objects.select_related('user').count()
     total_forms = Registration.objects.filter(is_deleted=False).count()
-
+    new_forms = Registration.objects.filter(is_deleted=False , createdAt__gte=timezone.now() - timedelta(days=1)).count()
+    total_tasks = Task.objects.count()
+    completed_tasks = Task.objects.filter(completed=True).count()
+    total_notes = Note.objects.count()
+    
     context = {
     'total_pilgrims' : total_pilgrims,
     'total_employees' : total_employees,
     'total_managers' : total_managers,
     'total_guides' : total_guides,
     'total_forms' : total_forms,
+    'new_forms' : new_forms,
+    'total_tasks' : total_tasks,
+    'completed_tasks' : completed_tasks,
+    'total_notes' : total_notes,
     }
     return render(request , 'admin_panel/dashboard.html' , context)
-
 
 @login_decorator
 def steps(request):

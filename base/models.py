@@ -96,6 +96,10 @@ class Registration(models.Model):
     wheelchair = models.BooleanField(null=True, blank=True, verbose_name='كرسي متحرك')
     type_help = models.CharField(max_length=500, null=True, blank=True, verbose_name='نوع المساعدة')
     is_deleted = models.BooleanField(default=False, verbose_name='محذوف')
+    createdAt = models.DateTimeField(auto_now_add=True, verbose_name='تاريخ التسجيل')
+    
+    def __str__(self) -> str:
+        return f'{self.first_name} {self.last_name}'
 
 
 
