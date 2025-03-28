@@ -5,9 +5,9 @@ from asgiref.sync import async_to_sync
 import json
 from .models import *
 from .serializers import *
-from fcm_django.models import FCMDevice
+from fcm_django.models import FCMDevice	
 from firebase_admin.messaging import Message, Notification
-
+from firebase_admin.exceptions import UnregisteredError, InvalidArgumentError
 
 
 
@@ -291,15 +291,21 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 	@database_sync_to_async
 	def send_to_pilgrim(self,title,body,chat):
 		pilgrim = Chat.objects.get(id=chat).user
-		device = FCMDevice.objects.filter(user=pilgrim)
-		device.send_message(
-			message=Message(
-				notification=Notification(
-					title=title,
-					body=body
-				),
-			),
-		)
+		devices = FCMDevice.objects.filter(user=pilgrim)
+		for device in devices:
+			try:
+				device.send_message(
+					message =Message(
+						notification=Notification(
+						title=title,
+						body=body
+						),
+                    ),
+                )
+			except UnregisteredError:
+				pass
+			except InvalidArgumentError:
+				pass
 
 
 
@@ -310,14 +316,19 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 		guide = pilgrim.guide.user
 		devices = FCMDevice.objects.filter(user=guide)
 		for device in devices:
-			device.send_message(
-				message=Message(
-					notification=Notification(
+			try:
+				device.send_message(
+					message=Message(
+						notification=Notification(
 						title=title,
 						body=body,
+						),
 					),
-				),
-			)
+				)
+			except UnregisteredError:
+				pass
+			except InvalidArgumentError:
+				pass
 
 
 	@database_sync_to_async
