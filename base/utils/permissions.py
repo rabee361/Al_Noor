@@ -24,3 +24,9 @@ class IsPilgrim(BasePermission):
     def has_permission(self,request,view):
         user = request.user
         return Pilgrim.objects.filter(user=user).exists()
+    
+
+class AccountExists(BasePermission):
+    def has_permission(self, request, view):
+        user = request.user
+        return user.is_deleted

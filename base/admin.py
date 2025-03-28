@@ -54,6 +54,15 @@ class RegistrationAdmin(ImportExportModelAdmin):
     resource_class = RegistrationResource
     list_display = ['id','first_name','last_name','phonenumber']
 
+    actions = ['restore']
+
+    def restore(self, request, queryset):
+        for form in queryset:
+            form.is_deleted = False
+            form.save()
+        
+    restore.short_description = "Restore selected forms"
+
 
 class AudioAttachmentAdmin(ImportExportModelAdmin):
     resource_class = RegistrationResource
@@ -65,12 +74,19 @@ class AudioAttachmentAdmin(ImportExportModelAdmin):
 #     list_display = ['name']
 
 
-
-
-### needs modification
 class PilgrimAdmin(ImportExportModelAdmin):
     resource_class = PilgrimResource
     list_display = ['id','first_name','father_name','last_name','guide','phonenumber','flight_num','flight_company','arrival','departure','hotel','hotel_address','room_num','longitude','latitude']
+    
+    actions = ['restore']
+    
+    def restore(self, request, queryset):
+        for pilgrim in queryset:
+            user = pilgrim.user
+            user.is_deleted = False
+            user.save()
+        
+    restore.short_description = "Restore selected pilgrims"
 
 
 class EmployeeAdmin(admin.ModelAdmin):

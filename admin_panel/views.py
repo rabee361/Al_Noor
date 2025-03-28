@@ -58,11 +58,11 @@ def change_password(request,user_id):
 
 @login_decorator
 def main_dashboard(request):
-    total_pilgrims = Pilgrim.objects.count()
-    total_employees = Employee.objects.count()
-    total_managers = Management.objects.count()
-    total_guides = Guide.objects.count()
-    total_forms = Registration.objects.count()
+    total_pilgrims = Pilgrim.objects.select_related('user').filter(user__is_deleted=False).count()
+    total_employees = Employee.objects.select_related('user').count()
+    total_managers = Management.objects.select_related('user').count()
+    total_guides = Guide.objects.select_related('user').count()
+    total_forms = Registration.objects.filter(is_deleted=False).count()
 
     context = {
     'total_pilgrims' : total_pilgrims,
@@ -84,7 +84,7 @@ def steps(request):
 @login_decorator
 def registration_forms(request):
     q = request.GET.get('q') or ''
-    forms = Registration.objects.filter(first_name__startswith = q).order_by('-id')
+    forms = Registration.objects.filter(Q(first_name__startswith = q) & Q(is_deleted=False)).order_by('-id')
 
     paginator = Paginator(forms, 10)
     page_number = request.GET.get('page')
@@ -137,21 +137,22 @@ def update_register_form(request,form_id):
 
 @login_decorator
 def delete_register_form(request,form_id):
-    Registration.objects.get(id=form_id).delete()
-
+    form = Registration.objects.get(id=form_id)
+    form.is_deleted=True
+    form.save()
     return redirect('registration_forms')
 
 
 @login_decorator
 def delete_all_forms(request):
-    Registration.objects.all().delete()
+    Registration.objects.all().update(is_deleted=True)
     return redirect('registration_forms')
 
 
 @login_decorator
 def pilgrims_list(request):
     q = request.GET.get('q') or ''
-    pilgrims = Pilgrim.objects.select_related('user').filter(first_name__startswith = q).order_by('-id')
+    pilgrims = Pilgrim.objects.select_related('user').filter(Q(first_name__startswith = q) & Q( user__is_deleted=False)).order_by('-id')
 
     paginator = Paginator(pilgrims, 10)
     page_number = request.GET.get('page')
@@ -293,14 +294,15 @@ def add_pilgrim(request):
 def delete_pilgrim(request,pilgrim_id):
     pilgrim = Pilgrim.objects.get(id=pilgrim_id)
     user = CustomUser.objects.get(id=pilgrim.user.id)
-    user.delete()
+    user.is_deleted = True
+    user.save()
     return redirect('pilgrims')
 
 
 @login_decorator
 def delete_all_pilgrims(request):
     users = CustomUser.objects.filter(user_type='حاج')
-    users.delete()
+    users.update(is_deleted=True)
     return redirect('pilgrims')
 
 
@@ -774,6 +776,8 @@ def import_pilgrim(request):
                     else:
                         user.first_name = row[headers['الاسم الأول']]
                         user.last_name = row[headers['العائلة']]
+                        user.is_deleted = False
+                        user.save()
 
                     pilgrim, created = Pilgrim.objects.update_or_create(
                         user=user,
@@ -1254,41 +1258,52 @@ def steps_list(request):
 
 @login_decorator
 def pilgrim_steps(request):
-    q = request.GET.get('q') or ''
+    q = request.GET.get('q', '')
     page = request.GET.get('page', 1)
-
+    
+    # Get all pilgrims first
+    pilgrims = Pilgrim.objects.select_related('user').filter(
+        user__username__startswith=q,
+        user__is_deleted=False
+    ).order_by('user__username')
+    
+    # Get all steps in one query
+    steps = HajSteps.objects.all().order_by('rank')
+    
+    # Get completed steps for all filtered pilgrims in one query
+    pilgrim_ids = list(pilgrims.values_list('id', flat=True))
+    completed_steps = set(
+        HaJStepsPilgrim.objects.filter(
+            pilgrim_id__in=pilgrim_ids
+        ).values_list('pilgrim_id', 'haj_step_id')
+    )
+    
+    # Build the data structure efficiently
     data = []
-
-    pilgrims = Pilgrim.objects.only('user').filter(user__username__startswith=q)
-    total_steps = HajSteps.objects.only('name').all()
-
     for pilgrim in pilgrims:
-        for step in total_steps:
-            if HaJStepsPilgrim.objects.filter(Q(haj_step=step.id) & Q(pilgrim=pilgrim)).exists():
-                data.append({
-                    'name':step.name,
-                    'pilgrim':pilgrim.user.username,
-                    'completed':True,
-                })
-            else:
-                data.append({
-                    'name':step.name,
-                    'pilgrim':pilgrim.user.username,
-                    'completed':False,
-                })
-
-    paginator = Paginator(data, 10)  # Show 10 items per page
+        for step in steps:
+            data.append({
+                'name': step.name,
+                'pilgrim': pilgrim.user.username,
+                'completed': (pilgrim.id, step.id) in completed_steps
+            })
+    
+    # Paginate the final data
+    paginator = Paginator(data, 10)
     try:
-        steps = paginator.page(page)
+        page_obj = paginator.page(page)
     except PageNotAnInteger:
-        steps = paginator.page(1)
+        page_obj = paginator.page(1)
     except EmptyPage:
-        steps = paginator.page(paginator.num_pages)
-
+        page_obj = paginator.page(paginator.num_pages)
+    
     context = {
-        'steps': steps,
+        'steps': page_obj,
+        'page_obj': page_obj,
+        'total_steps': len(steps),
+        'search_query': q
     }
-
+    
     if request.htmx:
         return render(request, 'admin_panel/partials/pilgrim_steps_partial.html', context)
     return render(request, 'admin_panel/steps/pilgrim_steps.html', context)

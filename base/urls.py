@@ -10,7 +10,6 @@ AccountPatterns = [
     path('list-notifications/' , ListNotifications.as_view()),
     path('sent-notifications/' , ListBaseNotifications.as_view()),
     path('update-image/' , UpdateImage.as_view()),
-    path('send-code/' , SendCodePassword.as_view()),
     path('verify-user/' , VerifyUser.as_view()),
     path('auth/reset-password/<str:user_id>/' , ResetPassword.as_view()),
     path('token/refresh/', jwt_views.TokenRefreshView.as_view()),

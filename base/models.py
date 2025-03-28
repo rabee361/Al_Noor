@@ -28,7 +28,7 @@ class CustomUser(AbstractUser):
     username = models.CharField(max_length=255, verbose_name='اسم المستخدم')
     user_type = models.CharField(max_length=30, choices=USER_TYPES, null=True, blank=True, verbose_name='نوع المستخدم')
     active_now = models.BooleanField(default=False, verbose_name='نشط الآن')
-
+    is_deleted = models.BooleanField(default=False, verbose_name='محذوف')
     # objects = CustomManager()
 
     USERNAME_FIELD = 'phonenumber'
@@ -41,9 +41,6 @@ class CustomUser(AbstractUser):
         ordering = ['-id']
 
    
-
-
-
 
 
 
@@ -98,7 +95,7 @@ class Registration(models.Model):
     sai = models.BooleanField(null=True, blank=True, verbose_name='سعي')
     wheelchair = models.BooleanField(null=True, blank=True, verbose_name='كرسي متحرك')
     type_help = models.CharField(max_length=500, null=True, blank=True, verbose_name='نوع المساعدة')
-
+    is_deleted = models.BooleanField(default=False, verbose_name='محذوف')
 
 
 

@@ -18,7 +18,7 @@ from fcm_django.models import FCMDevice
 from django.shortcuts import get_object_or_404
 from fcm_django.models import FCMDevice
 from rest_framework.views import APIView
-
+from .utils.views import BaseAPIView
 
 
 class LoginUser(GenericAPIView):
@@ -94,29 +94,6 @@ class LogoutUser(GenericAPIView):
 
 
 
-class SendCodePassword(GenericAPIView):
-    def post(self, request):
-        try: 
-            phonenumber = request.data['phonenumber']
-            user = get_object_or_404(CustomUser, phonenumber=phonenumber)
-            existing_code = VerificationCode.objects.filter(user=user).first()
-            if existing_code:
-                existing_code.delete()
-            code_verivecation = generate_code()
-            code = VerificationCode.objects.create(user=user, code=code_verivecation)
-            chat = Chat.objects.get(user=user)
-            msg = ChatMessage.objects.create(content=f'كود تغيير كلمة المرور هو {code}',employee=True)
-            send_code(user=user,title='فريق الدعم',content='تم ارسال كود التحقق')
-            return Response({'message':'تم ارسال رمز التحقق',
-                             'user_id' : user.id})
-        except:
-            raise serializers.ValidationError({'error':['أدخل رقم هاتف صحيح']})
-    
-
-
-
-
-
 class VerifyUser(APIView):
     def post(self,request):
         registration_id = request.data['registration_id'] or None
@@ -124,7 +101,7 @@ class VerifyUser(APIView):
 
         if registration_id and phonenumber:
             try:
-                Pilgrim.objects.get(registration_id=registration_id , phonenumber=phonenumber)
+                Pilgrim.objects.get(registration_id=registration_id , phonenumber=phonenumber, user__is_deleted=False)
                 return Response({"success":"تم التحقق من هوية المستخدم"} , status=status.HTTP_200_OK)
             except Pilgrim.DoesNotExist:
                 return Response({"error":"لا يوجد حاج بهذه المعلومات"}, status=status.HTTP_400_BAD_REQUEST)
@@ -138,9 +115,7 @@ class VerifyUser(APIView):
 
 
 
-class UpdateImage(GenericAPIView):
-    permission_classes = [IsAuthenticated]
-
+class UpdateImage(BaseAPIView):
     def post(self,request):
         new_image = request.data['image'] or None
         if new_image is not None:
@@ -156,7 +131,6 @@ class UpdateImage(GenericAPIView):
 
 ### can be addes to the models as  a method
 class ResetPassword(UpdateAPIView):
-    # permission_classes = [IsAuthenticated]
     serializer_class = ResetPasswordSerializer
 
     def put(self, request, user_id):
@@ -177,7 +151,6 @@ class ResetPassword(UpdateAPIView):
 
 
 class RegisterPilgrim(ListCreateAPIView):
-    # permission_classes = [IsAuthenticated]
     queryset =  Registration.objects.all()
     serializer_class = RegistrationSerializer
 
@@ -185,16 +158,14 @@ class RegisterPilgrim(ListCreateAPIView):
 
 
 class ListPilgrim(ListAPIView):
-    # permission_classes = [IsAuthenticated]
-    queryset = Pilgrim.objects.select_related('guide','user').prefetch_related('haj_steps').all()
+    queryset = Pilgrim.objects.select_related('guide','user').prefetch_related('haj_steps').filter(user__is_deleted=False)
     serializer_class = ListPilgrimSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = PilgrimFilter
 
 
 
-class ListGuidePilgrims(ListAPIView):
-    permission_classes = [IsAuthenticated]
+class ListGuidePilgrims(ListAPIView, BaseAPIView):
     queryset = Pilgrim.objects.all()
     serializer_class = PilgrimSerializer
     filter_backends = [DjangoFilterBackend]
@@ -202,7 +173,7 @@ class ListGuidePilgrims(ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        pilgrims = Pilgrim.objects.filter(guide__user=user)
+        pilgrims = Pilgrim.objects.filter(guide__user=user , user__is_deleted=False)
         return pilgrims
 
 
@@ -224,7 +195,7 @@ class UpdatePilgrim(UpdateAPIView):
 class PilgrimSteps(APIView):
     def get(self,request,pilgrim_id):
         try:
-            pilgrim = Pilgrim.objects.get(id=pilgrim_id)
+            pilgrim = Pilgrim.objects.get(id=pilgrim_id, user__is_deleted=False)
             steps = HaJStepsPilgrim.objects.filter(pilgrim=pilgrim)
             serializer = CompletedHajStepsPilgrimSerializer(steps , many=True)
             return Response(serializer.data , status=status.HTTP_200_OK)
@@ -234,35 +205,19 @@ class PilgrimSteps(APIView):
 
 
 class GetPilgrim(RetrieveUpdateDestroyAPIView):
-    # permission_classes = [IsAuthenticated]
     queryset = Pilgrim.objects.all()
     serializer_class = PilgrimSerializer
 
 
 
-##### all pilgrims with their forms ????
 class DeletePilgrims(GenericAPIView):
     def delete(self,request):
         pilgrims = Pilgrim.objects.all()
         if pilgrims:
-            pilgrims.delete()
-            Registration.objects.all().delete()
+            pilgrims.update(is_deleted=True)
             return Response({"msg":"all pilgrim accounts deleted successfully"})
         else:
             return Response({"error":"there are no pilgrims registered"})
-
-# class PilgrimInfo(GenericAPIView):
-#     # permission_classes = [IsAuthenticated]
-
-#     def get(self,request):
-#         user = request.user
-#         try:
-#             pilgrim = Pilgrim.objects.get(user=user)
-#             serializer = PilgrimSerializer(pilgrim , many=False)
-#             return Response(serializer.data , status=status.HTTP_200_OK)
-#         except Pilgrim.DoesNotExist:
-#             return Response({"error":["لا يوجد حاج بهذا الاسم"]},status=status.HTTP_500_BAD_REQUEST)
-
 
 
 
@@ -273,7 +228,7 @@ class UpdatePilgrimLocation(GenericAPIView):
         lat = request.data.get('lat',None)
         if long and lat:
             try:
-                pilgrim = Pilgrim.objects.get(id=pk)
+                pilgrim = Pilgrim.objects.get(id=pk, user__is_deleted=False)
                 pilgrim.longitude = long
                 pilgrim.latitude = lat
                 pilgrim.save()
@@ -284,12 +239,7 @@ class UpdatePilgrimLocation(GenericAPIView):
             return Response({"error":"please provide correct values for longitude and latitude"})
 
 
-
-
-
-
 class RefreshFirebaseToken(GenericAPIView):
-    # permission_classes = [IsAuthenticated]
 
     def post(self,request):
         token = request.data['firebase-token']
@@ -307,9 +257,7 @@ class RefreshFirebaseToken(GenericAPIView):
         },status=status.HTTP_200_OK)
 
 
-
 class ListNote(ListAPIView):
-    # permission_classes = [IsAuthenticated]
     queryset =  Note.objects.all()
     serializer_class = NoteSerializer
     filter_backends = [DjangoFilterBackend]
@@ -328,15 +276,10 @@ class CreateNote(APIView):
         return Response(serializer.errors, status=400)
 
 
-
-
-
-
-
 class GetPilgrimNotes(APIView):
     def get(self,reuquest,pk):
         try:
-            pilgrim = Pilgrim.objects.get(id=pk)
+            pilgrim = Pilgrim.objects.get(id=pk, user__is_deleted=False)
             notes = Note.objects.filter(pilgrim=pilgrim.id)
             serializer = NoteSerializer(notes , many=True)
             return Response(serializer.data , status=status.HTTP_200_OK)
@@ -349,18 +292,14 @@ class GetPilgrimNotes(APIView):
 
 
 class RetUpdDesNote(RetrieveUpdateDestroyAPIView):
-    # permission_classes = [IsAuthenticated]
     queryset =  Note.objects.all()
     serializer_class = NoteSerializer
 
 
-##### needs modification to send more info in the notification body
-class ListNotifications(ListAPIView):
-    # permission_classes = [IsAuthenticated]
+class ListNotifications(ListAPIView, BaseAPIView):
     queryset =  UserNotification.objects.all()
     serializer_class = NotificationSerializer
 
-    #### get notifications for the logged in user
     def get_queryset(self):
         user = self.request.user
         notifications = UserNotification.objects.filter(user__id=user.id)
@@ -368,8 +307,7 @@ class ListNotifications(ListAPIView):
         
 
 
-class ListBaseNotifications(ListAPIView):
-    permission_classes = [IsAuthenticated]
+class ListBaseNotifications(ListAPIView, BaseAPIView):
     queryset = BaseNotification.objects.all()
     serializer_class = BaseNotificationSerializer
 
@@ -379,14 +317,12 @@ class ListBaseNotifications(ListAPIView):
         return notifications
 
 
-class ListTask(ListAPIView):
-    permission_classes = [IsAuthenticated]
+class ListTask(ListAPIView, BaseAPIView):
     queryset =  Task.objects.all()
     serializer_class = TaskSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = TaskFilter
 
-    #### needs modifications
     def get_queryset(self):
         user = self.request.user
         if not user:
@@ -398,14 +334,12 @@ class ListTask(ListAPIView):
 
 
 class RetUpdDesTask(RetrieveUpdateDestroyAPIView):
-    # permission_classes = [IsAuthenticated]
     queryset =  Task.objects.all()
     serializer_class = TaskSerializer
 
 
 
 class CompleteTask(GenericAPIView):
-    # permission_classes = [IsAuthenticated]
     queryset =  Task.objects.all()
     serializer_class = TaskSerializer
 
@@ -423,7 +357,6 @@ class CompleteTask(GenericAPIView):
 
 
 class AcceptTask(GenericAPIView):
-    # permission_classes = [IsAuthenticated]
     queryset =  Task.objects.all()
     serializer_class = TaskSerializer
 
@@ -442,7 +375,6 @@ class AcceptTask(GenericAPIView):
 
 
 class SendTask(GenericAPIView):
-    # permission_classes = [IsAuthenticated]
     queryset =  Task.objects.all()
     serializer_class = TaskSerializer
 
@@ -471,14 +403,12 @@ class SendTask(GenericAPIView):
 
 
 
-class CompleteStep(GenericAPIView):
-    permission_classes = [IsAuthenticated]
-
+class CompleteStep(BaseAPIView):
     def post(self,request,step_id):
         try:
             completed = False
             step = HajSteps.objects.get(id=step_id)
-            pilgrim = Pilgrim.objects.get(user=request.user)
+            pilgrim = Pilgrim.objects.get(user=request.user, user__is_deleted=False)
             if not pilgrim.haj_steps.filter(id=step.id).exists():
                 pilgrim.haj_steps.add(step)
                 completed = True
@@ -504,12 +434,10 @@ class CompleteStep(GenericAPIView):
 
 
 
-class ListHajSteps(APIView):
-    permission_classes = [IsAuthenticated]
-
+class ListHajSteps(BaseAPIView):
     def get(self,request):
         response_data = []
-        pilgrim = Pilgrim.objects.get(user=request.user)
+        pilgrim = Pilgrim.objects.get(user=request.user , user__is_deleted=False)
         steps = HaJStepsPilgrim.objects.filter(pilgrim=pilgrim).values('haj_step__name')
         serializer = HajStepsPilgrimSerializer(steps , many=True)
 
@@ -613,7 +541,7 @@ class ListChats(ListCreateAPIView):
 
     def get_queryset(self):
         guide = Guide.objects.get(user=self.request.user)
-        users = Pilgrim.objects.filter(guide=guide).values_list('user',flat=True)
+        users = Pilgrim.objects.filter(guide=guide, user__is_deleted=False).values_list('user',flat=True)
         return Chat.guide_chats.filter(user__in=users)
 
 
@@ -623,7 +551,6 @@ class ListChats(ListCreateAPIView):
 class ListManagerChats(ListCreateAPIView):
     querset = Chat.objects.all()
     serializer_class = ChatSerializer
-    # permission_clasess = [IsGuide , IsAuthenticated]
 
     def get_queryset(self):
         return Chat.manager_chats
@@ -631,7 +558,6 @@ class ListManagerChats(ListCreateAPIView):
 
 
 class GetChat(RetrieveAPIView):
-    # permission_clasess = [IsAuthenticated]
     queryset = Chat.objects.all()
     serializer_class = ChatSerializer
 
@@ -640,7 +566,6 @@ class GetChat(RetrieveAPIView):
 
 
 class ListGuides(ListAPIView):
-    # permission_clasess = [IsAuthenticated]
     queryset = Guide.objects.all()
     serializer_class = GuideSerializer
 
@@ -648,7 +573,6 @@ class ListGuides(ListAPIView):
 
 
 class GetGuide(RetrieveAPIView):
-    # permission_clasess = [IsAuthenticated]
     queryset = Guide.objects.all()
     serializer_class = GuideSerializer
 
@@ -682,7 +606,6 @@ class SetActive(APIView):
 
 
 class ListEmployees(ListAPIView):
-    # permission_clasess = [IsAuthenticated]
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
     filter_backends = [DjangoFilterBackend]
@@ -698,7 +621,6 @@ class GetEmployee(RetrieveAPIView):
 
 
 class CreateEmployee(CreateAPIView):
-    # permission_clasess = [IsAuthenticated]
     queryset = Employee.objects.all()
     serializer_class = CreateEmployeeSerializer
 
@@ -734,7 +656,6 @@ class UpdateEmployee(UpdateAPIView):
 
 
 class ListCreateGuidancePost(ListCreateAPIView):
-    # permission_clasess = [IsAuthenticated]
     queryset = GuidancePost.objects.all()
     serializer_class = SimpleGuidancePostSerializer
     filter_backends = [DjangoFilterBackend]
@@ -744,13 +665,11 @@ class ListCreateGuidancePost(ListCreateAPIView):
     
 
 class RetUpdDesGuidancePost(RetrieveUpdateDestroyAPIView):
-    # permission_clasess = [IsAuthenticated]
     queryset = GuidancePost.objects.all()
     serializer_class = GuidancePostSerializer
 
 
 class ListCreateReligiousPost(ListCreateAPIView):
-    # permission_clasess = [IsAuthenticated]
     queryset = ReligiousPost.objects.all()
     serializer_class = SimpleReligiousPostSerializer
     filter_backends = [DjangoFilterBackend]
@@ -758,13 +677,11 @@ class ListCreateReligiousPost(ListCreateAPIView):
 
 
 class RetUpdDesReligiousPost(RetrieveUpdateDestroyAPIView):
-    # permission_clasess = [IsAuthenticated]
     queryset = ReligiousPost.objects.all()
     serializer_class = ReligiousPostSerializer
 
 
 class ListCreateGuidanceCategory(ListCreateAPIView):
-    # permission_clasess = [IsAuthenticated]
     queryset = GuidanceCategory.objects.all()
     serializer_class = GuidanceCategorySerializer
 
@@ -772,19 +689,16 @@ class ListCreateGuidanceCategory(ListCreateAPIView):
 
 
 class RetUpdDesGuidanceCategory(RetrieveUpdateDestroyAPIView):
-    # permission_clasess = [IsAuthenticated]
     queryset = GuidanceCategory.objects.all()
     serializer_class = GuidanceCategorySerializer
 
 
 class ListCreateReligiousCategory(ListCreateAPIView):
-    # permission_clasess = [IsAuthenticated]
     queryset = ReligiousCategory.objects.all()
     serializer_class = ReligiousCategorySerializer
 
 
 class RetUpdDesReligiousCategory(RetrieveUpdateDestroyAPIView):
-    # permission_clasess = [IsAuthenticated]
     queryset = ReligiousCategory.objects.all()
     serializer_class = ReligiousCategorySerializer
 

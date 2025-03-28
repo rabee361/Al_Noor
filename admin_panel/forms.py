@@ -290,8 +290,11 @@ class NewNote(ModelForm):
 class NewRegisterForm(forms.ModelForm):
     def clean_phonenumber(self):
         phonenumber = self.cleaned_data.get('phonenumber')
-        if Registration.objects.filter(phonenumber=phonenumber).exists():
+        if Registration.objects.filter(phonenumber=phonenumber, is_deleted=False).exists():
             raise forms.ValidationError('رقم الهاتف مسجل مسبقاً')
+        elif Registration.objects.filter(phonenumber=phonenumber, is_deleted=True).exists():
+            form = Registration.objects.get(phonenumber=phonenumber, is_deleted=True)
+            form.delete()
         return phonenumber
 
     class Meta:
