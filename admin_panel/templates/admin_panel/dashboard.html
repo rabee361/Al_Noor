@@ -31,43 +31,49 @@ crossorigin="anonymous">
     <div class="stats-grid">
       <!-- Card 1 -->
       <div class="stat-card">
+        <a href="{% url 'registration_forms' %}" class="card-link"></a>
         <div class="stat-card-title">إجمالي استمارات التسجيل</div>
         <div class="stat-card-value">{{total_forms}}</div>
         <div class="stat-card-change positive">{{new_forms}} جديد</div>
         <div class="stat-card-icon">
         </div>
       </div>
-      <!-- Card 1 -->
+      <!-- Card 2 -->
       <div class="stat-card">
+        <a href="{% url 'pilgrims' %}" class="card-link"></a>
         <div class="stat-card-title">إجمالي الحجاج </div>
         <div class="stat-card-value">{{total_pilgrims}}</div>
         <div class="stat-card-icon">
         </div>
       </div>
-      <!-- Card 1 -->
+      <!-- Card 3 -->
       <div class="stat-card">
+        <a href="{% url 'managers' %}" class="card-link"></a>
         <div class="stat-card-title">إجمالي المدراء</div>
         <div class="stat-card-value">{{total_managers}}</div>
         <div class="stat-card-icon">
         </div>
       </div>
-      <!-- Card 1 -->
+      <!-- Card 4 -->
       <div class="stat-card">
+        <a href="{% url 'guides' %}" class="card-link"></a>
         <div class="stat-card-title">إجمالي المرشدين</div>
         <div class="stat-card-value">{{total_guides}}</div>
         <div class="stat-card-icon">
         </div>
       </div>
-      <!-- Card 1 -->
+      <!-- Card 5 -->
       <div class="stat-card">
+        <a href="{% url 'employees' %}" class="card-link"></a>
         <div class="stat-card-title">إجمالي الموظفين</div>
         <div class="stat-card-value">{{total_employees}}</div>
         <div class="stat-card-icon">
         </div>
       </div>
       
-      <!-- Card 3 -->
+      <!-- Card 6 -->
       <div class="stat-card">
+        <a href="{% url 'tasks' %}" class="card-link"></a>
         <div class="stat-card-title">المهام </div>
         <div class="stat-card-value">{{total_tasks}}</div>
         <div class="stat-card-change positive">{{completed_tasks}} مكتملة</div>
@@ -75,8 +81,9 @@ crossorigin="anonymous">
         </div>
       </div>
       
-      <!-- Card 5 -->
+      <!-- Card 7 -->
       <div class="stat-card">
+        <a href="{% url 'notes' %}" class="card-link"></a>
         <div class="stat-card-title">الملاحظات </div>
         <div class="stat-card-value">{{total_notes}}</div>
         <div class="stat-card-icon">
