@@ -252,20 +252,6 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 		await self.save_message(msg)
 
 
-
-		# try:
-		# 	guide = await self.get_guide(user)
-		# 	title = f'{user}'
-		# 	body = f'{message}'
-		# 	await self.send_to_client(chat,title,body)
-
-		# except:
-		# 	title = f'{user}'
-		# 	body = f'{message}'
-		# 	await self.send_to_all(title,body)
-
-
-
 		await self.channel_layer.group_send(
 			self.room_group_name,
 			{
@@ -297,10 +283,15 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 			'sent_user': sent_user,
 			'chat': chat
 		}))
+		if sent_user:
+			await self.send_to_pilgrim('رسالة جديدة',content,chat)
+		else:
+			await self.send_to_guide('رسالة جديدة',content,chat)	
 
 	@database_sync_to_async
-	def send_to_client(self,chat,title,body):
-		device = FCMDevice.objects.filter(user=chat.user)
+	def send_to_pilgrim(self,title,body,chat):
+		pilgrim = Chat.objects.get(user=chat).user
+		device = FCMDevice.objects.filter(user=pilgrim)
 		device.send_message(
 			message=Message(
 				notification=Notification(
@@ -313,10 +304,10 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 
 
 	@database_sync_to_async
-	def send_to_all(self,title,body):
-		guides = Guide.objects.values_list('user__phonenumber',flat=True)
-		users = CustomUser.objects.filter(phonenumber__in=guides).values_list('id',flat=True)
-		devices = FCMDevice.objects.filter(user__in=users)
+	def send_to_guide(self,title,body,user):
+		pilgrim = Pilgrim.objects.get(user=user)
+		guide = pilgrim.guide.user
+		devices = FCMDevice.objects.filter(user=guide)
 		for device in devices:
 			device.send_message(
 				message=Message(
