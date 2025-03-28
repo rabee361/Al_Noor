@@ -31,11 +31,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = ['127.0.0.1']
   
-handler404 = "admin_panel.views.Custom404View"
+handler404 = "admin_panel.views.handler404"
+handler500 = "admin_panel.views.handler500"
 
 
 # Application definition

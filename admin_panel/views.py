@@ -1677,13 +1677,6 @@ class LandinPageView(View):
         return render(request , 'pilgrim_form/landing.html')
 
 
-# 404 page
-
-def Custom404View(self,request,exception):
-    return render(request,'404.html')
-
-
-
 class AddPilgrimView(LoginRequiredMixin, CreateView):
     template_name = 'admin_panel/users/pilgrims/add_pilgrim.html'
     form_class = PilgrimCreationForm
@@ -1719,3 +1712,13 @@ class AddPilgrimView(LoginRequiredMixin, CreateView):
         pilgrim.save()
         
         return super().form_valid(form)
+    
+
+
+class handler404(View):
+    def get(self, request):
+        return render(request, '404.html')
+
+class handler500(View):
+    def get(self, request):
+        return render(request, '500.html')
