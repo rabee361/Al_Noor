@@ -284,9 +284,9 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 			'chat': chat
 		}))
 		if sent_user:
-			await self.send_to_pilgrim('رسالة جديدة',content,chat)
-		else:
 			await self.send_to_guide('رسالة جديدة',content,chat)	
+		else:
+			await self.send_to_pilgrim('رسالة جديدة',content,chat)
 
 	@database_sync_to_async
 	def send_to_pilgrim(self,title,body,chat):
@@ -304,7 +304,8 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 
 
 	@database_sync_to_async
-	def send_to_guide(self,title,body,user):
+	def send_to_guide(self,title,body,chat):
+		user = Chat.objects.get(id=chat).user
 		pilgrim = Pilgrim.objects.get(user=user)
 		guide = pilgrim.guide.user
 		devices = FCMDevice.objects.filter(user=guide)
