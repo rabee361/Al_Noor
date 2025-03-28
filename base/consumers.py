@@ -290,7 +290,7 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 
 	@database_sync_to_async
 	def send_to_pilgrim(self,title,body,chat):
-		pilgrim = Chat.objects.get(chat=chat).user
+		pilgrim = Chat.objects.get(id=chat).user
 		device = FCMDevice.objects.filter(user=pilgrim)
 		device.send_message(
 			message=Message(
