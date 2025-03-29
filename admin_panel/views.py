@@ -21,6 +21,8 @@ from openpyxl import load_workbook
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import openpyxl 
 import time
+import io
+import csv
 
 login_decorator = login_required(login_url='login')
 
@@ -712,24 +714,56 @@ def import_pilgrim(request):
     if request.method == 'POST':
         try:
             excel_file = request.FILES['file']
-            workbook = openpyxl.load_workbook(excel_file)
+            
+            # Convert Excel to CSV in memory
+            import io
+            import csv
+            
+            workbook = load_workbook(excel_file)
             sheet = workbook.active
-
-            # Assuming the first row is the header
-            headers = {cell.value: idx for idx, cell in enumerate(sheet[1])}
+            
+            # Get headers from first row
+            headers = {}
+            for idx, cell in enumerate(sheet[1]):
+                if cell.value:
+                    headers[cell.value] = idx
+            
+            # Create CSV file in memory
+            csv_data = io.StringIO()
+            csv_writer = csv.writer(csv_data)
+            
+            # Write headers
+            header_row = [''] * len(headers)
+            for name, idx in headers.items():
+                header_row[idx] = name
+            csv_writer.writerow(header_row)
+            
+            # Write data rows
+            for row in sheet.iter_rows(min_row=2, values_only=True):
+                csv_writer.writerow(row)
+            
+            # Reset the pointer to the beginning of the StringIO object
+            csv_data.seek(0)
+            
+            # Read CSV
+            csv_reader = csv.reader(csv_data)
+            next(csv_reader)  # Skip header row
             
             # Initialize counters and timer
             start_time = time.time()
             total_rows = 0
             processed_rows = 0
-
-            for row in sheet.iter_rows(min_row=2, values_only=True):
+            
+            for row in csv_reader:
+                if not row:  # Skip empty rows
+                    continue
+                    
                 total_rows += 1
                 try:
                     # Convert time strings to proper datetime format
-                    arrival_str = str(row[headers['موعد الوصول']]).strip()
-                    departure_str = str(row[headers['موعد الرحيل']]).strip()
-                    boarding_str = str(row[headers['وقت الصعود']]).strip()
+                    arrival_str = str(row[headers['موعد الوصول']]).strip() if headers.get('موعد الوصول') is not None and len(row) > headers['موعد الوصول'] else ''
+                    departure_str = str(row[headers['موعد الرحيل']]).strip() if headers.get('موعد الرحيل') is not None and len(row) > headers['موعد الرحيل'] else ''
+                    boarding_str = str(row[headers['وقت الصعود']]).strip() if headers.get('وقت الصعود') is not None and len(row) > headers['وقت الصعود'] else ''
 
                     # Parse times and convert to 24-hour format
                     try:
@@ -757,67 +791,92 @@ def import_pilgrim(request):
                     except:
                         formatted_diff = '00:00'
 
-                    pilgrim_phonenumber = str(row[headers['رقم الجوال']])
+                    # Safely get pilgrim phonenumber
+                    pilgrim_phonenumber = str(row[headers['رقم الجوال']]) if headers.get('رقم الجوال') is not None and len(row) > headers['رقم الجوال'] else ''
                     if not pilgrim_phonenumber:
                         continue
 
-                    pilgrim_username = f"{row[headers['الاسم الأول']]} {row[headers['اسم الأب']]} {row[headers['اسم الجد']]} {row[headers['العائلة']]}"
+                    # Safely get name components
+                    first_name = str(row[headers['الاسم الأول']]) if headers.get('الاسم الأول') is not None and len(row) > headers['الاسم الأول'] else ''
+                    father_name = str(row[headers['اسم الأب']]) if headers.get('اسم الأب') is not None and len(row) > headers['اسم الأب'] else ''
+                    grand_father = str(row[headers['اسم الجد']]) if headers.get('اسم الجد') is not None and len(row) > headers['اسم الجد'] else ''
+                    last_name = str(row[headers['العائلة']]) if headers.get('العائلة') is not None and len(row) > headers['العائلة'] else ''
+
+                    pilgrim_username = f"{first_name} {father_name} {grand_father} {last_name}"
+                    
                     user, created = CustomUser.objects.update_or_create(
                         phonenumber=pilgrim_phonenumber,
                         defaults={
                             'username': pilgrim_username,
                             'user_type': 'حاج',
-                            'first_name': str(row[headers['الاسم الأول']]),
-                            'last_name': str(row[headers['العائلة']])
+                            'first_name': first_name,
+                            'last_name': last_name
                         }
                     )
-                    if created:                
-                        my_password = str(row[headers['رقم الهوية']])
-                        user.set_password(my_password)
+                    
+                    if created:
+                        id_number = str(row[headers['رقم الهوية']]) if headers.get('رقم الهوية') is not None and len(row) > headers['رقم الهوية'] else ''
+                        user.set_password(id_number)
                         user.save()
                         Chat.objects.bulk_create([
                             Chat(user=user, chat_type='guide'),
                             Chat(user=user, chat_type='manager')
                         ])
                     else:
-                        user.first_name = row[headers['الاسم الأول']]
-                        user.last_name = row[headers['العائلة']]
+                        user.first_name = first_name
+                        user.last_name = last_name
                         user.is_deleted = False
                         user.save()
-
+                    
+                    # Safely get other fields
+                    id_number = str(row[headers['رقم الهوية']]) if headers.get('رقم الهوية') is not None and len(row) > headers['رقم الهوية'] else ''
+                    birthday = str(row[headers['تاريخ الميلاد - الميلادي فقط']]) if headers.get('تاريخ الميلاد - الميلادي فقط') is not None and len(row) > headers['تاريخ الميلاد - الميلادي فقط'] else ''
+                    flight_num = str(row[headers['رقم الرحلة']]) if headers.get('رقم الرحلة') is not None and len(row) > headers['رقم الرحلة'] else ''
+                    flight_date = str(row[headers['تاريخ الرحلة']]) if headers.get('تاريخ الرحلة') is not None and len(row) > headers['تاريخ الرحلة'] else ''
+                    from_city = str(row[headers['من المدينة']]) if headers.get('من المدينة') is not None and len(row) > headers['من المدينة'] else ''
+                    to_city = str(row[headers['إلى المدينة']]) if headers.get('إلى المدينة') is not None and len(row) > headers['إلى المدينة'] else ''
+                    gate_num = str(row[headers['رقم البوابة']]) if headers.get('رقم البوابة') is not None and len(row) > headers['رقم البوابة'] else ''
+                    flight_company = str(row[headers['شركة الطيران']]) if headers.get('شركة الطيران') is not None and len(row) > headers['شركة الطيران'] else ''
+                    hotel = str(row[headers['الفندق']]) if headers.get('الفندق') is not None and len(row) > headers['الفندق'] else ''
+                    hotel_address = str(row[headers['عنوان الفندق']]) if headers.get('عنوان الفندق') is not None and len(row) > headers['عنوان الفندق'] else ''
+                    room_num = str(row[headers['رقم الغرفة']]) if headers.get('رقم الغرفة') is not None and len(row) > headers['رقم الغرفة'] else ''
+                    
                     pilgrim, created = Pilgrim.objects.update_or_create(
                         user=user,
                         phonenumber=pilgrim_phonenumber,
                         defaults={
-                            'registeration_id': row[headers['رقم الهوية']],
-                            'first_name': row[headers['الاسم الأول']],
-                            'father_name': row[headers['اسم الأب']],
-                            'grand_father': row[headers['اسم الجد']],
-                            'last_name': row[headers['العائلة']],
-                            'birthday': row[headers['تاريخ الميلاد - الميلادي فقط']],
-                            'flight_num': row[headers['رقم الرحلة']],
-                            'flight_date': row[headers['تاريخ الرحلة']],
+                            'registeration_id': id_number,
+                            'first_name': first_name,
+                            'father_name': father_name,
+                            'grand_father': grand_father,
+                            'last_name': last_name,
+                            'birthday': birthday,
+                            'flight_num': flight_num,
+                            'flight_date': flight_date,
                             'arrival': arrival_time,
                             'departure': departure_time,
-                            'from_city': row[headers['من المدينة']],
-                            'to_city': row[headers['إلى المدينة']],
+                            'from_city': from_city,
+                            'to_city': to_city,
                             'duration': str(formatted_diff),
                             'boarding_time': boarding_time,
-                            'gate_num': row[headers['رقم البوابة']],
-                            'flight_company': row[headers['شركة الطيران']],
+                            'gate_num': gate_num,
+                            'flight_company': flight_company,
                             'status': True,
-                            'hotel': row[headers['الفندق']],
-                            'hotel_address': row[headers['عنوان الفندق']],
-                            'room_num': row[headers['رقم الغرفة']]
+                            'hotel': hotel,
+                            'hotel_address': hotel_address,
+                            'room_num': room_num
                         }
                     )
 
-                    try:
-                        guide = Guide.objects.get(id=row[headers['المرشد']])
-                        pilgrim.guide = guide
-                    except Guide.DoesNotExist:
-                        pass
-                    pilgrim.save()
+                    # Attempt to associate with guide if guide ID is present
+                    if headers.get('المرشد') is not None and len(row) > headers['المرشد'] and row[headers['المرشد']]:
+                        try:
+                            guide = Guide.objects.get(id=row[headers['المرشد']])
+                            pilgrim.guide = guide
+                            pilgrim.save()
+                        except Guide.DoesNotExist:
+                            pass
+                    
                     processed_rows += 1
 
                 except Exception as e:
