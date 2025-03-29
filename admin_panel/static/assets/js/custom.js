@@ -44,20 +44,20 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Prevent scroll event propagation
+    // MODIFIED: Remove scroll event blocking which was preventing pull-to-refresh
+    // Only prevent scroll propagation on desktop, not on mobile
     const sidebar = document.querySelector('.sidebar');
     const mainPanel = document.querySelector('.main-panel');
 
-    if (sidebar) {
-        sidebar.addEventListener('wheel', (e) => {
-            e.stopPropagation();
-        });
-    }
-
-    if (mainPanel) {
-        mainPanel.addEventListener('wheel', (e) => {
-            e.stopPropagation();
-        });
+    // Check if it's not a mobile device (based on screen width)
+    const isMobile = window.innerWidth <= 768;
+    
+    if (!isMobile) {
+        if (sidebar) {
+            sidebar.addEventListener('wheel', (e) => {
+                e.stopPropagation();
+            });
+        }
     }
 
     // Remove perfect scrollbar

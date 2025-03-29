@@ -7,7 +7,7 @@ from .models import *
 from .serializers import *
 from fcm_django.models import FCMDevice	
 from firebase_admin.messaging import Message, Notification
-from firebase_admin.exceptions import UnregisteredError, InvalidArgumentError
+from firebase_admin.exceptions import InvalidArgumentError
 
 
 
@@ -302,8 +302,6 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 						),
                     ),
                 )
-			except UnregisteredError:
-				pass
 			except InvalidArgumentError:
 				pass
 
@@ -325,8 +323,6 @@ class CreateGuideMessage(AsyncWebsocketConsumer):
 						),
 					),
 				)
-			except UnregisteredError:
-				pass
 			except InvalidArgumentError:
 				pass
 

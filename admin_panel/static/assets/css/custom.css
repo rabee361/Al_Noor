@@ -51,12 +51,31 @@ body {
     -ms-overflow-style: none !important;
     scrollbar-width: none;
     transition: all 0.5s ease;
+    -webkit-overflow-scrolling: touch; /* Enable momentum scrolling on iOS */
 }
 
 .main-panel::-webkit-scrollbar {
     display: none;
 }
 
+/* Fix for mobile pull-to-refresh */
+@media (max-width: 768px) {
+    .main-panel {
+        position: relative;
+        height: auto;
+        min-height: 100vh;
+        overflow-y: visible;
+    }
+    
+    body {
+        overflow-y: auto !important;
+        height: auto !important;
+    }
+    
+    html, body {
+        overscroll-behavior-y: auto; /* Allow native pull-to-refresh */
+    }
+}
 
 .text-drop-down {
     font-size: 5px !important;
