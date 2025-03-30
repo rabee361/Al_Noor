@@ -214,7 +214,7 @@ CACHES = {
 # and still provides good security
 PASSWORD_HASHERS = [
     # 'base.utils.hasher.MyArgon2PasswordHasher',
-    'base.utils.hasher.MyPBKDF2PasswordHasher',
+    'base.utils.hasher.FastPBKDF2PasswordHasher',
     'django.contrib.auth.hashers.PBKDF2PasswordHasher',
     # 'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
     # 'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',

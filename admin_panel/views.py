@@ -803,18 +803,11 @@ def import_pilgrim(request):
                         }
                     )
                     if created:                
-                        # user.save()
                         Chat.objects.bulk_create([
                             Chat(user=user, chat_type='guide'),
                             Chat(user=user, chat_type='manager')
                         ])
-                    # else:
-                    #     CustomUser.objects.filter(id=user.id).update(
-                    #         first_name=first_name,
-                    #         last_name=last_name,
-                    #         is_deleted=False
-                    #     )
-                    
+
                     user_block_end = time.time()
                     print(f"User creation/update block took: {user_block_end - user_block_start:.4f} seconds")
 
