@@ -21,10 +21,7 @@ from openpyxl import load_workbook
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import openpyxl 
 import time
-import io
-import csv
-from joblib import Parallel, delayed
-import traceback
+from django.contrib.auth.hashers import make_password
 
 login_decorator = login_required(login_url='login')
 
@@ -716,52 +713,46 @@ def import_pilgrim(request):
     if request.method == 'POST':
         try:
             excel_file = request.FILES['file']
-            
-            # Convert Excel to CSV in memory
-            workbook = load_workbook(excel_file)
+            workbook = openpyxl.load_workbook(excel_file)
             sheet = workbook.active
-            
-            # Get headers from first row
-            headers = {}
-            for idx, cell in enumerate(sheet[1]):
-                if cell.value:
-                    headers[cell.value] = idx
-            
-            # Create CSV file in memory
-            csv_data = io.StringIO()
-            csv_writer = csv.writer(csv_data)
-            
-            # Write headers
-            header_row = [''] * len(headers)
-            for name, idx in headers.items():
-                header_row[idx] = name
-            csv_writer.writerow(header_row)
-            
-            # Write data rows
-            for row in sheet.iter_rows(min_row=2, values_only=True):
-                csv_writer.writerow(row)
-            
-            # Reset the pointer to the beginning of the StringIO object
-            csv_data.seek(0)
-            
-            # Read CSV
-            csv_reader = csv.reader(csv_data)
-            next(csv_reader)  # Skip header row
-            
-            # Collect all rows for parallel processing
-            all_rows = [row for row in csv_reader if row]
+
+            # Assuming the first row is the header
+            headers = {cell.value: idx for idx, cell in enumerate(sheet[1])}
             
             # Initialize counters and timer
             start_time = time.time()
-            total_rows = len(all_rows)
-            
-            # Define the processing function
-            def process_row(row_idx, row):
+            total_rows = 0
+            processed_rows = 0
+            for row in sheet.iter_rows(min_row=2, values_only=True):
+                total_rows += 1
                 try:
+                    first_name = str(row[headers['الاسم الأول']])
+                    last_name = str(row[headers['العائلة']])
+                    father_name = str(row[headers['اسم الأب']])
+                    grand_father = str(row[headers['اسم الجد']])
+                    birth_date = str(row[headers['تاريخ الميلاد - الميلادي فقط']])
+                    flight_num = str(row[headers['رقم الرحلة']])
+                    card_num = str(row[headers['رقم الهوية']])
+                    phone_number = str(row[headers['رقم الجوال']])
+                    flight_date = str(row[headers['تاريخ الرحلة']])
+                    from_city = str(row[headers['من المدينة']])
+                    to_city = str(row[headers['إلى المدينة']])
+                    hotel = str(row[headers['الفندق']])
+                    hotel_address = str(row[headers['عنوان الفندق']])
+                    room_num = str(row[headers['رقم الغرفة']])
+                    gate_num = str(row[headers['رقم البوابة']])
+                    flight_company = str(row[headers['شركة الطيران']])
+                    arrival_time = str(row[headers['موعد الوصول']])
+                    departure_time = str(row[headers['موعد الرحيل']])
+                    boarding_time = str(row[headers['وقت الصعود']])
+
+                    # Start timing for time conversion block
+                    time_conversion_start = time.time()
+                    
                     # Convert time strings to proper datetime format
-                    arrival_str = str(row[headers['موعد الوصول']]).strip() if headers.get('موعد الوصول') is not None and len(row) > headers['موعد الوصول'] else ''
-                    departure_str = str(row[headers['موعد الرحيل']]).strip() if headers.get('موعد الرحيل') is not None and len(row) > headers['موعد الرحيل'] else ''
-                    boarding_str = str(row[headers['وقت الصعود']]).strip() if headers.get('وقت الصعود') is not None and len(row) > headers['وقت الصعود'] else ''
+                    arrival_str = arrival_time.strip()
+                    departure_str = departure_time.strip()
+                    boarding_str = boarding_time.strip()
 
                     # Parse times and convert to 24-hour format
                     try:
@@ -788,159 +779,99 @@ def import_pilgrim(request):
                         formatted_diff = str(timedelta(hours=diff.seconds//3600, minutes=diff.seconds//60%60))
                     except:
                         formatted_diff = '00:00'
+                    
+                    time_conversion_end = time.time()
+                    print(f"Time conversion block took: {time_conversion_end - time_conversion_start:.4f} seconds")
 
-                    # Safely get pilgrim phonenumber
-                    pilgrim_phonenumber = str(row[headers['رقم الجوال']]) if headers.get('رقم الجوال') is not None and len(row) > headers['رقم الجوال'] else ''
+                    # Start timing for user creation/update block
+                    user_block_start = time.time()
+                    
+                    pilgrim_phonenumber = phone_number
                     if not pilgrim_phonenumber:
-                        return {'success': False, 'error': 'No phone number found'}
-
-                    # Safely get name components
-                    first_name = str(row[headers['الاسم الأول']]) if headers.get('الاسم الأول') is not None and len(row) > headers['الاسم الأول'] else ''
-                    father_name = str(row[headers['اسم الأب']]) if headers.get('اسم الأب') is not None and len(row) > headers['اسم الأب'] else ''
-                    grand_father = str(row[headers['اسم الجد']]) if headers.get('اسم الجد') is not None and len(row) > headers['اسم الجد'] else ''
-                    last_name = str(row[headers['العائلة']]) if headers.get('العائلة') is not None and len(row) > headers['العائلة'] else ''
+                        continue
 
                     pilgrim_username = f"{first_name} {father_name} {grand_father} {last_name}"
-                    
-                    # Prepare user data
-                    id_number = str(row[headers['رقم الهوية']]) if headers.get('رقم الهوية') is not None and len(row) > headers['رقم الهوية'] else ''
-                    birthday = str(row[headers['تاريخ الميلاد - الميلادي فقط']]) if headers.get('تاريخ الميلاد - الميلادي فقط') is not None and len(row) > headers['تاريخ الميلاد - الميلادي فقط'] else ''
-                    flight_num = str(row[headers['رقم الرحلة']]) if headers.get('رقم الرحلة') is not None and len(row) > headers['رقم الرحلة'] else ''
-                    flight_date = str(row[headers['تاريخ الرحلة']]) if headers.get('تاريخ الرحلة') is not None and len(row) > headers['تاريخ الرحلة'] else ''
-                    from_city = str(row[headers['من المدينة']]) if headers.get('من المدينة') is not None and len(row) > headers['من المدينة'] else ''
-                    to_city = str(row[headers['إلى المدينة']]) if headers.get('إلى المدينة') is not None and len(row) > headers['إلى المدينة'] else ''
-                    gate_num = str(row[headers['رقم البوابة']]) if headers.get('رقم البوابة') is not None and len(row) > headers['رقم البوابة'] else ''
-                    flight_company = str(row[headers['شركة الطيران']]) if headers.get('شركة الطيران') is not None and len(row) > headers['شركة الطيران'] else ''
-                    hotel = str(row[headers['الفندق']]) if headers.get('الفندق') is not None and len(row) > headers['الفندق'] else ''
-                    hotel_address = str(row[headers['عنوان الفندق']]) if headers.get('عنوان الفندق') is not None and len(row) > headers['عنوان الفندق'] else ''
-                    room_num = str(row[headers['رقم الغرفة']]) if headers.get('رقم الغرفة') is not None and len(row) > headers['رقم الغرفة'] else ''
-                    guide_id = str(row[headers['المرشد']]) if headers.get('المرشد') is not None and len(row) > headers['المرشد'] and row[headers['المرشد']] else None
-
-                    # Return the parsed data for batch processing later
-                    return {
-                        'success': True,
-                        'data': {
-                            'user': {
-                                'pilgrim_phonenumber': pilgrim_phonenumber,
-                                'pilgrim_username': pilgrim_username,
-                                'first_name': first_name,
-                                'last_name': last_name,
-                                'id_number': id_number
-                            },
-                            'pilgrim': {
-                                'phonenumber': pilgrim_phonenumber,
-                                'registeration_id': id_number,
-                                'first_name': first_name,
-                                'father_name': father_name,
-                                'grand_father': grand_father,
-                                'last_name': last_name,
-                                'birthday': birthday,
-                                'flight_num': flight_num,
-                                'flight_date': flight_date,
-                                'arrival': arrival_time,
-                                'departure': departure_time,
-                                'from_city': from_city,
-                                'to_city': to_city,
-                                'duration': formatted_diff,
-                                'boarding_time': boarding_time,
-                                'gate_num': gate_num,
-                                'flight_company': flight_company,
-                                'hotel': hotel,
-                                'hotel_address': hotel_address,
-                                'room_num': room_num
-                            },
-                            'guide_id': guide_id
-                        }
-                    }
-                except Exception as e:
-                    return {'success': False, 'error': str(e), 'traceback': traceback.format_exc(), 'row_idx': row_idx}
-            
-            # Process rows in parallel
-            n_jobs = min(4, total_rows)  # Use 4 cores or less if fewer rows
-            results = Parallel(n_jobs=n_jobs)(delayed(process_row)(i, row) for i, row in enumerate(all_rows))
-            
-            # Count successful processing and collect errors
-            processed_rows = 0
-            errors = []
-            
-            # Process the results
-            for result in results:
-                if result['success']:
-                    processed_rows += 1
-                else:
-                    if 'row_idx' in result:
-                        errors.append(f"Error in row {result['row_idx'] + 2}: {result['error']}")
-                    else:
-                        errors.append(f"Error: {result['error']}")
-            
-            # Save the processed data to the database in a single transaction
-            with transaction.atomic():
-                for result in results:
-                    if not result['success']:
-                        continue
-                    
-                    data = result['data']
-                    user_data = data['user']
-                    pilgrim_data = data['pilgrim']
-                    guide_id = data['guide_id']
-                    
-                    # Create or update user
                     user, created = CustomUser.objects.update_or_create(
-                        phonenumber=user_data['pilgrim_phonenumber'],
+                        phonenumber=pilgrim_phonenumber,
                         defaults={
-                            'username': user_data['pilgrim_username'],
+                            'username': pilgrim_username,
                             'user_type': 'حاج',
-                            'first_name': user_data['first_name'],
-                            'last_name': user_data['last_name'],
-                            'is_deleted': False
+                            'first_name': first_name,
+                            'last_name': last_name,
+                            'is_deleted': False,
+                            'password': make_password(card_num)
                         }
                     )
-                    
-                    if created:
-                        user.set_password(user_data['id_number'])
-                        user.save()
+                    if created:                
+                        # user.save()
                         Chat.objects.bulk_create([
                             Chat(user=user, chat_type='guide'),
                             Chat(user=user, chat_type='manager')
                         ])
+                    # else:
+                    #     CustomUser.objects.filter(id=user.id).update(
+                    #         first_name=first_name,
+                    #         last_name=last_name,
+                    #         is_deleted=False
+                    #     )
                     
-                    # Create or update pilgrim
+                    user_block_end = time.time()
+                    print(f"User creation/update block took: {user_block_end - user_block_start:.4f} seconds")
+
+                    # Start timing for pilgrim creation/update block
+                    pilgrim_block_start = time.time()
+                    
                     pilgrim, created = Pilgrim.objects.update_or_create(
                         user=user,
-                        phonenumber=pilgrim_data['phonenumber'],
+                        phonenumber=pilgrim_phonenumber,
                         defaults={
-                            'registeration_id': pilgrim_data['registeration_id'],
-                            'first_name': pilgrim_data['first_name'],
-                            'father_name': pilgrim_data['father_name'],
-                            'grand_father': pilgrim_data['grand_father'],
-                            'last_name': pilgrim_data['last_name'],
-                            'birthday': pilgrim_data['birthday'],
-                            'flight_num': pilgrim_data['flight_num'],
-                            'flight_date': pilgrim_data['flight_date'],
-                            'arrival': pilgrim_data['arrival'],
-                            'departure': pilgrim_data['departure'],
-                            'from_city': pilgrim_data['from_city'],
-                            'to_city': pilgrim_data['to_city'],
-                            'duration': pilgrim_data['duration'],
-                            'boarding_time': pilgrim_data['boarding_time'],
-                            'gate_num': pilgrim_data['gate_num'],
-                            'flight_company': pilgrim_data['flight_company'],
+                            'registeration_id': card_num,
+                            'first_name': first_name,
+                            'father_name': father_name,
+                            'grand_father': grand_father,
+                            'last_name': last_name,
+                            'birthday': birth_date,
+                            'flight_num': flight_num,
+                            'flight_date': flight_date,
+                            'arrival': arrival_time,
+                            'departure': departure_time,
+                            'from_city': from_city,
+                            'to_city': to_city,
+                            'duration': str(formatted_diff),
+                            'boarding_time': boarding_time,
+                            'gate_num': gate_num,
+                            'flight_company': flight_company,
                             'status': True,
-                            'hotel': pilgrim_data['hotel'],
-                            'hotel_address': pilgrim_data['hotel_address'],
-                            'room_num': pilgrim_data['room_num']
+                            'hotel': hotel,
+                            'hotel_address': hotel_address,
+                            'room_num': room_num,
                         }
                     )
+
+                    # Start timing for guide assignment block
+                    guide_block_start = time.time()
                     
-                    # Associate guide if provided
-                    if guide_id:
-                        try:
-                            guide = Guide.objects.get(id=guide_id)
-                            pilgrim.guide = guide
-                            pilgrim.save()
-                        except Guide.DoesNotExist:
-                            pass
-            
+                    try:
+                        guide = Guide.objects.get(id=row[headers['المرشد']])
+                        pilgrim.guide = guide
+                    except Guide.DoesNotExist:
+                        pass
+
+                    if created:
+                        pilgrim.save()
+                    
+                    guide_block_end = time.time()
+                    print(f"Guide assignment block took: {guide_block_end - guide_block_start:.4f} seconds")
+                    
+                    pilgrim_block_end = time.time()
+                    print(f"Pilgrim creation/update block took: {pilgrim_block_end - pilgrim_block_start:.4f} seconds")
+                    
+                    processed_rows += 1
+
+                except Exception as e:
+                    print(f"Error processing row {total_rows + 1}: {str(e)}")
+                    continue
+
             # Calculate execution time and statistics
             end_time = time.time()
             execution_time = end_time - start_time
@@ -952,18 +883,12 @@ def import_pilgrim(request):
             print(f"Failed rows: {total_rows - processed_rows}")
             print(f"Total execution time: {execution_time:.2f} seconds")
             print(f"Average time per record: {(execution_time/total_rows if total_rows > 0 else 0):.2f} seconds")
-            print("Errors:")
-            for error in errors[:10]:  # Print first 10 errors
-                print(f"  - {error}")
-            if len(errors) > 10:
-                print(f"  ... and {len(errors) - 10} more errors")
             print("="*50)
 
             return redirect('pilgrims')
             
         except Exception as e:
             print(f"Import error: {str(e)}")
-            print(traceback.format_exc())
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
                 return HttpResponse(str(e), status=500)
             return redirect('pilgrims')

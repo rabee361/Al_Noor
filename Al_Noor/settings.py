@@ -209,6 +209,24 @@ CACHES = {
 }
 
 
+# Custom password hashers configuration
+# Using Argon2 as the primary hasher which is faster than PBKDF2 (Django's default)
+# and still provides good security
+PASSWORD_HASHERS = [
+    # 'base.utils.hasher.MyArgon2PasswordHasher',
+    'base.utils.hasher.MyPBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    # 'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    # 'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+]
+
+# For even faster hashing during development/testing (not recommended for production)
+# Uncomment the following settings if needed:
+# ARGON2_TIME_COST = 1  # Default is 2
+# ARGON2_MEMORY_COST = 512  # Default is 102400 (100MB)
+# ARGON2_PARALLELISM = 1  # Default is 8
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
