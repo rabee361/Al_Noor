@@ -34,7 +34,9 @@ crossorigin="anonymous">
         <a href="{% url 'registration_forms' %}" class="card-link"></a>
         <div class="stat-card-title">إجمالي استمارات التسجيل</div>
         <div class="stat-card-value">{{total_forms}}</div>
+        {% if new_forms > 0 %}
         <div class="stat-card-change positive">{{new_forms}} جديد</div>
+        {% endif %}
         <div class="stat-card-icon">
         </div>
       </div>
