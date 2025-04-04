@@ -213,18 +213,12 @@ CACHES = {
 # Using Argon2 as the primary hasher which is faster than PBKDF2 (Django's default)
 # and still provides good security
 PASSWORD_HASHERS = [
-    # 'base.utils.hasher.MyArgon2PasswordHasher',
     'base.utils.hasher.FastPBKDF2PasswordHasher',
     'django.contrib.auth.hashers.PBKDF2PasswordHasher',
     # 'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
     # 'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
 ]
 
-# For even faster hashing during development/testing (not recommended for production)
-# Uncomment the following settings if needed:
-# ARGON2_TIME_COST = 1  # Default is 2
-# ARGON2_MEMORY_COST = 512  # Default is 102400 (100MB)
-# ARGON2_PARALLELISM = 1  # Default is 8
 
 
 # Internationalization
@@ -279,8 +273,8 @@ class CustomFirebaseCredentials(credentials.ApplicationDefault):
             self._g_credential, self._project_id = load_credentials_from_file(self._account_file_path,scopes=credentials._scopes)
 
 
-custom_credentials = CustomFirebaseCredentials('nouralhajj-90487-firebase-adminsdk-fbsvc-dd7c05190d.json')
-FIREBASE_MESSAGING_APP = initialize_app(custom_credentials, options={'projectId': 'nouralhajj-90487'}, name='messaging')
+custom_credentials = CustomFirebaseCredentials('alnooralhajj-firebase-adminsdk-fbsvc-794ebb4345.json')
+FIREBASE_MESSAGING_APP = initialize_app(custom_credentials, options={'projectId': 'alnooralhajj'}, name='messaging')
 
 
 
