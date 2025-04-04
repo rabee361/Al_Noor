@@ -18,7 +18,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
           debug: true  # Enable debug mode to get more information
-          script: |
+          script: | 
             cd /home/al_noor/Al_Noor
             git fetch origin
             git rebase origin
