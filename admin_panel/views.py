@@ -1592,7 +1592,6 @@ def add_admin(request):
 
 
 
-@login_decorator
 def terms(request):
     terms = TermsAndConditions.objects.first()
     context = {
