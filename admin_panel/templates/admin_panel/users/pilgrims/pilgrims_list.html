@@ -128,8 +128,8 @@
                 {% endif %}
               {% endfor %}
 
-              {% if managers.has_next %}
-                <a href="?page={{ managers.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="page-link">&raquo;</a>
+              {% if pilgrims.has_next %}
+                <a href="?page={{ pilgrims.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="page-link">&raquo;</a>
               {% endif %}
             </div>
           </div>

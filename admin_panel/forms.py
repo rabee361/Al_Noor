@@ -8,30 +8,11 @@ from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 from base.models import Pilgrim, HajSteps
 
-
 class NewUser(UserCreationForm):
-    # username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}),label="الاسم")
-    # phonenumber = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), label="رقم الهاتف")
-    # email = forms.EmailField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}), label="الايميل")
-    # image = forms.ImageField()
-    # get_notifications = forms.BooleanField()
-        
     class Meta:
         model = CustomUser
         fields = ["username","phonenumber","password1","password2","email","get_notifications","image"]
-        
-    # def clean(self):
-    #     cleaned_data = super().clean()
-        # phonenumber = cleaned_data.get('phonenumber')
-        # if phonenumber and not phonenumber.isdigit():
-        #     self.add_error('phonenumber', 'رقم الهاتف يجب أن يكون أرقام فقط.')
-
-        # password1 = cleaned_data.get('password1')
-        # password2 = cleaned_data.get('password2')
-        # if password1 != password2:
-        #     self.add_error('password2', 'كلمات المرور المرور غير متطابقة.')
-
-
+       
 
 
 
@@ -147,12 +128,6 @@ class UpdateUser(forms.ModelForm):
         model = CustomUser
         fields = ['image','username','phonenumber','email','get_notifications']
 
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     self.fields['phonenumber'] = forms.CharField(label='رقم الهاتف', required=True)
-    #     self.fields['email'] = forms.CharField(label='الايميل', required=False)
-    #     self.fields['username'] = forms.CharField(label='الاسم', required=True)
-    #     self.fields['get_notifications'] = forms.BooleanField(label='تلقي اشعارات', required=False)
 
 
 
@@ -211,15 +186,6 @@ class CustomUserCreationForm(ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['get_notifications'] = forms.BooleanField(label='تلقي اشعارات', required=False)
 
-    # def clean_password2(self):
-    #     password1 = self.cleaned_data.get("password1")
-    #     password2 = self.cleaned_data.get("password2")
-    #     if password1 and password2 and password1!= password2:
-    #         raise ValidationError(
-    #             _("The two password fields didn't match."),
-    #             code="password_mismatch",
-    #         )
-    #     return password2
 
 
 
@@ -250,25 +216,9 @@ class NewPilgrim(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['password'] = forms.CharField(label=' كلمة السر',required=True,widget=forms.PasswordInput())
         self.fields['password2'] = forms.CharField(label='تأكيد كلمة السر',required=True,widget=forms.PasswordInput())
-        # self.fields['email'] = forms.EmailField(label='تأكيد كلمة السر', required=False)
         self.fields['first_name'] = forms.CharField(label='الاسم', required=False)
         self.fields['image'] = forms.ImageField(label='الصورة الشخصية', required=False)
         self.fields['get_notifications'] = forms.BooleanField(label='تلقي اشعارات', required=False)
-
-
-    # def clean(self):
-    #     cleaned_data = super().clean()
-    #     phonenumber = cleaned_data.get('phonenumber')
-    #     if phonenumber and not phonenumber.isdigit():
-    #         self.add_error('phonenumber', 'رقم الهاتف يجب أن يكون أرقام فقط.')
-
-    #     password1 = cleaned_data.get('password1')
-    #     password2 = cleaned_data.get('password2')
-    #     if password1 and password2 and password1 != password2:
-    #         self.add_error('password2', 'كلمات المرور المرور غير متطابقة.')
-
-
-
 
 
 
