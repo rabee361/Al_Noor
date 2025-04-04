@@ -20,6 +20,8 @@ jobs:
           debug: true  # Enable debug mode to get more information
           script: | 
             cd /home/al_noor/Al_Noor
+            git add .
+            git commit -m "Deploy to production"
             git fetch origin
             git rebase origin
             source env/bin/activate
