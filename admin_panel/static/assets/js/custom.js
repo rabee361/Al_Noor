@@ -218,3 +218,156 @@ document.addEventListener('DOMContentLoaded', function() {
       });
   });
 });
+
+// Searchable Dropdown Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize searchable dropdowns
+    initSearchableDropdowns();
+    
+    function initSearchableDropdowns() {
+        const searchInputs = document.querySelectorAll('.search-input');
+        
+        searchInputs.forEach(input => {
+            const targetId = input.getAttribute('data-target');
+            const select = document.getElementById(targetId);
+            
+            if (!select) return;
+            
+            // Create dropdown container
+            const dropdownOptions = document.createElement('div');
+            dropdownOptions.className = 'dropdown-options';
+            input.parentNode.appendChild(dropdownOptions);
+            
+            // Add a data attribute to track if an option was explicitly selected
+            input.setAttribute('data-selection-made', 'false');
+            
+            // Populate dropdown options from select
+            const options = Array.from(select.options);
+            options.forEach(option => {
+                if (option.value) { // Skip empty option if exists
+                    const optionElement = document.createElement('div');
+                    optionElement.className = 'dropdown-option';
+                    optionElement.setAttribute('data-value', option.value);
+                    optionElement.textContent = option.textContent;
+                    dropdownOptions.appendChild(optionElement);
+                    
+                    // Set initial selected state
+                    if (option.selected) {
+                        optionElement.classList.add('selected');
+                        input.value = option.textContent;
+                        input.setAttribute('data-selection-made', 'true');
+                    }
+                    
+                    // Handle option click
+                    optionElement.addEventListener('click', function() {
+                        select.value = this.getAttribute('data-value');
+                        input.value = this.textContent;
+                        input.setAttribute('data-selection-made', 'true');
+                        dropdownOptions.classList.remove('show');
+                        
+                        // Update selected state
+                        dropdownOptions.querySelectorAll('.dropdown-option').forEach(opt => {
+                            opt.classList.remove('selected');
+                        });
+                        this.classList.add('selected');
+                        
+                        // Trigger change event on select
+                        const event = new Event('change', { bubbles: true });
+                        select.dispatchEvent(event);
+                    });
+                }
+            });
+            
+            // Show dropdown on input focus
+            input.addEventListener('focus', function() {
+                dropdownOptions.classList.add('show');
+            });
+            
+            // Filter options on input  
+            input.addEventListener('input', function() {
+                // When user types, mark that no selection has been made yet
+                input.setAttribute('data-selection-made', 'false');
+                select.value = ''; // Clear the select value
+                
+                const searchText = this.value.toLowerCase();
+                const options = dropdownOptions.querySelectorAll('.dropdown-option');
+                
+                options.forEach(option => {
+                    const optionText = option.textContent.toLowerCase();
+                    if (optionText.startsWith(searchText)) {
+                        option.classList.remove('hidden');
+                    } else {
+                        option.classList.add('hidden');
+                    }
+                });
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!input.contains(e.target) && !dropdownOptions.contains(e.target)) {
+                    dropdownOptions.classList.remove('show');
+                    
+                    // If no selection was made and input is not empty, clear it
+                    if (input.getAttribute('data-selection-made') === 'false' && input.value.trim() !== '') {
+                        input.value = '';
+                        select.value = '';
+                    }
+                }
+            });
+            
+            // Prevent form submission on enter key in search input
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    
+                    // Select first visible option
+                    const firstVisibleOption = dropdownOptions.querySelector('.dropdown-option:not(.hidden)');
+                    if (firstVisibleOption) {
+                        firstVisibleOption.click();
+                    }
+                }
+            });
+        });
+        
+        // Add form submission validation
+        const forms = document.querySelectorAll('form');
+        forms.forEach(form => {
+            form.addEventListener('submit', function(e) {
+                const searchInputs = this.querySelectorAll('.search-input');
+                let preventSubmit = false;
+                
+                searchInputs.forEach(input => {
+                    if (input.value.trim() !== '' && input.getAttribute('data-selection-made') === 'false') {
+                        // User typed something but didn't select from dropdown
+                        e.preventDefault();
+                        preventSubmit = true;
+                        
+                        // Add visual feedback
+                        input.style.borderColor = 'red';
+                        input.style.boxShadow = '0 0 0 1px red';
+                        
+                        // Show error message
+                        let errorMsg = input.parentNode.querySelector('.dropdown-error');
+                        if (!errorMsg) {
+                            errorMsg = document.createElement('div');
+                            errorMsg.className = 'dropdown-error';
+                            errorMsg.style.color = 'red';
+                            errorMsg.style.fontSize = '12px';
+                            errorMsg.style.marginTop = '5px';
+                            input.parentNode.appendChild(errorMsg);
+                        }
+                        errorMsg.textContent = 'الرجاء اختيار قيمة من القائمة المنسدلة';
+                    }
+                });
+                
+                if (preventSubmit) {
+                    // Scroll to the first error
+                    const firstError = document.querySelector('.dropdown-error');
+                    if (firstError) {
+                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+            });
+        });
+    }
+});

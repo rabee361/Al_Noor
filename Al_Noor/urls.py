@@ -12,7 +12,7 @@ urlpatterns = [
     path('myapi/' , include('admin_panel.api.urls')),
     path('' , LandinPageView.as_view() , name="welcome"),
     path('form/' , PilgrimFormView.as_view() , name="form"),
+    path('silk/', include('silk.urls', namespace='silk'))
 
 ]+ static(settings.MEDIA_URL , document_root=settings.MEDIA_ROOT)
 
-urlpatterns += [path('silk/', include('silk.urls', namespace='silk'))]

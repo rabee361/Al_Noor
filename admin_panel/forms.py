@@ -230,11 +230,26 @@ class NewTask(ModelForm):
         fields = '__all__'
 
 
-
 class NewNote(ModelForm):
+    pilgrim = forms.ModelChoiceField(queryset=Pilgrim.objects.filter(user__is_deleted=False), required=True, label="الحاج" , widget=forms.Select(attrs={'class': 'form-control' , 'id': 'pilgrim-select'}))
+    guide = forms.ModelChoiceField(queryset=Guide.objects.filter(user__is_deleted=False), required=True, label="المرشد" , widget=forms.Select(attrs={'class': 'form-control' , 'id': 'guide-select'}))
+    
     class Meta:
         model = Note
         fields = '__all__'
+
+    def clean(self):
+        cleaned_data = super().clean()
+        pilgrim = cleaned_data.get('pilgrim')
+        guide = cleaned_data.get('guide')
+
+        if pilgrim and not Pilgrim.objects.filter(id=pilgrim.id).exists():
+            raise forms.ValidationError('الحاج غير موجود')
+        if guide and not Guide.objects.filter(id=guide.id).exists():
+            raise forms.ValidationError('المرشد غير موجود')
+
+        return cleaned_data
+
 
 
 class NewRegisterForm(forms.ModelForm):
