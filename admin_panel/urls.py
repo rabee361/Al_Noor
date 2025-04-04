@@ -100,8 +100,6 @@ urlpatterns = [
     path('secondary-steps/update/<str:step_id>' , update_secondary_step , name="update_secondary_step"),
     path('secondary-steps/delete/<str:step_id>' , delete_secondary_step , name="delete_secondary_step"),
 
-
-
     path('terms_privacy/' , terms , name="terms"),
     path('terms_privacy/update/' , update_terms , name="update_terms"),
 

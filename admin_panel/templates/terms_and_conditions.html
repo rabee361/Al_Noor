@@ -1,0 +1,406 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الشروط والأحكام - حملة النور</title>
+    <!-- fav icon -->
+    <link rel="icon" type="image/png" href="{% static '/assets/img/alnoor.png' %}">
+    
+    <!-- Google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- bootstrap icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    
+    <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --card-bg: #2d2d2d;
+            --primary-color: #D7A401;
+            --text-color: #ffffff;
+            --text-muted: #a0a0a0;
+            --hover-color: #b88e01;
+        }
+        
+        :root.light-theme {
+            --bg-color: #f5f5f5;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --text-muted: #666666;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding-top: 80px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        /* Header styles */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        
+        .navbar {
+            background-color: rgba(26, 26, 26, 0.9);
+            padding: 15px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .light-theme .navbar {
+            background-color: rgba(245, 245, 245, 0.9);
+        }
+        
+        .navbar.scrolled {
+            background-color: rgba(26, 26, 26, 0.95);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .light-theme .navbar.scrolled {
+            background-color: rgba(245, 245, 245, 0.95);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .navbar-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .navbar-brand-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar-brand {
+            color: var(--primary-color);
+            font-size: 24px;
+            font-weight: 700;
+            text-decoration: none;
+            margin-left: 15px;
+        }
+        
+        .navbar-logo {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .navbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 20px;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .light-theme .theme-toggle:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            padding: 8px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+        
+        .btn:hover {
+            background-color: var(--hover-color);
+        }
+        
+        /* Main content styles */
+        .main-content {
+            padding: 40px 0;
+        }
+        
+        .terms-container {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+        }
+        
+        .section-title {
+            color: var(--primary-color);
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--primary-color);
+            text-align: right;
+        }
+        
+        .terms-content {
+            text-align: right;
+            white-space: pre-line;
+            font-size: 16px;
+            line-height: 1.8;
+            transition: color 0.3s ease;
+        }
+        
+        .terms-content h3 {
+            color: var(--primary-color);
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+        
+        .terms-content p {
+            margin-bottom: 15px;
+        }
+        
+        .terms-content ul {
+            padding-right: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .terms-content li {
+            margin-bottom: 8px;
+        }
+        
+        /* Footer styles */
+        .footer {
+            background-color: rgba(26, 26, 26, 0.95);
+            padding: 20px 0;
+            text-align: center;
+            margin-top: 40px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .light-theme .footer {
+            background-color: rgba(245, 245, 245, 0.95);
+        }
+        
+        .footer-text {
+            color: var(--text-muted);
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .terms-container {
+                padding: 20px;
+            }
+            
+            .section-title {
+                font-size: 24px;
+            }
+            
+            .terms-content {
+                font-size: 14px;
+            }
+            
+            /* Responsive navbar styles */
+            .navbar {
+                padding: 10px 0;
+            }
+            
+            .navbar-brand {
+                font-size: 18px;
+                margin-left: 8px;
+            }
+            
+            .navbar-logo {
+                width: 30px;
+                height: 30px;
+            }
+            
+            .navbar-actions {
+                gap: 8px;
+            }
+            
+            .theme-toggle {
+                font-size: 16px;
+                padding: 3px;
+            }
+            
+            .btn {
+                padding: 5px 10px;
+                font-size: 12px;
+                border-radius: 20px;
+            }
+            
+            .btn i {
+                font-size: 12px;
+            }
+        }
+        
+        /* Extra small devices */
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 10px;
+            }
+            
+            .navbar-brand {
+                font-size: 16px;
+                margin-left: 5px;
+            }
+            
+            .navbar-logo {
+                width: 25px;
+                height: 25px;
+            }
+            
+            .btn {
+                padding: 4px 8px;
+                font-size: 11px;
+            }
+            
+            .btn i {
+                margin-left: 3px !important;
+            }
+            
+            .btn span {
+                display: none; /* Hide text on very small screens */
+            }
+            
+            .btn:after {
+                content: "انضم";
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar-container">
+                    <div class="navbar-brand-container">
+                        <a class="navbar-brand" href="/">حملة النور</a>
+                        <img src="{% static '/assets/img/alnoor.png' %}" alt="النور" class="navbar-logo">
+                    </div>
+                    <div class="navbar-actions">
+                        <button id="themeToggle" class="theme-toggle" aria-label="تبديل السمة">
+                            <i class="bi bi-moon-fill"></i>
+                        </button>
+                        <a class="btn" href="{% url 'form' %}">
+                            <i class="bi bi-person-plus-fill me-2"></i>
+                            <span>انضم الان</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Terms and Conditions Section -->
+            <div class="terms-container">
+                <h2 class="section-title">الشروط والأحكام</h2>
+                <div class="terms-content">
+                    {{ terms|safe }}
+                </div>
+            </div>
+            
+            <!-- Privacy Policy Section -->
+            <div class="terms-container">
+                <h2 class="section-title">سياسة الخصوصية</h2>
+                <div class="terms-content">
+                    {{ privacy|safe }}
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-text">جميع الحقوق محفوظة &copy; حملة النور للحج {{ 'now'|date:'Y' }}</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Add scroll event listener for navbar background
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Theme toggler functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = themeToggle.querySelector('i');
+            const rootElement = document.documentElement;
+            
+            // Check if user has a saved preference
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                rootElement.classList.add('light-theme');
+                themeIcon.classList.remove('bi-moon-fill');
+                themeIcon.classList.add('bi-sun-fill');
+            }
+            
+            themeToggle.addEventListener('click', function() {
+                // Toggle theme class on root element
+                rootElement.classList.toggle('light-theme');
+                
+                // Update icon
+                if (rootElement.classList.contains('light-theme')) {
+                    themeIcon.classList.remove('bi-moon-fill');
+                    themeIcon.classList.add('bi-sun-fill');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    themeIcon.classList.remove('bi-sun-fill');
+                    themeIcon.classList.add('bi-moon-fill');
+                    localStorage.setItem('theme', 'dark');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

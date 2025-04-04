@@ -1617,6 +1617,19 @@ def update_terms(request):
 
 
 
+
+class TermsandConditionsView(View):
+    def get(self,request):
+        terms = TermsAndConditions.objects.first()
+        context = {
+            'terms':terms.terms,
+            'privacy':terms.privacy,
+        }
+        return render(request , 'terms_and_conditions.html' , context)
+
+
+
+
 class PilgrimFormView(View):
     MAX_SUBMISSIONS = 10
     
