@@ -24,4 +24,4 @@ jobs:
             git rebase origin
             source env/bin/activate
             python manage.py migrate
-            python manage.py collectstatic --noinput 
+            python manage.py collectstatic --noinput
