@@ -124,6 +124,17 @@
                                 <span class="error-message">{{ form.errors.phonenumber.0 }}</span>
                             {% endif %}
                         </div>
+                        
+                        <div class="form-group">
+                            <label for="email">الايميل *</label>
+                            <input type="text" id="email" name="email" required 
+                                value="{{ form_data.email }}"
+                                {% if form.errors.email %}class="invalid-field"{% endif %}>
+                            {% if form.errors.email %}
+                                <span class="error-message">{{ form.errors.email.0 }}</span>
+                            {% endif %}
+                        </div>
+
                         <div class="form-group">
                             <label for="job_position"> الوظيفة *</label>
                             <select id="job_position" name="job_position" required 

@@ -261,6 +261,15 @@ class NewRegisterForm(forms.ModelForm):
             form = Registration.objects.get(phonenumber=phonenumber, is_deleted=True)
             form.delete()
         return phonenumber
+    
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if Registration.objects.filter(email=email, is_deleted=False).exists():
+            raise forms.ValidationError('الايميل مسجل مسبقاً')
+        elif Registration.objects.filter(email=email, is_deleted=True).exists():
+            form = Registration.objects.get(email=email, is_deleted=True)
+            form.delete()
+        return email
 
     class Meta:
         model = Registration
@@ -281,6 +290,10 @@ class NewRegisterForm(forms.ModelForm):
             'id_number': {
                 'required': 'يرجى إدخال رقم الهوية',
                 'invalid': 'رقم الهوية يجب أن يكون أرقاماً فقط'
+            },
+            'email': {
+                'required': 'يرجى إدخال الايميل',
+                'invalid': 'الايميل غير صالح'
             },
             'phonenumber': {
                 'required': 'يرجى إدخال رقم الهاتف',
@@ -336,10 +349,6 @@ class NewRegisterForm(forms.ModelForm):
                 'required': 'يرجى اختيار نوع المساعدة'
             },
         }
-
-
-
-
 
 
 
@@ -369,6 +378,10 @@ class UpdateRegisterForm(forms.ModelForm):
                 'required': 'يرجى إدخال رقم الهاتف',
                 'invalid': 'رقم الهاتف غير صالح'
             },
+            'email': {
+                'required': 'يرجى إدخال الايميل',
+                'invalid': 'الايميل غير صالح'
+            },
             'job_position': {
                 'required': 'يرجى اختيار المسمى الوظيفي'
             },
@@ -419,9 +432,6 @@ class UpdateRegisterForm(forms.ModelForm):
                 'required': 'يرجى اختيار نوع المساعدة'
             },
         }
-
-
-
 
 
 

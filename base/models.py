@@ -72,6 +72,7 @@ class Registration(models.Model):
                                         validators=[RegexValidator(
                                         regex=r'^\d{5,15}$'
                                     )], verbose_name='رقم الهاتف')
+    email = models.EmailField(default='Info@alnoor-hajj.com',null=True,blank=True, verbose_name='الايميل')
     first_name = models.CharField(max_length=50, verbose_name='الاسم الأول')
     father_name = models.CharField(max_length=50, verbose_name='اسم الأب')
     grand_father = models.CharField(max_length=50, verbose_name='اسم الجد')
@@ -110,6 +111,7 @@ class Pilgrim(models.Model):
                                             validators=[RegexValidator(
                                             regex=r'^\d{5,15}$'
                                         )], verbose_name='رقم الهاتف')
+    email = models.EmailField(default='Info@alnoor-hajj.com',null=True,blank=True, verbose_name='الايميل')
     longitude = models.FloatField(max_length=100, default=24.3, verbose_name='خط الطول')
     latitude = models.FloatField(max_length=100, default=45.2, verbose_name='خط العرض')
     registeration_id = models.CharField(max_length=50, verbose_name='رقم التسجيل')

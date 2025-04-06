@@ -30,6 +30,10 @@ class PilgrimResource(resources.ModelResource):
         column_name='العائلة',
         attribute='last_name',
     )
+    email = Field(
+        column_name='الايميل',
+        attribute='email',
+    )
     birthday = Field(
         column_name='تاريخ الميلاد - الميلادي فقط',
         attribute='birthday',
@@ -106,6 +110,7 @@ class PilgrimResource(resources.ModelResource):
 
     def before_import_row(self, row, **kwargs):
         phonenumber = row['رقم الجوال']
+        email = row['الايميل']
         first_name = row['الاسم الأول']
         last_name = row['العائلة']
         user, created = CustomUser.objects.get_or_create(phonenumber=phonenumber)
@@ -115,6 +120,7 @@ class PilgrimResource(resources.ModelResource):
         user.username = first_name
         user.first_name = first_name
         user.last_name = last_name
+        user.email = email
         user.user_type = 'حاج'
         my_password = generate_password()
         user.set_password(my_password)
@@ -154,6 +160,10 @@ class RegistrationResource(resources.ModelResource):
     id_number = Field(
         column_name='رقم الهوية',
         attribute='id_number',
+    )
+    email = Field(
+        column_name='الايميل',
+        attribute='email',
     )
     birthday = Field(
         column_name='تاريخ الميلاد - الميلادي فقط',

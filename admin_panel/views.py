@@ -733,6 +733,7 @@ def import_pilgrim(request):
                     birth_date = str(row[headers['تاريخ الميلاد - الميلادي فقط']])
                     flight_num = str(row[headers['رقم الرحلة']])
                     card_num = str(row[headers['رقم الهوية']])
+                    email = str(row[headers['الايميل']])
                     phone_number = str(row[headers['رقم الجوال']])
                     flight_date = str(row[headers['تاريخ الرحلة']])
                     from_city = str(row[headers['من المدينة']])
@@ -799,6 +800,7 @@ def import_pilgrim(request):
                             'first_name': first_name,
                             'last_name': last_name,
                             'is_deleted': False,
+                            'email': email,
                             'password': make_password(card_num)
                         }
                     )
@@ -822,6 +824,7 @@ def import_pilgrim(request):
                             'first_name': first_name,
                             'father_name': father_name,
                             'grand_father': grand_father,
+                            'email': email,
                             'last_name': last_name,
                             'birthday': birth_date,
                             'flight_num': flight_num,

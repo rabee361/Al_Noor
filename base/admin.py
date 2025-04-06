@@ -52,7 +52,7 @@ class CustomUserAdmin(UserAdmin):
 
 class RegistrationAdmin(ImportExportModelAdmin):
     resource_class = RegistrationResource
-    list_display = ['id','first_name','last_name','phonenumber']
+    list_display = ['id','first_name','last_name','phonenumber','email']
 
     actions = ['restore']
 
@@ -76,7 +76,7 @@ class AudioAttachmentAdmin(ImportExportModelAdmin):
 
 class PilgrimAdmin(ImportExportModelAdmin):
     resource_class = PilgrimResource
-    list_display = ['id','first_name','father_name','last_name','guide','phonenumber','flight_num','flight_company','arrival','departure','hotel','hotel_address','room_num','longitude','latitude']
+    list_display = ['id','first_name','father_name','last_name','guide','phonenumber','email','flight_company','arrival','departure','hotel','hotel_address','room_num','longitude','latitude']
     
     actions = ['restore']
     
