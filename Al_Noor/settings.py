@@ -212,11 +212,10 @@ CACHES = {
 # Custom password hashers configuration
 # Using Argon2 as the primary hasher which is faster than PBKDF2 (Django's default)
 # and still provides good security
+
 PASSWORD_HASHERS = [
     'base.utils.hasher.FastPBKDF2PasswordHasher',
     'django.contrib.auth.hashers.PBKDF2PasswordHasher',
-    # 'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
-    # 'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
 ]
 
 
@@ -273,8 +272,8 @@ class CustomFirebaseCredentials(credentials.ApplicationDefault):
             self._g_credential, self._project_id = load_credentials_from_file(self._account_file_path,scopes=credentials._scopes)
 
 
-custom_credentials = CustomFirebaseCredentials('alnooralhajj-firebase-adminsdk-fbsvc-794ebb4345.json')
-FIREBASE_MESSAGING_APP = initialize_app(custom_credentials, options={'projectId': 'alnooralhajj'}, name='messaging')
+custom_credentials = CustomFirebaseCredentials('alnoor-423eb-firebase-adminsdk-fbsvc-4872f0510a.json')
+FIREBASE_MESSAGING_APP = initialize_app(custom_credentials, options={'projectId': 'alnoor-432eb'}, name='messaging')
 
 
 
