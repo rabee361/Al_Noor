@@ -15,7 +15,8 @@ AccountPatterns = [
     path('token/refresh/', jwt_views.TokenRefreshView.as_view()),
     path('firebase-token/refresh/',RefreshFirebaseToken.as_view()),
     path('set-active/<str:user_id>/' , SetActive.as_view()),
-    path('upload-audio/' , UploadAudio.as_view())
+    path('upload-audio/' , UploadAudio.as_view()),
+    path('auth/delete-user/<str:pk>/' , DeleteUserView.as_view())
 ]
 
 

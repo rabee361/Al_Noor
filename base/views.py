@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from .serializers import *
 from .models import *
+from rest_framework_simplejwt.token_blacklist.models import OutstandingToken, BlacklistedToken
 from .utils.filters import *
 from .resources import *
 from .utils.permissions import *
@@ -588,6 +589,20 @@ class UploadAudio(APIView):
         else:
             return Response({"error":["error uploading audio"]} , status=status.HTTP_400_BAD_REQUEST)
 
+
+
+class DeleteUserView(APIView):
+    def delete(self,request,pk):
+        user = CustomUser.objects.get(id=pk)
+        user.is_deleted = True
+        user.save()
+        
+        # Blacklist all refresh tokens for this user
+        tokens = OutstandingToken.objects.filter(user_id=user.id)
+        for token in tokens:
+            BlacklistedToken.objects.get_or_create(token=token)
+            
+        return Response({"message":"user deleted successfully"} , status=status.HTTP_200_OK)
 
 
 

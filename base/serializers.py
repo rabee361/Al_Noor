@@ -28,6 +28,9 @@ class LoginSerializer(serializers.Serializer):
             raise serializers.ValidationError({"error":"لا يوجد مستخدم بهذه المعلومات"})
         if not user.is_active:
             raise serializers.ValidationError({"error":"هذا الحساب غير مفعل"})
+        if user.is_deleted:
+            raise serializers.ValidationError({"error":"هذا الحساب غير موجود"})
+
 
         data['user'] = user
         return data

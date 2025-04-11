@@ -24,7 +24,7 @@ class HiddenModelAdmin(admin.ModelAdmin):
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
-    list_display = ['id','user_type','username','first_name','last_name','phonenumber','is_verified','get_notifications']
+    list_display = ['id','user_type','username','first_name','last_name','phonenumber','is_deleted','is_verified','get_notifications']
 
     fieldsets = (
         (None, 
@@ -34,7 +34,7 @@ class CustomUserAdmin(UserAdmin):
                 {'fields':('username', 'first_name', 'last_name','image','user_type')}
             ),
             ('Permissions', 
-                {'fields':('is_verified', 'get_notifications' ,'is_staff', 'is_superuser', 'is_active', 'groups','user_permissions',)}
+                {'fields':('is_verified', 'get_notifications' ,'is_deleted', 'is_staff', 'is_superuser', 'is_active', 'groups','user_permissions',)}
             ),
             ('Registration', 
                 {'fields':('date_joined', 'last_login',)}
@@ -76,7 +76,7 @@ class AudioAttachmentAdmin(ImportExportModelAdmin):
 
 class PilgrimAdmin(ImportExportModelAdmin):
     resource_class = PilgrimResource
-    list_display = ['id','first_name','father_name','last_name','guide','phonenumber','email','flight_company','arrival','departure','hotel','hotel_address','room_num','longitude','latitude']
+    list_display = ['id','first_name','father_name','last_name','guide','phonenumber','email','registeration_id','flight_company','arrival','departure','hotel','hotel_address','room_num','longitude','latitude']
     
     actions = ['restore']
     
