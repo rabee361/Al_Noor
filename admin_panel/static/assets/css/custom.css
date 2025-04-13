@@ -2094,3 +2094,26 @@ input[type="file"]:focus {
     border-color: red !important;
     box-shadow: 0 0 0 1px red !important;
 }
+
+
+
+/* Footer styles */
+.footer {
+    background-color: rgba(26, 26, 26, 0.95);
+    padding: 20px 0;
+    text-align: center;
+    margin-top: 40px;
+    transition: background-color 0.3s ease;
+}
+
+.footer-text {
+    color: var(--text-muted);
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+@media (max-width: 600px) {
+    .footer-text {
+       font-size: 10px; /* Adjust the value as needed */
+     }
+   }

@@ -403,3 +403,22 @@ select {
     padding: 12px 48px;
     font-size: 18px;
 }
+
+/* Footer styles */
+.footer {
+    padding: 10px 0;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.footer-text {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+
+@media (max-width: 600px) {
+    .footer-text {
+       font-size: 10px; /* Adjust the value as needed */
+     }
+   }

@@ -656,3 +656,23 @@ img {
     width: 30px;
   }
 }
+
+
+/* Footer styles */
+.footer {
+  padding: 10px 0;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.footer-text {
+  color: var(--text-muted);
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+@media (max-width: 600px) {
+  .footer-text {
+    font-size: 10px; /* Adjust the value as needed */
+  }
+}
