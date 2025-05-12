@@ -1728,6 +1728,101 @@ class PilgrimFormView(View):
 
 
 
+class PilgrimFormSigninView(View):
+    MAX_SUBMISSIONS = 10
+    
+    def get_client_ip(self, request):
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0]
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+        return ip
+
+    def get_submission_count(self, ip):
+        # Get submissions from last 24 hours
+        time_threshold = timezone.now() - timedelta(hours=24)
+        return FormSubmission.objects.filter(
+            ip_address=ip,
+            submitted_at__gte=time_threshold
+        ).count()
+
+    def add_submission(self, ip):
+        FormSubmission.objects.create(ip_address=ip)
+
+    def get(self, request):
+        form = NewRegisterForm2()
+        success = request.session.pop('form_success', False)
+        
+        # Check submission count
+        ip = self.get_client_ip(request)
+        submission_count = self.get_submission_count(ip)
+        
+        if submission_count >= self.MAX_SUBMISSIONS:
+            return render(request, 'pilgrim_form/form_ios.html', {
+                'form': form,
+                'submission_limit_reached': True,
+                'max_submissions': self.MAX_SUBMISSIONS
+            })
+        
+        return render(request, 'pilgrim_form/form_ios.html', {
+            'form': form, 
+            'success': success
+        })
+    
+    def post(self, request):
+        # Check if this is a duplicate submission
+        form_id = request.session.get('last_form_id')
+        current_form_id = request.POST.get('form_id', None)
+        
+        if form_id and form_id == current_form_id:
+            # This is a duplicate submission, redirect to fresh form
+            return redirect('form')
+
+        # Check submission limit
+        ip = self.get_client_ip(request)
+        submission_count = self.get_submission_count(ip)
+        
+        # Block if limit is reached
+        if submission_count >= self.MAX_SUBMISSIONS:
+            return render(request, 'pilgrim_form/form_ios.html', {
+                'form': NewRegisterForm2(),
+                'submission_limit_reached': True,
+                'max_submissions': self.MAX_SUBMISSIONS
+            })
+            
+        form = NewRegisterForm2(request.POST)
+        if form.is_valid():
+            form.save()
+            # Record the submission
+            self.add_submission(ip)
+            # Store the form ID in session
+            request.session['last_form_id'] = current_form_id
+            request.session['form_success'] = True
+            
+            # Check if this was the final submission
+            new_submission_count = self.get_submission_count(ip)
+            if new_submission_count >= self.MAX_SUBMISSIONS:
+                return render(request, 'pilgrim_form/form_ios.html', {
+                    'form': NewRegisterForm2(),
+                    'success': True,
+                    'submission_limit_reached': True,
+                    'max_submissions': self.MAX_SUBMISSIONS
+                })
+            
+            return redirect('form')
+        else:
+            # If form is invalid, preserve the data and show errors
+            return render(request, 'pilgrim_form/form_ios.html', {
+                'form': form,  # This will contain the submitted data and errors
+                'form_data': request.POST,  # Pass the POST data to preserve values
+                'active_tab': request.POST.get('active_tab', '1')  # Preserve active tab
+            })
+
+
+
+
+
 class LandinPageView(View):
     def get(self, request):
         return render(request , 'pilgrim_form/landing.html')

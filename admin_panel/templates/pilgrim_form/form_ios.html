@@ -1,0 +1,262 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حملة النور - نموذج معلومات الحاج</title>
+    <link rel="icon" type="image/png" href="{% static '/assets/img/alnoor.png' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="form-container">
+        <form class="google-form" method="POST" id="registrationForm" onsubmit="return handleSubmit(event)">
+            {% csrf_token %}
+            <input type="hidden" name="form_id" value="{{ request.session.session_key }}_{% now "U" %}">
+            
+            <div class="form-header">
+                <div class="header-content">
+                    <img src="{% static 'assets/img/alnoor2.png' %}" alt="Al Noor Logo" class="header-logo">
+                    <div class="header-text">
+                        <h1>التسجيل في حملة النور لحج عام 1446هج</h1>
+                        <p class="form-description">يرجى ملء هذه الاستمارة بالمعلومات المطلوبة</p>
+                        {% if success %}
+                            <p class="success-message" id="success-message">تم إرسال النموذج بنجاح!</p>
+                            {% if submission_limit_reached %}
+                                <p class="info-message">لقد استخدمت جميع المحاولات المسموح بها ({{ max_submissions }} نماذج) خلال 24 ساعة.</p>
+                            {% endif %}
+                        {% elif submission_limit_reached %}
+                            <p class="error-message">عذراً، لقد وصلت إلى الحد الأقصى للنماذج المسموح بها ({{ max_submissions }} نماذج) خلال 24 ساعة.</p>
+                        {% elif form.errors %}
+                            <p class="header-error-message">يرجى التحقق من صحة البيانات المدخلة وإعادة المحاولة.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="tabs-container">
+                <div class="tabs-header">
+                    <button type="button" class="tab-btn {% if not active_tab or active_tab == '1' %}active{% endif %}" data-tab="1">مرحباً بكم</button>
+                    <button type="button" class="tab-btn {% if active_tab == '2' %}active{% endif %}" data-tab="2">المعلومات الشخصية</button>
+                </div>
+
+                <div class="tab-content {% if not active_tab or active_tab == '1' %}active{% endif %}" data-tab="1">
+                    <div class="form-section">
+                        <div class="welcome-text">
+                            <h2>بسم الله الرحمن الرحيم</h2>
+                            <p>النور , نورٌ على نور</p>
+                            <p>نرحب بكم في حملة النور للحج و العمرة بالقديح</p>
+                            <p>ملاحظات هامة:</p>
+                            <ul>
+                                <li>يلتزم الحاج بتسجيل بياناته الصحيحة و بدقة.</li>
+                                <li>يجب تسجيل رقم الجوال بشكل صحيح وعند تغييره يجب إخبار مسؤول المكتب على الجوال 0508090777</li>
+                                <li>يجب كتابة جميع الأرقام بالانجليزية (1234) و ليس بالعربية</li>
+                                <li>دفع مقدم 3000 ريال مسترجع في حال الانسحاب بشرط يكون قبل إصدار تصريح الحج</li>
+                            </ul>
+                        </div>
+                        <div class="form-navigation">
+                            <button type="button" class="next-btn" data-next="2">ابدأ التسجيل</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" data-tab="2">
+                    <div class="form-section">
+                        <div class="form-group">
+                            <label for="first_name">الاسم الأول *</label>
+                            <input type="text" id="first_name" name="first_name" required 
+                                value="{{ form_data.first_name }}"
+                                {% if form.errors.first_name %}class="invalid-field"{% endif %}>
+                            {% if form.errors.first_name %}
+                                <span class="error-message">{{ form.errors.first_name.0 }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="last_name">اسم العائلة *</label>
+                            <input type="text" id="last_name" name="last_name" required 
+                                value="{{ form_data.last_name }}"
+                                {% if form.errors.last_name %}class="invalid-field"{% endif %}>
+                            {% if form.errors.last_name %}
+                                <span class="error-message">{{ form.errors.last_name.0 }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_number">رقم الهوية *</label>
+                            <input type="number" id="id_number" name="id_number" required 
+                                value="{{ form_data.id_number }}"
+                                {% if form.errors.id_number %}class="invalid-field"{% endif %}>
+                            {% if form.errors.id_number %}
+                                <span class="error-message">{{ form.errors.id_number.0 }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phonenumber">رقم الجوال *</label>
+                            <input type="text" id="phonenumber" name="phonenumber" required 
+                                value="{{ form_data.phonenumber }}"
+                                {% if form.errors.phonenumber %}class="invalid-field"{% endif %}>
+                            {% if form.errors.phonenumber %}
+                                <span class="error-message">{{ form.errors.phonenumber.0 }}</span>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="birthday">تاريخ الميلاد (الميلادي فقط) *</label>
+                            <input type="date" id="birthday" name="birthday" required 
+                                value="{{ form_data.birthday }}"
+                                {% if form.errors.birthday %}class="invalid-field"{% endif %}>
+                            {% if form.errors.birthday %}
+                                <span class="error-message">{{ form.errors.birthday.0 }}</span>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">الايميل *</label>
+                            <input type="text" id="email" name="email" required 
+                                value="{{ form_data.email }}"
+                                {% if form.errors.email %}class="invalid-field"{% endif %}>
+                            {% if form.errors.email %}
+                                <span class="error-message">{{ form.errors.email.0 }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="form-footer">
+                        <button type="submit" class="submit-btn">إرسال</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <p class="footer-text">جميع الحقوق محفوظة &copy; حملة النور للحج و العمرة {{ 'now'|date:'Y' }}</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('registrationForm');
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const nextBtns = document.querySelectorAll('[data-next]');
+            const submitBtn = document.querySelector('button[type="submit"]');
+            let currentTab = parseInt('{{ active_tab|default:1 }}');
+
+            // Add hidden input for active tab
+            const activeTabInput = document.createElement('input');
+            activeTabInput.type = 'hidden';
+            activeTabInput.name = 'active_tab';
+            activeTabInput.value = currentTab;
+            form.appendChild(activeTabInput);
+
+            function showTab(tabNumber) {
+                tabContents.forEach(content => content.classList.remove('active'));
+                tabBtns.forEach(btn => btn.classList.remove('active'));
+
+                document.querySelector(`.tab-content[data-tab="${tabNumber}"]`).classList.add('active');
+                document.querySelector(`.tab-btn[data-tab="${tabNumber}"]`).classList.add('active');
+
+                currentTab = parseInt(tabNumber);
+                activeTabInput.value = currentTab; // Update hidden input value
+            }
+
+            // Add click event listeners to tab buttons
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    const tabNum = parseInt(this.dataset.tab);
+                    showTab(tabNum);
+                });
+            });
+
+            // Add click event listeners to navigation buttons
+            nextBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    showTab(this.dataset.next);
+                });
+            });
+
+            // Add input event listeners to all form fields
+            const formFields = form.querySelectorAll('input[required], select[required]');
+            formFields.forEach(field => {
+                field.addEventListener('input', function() {
+                    validateForm();
+                });
+
+                field.addEventListener('change', function() {
+                    validateForm();
+                });
+            });
+
+            // Initialize the first tab
+            showTab(1);
+
+            // Success message auto-hide
+            const successMessage = document.getElementById('success-message');
+            if (successMessage) {
+                setTimeout(function() {
+                    successMessage.style.opacity = '0';
+                    setTimeout(function() {
+                        successMessage.style.display = 'none';
+                    }, 300);
+                }, 8000);
+            }
+
+            // Form submission handling
+            window.handleSubmit = function(event) {
+                // Check if form was already submitted
+                if (form.getAttribute('data-submitted') === 'true') {
+                    event.preventDefault();
+                    return false;
+                }
+
+                // Disable submit button and update text
+                submitBtn.disabled = true;
+                submitBtn.classList.add('disabled-btn');
+                submitBtn.textContent = 'جاري الإرسال...';
+                
+                // Mark form as submitted
+                form.setAttribute('data-submitted', 'true');
+                return true;
+            };
+
+            // Reset form submission state
+            const resetFormState = function() {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('disabled-btn');
+                    submitBtn.textContent = 'إرسال';
+                }
+                form.removeAttribute('data-submitted');
+            };
+
+            // Add reset event listener
+            form.addEventListener('reset', resetFormState);
+
+            function validateForm() {
+                const requiredInputs = form.querySelectorAll('input[required], select[required]');
+                let isValid = true;
+
+                requiredInputs.forEach(input => {
+                    if (!input.value.trim()) {
+                        isValid = false;
+                    }
+                });
+
+                if (submitBtn) {
+                    submitBtn.disabled = !isValid;
+                    if (isValid) {
+                        submitBtn.classList.remove('disabled-btn');
+                    } else {
+                        submitBtn.classList.add('disabled-btn');
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

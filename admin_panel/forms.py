@@ -7,6 +7,7 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 from base.models import Pilgrim, HajSteps
+from base.models import Registeration2
 
 class NewUser(UserCreationForm):
     class Meta:
@@ -348,6 +349,54 @@ class NewRegisterForm(forms.ModelForm):
             'type_help': {
                 'required': 'يرجى اختيار نوع المساعدة'
             },
+        }
+
+
+class NewRegisterForm2(forms.ModelForm):
+    def clean_phonenumber(self):
+        phonenumber = self.cleaned_data.get('phonenumber')
+        if Registeration2.objects.filter(phonenumber=phonenumber, is_deleted=False).exists():
+            raise forms.ValidationError('رقم الهاتف مسجل مسبقاً')
+        elif Registeration2.objects.filter(phonenumber=phonenumber, is_deleted=True).exists():
+            form = Registeration2.objects.get(phonenumber=phonenumber, is_deleted=True)
+            form.delete()
+        return phonenumber
+    
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if Registeration2.objects.filter(email=email, is_deleted=False).exists():
+            raise forms.ValidationError('الايميل مسجل مسبقاً')
+        elif Registeration2.objects.filter(email=email, is_deleted=True).exists():
+            form = Registeration2.objects.get(email=email, is_deleted=True)
+            form.delete()
+        return email
+
+    class Meta:
+        model = Registeration2
+        fields = ['first_name','last_name','id_number','email','phonenumber','birthday']
+        error_messages = {
+            'first_name': {
+                'required': 'يرجى إدخال الاسم الأول'
+            },
+            'last_name': {
+                'required': 'يرجى إدخال اسم العائلة'
+            },
+            'id_number': {
+                'required': 'يرجى إدخال رقم الهوية',
+                'invalid': 'رقم الهوية يجب أن يكون أرقاماً فقط'
+            },
+            'email': {
+                'required': 'يرجى إدخال الايميل',
+                'invalid': 'الايميل غير صالح'
+            },
+            'phonenumber': {
+                'required': 'يرجى إدخال رقم الهاتف',
+                'invalid': 'رقم الهاتف غير صالح'
+            },
+            'birthday': {
+                'required': 'يرجى إدخال تاريخ الميلاد',
+                'invalid': 'صيغة التاريخ غير صحيحة'
+            },  
         }
 
 

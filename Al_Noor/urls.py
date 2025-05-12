@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path , include
 from django.conf.urls.static import static
 from django.conf import settings
-from admin_panel.views import PilgrimFormView , LandinPageView , TermsandConditionsView
+from admin_panel.views import PilgrimFormView , LandinPageView , TermsandConditionsView , PilgrimFormSigninView
 
 
 urlpatterns = [
@@ -12,6 +12,7 @@ urlpatterns = [
     path('myapi/' , include('admin_panel.api.urls')),
     path('' , LandinPageView.as_view() , name="welcome"),
     path('form/' , PilgrimFormView.as_view() , name="form"),
+    # path('form/signin/' , PilgrimFormSigninView.as_view() , name="form"),
     path('terms/' , TermsandConditionsView.as_view() , name="terms"),
     path('silk/', include('silk.urls', namespace='silk'))
 

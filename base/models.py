@@ -104,6 +104,21 @@ class Registration(models.Model):
 
 
 
+
+class Registeration2(models.Model):
+    phonenumber = models.CharField(unique=True,
+                                    validators=[RegexValidator(
+                                    regex=r'^\d{5,15}$'
+                                )], verbose_name='رقم الهاتف')
+    email = models.EmailField(default='Info@alnoor-hajj.com',null=True,blank=True, verbose_name='الايميل')
+    first_name = models.CharField(max_length=50, verbose_name='الاسم الأول')
+    last_name = models.CharField(max_length=50, verbose_name='اسم العائلة')
+    id_number = models.BigIntegerField(verbose_name='رقم الهوية')
+    birthday = models.DateField(verbose_name='تاريخ الميلاد')
+    is_deleted = models.BooleanField(default=False, verbose_name='محذوف')
+
+
+
 class Pilgrim(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name='المستخدم')
     phonenumber = models.CharField(unique=True,
