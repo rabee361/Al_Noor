@@ -272,8 +272,8 @@ class CustomFirebaseCredentials(credentials.ApplicationDefault):
             self._g_credential, self._project_id = load_credentials_from_file(self._account_file_path,scopes=credentials._scopes)
 
 
-custom_credentials = CustomFirebaseCredentials('alnoor-423eb-firebase-adminsdk-fbsvc-4872f0510a.json')
-FIREBASE_MESSAGING_APP = initialize_app(custom_credentials, options={'projectId': 'alnoor-432eb'}, name='messaging')
+custom_credentials = CustomFirebaseCredentials('alnoor-e2bf0-firebase-adminsdk-fbsvc-92c4e2f97e.json')
+FIREBASE_MESSAGING_APP = initialize_app(custom_credentials, options={'projectId': 'alnoor-e2bf0'}, name='messaging')
 
 
 
