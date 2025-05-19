@@ -1,34 +1,5 @@
 // Theme toggle functionality
 document.addEventListener('DOMContentLoaded', function() {
-    const themeToggleBtn = document.getElementById('themeToggle');
-    const icon = themeToggleBtn.querySelector('i');
-    
-    // Check for saved theme preference or default to 'dark'
-    const currentTheme = localStorage.getItem('theme') || 'dark';
-    document.body.setAttribute('data-theme', currentTheme);
-    updateThemeIcon(currentTheme);
-
-    // Toggle theme when button is clicked
-    themeToggleBtn.addEventListener('click', function() {
-        const currentTheme = document.body.getAttribute('data-theme');
-        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-        
-        document.body.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-        updateThemeIcon(newTheme);
-    });
-
-    // Update icon based on theme
-    function updateThemeIcon(theme) {
-        if (theme === 'dark') {
-            icon.classList.remove('fa-sun');
-            icon.classList.add('fa-moon');
-        } else {
-            icon.classList.remove('fa-moon');
-            icon.classList.add('fa-sun');
-        }
-    }
-
     // Add smooth hover effect for action buttons
     const actionButtons = document.querySelectorAll('.action-button');
     
@@ -188,6 +159,88 @@ document.addEventListener('DOMContentLoaded', function() {
     passwordFields.forEach(setupPasswordToggle);
 });
 
+// Enhanced filtering for pilgrim steps with multiple tag selection
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle all form parameters in HTMX requests
+  document.body.addEventListener('htmx:configRequest', function(event) {
+    // Current URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchQuery = urlParams.get('q');
+    
+    // Ensure search query is preserved in all requests if it exists
+    if (searchQuery && !event.detail.parameters['q']) {
+      event.detail.parameters['q'] = searchQuery;
+    }
+    
+    // Collect all selected step IDs for the request
+    const stepCheckboxes = document.querySelectorAll('.step-checkbox:checked');
+    if (stepCheckboxes.length > 0) {
+      const selectedStepIds = Array.from(stepCheckboxes).map(cb => cb.value).join(',');
+      event.detail.parameters['step_ids'] = selectedStepIds;
+    }
+  });
+  
+  // Handle checkbox changes  
+  const stepCheckboxes = document.querySelectorAll('.step-checkbox');
+  stepCheckboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+      // Get the tag element associated with this checkbox
+      const tagElement = this.nextElementSibling;
+      
+      // Toggle active class based on checkbox state
+      if (this.checked) {
+        tagElement.classList.add('active');
+      } else {
+        tagElement.classList.remove('active');
+      }
+      
+      // Collect all selected step IDs
+      const checkedBoxes = document.querySelectorAll('.step-checkbox:checked');
+      const selectedIds = Array.from(checkedBoxes).map(cb => cb.value).join(',');
+      
+      // Update URL with current selections for bookmarking and sharing
+      updateUrlParams('step_ids', selectedIds);
+    });
+  });
+  
+  // Handle status dropdown changes
+  const statusDropdown = document.getElementById('status-filter');
+  if (statusDropdown) {
+    statusDropdown.addEventListener('change', function() {
+      updateUrlParams('status', this.value);
+    });
+  }
+  
+  // Helper function to update URL parameters and reload the page
+  function updateUrlParams(paramName, paramValue) {
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    if (paramValue) {
+      urlParams.set(paramName, paramValue);
+    } else {
+      urlParams.delete(paramName);
+    }
+    
+    // Preserve other parameters
+    const newUrl = window.location.pathname + '?' + urlParams.toString();
+    
+    // Update URL and reload the page to ensure consistent state
+    window.location.href = newUrl;
+  }
+});
+
+// Add custom split filter for the template to handle comma-separated strings
+if (typeof window.django !== 'undefined' && window.django.jQuery) {
+  window.django.jQuery(function($) {
+    if (typeof $.fn.djangoTemplateFilters !== 'undefined') {
+      $.fn.djangoTemplateFilters.split = function(value, delimiter) {
+        if (!value) return [];
+        return value.split(delimiter || ',');
+      };
+    }
+  });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   const form = document.getElementById('importForm');
   const loadingModal = document.getElementById('loadingModal');
@@ -218,7 +271,7 @@ document.addEventListener('DOMContentLoaded', function() {
           alert('حدث خطأ أثناء استيراد البيانات. يرجى المحاولة مرة أخرى.');
       });
   });
-});
+}});
 
 // Searchable Dropdown Functionality
 document.addEventListener('DOMContentLoaded', function() {

@@ -1316,9 +1316,6 @@ def pilgrim_steps(request):
     # Parse step_ids from comma-separated string
     step_ids = [int(step_id) for step_id in step_ids_param.split(',') if step_id.strip()] if step_ids_param else []
 
-    print("DDDDDDDDDDDDDDD")
-    print(request.GET)
-
     pilgrims = Pilgrim.objects.select_related('user').filter(
         user__username__startswith=q,
         user__is_deleted=False
@@ -1387,7 +1384,7 @@ def pilgrim_steps(request):
                 })
     
     # Paginate the final data
-    paginator = Paginator(data, 10)
+    paginator = Paginator(data, 20)
     try:
         page_obj = paginator.page(page)
     except PageNotAnInteger:

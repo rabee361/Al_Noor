@@ -106,6 +106,135 @@ body {
     }
 }
 
+.search-filters-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.status-filter-wrapper {
+    margin-right: 15px;
+}
+
+.status-dropdown {
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
+    padding: 8px 15px;
+    font-family: 'Cairo', sans-serif;
+    direction: rtl;
+    min-width: 150px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.status-dropdown:hover {
+    background-color: var(--input-hover-bg);
+}
+
+.status-dropdown:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(215, 164, 1, 0.2);
+}
+
+/* Filter form styles */
+.step-filter-form {
+    width: 100%;
+}
+
+.steps-tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 5px 0;
+    width: 100%;
+}
+
+/* Checkbox label styles */
+.step-tag-label {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    margin: 0;
+    cursor: pointer;
+}
+
+/* Hide default checkbox */
+.step-checkbox {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.step-tag {
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    border-radius: 20px;
+    padding: 6px 15px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    border: 1px solid var(--input-border);
+    display: inline-block;
+    position: relative;
+    user-select: none;
+}
+
+/* Tag hover state */
+.step-tag-label:hover .step-tag {
+    background-color: var(--input-hover-bg);
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Tag active state (when checkbox is checked) */
+.step-checkbox:checked + .step-tag {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+/* Add a check mark to selected tags */
+.step-checkbox:checked + .step-tag::after {
+    content: '✓';
+    margin-right: 5px;
+    font-weight: bold;
+}
+
+/* Focus state for accessibility */
+.step-checkbox:focus + .step-tag {
+    box-shadow: 0 0 0 2px rgba(215, 164, 1, 0.4);
+}
+
+@media (max-width: 768px) {
+    .search-filters-row {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+    
+    .status-filter-wrapper {
+        margin-right: 0;
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    .status-dropdown {
+        width: 100%;
+    }
+    
+    .steps-tags-container {
+        overflow-x: auto;
+        padding-bottom: 10px;
+        flex-wrap: nowrap;
+        margin-top: 10px;
+    }
+}
+
 @media (min-width: 768px) and (max-width: 992px) {
     .container {
        display: flex;
