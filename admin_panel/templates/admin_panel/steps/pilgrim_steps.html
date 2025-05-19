@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load custom_filters %}
 
 
 {% block content %}
@@ -16,13 +16,46 @@
       </div>
 
 
-      <!-- Replace with form-wrapped search and actions container -->
-      <div class="search-actions-container">
-        <form method="GET" action="" class="search-wrapper">
-          <input hx-get="{% url 'pilgrim_steps' %}" hx-push-url="true" hx-target="#admin-partial" hx-swap="innerHTML" hx-trigger="keyup changed delay:300ms" type="text" value="{{ request.GET.q }}" name="q" class="search-input" placeholder="البحث عن حاج...">
-          <button type="submit" class="search-button">
-            <i class="fas fa-search"></i>
-          </button>
+      <!-- Search and filter container -->
+      <div class="search-actions-container" id="filter-container">
+        <div class="search-filters-row">
+          <form method="GET" action="" class="search-wrapper">
+            <input hx-get="{% url 'pilgrim_steps' %}" hx-push-url="true" hx-target="#admin-partial" hx-swap="innerHTML" hx-trigger="keyup changed delay:300ms" type="text" value="{{ request.GET.q }}" name="q" class="search-input" placeholder="البحث عن حاج...">
+            <button type="submit" class="search-button">
+              <i class="fas fa-search"></i>
+            </button>
+          </form>
+          
+          <!-- Completion status dropdown -->
+          <div class="status-filter-wrapper">
+            <select name="status" id="status-filter" class="status-dropdown" hx-include="#steps-filter-form" hx-get="{% url 'pilgrim_steps' %}" hx-push-url="true" hx-target="#admin-partial" hx-swap="innerHTML" hx-trigger="change">
+              <option value="all" {% if request.GET.status == 'all' or not request.GET.status %}selected{% endif %}>الكل</option>
+              <option value="finished" {% if request.GET.status == 'finished' %}selected{% endif %}>مكتملة</option>
+              <option value="unfinished" {% if request.GET.status == 'unfinished' %}selected{% endif %}>غير مكتملة</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- Step filtering tags as checkboxes -->
+        <form id="steps-filter-form" class="step-filter-form">
+          <div class="steps-tags-container">
+            {% for step_item in all_steps %}
+              <label class="step-tag-label">
+                <input type="checkbox" 
+                       name="step_ids" 
+                       value="{{ step_item.id }}" 
+                       class="step-checkbox" 
+                       {% if step_item.id|stringformat:"s" in request.GET.step_ids|default:""|split:"," %}checked{% endif %}
+                       hx-include="#status-filter" 
+                       hx-get="{% url 'pilgrim_steps' %}" 
+                       hx-push-url="true" 
+                       hx-target="#admin-partial" 
+                       hx-swap="innerHTML" 
+                       hx-trigger="change">
+                <span class="step-tag {% if step_item.id|stringformat:"s" in request.GET.step_ids|default:""|split:"," %}active{% endif %}">{{ step_item.name }}</span>
+              </label>
+            {% endfor %}
+          </div>
         </form>
       </div>
 
@@ -58,21 +91,19 @@
           <div class="pagination-wrapper">
             <div class="pagination">
               {% if page_obj.has_previous %}
-                <a href="?page={{ page_obj.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}" class="page-link">&laquo;</a>
+                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.step_ids %}&step_ids={{ request.GET.step_ids }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}" class="page-link">&laquo;</a>
               {% endif %}
-
 
               {% for num in page_obj.paginator.page_range %}
                 {% if num == page_obj.number %}
                   <a class="page-link active">{{ num }}</a>
                 {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-
-                  <a href="?page={{ num }}{% if search_query %}&q={{ search_query }}{% endif %}" class="page-link">{{ num }}</a>
+                  <a href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.step_ids %}&step_ids={{ request.GET.step_ids }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}" class="page-link">{{ num }}</a>
                 {% endif %}
               {% endfor %}
 
               {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}" class="page-link">&raquo;</a>
+                <a href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.step_ids %}&step_ids={{ request.GET.step_ids }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}" class="page-link">&raquo;</a>
               {% endif %}
             </div>
 

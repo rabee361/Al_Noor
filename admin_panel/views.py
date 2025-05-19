@@ -1310,15 +1310,27 @@ def steps_list(request):
 def pilgrim_steps(request):
     q = request.GET.get('q', '')
     page = request.GET.get('page', 1)
-    
-    # Get all pilgrims first
+    step_ids_param = request.GET.get('step_ids', '')
+    status = request.GET.get('status', 'all')
+
+    # Parse step_ids from comma-separated string
+    step_ids = [int(step_id) for step_id in step_ids_param.split(',') if step_id.strip()] if step_ids_param else []
+
+    print("DDDDDDDDDDDDDDD")
+    print(request.GET)
+
     pilgrims = Pilgrim.objects.select_related('user').filter(
         user__username__startswith=q,
         user__is_deleted=False
     ).order_by('user__username')
     
-    # Get all steps in one query
-    steps = HajSteps.objects.all().order_by('rank')
+    # Get all steps in one query for display in tags
+    all_steps = HajSteps.objects.all().order_by('rank')
+    
+    # Filter steps if step_ids are provided
+    steps_query = all_steps
+    if step_ids:
+        steps_query = all_steps.filter(id__in=step_ids)
     
     # Get completed steps for all filtered pilgrims in one query
     pilgrim_ids = list(pilgrims.values_list('id', flat=True))
@@ -1331,12 +1343,48 @@ def pilgrim_steps(request):
     # Build the data structure efficiently
     data = []
     for pilgrim in pilgrims:
-        for step in steps:
-            data.append({
-                'name': step.name,
-                'pilgrim': pilgrim.user.username,
-                'completed': (pilgrim.id, step.id) in completed_steps
-            })
+        # For multi-step selection, only include pilgrims that match all selected steps criteria
+        if step_ids:
+            include_pilgrim = True
+            
+            for step_id in step_ids:
+                step_completed = (pilgrim.id, step_id) in completed_steps
+                
+                # Check status filter conditions
+                if status == 'finished' and not step_completed:
+                    include_pilgrim = False
+                    break
+                elif status == 'unfinished' and step_completed:
+                    include_pilgrim = False
+                    break
+            
+            if not include_pilgrim:
+                continue
+            
+            # Add entry for each filtered step for this pilgrim
+            for step in steps_query:
+                is_completed = (pilgrim.id, step.id) in completed_steps
+                data.append({
+                    'name': step.name,
+                    'pilgrim': pilgrim.user.username,
+                    'completed': is_completed
+                })
+        else:
+            # If no step filter, include all steps for all pilgrims subject to status filter
+            for step in all_steps:
+                is_completed = (pilgrim.id, step.id) in completed_steps
+                
+                # Apply status filter if needed
+                if status == 'finished' and not is_completed:
+                    continue
+                elif status == 'unfinished' and is_completed:
+                    continue
+                    
+                data.append({
+                    'name': step.name,
+                    'pilgrim': pilgrim.user.username,
+                    'completed': is_completed
+                })
     
     # Paginate the final data
     paginator = Paginator(data, 10)
@@ -1350,7 +1398,8 @@ def pilgrim_steps(request):
     context = {
         'steps': page_obj,
         'page_obj': page_obj,
-        'total_steps': len(steps),
+        'all_steps': all_steps,
+        'total_steps': len(all_steps),
         'search_query': q
     }
     
