@@ -247,5 +247,8 @@ class RegistrationResource(resources.ModelResource):
     )
     class Meta:
         model = Registration
-        exclude = ('id',)
+        exclude = ('id','is_deleted','createdAt')
+        
+    def get_queryset(self):
+        return super().get_queryset().filter(is_deleted=False)
 

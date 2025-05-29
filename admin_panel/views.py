@@ -730,7 +730,7 @@ def import_pilgrim(request):
                     last_name = str(row[headers['العائلة']])
                     father_name = str(row[headers['اسم الأب']])
                     grand_father = str(row[headers['اسم الجد']])
-                    birth_date = str(row[headers['تاريخ الميلاد - الميلادي فقط']])
+                    birth_date = str(row[headers['تاريخ الميلاد']])
                     flight_num = str(row[headers['رقم الرحلة']])
                     card_num = str(row[headers['رقم الهوية']])
                     email = str(row[headers['الايميل']])
@@ -761,6 +761,18 @@ def import_pilgrim(request):
                         arrival_time = arrival_dt.strftime('%H:%M:%S')
                     except ValueError:
                         arrival_time = '00:00:00'  # Default if parsing fails
+
+                    if flight_date:
+                        try:
+                            # Try parsing with the format '%Y-%m-%d'
+                            flight_date = datetime.strptime(flight_date, '%Y-%m-%d').strftime('%Y-%m-%d')
+                        except ValueError:
+                            try:
+                                # Try parsing with the format '%d/%m/%Y'
+                                flight_date = datetime.strptime(flight_date, '%d/%m/%Y').strftime('%Y-%m-%d')
+                            except ValueError:
+                                # Default to None if parsing fails
+                                flight_date = None
 
                     try:
                         departure_dt = datetime.strptime(departure_str, '%I:%M:%S %p') 
