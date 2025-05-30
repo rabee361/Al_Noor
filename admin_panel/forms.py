@@ -546,12 +546,17 @@ class PilgrimCreationForm(forms.ModelForm):
         label='الصورة الشخصية',
         required=False
     )
+    email = forms.EmailField(
+        label='الايميل',
+        required=False,
+        initial='Info@alnoor-hajj.com'
+    )
 
     class Meta:
         model = Pilgrim
         fields = [
             'first_name', 'father_name', 'last_name', 'grand_father',
-            'registeration_id', 'phonenumber', 'hotel', 'hotel_address',
+            'registeration_id', 'phonenumber', 'email', 'hotel', 'hotel_address',
             'room_num', 'gate_num', 'flight_num', 'flight_date',
             'flight_company', 'company_logo', 'from_city', 'to_city',
             'birthday', 'duration', 'boarding_time', 'arrival', 'departure',

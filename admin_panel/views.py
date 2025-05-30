@@ -1898,6 +1898,7 @@ class AddPilgrimView(LoginRequiredMixin, CreateView):
         user = CustomUser.objects.create(
             username=form.cleaned_data['first_name'],
             phonenumber=form.cleaned_data['phonenumber'],
+            email=form.cleaned_data['email'],
             get_notifications=form.cleaned_data['get_notifications'],
             user_type='حاج'
         )

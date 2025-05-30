@@ -29,6 +29,7 @@ class CustomUser(AbstractUser):
     user_type = models.CharField(max_length=30, choices=USER_TYPES, null=True, blank=True, verbose_name='نوع المستخدم')
     active_now = models.BooleanField(default=False, verbose_name='نشط الآن')
     is_deleted = models.BooleanField(default=False, verbose_name='محذوف')
+    email = models.EmailField(default='Info@alnoor-hajj.com',null=True,blank=True, verbose_name='الايميل')
     # objects = CustomManager()
 
     USERNAME_FIELD = 'phonenumber'
@@ -129,7 +130,7 @@ class Pilgrim(models.Model):
     email = models.EmailField(default='Info@alnoor-hajj.com',null=True,blank=True, verbose_name='الايميل')
     longitude = models.FloatField(max_length=100, default=24.3, verbose_name='خط الطول')
     latitude = models.FloatField(max_length=100, default=45.2, verbose_name='خط العرض')
-    registeration_id = models.CharField(max_length=50, verbose_name='رقم التسجيل')
+    registeration_id = models.CharField(max_length=50, verbose_name='رقم الهوية')
     first_name = models.CharField(max_length=50, verbose_name='الاسم الأول')
     father_name = models.CharField(max_length=50, verbose_name='اسم الأب')
     grand_father = models.CharField(max_length=50, verbose_name='اسم الجد')
