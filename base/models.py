@@ -149,7 +149,7 @@ class Pilgrim(models.Model):
     status = models.BooleanField(null=True, blank=True, verbose_name='الحالة')
     hotel = models.CharField(max_length=100, null=True, blank=True, verbose_name='الفندق')
     hotel_address = models.CharField(max_length=100, verbose_name='عنوان الفندق')
-    room_num = models.CharField(null=True, blank=True, verbose_name='رقم الغرفة')
+    room_num = models.IntegerField(null=True, blank=True, verbose_name='رقم الغرفة')
     haj_steps = models.ManyToManyField('HajSteps', blank=True, through='HaJStepsPilgrim', verbose_name='خطوات الحج')
     guide = models.ForeignKey('Guide', null=True, blank=True, on_delete=models.SET_NULL, verbose_name='المرشد')
     created = models.DateTimeField(auto_now_add=True, verbose_name='تاريخ الإنشاء')

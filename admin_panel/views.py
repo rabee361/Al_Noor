@@ -773,7 +773,7 @@ def import_pilgrim(request):
                             except ValueError:
                                 # Default to None if parsing fails
                                 flight_date = None
-
+    
                     try:
                         departure_dt = datetime.strptime(departure_str, '%I:%M:%S %p') 
                         departure_time = departure_dt.strftime('%H:%M:%S')
@@ -1931,3 +1931,7 @@ class handler404(View):
 class handler500(View):
     def get(self, request):
         return render(request, '500.html')
+
+class limit_reached(View):
+    def get(self, request):
+        return render(request, 'limit_reached.html')
